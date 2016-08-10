@@ -42,36 +42,6 @@ namespace PCF_Exporter
             //Init excel path
             _excelPath = mySettings.Default.excelPath;
             //textBox20.Text = _excelPath;
-            //if (!mySettings.Default.excelWorksheetNames.IsNullOrEmpty())
-            //{
-            //    PCF_DATA_TABLE_NAMES = mySettings.Default.excelWorksheetNames;
-            //    comboBox1.DataSource = PCF_DATA_TABLE_NAMES;
-            //    comboBox1.SelectedIndex = PCF_DATA_TABLE_NAMES.IndexOf(mySettings.Default.excelWorksheetSelectedName);
-            //}
-
-            //Initialize dataset at loading of form if path is not null or empty. Add handling for bad path if file does not exist. Maybe in the populator class.
-            //try
-            //{
-            //    if (!string.IsNullOrEmpty(_excelPath))
-            //    {
-            //        FileStream stream = File.Open(_excelPath, FileMode.Open, FileAccess.Read);
-            //        IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-            //        //First row is column names in dataset
-            //        excelReader.IsFirstRowAsColumnNames = true;
-            //        DATA_SET = excelReader.AsDataSet();
-            //        //DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
-            //        excelReader.Close();
-            //        iv.ExcelSheet = (string)comboBox1.SelectedItem;
-            //        DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
-            //        ParameterData.parameterNames = null;
-            //        ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
-            //        ParameterData.parameterNames.RemoveAt(0);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Util.ErrorMsg("Initialization of EXCEL data threw an exception: \n"+e.Message+"\nPlease reselect EXCEL workbook.");
-            //}
 
             //Init Scope
             iv.SysAbbr = mySettings.Default.textBox3SpecificPipeline;
