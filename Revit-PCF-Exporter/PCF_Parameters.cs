@@ -85,21 +85,7 @@ namespace PCF_Parameters
 
             //Define a collector (Pipe OR FamInst) AND (Fitting OR Accessory OR Pipe).
             //This is to eliminate FamilySymbols from collector which would throw an exception later on.
-            collector = new FilteredElementCollector(doc);
-            collector.WherePasses(new LogicalAndFilter(new List<ElementFilter>
-            {
-                new LogicalOrFilter(new List<ElementFilter>
-                {
-                    new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting),
-                    new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
-                    new ElementClassFilter(typeof (Pipe))
-                }),
-                new LogicalOrFilter(new List<ElementFilter>
-                {
-                    new ElementClassFilter(typeof (Pipe)),
-                    new ElementClassFilter(typeof (FamilyInstance))
-                })
-            }));
+            collector = Filter.GetElementsWithConnectors(doc);
 
             //Group all elements by their Family and Type
             orderedCollector =
@@ -159,22 +145,8 @@ namespace PCF_Parameters
             string filename = path;
             StringBuilder sbFeedback = new StringBuilder();
 
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector.WherePasses(new LogicalAndFilter(new List<ElementFilter>
-            {
-                new LogicalOrFilter(new List<ElementFilter>
-                {
-                    new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting),
-                    new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
-                    new ElementClassFilter(typeof (Pipe))
-                }),
-                new LogicalOrFilter(new List<ElementFilter>
-                {
-                    new ElementClassFilter(typeof (Pipe)),
-                    new ElementClassFilter(typeof (FamilyInstance))
-                })
-            }));
-
+            FilteredElementCollector collector = Filter.GetElementsWithConnectors(doc);
+           
             //prepare input variables which are initialized when looping the elements
             string eFamilyType = null; string columnName = null;
 
