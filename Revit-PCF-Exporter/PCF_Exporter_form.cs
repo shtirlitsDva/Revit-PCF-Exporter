@@ -1,33 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
-
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BuildingCoder;
-using Excel;
 using PCF_Parameters;
 using PCF_Functions;
 using mySettings = PCF_Functions.Properties.Settings;
 using iv = PCF_Functions.InputVars;
+using dh = PCF_Functions.DataHandler;
 
 namespace PCF_Exporter
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public partial class PCF_Exporter_form : System.Windows.Forms.Form
     {
-        public static ExternalCommandData _commandData;
-        public static UIApplication _uiapp;
-        public static UIDocument _uidoc;
-        public static Document _doc;
-        public string _message;
-        public string _excelPath = null;
+        static ExternalCommandData _commandData;
+        static UIApplication _uiapp;
+        static UIDocument _uidoc;
+        static Document _doc;
+        private string _message;
+
+        private string _excelPath = null;
+
         private IList<string> PCF_DATA_TABLE_NAMES = new List<string>();
-        public DataSet DATA_SET = null;
+        private DataSet DATA_SET = null;
         public static DataTable DATA_TABLE = null;
 
         public PCF_Exporter_form(ExternalCommandData cData, string message)
@@ -101,22 +101,27 @@ namespace PCF_Exporter
                 textBox20.Text = _excelPath;
                 //Save excel file to settings
                 mySettings.Default.excelPath = _excelPath;
-                //Proceed to read the file
-                FileStream stream = File.Open(_excelPath, FileMode.Open, FileAccess.Read);
-                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                //First row is column names in dataset
-                excelReader.IsFirstRowAsColumnNames = true;
-                DATA_SET = excelReader.AsDataSet();
+                
+                //Old excel reader, can be removed
+                ////Proceed to read the file
+                //FileStream stream = File.Open(_excelPath, FileMode.Open, FileAccess.Read);
+                //IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                ////First row is column names in dataset
+                //excelReader.IsFirstRowAsColumnNames = true;
+                //DATA_SET = excelReader.AsDataSet();
+
+                DATA_SET = dh.ImportExcelToDataSet(_excelPath);
+
                 DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
+
                 PCF_DATA_TABLE_NAMES.Clear();
-                foreach (DataTable VARIABLE in PCF_DATA_TABLES)
+
+                foreach (DataTable dt in PCF_DATA_TABLES)
                 {
-                    PCF_DATA_TABLE_NAMES.Add(VARIABLE.TableName);
+                    PCF_DATA_TABLE_NAMES.Add(dt.TableName);
                 }
-                excelReader.Close();
+                //excelReader.Close();
                 comboBox1.DataSource = PCF_DATA_TABLE_NAMES;
-                //Save to settings
-                //mySettings.Default.excelWorksheetNames = PCF_DATA_TABLE_NAMES;
             }
         }
 

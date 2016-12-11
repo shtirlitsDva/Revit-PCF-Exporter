@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Globalization;
-
+using System.Text.RegularExpressions;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
@@ -72,17 +74,17 @@ namespace PCF_Functions
         {
             sbPreamble.Append("ISOGEN-FILES ISOGEN.FLS");
             sbPreamble.AppendLine();
-            sbPreamble.Append("UNITS-BORE "+InputVars.UNITS_BORE);
+            sbPreamble.Append("UNITS-BORE " + InputVars.UNITS_BORE);
             sbPreamble.AppendLine();
-            sbPreamble.Append("UNITS-CO-ORDS "+InputVars.UNITS_CO_ORDS);
+            sbPreamble.Append("UNITS-CO-ORDS " + InputVars.UNITS_CO_ORDS);
             sbPreamble.AppendLine();
-            sbPreamble.Append("UNITS-WEIGHT "+InputVars.UNITS_WEIGHT);
+            sbPreamble.Append("UNITS-WEIGHT " + InputVars.UNITS_WEIGHT);
             sbPreamble.AppendLine();
             sbPreamble.Append("UNITS-BOLT-DIA MM");
             sbPreamble.AppendLine();
             sbPreamble.Append("UNITS-BOLT-LENGTH MM");
             sbPreamble.AppendLine();
-            sbPreamble.Append("UNITS-WEIGHT-LENGTH "+InputVars.UNITS_WEIGHT_LENGTH);
+            sbPreamble.Append("UNITS-WEIGHT-LENGTH " + InputVars.UNITS_WEIGHT_LENGTH);
             sbPreamble.AppendLine();
             return sbPreamble;
         }
@@ -102,7 +104,7 @@ namespace PCF_Functions
                 sbMaterials.AppendLine();
                 sbMaterials.Append("MATERIAL-IDENTIFIER " + groupNumber);
                 sbMaterials.AppendLine();
-                sbMaterials.Append("    DESCRIPTION "+group.Key);
+                sbMaterials.Append("    DESCRIPTION " + group.Key);
             }
             return sbMaterials;
         }
@@ -122,15 +124,15 @@ namespace PCF_Functions
             //Instantiate collector
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             //Get the elements
-            collector.OfClass(typeof (PipingSystemType));
+            collector.OfClass(typeof(PipingSystemType));
             //Select correct systemType
             PipingSystemType sQuery = (from PipingSystemType st in collector
-                where string.Equals(st.Abbreviation, key)
-                select st).FirstOrDefault();
+                                       where string.Equals(st.Abbreviation, key)
+                                       select st).FirstOrDefault();
 
             var query = from p in new plst().ListParametersAll
-                where string.Equals(p.Domain, "PIPL") && string.Equals(p.ExportingTo, "CII")
-                select p;
+                        where string.Equals(p.Domain, "PIPL") && string.Equals(p.ExportingTo, "CII")
+                        select p;
 
             foreach (pdef p in query.ToList())
             {
@@ -156,13 +158,13 @@ namespace PCF_Functions
             sbElemParameters = new StringBuilder();
             element = passedElement;
             var pQuery = from p in new plst().ListParametersAll
-                where !string.IsNullOrEmpty(p.Keyword) && string.Equals(p.Domain, "ELEM")
-                select p;
+                         where !string.IsNullOrEmpty(p.Keyword) && string.Equals(p.Domain, "ELEM")
+                         select p;
 
             foreach (pdef p in pQuery)
             {
                 //Check for parameter's storage type (can be Int for select few parameters)
-                int sT = (int) element.get_Parameter(p.Guid).StorageType;
+                int sT = (int)element.get_Parameter(p.Guid).StorageType;
 
                 if (sT == 1)
                 {
@@ -275,8 +277,8 @@ namespace PCF_Functions
             switch (element.Category.Id.IntegerValue)
             {
                 case (int)BuiltInCategory.OST_PipeCurves:
-                    if (iv.UNITS_BORE_MM) testedDiameter = double.Parse(Conversion.PipeSizeToMm(((MEPCurve) element).Diameter/2));
-                    else if (iv.UNITS_BORE_INCH) testedDiameter = double.Parse(Conversion.PipeSizeToInch(((MEPCurve) element).Diameter/2));
+                    if (iv.UNITS_BORE_MM) testedDiameter = double.Parse(Conversion.PipeSizeToMm(((MEPCurve)element).Diameter / 2));
+                    else if (iv.UNITS_BORE_INCH) testedDiameter = double.Parse(Conversion.PipeSizeToInch(((MEPCurve)element).Diameter / 2));
 
                     if (testedDiameter <= diameterLimit) diameterLimitBool = false;
 
@@ -296,8 +298,8 @@ namespace PCF_Functions
                     if (connectorSet.IsEmpty) break;
                     if (connectorSet.Size == 1) foreach (Connector connector in connectorSet) testedConnector = connector;
                     else testedConnector = (from Connector connector in connectorSet
-                            where connector.GetMEPConnectorInfo().IsPrimary
-                            select connector).FirstOrDefault();
+                                            where connector.GetMEPConnectorInfo().IsPrimary
+                                            select connector).FirstOrDefault();
 
                     if (iv.UNITS_BORE_MM) testedDiameter = double.Parse(Conversion.PipeSizeToMm(testedConnector.Radius));
                     else if (iv.UNITS_BORE_INCH) testedDiameter = double.Parse(Conversion.PipeSizeToInch(testedConnector.Radius));
@@ -351,7 +353,7 @@ namespace PCF_Functions
 
         public static string PipeSizeToInch(double l)
         {
-            return string.Format("{0}", RealString(l*2*_foot_to_inch));
+            return string.Format("{0}", RealString(l * 2 * _foot_to_inch));
         }
 
         public static string AngleToPCF(double l)
@@ -367,7 +369,7 @@ namespace PCF_Functions
 
     public class EndWriter
     {
-        public static StringBuilder WriteEP1 (Element element, Connector connector)
+        public static StringBuilder WriteEP1(Element element, Connector connector)
         {
             StringBuilder sbEndWriter = new StringBuilder();
             XYZ connectorOrigin = connector.Origin;
@@ -497,15 +499,14 @@ namespace PCF_Functions
 
     public class ScheduleCreator
     {
-        private UIDocument _uiDoc;
+        //private UIDocument _uiDoc;
         public Result CreateAllItemsSchedule(UIDocument uiDoc)
         {
             try
             {
-                _uiDoc = uiDoc;
-                Document doc = _uiDoc.Document;
+                Document doc = uiDoc.Document;
                 FilteredElementCollector sharedParameters = new FilteredElementCollector(doc);
-                sharedParameters.OfClass(typeof (SharedParameterElement));
+                sharedParameters.OfClass(typeof(SharedParameterElement));
 
                 #region Debug
 
@@ -556,11 +557,12 @@ namespace PCF_Functions
                 string curUsage = "U";
                 string curDomain = "ELEM";
                 var query = from p in new plst().ListParametersAll where p.Usage == curUsage && p.Domain == curDomain select p;
-                
+
                 foreach (pdef pDef in query.ToList())
                 {
                     SharedParameterElement parameter = (from SharedParameterElement param in sharedParameters
-                        where param.GuidValue.CompareTo(pDef.Guid) == 0 select param).First();
+                                                        where param.GuidValue.CompareTo(pDef.Guid) == 0
+                                                        select param).First();
                     SchedulableField queryField = (from fld in schFields where fld.ParameterId.IntegerValue == parameter.Id.IntegerValue select fld).First();
 
                     ScheduleField field = schedAll.Definition.AddField(queryField);
@@ -588,7 +590,8 @@ namespace PCF_Functions
 
                 foreach (pdef pDef in query.ToList())
                 {
-                    SharedParameterElement parameter = (from SharedParameterElement param in sharedParameters where param.GuidValue.CompareTo(pDef.Guid) == 0
+                    SharedParameterElement parameter = (from SharedParameterElement param in sharedParameters
+                                                        where param.GuidValue.CompareTo(pDef.Guid) == 0
                                                         select param).First();
                     SchedulableField queryField = (from fld in schFields where fld.ParameterId.IntegerValue == parameter.Id.IntegerValue select fld).First();
 
@@ -596,7 +599,7 @@ namespace PCF_Functions
                     if (pDef.Name != "PCF_ELEM_TYPE") continue;
                     ScheduleFilter filter = new ScheduleFilter(field.FieldId, ScheduleFilterType.HasParameter);
                     schedFilter.Definition.AddFilter(filter);
-                    filter = new ScheduleFilter(field.FieldId, ScheduleFilterType.NotEqual,"");
+                    filter = new ScheduleFilter(field.FieldId, ScheduleFilterType.NotEqual, "");
                     schedFilter.Definition.AddFilter(filter);
                 }
                 #endregion
@@ -620,7 +623,8 @@ namespace PCF_Functions
                 foreach (pdef pDef in query.ToList())
                 {
                     SharedParameterElement parameter = (from SharedParameterElement param in sharedParameters
-                                                        where param.GuidValue.CompareTo(pDef.Guid) == 0 select param).First();
+                                                        where param.GuidValue.CompareTo(pDef.Guid) == 0
+                                                        select param).First();
                     SchedulableField queryField = (from fld in schFields where fld.ParameterId.IntegerValue == parameter.Id.IntegerValue select fld).First();
                     schedPipeline.Definition.AddField(queryField);
                 }
@@ -640,6 +644,71 @@ namespace PCF_Functions
 
 
 
+        }
+    }
+
+    public class DataHandler
+    {
+        //DataSet import is from here:
+        //http://stackoverflow.com/a/18006593/6073998
+        public static DataSet ImportExcelToDataSet(string fileName)
+        {
+            //On connection strings http://www.connectionstrings.com/excel/#p84
+            string connectionString = 
+                string.Format(
+                    "provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1\"",
+                    fileName);
+
+            DataSet data = new DataSet();
+
+            foreach (string sheetName in GetExcelSheetNames(connectionString))
+            {
+                using (OleDbConnection con = new OleDbConnection(connectionString))
+                {
+                    var dataTable = new DataTable();
+                    string query = string.Format("SELECT * FROM [{0}]", sheetName);
+                    con.Open();
+                    OleDbDataAdapter adapter = new OleDbDataAdapter(query, con);
+                    adapter.Fill(dataTable);
+
+                    //Remove ' and $ from sheetName
+                    Regex rgx = new Regex("[^a-zA-Z0-9 _-]");
+                    string tableName = rgx.Replace(sheetName, "");
+
+                    dataTable.TableName = tableName;
+                    data.Tables.Add(dataTable);
+                }
+            }
+
+            if (data == null) Util.ErrorMsg("Data set is null");
+            if (data.Tables.Count < 1) Util.ErrorMsg("Table count in DataSet is 0");
+
+            return data;
+        }
+
+        static string[] GetExcelSheetNames(string connectionString)
+        {
+            OleDbConnection con = null;
+            DataTable dt = null;
+            con = new OleDbConnection(connectionString);
+            con.Open();
+            dt = con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+            if (dt == null)
+            {
+                return null;
+            }
+
+            string[] excelSheetNames = new string[dt.Rows.Count];
+            int i = 0;
+
+            foreach (DataRow row in dt.Rows)
+            {
+                excelSheetNames[i] = row["TABLE_NAME"].ToString();
+                i++;
+            }
+
+            return excelSheetNames;
         }
     }
 }
