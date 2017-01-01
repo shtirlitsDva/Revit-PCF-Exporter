@@ -189,16 +189,14 @@ namespace PCF_Functions
 
     public class Filter
     {
-        BuiltInParameter testParam; ParameterValueProvider pvp; FilterStringRuleEvaluator str;
-        FilterStringRule paramFr; public ElementParameterFilter epf;
-
-        public Filter(string valueQualifier, BuiltInParameter parameterName)
+        public static ElementParameterFilter ParameterValueFilter(string valueQualifier, BuiltInParameter parameterName)
         {
-            testParam = parameterName;
-            pvp = new ParameterValueProvider(new ElementId((int)testParam));
-            str = new FilterStringContains();
-            paramFr = new FilterStringRule(pvp, str, valueQualifier, false);
-            epf = new ElementParameterFilter(paramFr);
+            BuiltInParameter testParam = parameterName;
+            ParameterValueProvider pvp = new ParameterValueProvider(new ElementId((int)testParam));
+            FilterStringRuleEvaluator str = new FilterStringContains();
+            FilterStringRule paramFr = new FilterStringRule(pvp, str, valueQualifier, false);
+            ElementParameterFilter epf = new ElementParameterFilter(paramFr);
+            return epf;
         }
 
         public static FilteredElementCollector GetElementsWithConnectors(Document doc)
