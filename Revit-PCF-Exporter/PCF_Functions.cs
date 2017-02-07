@@ -69,7 +69,7 @@ namespace PCF_Functions
     {
         #region Preamble
         //PCF Preamble composition
-        
+
         public StringBuilder PreambleComposer()
         {
             StringBuilder sbPreamble = new StringBuilder();
@@ -95,11 +95,9 @@ namespace PCF_Functions
         public StringBuilder MaterialsSection(IEnumerable<IGrouping<string, Element>> elementGroups)
         {
             StringBuilder sbMaterials = new StringBuilder();
-            IEnumerable<IGrouping<string, Element>> materialGroups = null;
             int groupNumber = 0;
-            materialGroups = elementGroups;
             sbMaterials.Append("MATERIALS");
-            foreach (IGrouping<string, Element> group in materialGroups)
+            foreach (IGrouping<string, Element> group in elementGroups)
             {
                 groupNumber++;
                 sbMaterials.AppendLine();
@@ -112,24 +110,23 @@ namespace PCF_Functions
         #endregion
 
         #region CII export writer
-        StringBuilder sbCII;
-        private Document doc;
-        private string key;
 
         public StringBuilder CIIWriter(Document document, string systemAbbreviation)
         {
-            doc = document;
-            key = systemAbbreviation;
-            sbCII = new StringBuilder();
+            StringBuilder sbCII = new StringBuilder();
             //Handle CII export parameters
             //Instantiate collector
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            FilteredElementCollector collector = new FilteredElementCollector(document);
             //Get the elements
-            collector.OfClass(typeof(PipingSystemType));
-            //Select correct systemType
-            PipingSystemType sQuery = (from PipingSystemType st in collector
-                                       where string.Equals(st.Abbreviation, key)
-                                       select st).FirstOrDefault();
+            PipingSystemType sQuery = collector.OfClass(typeof(PipingSystemType))
+                .WherePasses(Filter.ParameterValueFilter(systemAbbreviation, BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM))
+                .Cast<PipingSystemType>()
+                .FirstOrDefault();
+
+            ////Select correct systemType
+            //PipingSystemType sQuery = (from PipingSystemType st in collector
+            //                           where string.Equals(st.Abbreviation, systemAbbreviation)
+            //                           select st).FirstOrDefault();
 
             var query = from p in new plst().ListParametersAll
                         where string.Equals(p.Domain, "PIPL") && string.Equals(p.ExportingTo, "CII")
@@ -653,7 +650,7 @@ namespace PCF_Functions
         public static DataSet ImportExcelToDataSet(string fileName)
         {
             //On connection strings http://www.connectionstrings.com/excel/#p84
-            string connectionString = 
+            string connectionString =
                 string.Format(
                     "provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1\"",
                     fileName);
