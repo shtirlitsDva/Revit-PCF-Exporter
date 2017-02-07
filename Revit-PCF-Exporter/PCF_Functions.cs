@@ -92,11 +92,11 @@ namespace PCF_Functions
         #endregion
 
         #region Materials section
-        StringBuilder sbMaterials = new StringBuilder();
-        IEnumerable<IGrouping<string, Element>> materialGroups = null;
-        int groupNumber;
         public StringBuilder MaterialsSection(IEnumerable<IGrouping<string, Element>> elementGroups)
         {
+            StringBuilder sbMaterials = new StringBuilder();
+            IEnumerable<IGrouping<string, Element>> materialGroups = null;
+            int groupNumber = 0;
             materialGroups = elementGroups;
             sbMaterials.Append("MATERIALS");
             foreach (IGrouping<string, Element> group in materialGroups)
