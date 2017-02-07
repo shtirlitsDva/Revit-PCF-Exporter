@@ -148,13 +148,10 @@ namespace PCF_Functions
         #endregion
 
         #region ELEM parameter writer
-        private StringBuilder sbElemParameters;
-        private Element element;
-
         public StringBuilder ElemParameterWriter(Element passedElement)
         {
-            sbElemParameters = new StringBuilder();
-            element = passedElement;
+            StringBuilder sbElemParameters = new StringBuilder();
+            
             var pQuery = from p in new plst().ListParametersAll
                          where !string.IsNullOrEmpty(p.Keyword) && string.Equals(p.Domain, "ELEM")
                          select p;
@@ -162,21 +159,21 @@ namespace PCF_Functions
             foreach (pdef p in pQuery)
             {
                 //Check for parameter's storage type (can be Int for select few parameters)
-                int sT = (int)element.get_Parameter(p.Guid).StorageType;
+                int sT = (int)passedElement.get_Parameter(p.Guid).StorageType;
 
                 if (sT == 1)
                 {
                     //Check if the parameter contains anything
-                    if (string.IsNullOrEmpty(element.get_Parameter(p.Guid).AsInteger().ToString())) continue;
+                    if (string.IsNullOrEmpty(passedElement.get_Parameter(p.Guid).AsInteger().ToString())) continue;
                     sbElemParameters.Append("    " + p.Keyword + " ");
-                    sbElemParameters.Append(element.get_Parameter(p.Guid).AsInteger());
+                    sbElemParameters.Append(passedElement.get_Parameter(p.Guid).AsInteger());
                 }
                 else if (sT == 3)
                 {
                     //Check if the parameter contains anything
-                    if (string.IsNullOrEmpty(element.get_Parameter(p.Guid).AsString())) continue;
+                    if (string.IsNullOrEmpty(passedElement.get_Parameter(p.Guid).AsString())) continue;
                     sbElemParameters.Append("    " + p.Keyword + " ");
-                    sbElemParameters.Append(element.get_Parameter(p.Guid).AsString());
+                    sbElemParameters.Append(passedElement.get_Parameter(p.Guid).AsString());
                 }
                 sbElemParameters.AppendLine();
             }
