@@ -69,9 +69,10 @@ namespace PCF_Functions
     {
         #region Preamble
         //PCF Preamble composition
-        readonly StringBuilder sbPreamble = new StringBuilder();
+        
         public StringBuilder PreambleComposer()
         {
+            StringBuilder sbPreamble = new StringBuilder();
             sbPreamble.Append("ISOGEN-FILES ISOGEN.FLS");
             sbPreamble.AppendLine();
             sbPreamble.Append("UNITS-BORE " + InputVars.UNITS_BORE);
