@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Windows.Forms.ComponentModel.Com2Interop;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using BuildingCoder;
+using MoreLinq;
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
@@ -28,6 +30,7 @@ namespace PCF_Functions
         //Execution control
         public static bool ExportAll = true;
         public static double DiameterLimit = 0;
+        public static bool WriteWallThickness = false;
 
         //PCF File Header (preamble) control
         public static string UNITS_BORE = "MM";
@@ -151,7 +154,7 @@ namespace PCF_Functions
         public StringBuilder ElemParameterWriter(Element passedElement)
         {
             StringBuilder sbElemParameters = new StringBuilder();
-            
+
             var pQuery = from p in new plst().ListParametersAll
                          where !string.IsNullOrEmpty(p.Keyword) && string.Equals(p.Domain, "ELEM")
                          select p;
@@ -305,7 +308,7 @@ namespace PCF_Functions
         }
     }
 
-    public class Conversion
+    public static class Conversion
     {
         const double _inch_to_mm = 25.4;
         const double _foot_to_mm = 12 * _inch_to_mm;
@@ -357,6 +360,11 @@ namespace PCF_Functions
         public static double RadianToDegree(double angle)
         {
             return angle * (180.0 / Math.PI);
+        }
+
+        public static double Round2(this Double number)
+        {
+            return Math.Round(number, 2, MidpointRounding.AwayFromZero);
         }
     }
 
@@ -703,5 +711,110 @@ namespace PCF_Functions
 
             return excelSheetNames;
         }
+    }
+
+    public static class ParameterDataWriter
+    {
+        public static void SetWallThicknessPipes(HashSet<Element> elements)
+        {
+            //Wallthicknes for pipes are hardcoded until further notice
+            //Values are from 10216-2 - Seamless steel tubes for pressure purposes
+            //TODO: Implement a way to read values from excel
+            Dictionary<int, string> pipeWallThk = new Dictionary<int, string>
+            {
+                [10] = "1.8 mm",
+                [15] = "2 mm",
+                [20] = "2.3 mm",
+                [25] = "2.6 mm",
+                [32] = "2.6 mm",
+                [40] = "2.6 mm",
+                [50] = "2.9 mm",
+                [65] = "2.9 mm",
+                [80] = "3.2 mm",
+                [100] = "3.6 mm",
+                [125] = "4 mm",
+                [150] = "4.5 mm",
+                [200] = "6.3 mm",
+                [250] = "6.3 mm",
+                [300] = "7.1 mm",
+                [350] = "8 mm",
+                [400] = "8.8 mm",
+                [450] = "10 mm",
+                [500] = "11 mm",
+                [600] = "12.5 mm"
+            };
+
+            pdef wallThkDef = new plst().PCF_ELEM_CII_WALLTHK;
+            pdef elemType = new plst().PCF_ELEM_TYPE;
+
+            foreach (Element element in elements)
+            {
+                //See if the parameter already has value and skip element if it has
+                if (!string.IsNullOrEmpty(element.get_Parameter(wallThkDef.Guid).AsString())) continue;
+                if (element.get_Parameter(elemType.Guid).AsString().Equals("SUPPORT")) continue;
+
+                //Retrieve the correct wallthickness from dictionary and set it on the element
+                Parameter wallThkParameter = element.get_Parameter(wallThkDef.Guid);
+
+                //Get connector set for the pipes
+                ConnectorSet connectorSet = MepUtils.GetConnectorManager(element).Connectors;
+
+                Connector c1 = null;
+
+                if (element is Pipe)
+                {
+                    //Filter out non-end types of connectors
+                    c1 = (from Connector connector in connectorSet
+                          where connector.ConnectorType.ToString().Equals("End")
+                          select connector).FirstOrDefault();
+                }
+
+                if (element is FamilyInstance)
+                {
+                    c1 = (from Connector connector in connectorSet
+                          where connector.GetMEPConnectorInfo().IsPrimary
+                          select connector).FirstOrDefault();
+                    Connector c2 = (from Connector connector in connectorSet
+                                    where connector.GetMEPConnectorInfo().IsSecondary
+                                    select connector).FirstOrDefault();
+                    if (c2 != null)
+                    {
+                        if (c1.Radius > c2.Radius) c1 = c2;
+                    }
+                }
+
+                string data = string.Empty;
+                string source = Conversion.PipeSizeToMm(c1.Radius);
+                int dia = Convert.ToInt32(source);
+                pipeWallThk.TryGetValue(dia, out data);
+                wallThkParameter.Set(data);
+            }
+        }
+    }
+
+    public static class MepUtils
+    {
+        /// <summary>
+        /// Return the given element's connector manager, 
+        /// using either the family instance MEPModel or 
+        /// directly from the MEPCurve connector manager
+        /// for ducts and pipes.
+        /// </summary>
+        public static ConnectorManager GetConnectorManager(Element e)
+        {
+            MEPCurve mc = e as MEPCurve;
+            FamilyInstance fi = e as FamilyInstance;
+
+            if (null == mc && null == fi)
+            {
+                throw new ArgumentException(
+                  "Element is neither an MEP curve nor a fitting.");
+            }
+
+            return null == mc
+              ? fi.MEPModel.ConnectorManager
+              : mc.ConnectorManager;
+        }
+
     }
 }

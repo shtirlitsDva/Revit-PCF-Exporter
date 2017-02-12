@@ -190,5 +190,29 @@ namespace PCF_Functions.Properties {
                 this["textBox22DiameterLimit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool radioButton12WallThkTrue {
+            get {
+                return ((bool)(this["radioButton12WallThkTrue"]));
+            }
+            set {
+                this["radioButton12WallThkTrue"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool radioButton11WallThkFalse {
+            get {
+                return ((bool)(this["radioButton11WallThkFalse"]));
+            }
+            set {
+                this["radioButton11WallThkFalse"] = value;
+            }
+        }
     }
 }

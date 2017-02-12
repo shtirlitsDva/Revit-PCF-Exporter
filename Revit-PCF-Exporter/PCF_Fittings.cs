@@ -14,21 +14,16 @@ namespace PCF_Fittings
 {
     public class PCF_Fittings_Export
     {
-        private IEnumerable<Element> fittingsList;
-        public StringBuilder sbFittings;
-        private Document doc;
-        private string key;
-
-        public StringBuilder Export(string pipeLineAbbreviation, IEnumerable<Element> elements, Document document)
+        public StringBuilder Export(string pipeLineAbbreviation, HashSet<Element> elements, Document document)
         {
-            doc = document;
-            key = pipeLineAbbreviation;
+            Document doc = document;
+            string key = pipeLineAbbreviation;
             //The list of fittings, sorted by TYPE then SKEY
-            fittingsList = elements.
+            IList<Element> fittingsList = elements.
                 OrderBy(e => e.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString()).
-                ThenBy(e => e.get_Parameter(new plst().PCF_ELEM_SKEY.Guid).AsString());
+                ThenBy(e => e.get_Parameter(new plst().PCF_ELEM_SKEY.Guid).AsString()).ToList();
 
-            sbFittings = new StringBuilder();
+            StringBuilder sbFittings = new StringBuilder();
             foreach (Element element in fittingsList)
             {
                 //If the Element Type field is empty -> ignore the component

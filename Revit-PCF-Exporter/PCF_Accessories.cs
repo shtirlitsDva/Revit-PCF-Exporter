@@ -14,24 +14,18 @@ namespace PCF_Accessories
 {
     public class PCF_Accessories_Export
     {
-        private IEnumerable<Element> accessoriesList;
-        private StringBuilder sbAccessories;
-        private Document doc;
-        private string key;
-        private plst pList; //An experiment to use an object instead of doing new plst() all the time
-
-        public StringBuilder Export(string pipeLineAbbreviation, IEnumerable<Element> elements, Document document)
+        public StringBuilder Export(string pipeLineAbbreviation, HashSet<Element> elements, Document document)
         {
-            doc = document;
-            key = pipeLineAbbreviation;
-            pList = new plst();
+            Document doc = document;
+            string key = pipeLineAbbreviation;
+            plst pList = new plst();
             //paramList = new plst();
             //The list of fittings, sorted by TYPE then SKEY
-            accessoriesList = elements.
+            IList<Element> accessoriesList = elements.
                 OrderBy(e => e.get_Parameter(pList.PCF_ELEM_TYPE.Guid).AsString()).
-                ThenBy(e => e.get_Parameter(pList.PCF_ELEM_SKEY.Guid).AsString());
+                ThenBy(e => e.get_Parameter(pList.PCF_ELEM_SKEY.Guid).AsString()).ToList();
             
-            sbAccessories = new StringBuilder();
+            StringBuilder sbAccessories = new StringBuilder();
             foreach (Element element in accessoriesList)
             {
                 //If the Element Type field is empty -> ignore the component
