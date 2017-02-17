@@ -169,6 +169,25 @@ namespace PCF_Accessories
                         primaryConnector = (from Connector c in connectorSet where c.GetMEPConnectorInfo().IsPrimary select c).FirstOrDefault();
                         sbAccessories.Append(EndWriter.WriteCO(familyInstance, primaryConnector));
                         break;
+
+                    case "INSTRUMENT-3WAY":
+                        //Sort connectors to primary, secondary and none
+                        primaryConnector = null; secondaryConnector = null; Connector tertiaryConnector = null;
+
+                        foreach (Connector connector in connectorSet)
+                        {
+                            if (connector.GetMEPConnectorInfo().IsPrimary) primaryConnector = connector;
+                            if (connector.GetMEPConnectorInfo().IsSecondary) secondaryConnector = connector;
+                            if ((connector.GetMEPConnectorInfo().IsPrimary == false) && (connector.GetMEPConnectorInfo().IsSecondary == false))
+                                tertiaryConnector = connector;
+                        }
+
+                        //Process endpoints of the component
+                        sbAccessories.Append(EndWriter.WriteEP1(element, primaryConnector));
+                        sbAccessories.Append(EndWriter.WriteEP2(element, secondaryConnector));
+                        sbAccessories.Append(EndWriter.WriteEP3(element, tertiaryConnector));
+                        sbAccessories.Append(EndWriter.WriteCP(familyInstance));
+                        break;
                 }
 
                 Composer elemParameterComposer = new Composer();

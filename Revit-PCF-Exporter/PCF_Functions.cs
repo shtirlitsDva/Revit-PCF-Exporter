@@ -430,6 +430,26 @@ namespace PCF_Functions
             return sbEndWriter;
         }
 
+        public static StringBuilder WriteEP3(Element element, Connector connector)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            XYZ connectorOrigin = connector.Origin;
+            double connectorSize = connector.Radius;
+            sbEndWriter.Append("    END-POINT ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
+            sbEndWriter.Append(" ");
+            if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
+            if (InputVars.UNITS_BORE_INCH) sbEndWriter.Append(Conversion.PipeSizeToInch(connectorSize));
+            if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_END3").AsString()) == false)
+            {
+                sbEndWriter.Append(" ");
+                sbEndWriter.Append(element.LookupParameter("PCF_ELEM_END3").AsString());
+            }
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
+
         public static StringBuilder WriteBP1(Element element, Connector connector)
         {
             StringBuilder sbEndWriter = new StringBuilder();

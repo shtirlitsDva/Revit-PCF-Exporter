@@ -51,6 +51,7 @@ namespace PCF_Functions
         //public readonly pdef PCF_ELEM_CATEGORY = new pdef("PCF_ELEM_CATEGORY", "ELEM", "U", pd.Text, new Guid("35efc6ed-2f20-4aca-bf05-d81d3b79dce2"), "CATEGORY");
         public readonly pdef PCF_ELEM_END1 = new pdef("PCF_ELEM_END1", "ELEM", "U", pd.Text, new Guid("cbc10825-c0a1-471e-9902-075a41533738"), "");
         public readonly pdef PCF_ELEM_END2 = new pdef("PCF_ELEM_END2", "ELEM", "U", pd.Text, new Guid("ecaf3f8a-c28b-4a89-8496-728af3863b09"), "");
+        public readonly pdef PCF_ELEM_END3 = new pdef("PCF_ELEM_END3", "ELEM", "U", pd.Text, new Guid("501E24A0-C23A-43EE-94A0-F6D17960CB78"), "");
         public readonly pdef PCF_ELEM_BP1 = new pdef("PCF_ELEM_BP1", "ELEM", "U", pd.Text, new Guid("89b1e62e-f9b8-48c3-ab3a-1861a772bda8"), "");
         //public readonly pdef PCF_ELEM_STATUS = new pdef("PCF_ELEM_STATUS", "ELEM", "U", pd.Text, new Guid("c16e4db2-15e8-41ac-9b8f-134e133df8a4"), "STATUS");
         //public readonly pdef PCF_ELEM_TRACING_SPEC = new pdef("PCF_ELEM_TRACING_SPEC", "ELEM", "U", pd.Text, new Guid("8e1d43fb-9cd2-4591-a1f5-ba392f0a8708"), "TRACING-SPEC");
@@ -119,6 +120,7 @@ namespace PCF_Functions
             //ListParametersAll.Add(PCF_ELEM_CATEGORY);
             ListParametersAll.Add(PCF_ELEM_END1);
             ListParametersAll.Add(PCF_ELEM_END2);
+            ListParametersAll.Add(PCF_ELEM_END3);
             ListParametersAll.Add(PCF_ELEM_BP1);
             //ListParametersAll.Add(PCF_ELEM_STATUS);
             //ListParametersAll.Add(PCF_ELEM_TRACING_SPEC);

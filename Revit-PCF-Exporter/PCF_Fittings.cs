@@ -82,7 +82,7 @@ namespace PCF_Fittings
 
                             if (connector.GetMEPConnectorInfo().IsPrimary) primaryConnector = connector;
                             if (connector.GetMEPConnectorInfo().IsSecondary) secondaryConnector = connector;
-                            if ((connector.GetMEPConnectorInfo().IsPrimary == false) & (connector.GetMEPConnectorInfo().IsSecondary == false))
+                            if ((connector.GetMEPConnectorInfo().IsPrimary == false) && (connector.GetMEPConnectorInfo().IsSecondary == false))
                                 tertiaryConnector = connector;
                         }
 
