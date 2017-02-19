@@ -81,6 +81,10 @@ namespace PCF_Exporter
 
             //Init write wall thickness
             iv.WriteWallThickness = mySettings.Default.radioButton12WallThkTrue;
+
+            //Init export to section
+            iv.ExportToPlant3DIso = mySettings.Default.checkBox1Checked;
+            iv.ExportToCII = mySettings.Default.checkBox2Checked;
         }
 
         private void button4_Click(object sender, EventArgs e)
