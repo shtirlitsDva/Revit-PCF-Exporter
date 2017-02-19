@@ -43,8 +43,8 @@ namespace PCF_Pipes
                 sbPipes.Append(elemParameterComposer.ElemParameterWriter(element));
 
                 #region CII export
-                Composer composer = new Composer();
-                sbPipes.Append(composer.CIIWriter(doc, key));
+
+                if (InputVars.ExportToCII) sbPipes.Append(Composer.CIIWriter(doc, key));
                 #endregion
 
                 sbPipes.Append("    UNIQUE-COMPONENT-IDENTIFIER ");

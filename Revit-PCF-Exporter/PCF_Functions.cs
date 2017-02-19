@@ -32,6 +32,7 @@ namespace PCF_Functions
         public static double DiameterLimit = 0;
         public static bool WriteWallThickness = false;
         public static bool ExportToPlant3DIso = false;
+        public static bool ExportToCII = false;
 
         //PCF File Header (preamble) control
         public static string UNITS_BORE = "MM";
@@ -115,7 +116,7 @@ namespace PCF_Functions
 
         #region CII export writer
 
-        public StringBuilder CIIWriter(Document document, string systemAbbreviation)
+        public static StringBuilder CIIWriter(Document document, string systemAbbreviation)
         {
             StringBuilder sbCII = new StringBuilder();
             //Handle CII export parameters
@@ -139,11 +140,7 @@ namespace PCF_Functions
             foreach (pdef p in query.ToList())
             {
                 if (string.IsNullOrEmpty(sQuery.get_Parameter(p.Guid).AsString())) continue;
-                sbCII.Append("    ");
-                sbCII.Append(p.Keyword);
-                sbCII.Append(" ");
-                sbCII.Append(sQuery.get_Parameter(p.Guid).AsString());
-                sbCII.AppendLine();
+                sbCII.AppendLine("    " + p.Keyword + " " + sQuery.get_Parameter(p.Guid).AsString());
             }
 
             return sbCII;
@@ -174,7 +171,7 @@ namespace PCF_Functions
         }
 
         #endregion
-        
+
         #region ELEM parameter writer
         public StringBuilder ElemParameterWriter(Element passedElement)
         {

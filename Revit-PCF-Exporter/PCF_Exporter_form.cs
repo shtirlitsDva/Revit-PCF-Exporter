@@ -315,8 +315,12 @@ namespace PCF_Exporter
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked) iv.ExportToPlant3DIso = true;
-            else iv.ExportToPlant3DIso = false;
+            iv.ExportToPlant3DIso = checkBox1.Checked;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            iv.ExportToCII = checkBox2.Checked;
         }
     }
 }

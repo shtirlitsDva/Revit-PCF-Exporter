@@ -297,8 +297,7 @@ namespace PCF_Fittings
                 sbFittings.Append(elemParameterComposer.ElemParameterWriter(element));
 
                 #region CII export
-                Composer composer = new Composer();
-                sbFittings.Append(composer.CIIWriter(doc, key));
+                if (iv.ExportToCII) sbFittings.Append(Composer.CIIWriter(doc, key));
                 #endregion
 
                 sbFittings.Append("    UNIQUE-COMPONENT-IDENTIFIER ");

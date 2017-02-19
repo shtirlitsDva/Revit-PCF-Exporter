@@ -226,5 +226,17 @@ namespace PCF_Functions.Properties {
                 this["checkBox1Checked"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool checkBox2Checked {
+            get {
+                return ((bool)(this["checkBox2Checked"]));
+            }
+            set {
+                this["checkBox2Checked"] = value;
+            }
+        }
     }
 }

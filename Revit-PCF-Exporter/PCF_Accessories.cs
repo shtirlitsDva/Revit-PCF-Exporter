@@ -25,7 +25,7 @@ namespace PCF_Accessories
             IList<Element> accessoriesList = elements.
                 OrderBy(e => e.get_Parameter(pList.PCF_ELEM_TYPE.Guid).AsString()).
                 ThenBy(e => e.get_Parameter(pList.PCF_ELEM_SKEY.Guid).AsString()).ToList();
-            
+
             StringBuilder sbAccessories = new StringBuilder();
 
             //This is a workaround to try to determine what element caused an exception
@@ -109,7 +109,7 @@ namespace PCF_Accessories
 
                             //The centre point is obtained by creating an unbound line from primary connector and projecting the secondary point on the line.
                             XYZ reverseConnectorVector = -primaryConnector.CoordinateSystem.BasisZ;
-                            Line primaryLine = Line.CreateUnbound(primaryConnector.Origin,reverseConnectorVector);
+                            Line primaryLine = Line.CreateUnbound(primaryConnector.Origin, reverseConnectorVector);
                             XYZ centrePoint = primaryLine.Project(secondaryConnector.Origin).XYZPoint;
 
                             sbAccessories.Append(EndWriter.WriteCP(centrePoint));
@@ -139,7 +139,7 @@ namespace PCF_Accessories
                             sbAccessories.Append(EndWriter.WriteEP1(element, primaryConnector));
 
                             XYZ primConOrigin = primaryConnector.Origin;
-                        
+
                             //Analyses the geometry to obtain a point opposite the main connector.
                             //Extraction of the direction of the connector and reversing it
                             reverseConnectorVector = -primaryConnector.CoordinateSystem.BasisZ;
@@ -203,8 +203,8 @@ namespace PCF_Accessories
                     sbAccessories.Append(elemParameterComposer.ElemParameterWriter(element));
 
                     #region CII export
-                    Composer composer = new Composer();
-                    if (!string.Equals(element.get_Parameter(pList.PCF_ELEM_TYPE.Guid).AsString(), "SUPPORT")) sbAccessories.Append(composer.CIIWriter(doc, key));
+                    if (InputVars.ExportToCII && !string.Equals(element.get_Parameter(pList.PCF_ELEM_TYPE.Guid).AsString(), "SUPPORT"))
+                        sbAccessories.Append(Composer.CIIWriter(doc, key));
                     #endregion
 
                     sbAccessories.Append("    UNIQUE-COMPONENT-IDENTIFIER ");
@@ -232,7 +232,7 @@ namespace PCF_Accessories
             }
             catch (Exception e)
             {
-                throw new Exception("Element " + element.Id.IntegerValue.ToString() + " caused an exception: "+e.Message);
+                throw new Exception("Element " + element.Id.IntegerValue.ToString() + " caused an exception: " + e.Message);
             }
 
             //// Clear the output file
