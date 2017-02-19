@@ -42,7 +42,7 @@ namespace PCF_Pipeline
                 sbPipeline.Append(key);
                 sbPipeline.AppendLine();
 
-                foreach (pdef p in query.ToList())
+                foreach (pdef p in query)
                 {
                     if (string.IsNullOrEmpty(sQuery.get_Parameter(p.Guid).AsString())) continue;
                     sbPipeline.Append("    ");
