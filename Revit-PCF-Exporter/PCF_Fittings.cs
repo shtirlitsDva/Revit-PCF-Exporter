@@ -29,14 +29,11 @@ namespace PCF_Fittings
                 //If the Element Type field is empty -> ignore the component
                 if (string.IsNullOrEmpty(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString())) continue;
 
+                sbFittings.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
+                sbFittings.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
+
                 //Write Plant3DIso entries if turned on
                 if (iv.ExportToPlant3DIso) sbFittings.Append(Composer.Plant3DIsoWriter(element));
-
-                sbFittings.Append(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
-                sbFittings.AppendLine();
-                sbFittings.Append("    COMPONENT-IDENTIFIER ");
-                sbFittings.Append(element.LookupParameter("PCF_ELEM_COMPID").AsInteger());
-                sbFittings.AppendLine();
 
                 //Cast the elements gathered by the collector to FamilyInstances
                 FamilyInstance familyInstance = (FamilyInstance)element;
@@ -45,7 +42,7 @@ namespace PCF_Fittings
                 MEPModel mepmodel = familyInstance.MEPModel;
                 //Get connector set for the element
                 ConnectorSet connectorSet = mepmodel.ConnectorManager.Connectors;
-                
+
                 //Switch to different element type configurations
                 switch (element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString())
                 {
@@ -162,7 +159,7 @@ namespace PCF_Fittings
                                 foreach (GeometryObject instObj in instance.GetInstanceGeometry())
                                 {
                                     Solid solid = instObj as Solid;
-                                    if (null == solid || 0 == solid.Faces.Size || 0 == solid.Edges.Size) {continue;}
+                                    if (null == solid || 0 == solid.Faces.Size || 0 == solid.Edges.Size) { continue; }
                                     // Get the faces
                                     foreach (Face face in solid.Faces)
                                     {

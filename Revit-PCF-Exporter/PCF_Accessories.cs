@@ -40,11 +40,11 @@ namespace PCF_Accessories
                     //If the Element Type field is empty -> ignore the component
                     if (string.IsNullOrEmpty(element.get_Parameter(pList.PCF_ELEM_TYPE.Guid).AsString())) continue;
 
-                    //Write Plant3DIso entries if turned on
-                    if (InputVars.ExportToPlant3DIso) sbAccessories.Append(Composer.Plant3DIsoWriter(element));
-
                     sbAccessories.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
                     sbAccessories.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
+
+                    //Write Plant3DIso entries if turned on
+                    if (InputVars.ExportToPlant3DIso) sbAccessories.Append(Composer.Plant3DIsoWriter(element));
 
                     //Cast the elements gathered by the collector to FamilyInstances
                     FamilyInstance familyInstance = (FamilyInstance)element;
