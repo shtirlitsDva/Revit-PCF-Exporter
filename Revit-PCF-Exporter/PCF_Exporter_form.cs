@@ -159,7 +159,7 @@ namespace PCF_Exporter
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked == true)
+            if (radioButton1.Checked)
             {
                 iv.ExportAll = true;
                 textBox3.Visible = false; textBox4.Visible = false;
@@ -168,7 +168,7 @@ namespace PCF_Exporter
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton2.Checked == true)
+            if (radioButton2.Checked)
             {
                 iv.ExportAll = false;
                 textBox3.Visible = true; textBox4.Visible = true;
@@ -198,7 +198,7 @@ namespace PCF_Exporter
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton3.Checked == true)
+            if (radioButton3.Checked)
             {
                 iv.UNITS_BORE_MM = true;
                 iv.UNITS_BORE_INCH = false;
@@ -208,7 +208,7 @@ namespace PCF_Exporter
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton4.Checked == true)
+            if (radioButton4.Checked)
             {
                 iv.UNITS_BORE_MM = false;
                 iv.UNITS_BORE_INCH = true;
@@ -218,7 +218,7 @@ namespace PCF_Exporter
 
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton5.Checked == true)
+            if (radioButton5.Checked)
             {
                 iv.UNITS_CO_ORDS_MM = true;
                 iv.UNITS_CO_ORDS_INCH = false;
@@ -228,7 +228,7 @@ namespace PCF_Exporter
 
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton6.Checked == true)
+            if (radioButton6.Checked)
             {
                 iv.UNITS_CO_ORDS_MM = false;
                 iv.UNITS_CO_ORDS_INCH = true;
@@ -238,7 +238,7 @@ namespace PCF_Exporter
 
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton7.Checked == true)
+            if (radioButton7.Checked)
             {
                 iv.UNITS_WEIGHT_KGS = true;
                 iv.UNITS_WEIGHT_LBS = false;
@@ -248,7 +248,7 @@ namespace PCF_Exporter
 
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton8.Checked == true)
+            if (radioButton8.Checked)
             {
                 iv.UNITS_WEIGHT_KGS = false;
                 iv.UNITS_WEIGHT_LBS = true;
@@ -258,7 +258,7 @@ namespace PCF_Exporter
         
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton9.Checked == true)
+            if (radioButton9.Checked)
             {
                 iv.UNITS_WEIGHT_LENGTH_METER = true;
                 iv.UNITS_WEIGHT_LENGTH_FEET = false;
@@ -268,7 +268,7 @@ namespace PCF_Exporter
 
         private void radioButton10_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton10.Checked == true)
+            if (radioButton10.Checked)
             {
                 iv.UNITS_WEIGHT_LENGTH_METER = false;
                 iv.UNITS_WEIGHT_LENGTH_FEET = true;
@@ -305,18 +305,18 @@ namespace PCF_Exporter
 
         private void radioButton12_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton12.Checked == true)
-            {
-                iv.WriteWallThickness = true;
-            }
+            if (radioButton12.Checked) iv.WriteWallThickness = true;
         }
 
         private void radioButton11_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton12.Checked == true)
-            {
-                iv.WriteWallThickness = false;
-            }
+            if (radioButton12.Checked) iv.WriteWallThickness = false;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked) iv.ExportToPlant3DIso = true;
+            else iv.ExportToPlant3DIso = false;
         }
     }
 }

@@ -214,5 +214,17 @@ namespace PCF_Functions.Properties {
                 this["radioButton11WallThkFalse"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool checkBox1Checked {
+            get {
+                return ((bool)(this["checkBox1Checked"]));
+            }
+            set {
+                this["checkBox1Checked"] = value;
+            }
+        }
     }
 }

@@ -29,6 +29,9 @@ namespace PCF_Fittings
                 //If the Element Type field is empty -> ignore the component
                 if (string.IsNullOrEmpty(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString())) continue;
 
+                //Write Plant3DIso entries if turned on
+                if (iv.ExportToPlant3DIso) sbFittings.Append(Composer.Plant3DIsoWriter(element));
+
                 sbFittings.Append(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
                 sbFittings.AppendLine();
                 sbFittings.Append("    COMPONENT-IDENTIFIER ");

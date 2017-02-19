@@ -116,12 +116,9 @@ namespace PCF_Exporter
                 //Make sure that every element has PCF_MAT_DESCR filled out.
                 foreach (Element e in elements)
                 {
-                    string eId = string.Empty;
-                    eId = e.Id.ToString();
                     if (string.IsNullOrEmpty(e.get_Parameter(new plst().PCF_MAT_DESCR.Guid).AsString()))
                     {
-                        Util.ErrorMsg("PCF_MAT_DESCR is empty for element " + eId + "! Please, correct this issue before exporting again.");
-                        throw new Exception();
+                        throw new Exception("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
                     }
                 }
 

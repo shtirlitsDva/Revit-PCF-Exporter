@@ -22,11 +22,11 @@ namespace PCF_Pipes
 
             foreach (Element element in pipeList)
             {
-                sbPipes.Append(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
-                sbPipes.AppendLine();
-                sbPipes.Append("    COMPONENT-IDENTIFIER ");
-                sbPipes.Append(element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
-                sbPipes.AppendLine();
+                sbPipes.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
+                sbPipes.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
+
+                //Write Plant3DIso entries if turned on
+                if (InputVars.ExportToPlant3DIso) sbPipes.Append(Composer.Plant3DIsoWriter(element));
 
                 Pipe pipe = (Pipe)element;
                 //Get connector set for the pipes

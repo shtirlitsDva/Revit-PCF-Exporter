@@ -31,6 +31,7 @@ namespace PCF_Functions
         public static bool ExportAll = true;
         public static double DiameterLimit = 0;
         public static bool WriteWallThickness = false;
+        public static bool ExportToPlant3DIso = false;
 
         //PCF File Header (preamble) control
         public static string UNITS_BORE = "MM";
@@ -149,6 +150,31 @@ namespace PCF_Functions
         }
 
         #endregion
+
+        #region Plant 3D Iso Writer
+        /// <summary>
+        /// Method to write ITEM-CODE and ITEM-DESCRIPTION entries to enable import of the PCF file into the Plant 3D "PLANTPCFTOISO" command.
+        /// </summary>
+        /// <param name="element">The current element being written.</param>
+        /// <returns>StringBuilder containing the entries.</returns>
+        public static StringBuilder Plant3DIsoWriter(Element element)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            pdef matId = new plst().PCF_MAT_ID;
+            pdef matDescr = new plst().PCF_MAT_DESCR;
+
+            int itemCode = element.get_Parameter(matId.Guid).AsInteger();
+            string itemDescr = element.get_Parameter(matDescr.Guid).AsString();
+
+            sb.AppendLine("    ITEM-CODE " + itemCode);
+            sb.AppendLine("    ITEM-DESCRIPTION " + itemDescr);
+
+            return sb;
+        }
+
+        #endregion
+
 
         #region ELEM parameter writer
         public StringBuilder ElemParameterWriter(Element passedElement)
