@@ -344,7 +344,7 @@ namespace PCF_Functions
         {
             //return a.ToString("0.##");
             //return (Math.Truncate(a * 100) / 100).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
-            return Math.Round(a, 2, MidpointRounding.AwayFromZero).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
+            return Math.Round(a, 0, MidpointRounding.AwayFromZero).ToString("0", CultureInfo.GetCultureInfo("en-GB"));
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace PCF_Functions
         /// </summary>
         public static string PointStringMm(XYZ p)
         {
-            return string.Format("{0:0.00} {1:0.00} {2:0.00}",
+            return string.Format("{0:0} {1:0} {2:0}",
               RealString(p.X * _foot_to_mm),
               RealString(p.Y * _foot_to_mm),
               RealString(p.Z * _foot_to_mm));
