@@ -343,7 +343,8 @@ namespace PCF_Functions
         public static string RealString(double a)
         {
             //return a.ToString("0.##");
-            return (Math.Truncate(a * 100) / 100).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
+            //return (Math.Truncate(a * 100) / 100).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
+            return Math.Round(a, 2, MidpointRounding.AwayFromZero).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
         }
 
         /// <summary>
