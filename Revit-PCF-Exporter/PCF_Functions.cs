@@ -154,7 +154,7 @@ namespace PCF_Functions
         /// </summary>
         /// <param name="element">The current element being written.</param>
         /// <returns>StringBuilder containing the entries.</returns>
-        public static StringBuilder Plant3DIsoWriter(Element element)
+        public static StringBuilder Plant3DIsoWriter(Element element, Document doc)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -163,8 +163,9 @@ namespace PCF_Functions
 
             int itemCode = element.get_Parameter(matId.Guid).AsInteger();
             string itemDescr = element.get_Parameter(matDescr.Guid).AsString();
+            string key = MepUtils.GetElementPipingSystemType(element, doc).Abbreviation;
 
-            sb.AppendLine("    ITEM-CODE " + itemCode);
+            sb.AppendLine("    ITEM-CODE " + key + "-" + itemCode);
             sb.AppendLine("    ITEM-DESCRIPTION " + itemDescr);
 
             return sb;
@@ -858,5 +859,27 @@ namespace PCF_Functions
               : mc.ConnectorManager;
         }
 
+        public static PipingSystemType GetElementPipingSystemType(Element element, Document doc)
+        {
+            //Retrieve Element PipingSystemType
+            ElementId sysTypeId;
+
+            if (element is MEPCurve)
+            {
+                MEPCurve pipe = (MEPCurve)element;
+                sysTypeId = pipe.MEPSystem.GetTypeId();
+            }
+            else if (element is FamilyInstance)
+            {
+                FamilyInstance famInst = (FamilyInstance)element;
+                ConnectorSet cSet = famInst.MEPModel.ConnectorManager.Connectors;
+                Connector con =
+                    (from Connector c in cSet where c.GetMEPConnectorInfo().IsPrimary select c).FirstOrDefault();
+                sysTypeId = con.MEPSystem.GetTypeId();
+            }
+            else throw new Exception("Trying to get PipingSystemType from nor MEPCurve nor FamilyInstance for element: " + element.Id.IntegerValue);
+
+            return (PipingSystemType)doc.GetElement(sysTypeId);
+        }
     }
 }

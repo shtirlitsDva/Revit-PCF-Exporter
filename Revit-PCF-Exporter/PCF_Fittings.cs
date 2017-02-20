@@ -33,7 +33,7 @@ namespace PCF_Fittings
                 sbFittings.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
 
                 //Write Plant3DIso entries if turned on
-                if (iv.ExportToPlant3DIso) sbFittings.Append(Composer.Plant3DIsoWriter(element));
+                if (iv.ExportToPlant3DIso) sbFittings.Append(Composer.Plant3DIsoWriter(element, doc));
 
                 //Cast the elements gathered by the collector to FamilyInstances
                 FamilyInstance familyInstance = (FamilyInstance)element;
