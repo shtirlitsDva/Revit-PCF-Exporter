@@ -79,17 +79,12 @@ namespace PCF_Exporter
             //Init diameter limit
             iv.DiameterLimit = double.Parse(mySettings.Default.textBox22DiameterLimit);
 
-            //Debug
-            textBox8.Text = "SysAbbr: " + iv.SysAbbr;
-            textBox11.Text = "ExportAll: " + iv.ExportAll;
-            textBox9.Text = "BORE-MM: " + iv.UNITS_BORE_MM + iv.UNITS_BORE;
-            textBox12.Text = "BORE-INCH: " + iv.UNITS_BORE_INCH + iv.UNITS_BORE;
-            textBox10.Text = "COORDS-MM: " + iv.UNITS_CO_ORDS_MM + iv.UNITS_CO_ORDS;
-            textBox13.Text = "COORDS-INCH: " + iv.UNITS_CO_ORDS_INCH + iv.UNITS_CO_ORDS;
-            textBox14.Text = "WEIGHT-KGS: " + iv.UNITS_WEIGHT_KGS + iv.UNITS_WEIGHT;
-            textBox15.Text = "WEIGHT-LBS: " + iv.UNITS_WEIGHT_LBS + iv.UNITS_WEIGHT;
-            textBox16.Text = "WEIGHT-L-M: " + iv.UNITS_WEIGHT_LENGTH_METER + iv.UNITS_WEIGHT_LENGTH;
-            textBox17.Text = "WEIGHT-L-F: " + iv.UNITS_WEIGHT_LENGTH_FEET + iv.UNITS_WEIGHT_LENGTH;
+            //Init write wall thickness
+            iv.WriteWallThickness = mySettings.Default.radioButton12WallThkTrue;
+
+            //Init export to section
+            iv.ExportToPlant3DIso = mySettings.Default.checkBox1Checked;
+            iv.ExportToCII = mySettings.Default.checkBox2Checked;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -164,26 +159,23 @@ namespace PCF_Exporter
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
             iv.SysAbbr = textBox3.Text;
-            textBox8.Text = "SysAbbr: " + iv.SysAbbr;
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked == true)
+            if (radioButton1.Checked)
             {
                 iv.ExportAll = true;
                 textBox3.Visible = false; textBox4.Visible = false;
-                textBox11.Text = "ExportAll: " + iv.ExportAll;
                 }
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton2.Checked == true)
+            if (radioButton2.Checked)
             {
                 iv.ExportAll = false;
                 textBox3.Visible = true; textBox4.Visible = true;
-                textBox11.Text = "ExportAll: " + iv.ExportAll;
             }
            
         }
@@ -210,105 +202,81 @@ namespace PCF_Exporter
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton3.Checked == true)
+            if (radioButton3.Checked)
             {
                 iv.UNITS_BORE_MM = true;
                 iv.UNITS_BORE_INCH = false;
                 iv.UNITS_BORE = "MM";
-                //debug
-                textBox9.Text = "BORE-MM: " + iv.UNITS_BORE_MM + iv.UNITS_BORE;
-                textBox12.Text = "BORE-INCH: " + iv.UNITS_BORE_INCH + iv.UNITS_BORE;
             }
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton4.Checked == true)
+            if (radioButton4.Checked)
             {
                 iv.UNITS_BORE_MM = false;
                 iv.UNITS_BORE_INCH = true;
                 iv.UNITS_BORE = "INCH";
-                //Debug
-                textBox9.Text = "BORE-MM: " + iv.UNITS_BORE_MM+iv.UNITS_BORE;
-                textBox12.Text = "BORE-INCH: " + iv.UNITS_BORE_INCH+iv.UNITS_BORE;
             }
         }
 
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton5.Checked == true)
+            if (radioButton5.Checked)
             {
                 iv.UNITS_CO_ORDS_MM = true;
                 iv.UNITS_CO_ORDS_INCH = false;
                 iv.UNITS_CO_ORDS = "MM";
-                //Debug
-                textBox10.Text = "COORDS-MM: " + iv.UNITS_CO_ORDS_MM + iv.UNITS_CO_ORDS;
-                textBox13.Text = "COORDS-INCH: " + iv.UNITS_CO_ORDS_INCH + iv.UNITS_CO_ORDS;
             }
         }
 
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton6.Checked == true)
+            if (radioButton6.Checked)
             {
                 iv.UNITS_CO_ORDS_MM = false;
                 iv.UNITS_CO_ORDS_INCH = true;
                 iv.UNITS_CO_ORDS = "INCH";
-                //Debug
-                textBox10.Text = "COORDS-MM: " + iv.UNITS_CO_ORDS_MM + iv.UNITS_CO_ORDS;
-                textBox13.Text = "COORDS-INCH: " + iv.UNITS_CO_ORDS_INCH + iv.UNITS_CO_ORDS;
             }
         }
 
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton7.Checked == true)
+            if (radioButton7.Checked)
             {
                 iv.UNITS_WEIGHT_KGS = true;
                 iv.UNITS_WEIGHT_LBS = false;
                 iv.UNITS_WEIGHT = "KGS";
-                //Debug
-                textBox14.Text = "WEIGHT-KGS: " + iv.UNITS_WEIGHT_KGS + iv.UNITS_WEIGHT;
-                textBox15.Text = "WEIGHT-LBS: " + iv.UNITS_WEIGHT_LBS + iv.UNITS_WEIGHT;
             }
         }
 
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton8.Checked == true)
+            if (radioButton8.Checked)
             {
                 iv.UNITS_WEIGHT_KGS = false;
                 iv.UNITS_WEIGHT_LBS = true;
                 iv.UNITS_WEIGHT = "LBS";
-                //Debug
-                textBox14.Text = "WEIGHT-KGS: " + iv.UNITS_WEIGHT_KGS + iv.UNITS_WEIGHT;
-                textBox15.Text = "WEIGHT-LBS: " + iv.UNITS_WEIGHT_LBS + iv.UNITS_WEIGHT;
             }
         }
         
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton9.Checked == true)
+            if (radioButton9.Checked)
             {
                 iv.UNITS_WEIGHT_LENGTH_METER = true;
                 iv.UNITS_WEIGHT_LENGTH_FEET = false;
                 iv.UNITS_WEIGHT_LENGTH = "METER";
-                //Debug
-                textBox16.Text = "WEIGHT-L-M: " + iv.UNITS_WEIGHT_LENGTH_METER + iv.UNITS_WEIGHT_LENGTH;
-                textBox17.Text = "WEIGHT-L-F: " + iv.UNITS_WEIGHT_LENGTH_FEET + iv.UNITS_WEIGHT_LENGTH;
             }
         }
 
         private void radioButton10_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton10.Checked == true)
+            if (radioButton10.Checked)
             {
                 iv.UNITS_WEIGHT_LENGTH_METER = false;
                 iv.UNITS_WEIGHT_LENGTH_FEET = true;
                 iv.UNITS_WEIGHT_LENGTH = "FEET";
-                //Debug
-                textBox16.Text = "WEIGHT-L-M: " + iv.UNITS_WEIGHT_LENGTH_METER + iv.UNITS_WEIGHT_LENGTH;
-                textBox17.Text = "WEIGHT-L-F: " + iv.UNITS_WEIGHT_LENGTH_FEET + iv.UNITS_WEIGHT_LENGTH;
             }
         }
 
@@ -337,6 +305,26 @@ namespace PCF_Exporter
         private void textBox22_TextChanged(object sender, EventArgs e)
         {
             iv.DiameterLimit = double.Parse(textBox22.Text);
+        }
+
+        private void radioButton12_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton12.Checked) iv.WriteWallThickness = true;
+        }
+
+        private void radioButton11_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton12.Checked) iv.WriteWallThickness = false;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            iv.ExportToPlant3DIso = checkBox1.Checked;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            iv.ExportToCII = checkBox2.Checked;
         }
     }
 }

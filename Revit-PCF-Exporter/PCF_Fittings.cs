@@ -14,31 +14,26 @@ namespace PCF_Fittings
 {
     public class PCF_Fittings_Export
     {
-        private IEnumerable<Element> fittingsList;
-        public StringBuilder sbFittings;
-        private Document doc;
-        private string key;
-
-        public StringBuilder Export(string pipeLineAbbreviation, IEnumerable<Element> elements, Document document)
+        public StringBuilder Export(string pipeLineAbbreviation, HashSet<Element> elements, Document document)
         {
-            doc = document;
-            key = pipeLineAbbreviation;
+            Document doc = document;
+            string key = pipeLineAbbreviation;
             //The list of fittings, sorted by TYPE then SKEY
-            fittingsList = elements.
+            IList<Element> fittingsList = elements.
                 OrderBy(e => e.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString()).
-                ThenBy(e => e.get_Parameter(new plst().PCF_ELEM_SKEY.Guid).AsString());
+                ThenBy(e => e.get_Parameter(new plst().PCF_ELEM_SKEY.Guid).AsString()).ToList();
 
-            sbFittings = new StringBuilder();
+            StringBuilder sbFittings = new StringBuilder();
             foreach (Element element in fittingsList)
             {
                 //If the Element Type field is empty -> ignore the component
                 if (string.IsNullOrEmpty(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString())) continue;
 
-                sbFittings.Append(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
-                sbFittings.AppendLine();
-                sbFittings.Append("    COMPONENT-IDENTIFIER ");
-                sbFittings.Append(element.LookupParameter("PCF_ELEM_COMPID").AsInteger());
-                sbFittings.AppendLine();
+                sbFittings.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
+                sbFittings.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
+
+                //Write Plant3DIso entries if turned on
+                if (iv.ExportToPlant3DIso) sbFittings.Append(Composer.Plant3DIsoWriter(element, doc));
 
                 //Cast the elements gathered by the collector to FamilyInstances
                 FamilyInstance familyInstance = (FamilyInstance)element;
@@ -47,7 +42,7 @@ namespace PCF_Fittings
                 MEPModel mepmodel = familyInstance.MEPModel;
                 //Get connector set for the element
                 ConnectorSet connectorSet = mepmodel.ConnectorManager.Connectors;
-                
+
                 //Switch to different element type configurations
                 switch (element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString())
                 {
@@ -87,7 +82,7 @@ namespace PCF_Fittings
 
                             if (connector.GetMEPConnectorInfo().IsPrimary) primaryConnector = connector;
                             if (connector.GetMEPConnectorInfo().IsSecondary) secondaryConnector = connector;
-                            if ((connector.GetMEPConnectorInfo().IsPrimary == false) & (connector.GetMEPConnectorInfo().IsSecondary == false))
+                            if ((connector.GetMEPConnectorInfo().IsPrimary == false) && (connector.GetMEPConnectorInfo().IsSecondary == false))
                                 tertiaryConnector = connector;
                         }
 
@@ -164,7 +159,7 @@ namespace PCF_Fittings
                                 foreach (GeometryObject instObj in instance.GetInstanceGeometry())
                                 {
                                     Solid solid = instObj as Solid;
-                                    if (null == solid || 0 == solid.Faces.Size || 0 == solid.Edges.Size) {continue;}
+                                    if (null == solid || 0 == solid.Faces.Size || 0 == solid.Edges.Size) { continue; }
                                     // Get the faces
                                     foreach (Face face in solid.Faces)
                                     {
@@ -299,8 +294,7 @@ namespace PCF_Fittings
                 sbFittings.Append(elemParameterComposer.ElemParameterWriter(element));
 
                 #region CII export
-                Composer composer = new Composer();
-                sbFittings.Append(composer.CIIWriter(doc, key));
+                if (iv.ExportToCII) sbFittings.Append(Composer.CIIWriter(doc, key));
                 #endregion
 
                 sbFittings.Append("    UNIQUE-COMPONENT-IDENTIFIER ");

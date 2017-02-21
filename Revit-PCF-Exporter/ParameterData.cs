@@ -51,6 +51,7 @@ namespace PCF_Functions
         //public readonly pdef PCF_ELEM_CATEGORY = new pdef("PCF_ELEM_CATEGORY", "ELEM", "U", pd.Text, new Guid("35efc6ed-2f20-4aca-bf05-d81d3b79dce2"), "CATEGORY");
         public readonly pdef PCF_ELEM_END1 = new pdef("PCF_ELEM_END1", "ELEM", "U", pd.Text, new Guid("cbc10825-c0a1-471e-9902-075a41533738"), "");
         public readonly pdef PCF_ELEM_END2 = new pdef("PCF_ELEM_END2", "ELEM", "U", pd.Text, new Guid("ecaf3f8a-c28b-4a89-8496-728af3863b09"), "");
+        public readonly pdef PCF_ELEM_END3 = new pdef("PCF_ELEM_END3", "ELEM", "U", pd.Text, new Guid("501E24A0-C23A-43EE-94A0-F6D17960CB78"), "");
         public readonly pdef PCF_ELEM_BP1 = new pdef("PCF_ELEM_BP1", "ELEM", "U", pd.Text, new Guid("89b1e62e-f9b8-48c3-ab3a-1861a772bda8"), "");
         //public readonly pdef PCF_ELEM_STATUS = new pdef("PCF_ELEM_STATUS", "ELEM", "U", pd.Text, new Guid("c16e4db2-15e8-41ac-9b8f-134e133df8a4"), "STATUS");
         //public readonly pdef PCF_ELEM_TRACING_SPEC = new pdef("PCF_ELEM_TRACING_SPEC", "ELEM", "U", pd.Text, new Guid("8e1d43fb-9cd2-4591-a1f5-ba392f0a8708"), "TRACING-SPEC");
@@ -73,8 +74,8 @@ namespace PCF_Functions
         public readonly pdef PCF_MAT_ID = new pdef("PCF_MAT_ID", "ELEM", "P", pd.Integer, new Guid("fc5d3b19-af5b-47f6-a269-149b701c9364"), "MATERIAL-IDENTIFIER");
 
         //Pipeline parameters
-        //public readonly pdef PCF_PIPL_AREA = new pdef("PCF_PIPL_AREA", "PIPL", "U", pd.Text, new Guid("642e8ab1-f87d-4da6-894e-a007a4a186a6"), "AREA");
-        //public readonly pdef PCF_PIPL_DATE = new pdef("PCF_PIPL_DATE", "PIPL", "U", pd.Text, new Guid("86dc9abf-80fa-4c87-8079-4a28824ff529"), "DATE-DMY");
+        public readonly pdef PCF_PIPL_AREA = new pdef("PCF_PIPL_AREA", "PIPL", "U", pd.Text, new Guid("642e8ab1-f87d-4da6-894e-a007a4a186a6"), "AREA");
+        public readonly pdef PCF_PIPL_DATE = new pdef("PCF_PIPL_DATE", "PIPL", "U", pd.Text, new Guid("86dc9abf-80fa-4c87-8079-4a28824ff529"), "DATE-DMY");
         //public readonly pdef PCF_PIPL_GRAV = new pdef("PCF_PIPL_GRAV", "PIPL", "U", pd.Text, new Guid("a32c0713-a6a5-4e6c-9a6b-d96e82159611"), "SPECIFIC-GRAVITY");
         //public readonly pdef PCF_PIPL_INSUL = new pdef("PCF_PIPL_INSUL", "PIPL", "U", pd.Text, new Guid("d0c429fe-71db-4adc-b54a-58ae2fb4e127"), "INSULATION-SPEC");
         //public readonly pdef PCF_PIPL_JACKET = new pdef("PCF_PIPL_JACKET", "PIPL", "U", pd.Text, new Guid("a810b6b8-17da-4191-b408-e046c758b289"), "JACKET-SPEC");
@@ -86,12 +87,22 @@ namespace PCF_Functions
         //public readonly pdef PCF_PIPL_NOMCLASS = new pdef("PCF_PIPL_NOMCLASS", "PIPL", "U", pd.Text, new Guid("998fa331-7f38-4129-9939-8495fcd6c3ae"), "NOMINAL-CLASS");
         //public readonly pdef PCF_PIPL_PAINT = new pdef("PCF_PIPL_PAINT", "PIPL", "U", pd.Text, new Guid("e440ed45-ce29-4b42-9a48-238b62b7522e"), "PAINTING-SPEC");
         //public readonly pdef PCF_PIPL_PREFIX = new pdef("PCF_PIPL_PREFIX", "PIPL", "U", pd.Text, new Guid("c7136bbc-4b0d-47c6-95d1-8623ad015e8f"), "SPOOL-PREFIX");
-        //public readonly pdef PCF_PIPL_PROJID = new pdef("PCF_PIPL_PROJID", "PIPL", "U", pd.Text, new Guid("50509d7f-1b99-45f9-9b24-0c423dff5078"), "PROJECT-IDENTIFIER");
-        //public readonly pdef PCF_PIPL_REV = new pdef("PCF_PIPL_REV", "PIPL", "U", pd.Text, new Guid("fb1a5913-4c64-4bfe-b50a-a8243a5db89f"), "REVISION");
-        //public readonly pdef PCF_PIPL_SPEC = new pdef("PCF_PIPL_SPEC", "PIPL", "U", pd.Text, new Guid("7b0c932b-2ebe-495f-9d2e-effc350e8a59"), "PIPING-SPEC");
+        public readonly pdef PCF_PIPL_PROJID = new pdef("PCF_PIPL_PROJID", "PIPL", "U", pd.Text, new Guid("50509d7f-1b99-45f9-9b24-0c423dff5078"), "PROJECT-IDENTIFIER");
+        public readonly pdef PCF_PIPL_REV = new pdef("PCF_PIPL_REV", "PIPL", "U", pd.Text, new Guid("fb1a5913-4c64-4bfe-b50a-a8243a5db89f"), "REVISION");
+        public readonly pdef PCF_PIPL_SPEC = new pdef("PCF_PIPL_SPEC", "PIPL", "U", pd.Text, new Guid("7b0c932b-2ebe-495f-9d2e-effc350e8a59"), "PIPING-SPEC");
         //public readonly pdef PCF_PIPL_TEMP = new pdef("PCF_PIPL_TEMP", "PIPL", "U", pd.Text, new Guid("7efb37ee-b1a1-4766-bb5b-015f823f36e2"), "PIPELINE-TEMP");
         //public readonly pdef PCF_PIPL_TRACING = new pdef("PCF_PIPL_TRACING", "PIPL", "U", pd.Text, new Guid("9d463d11-c9e8-4160-ac55-578795d11b1d"), "TRACING-SPEC");
         //public readonly pdef PCF_PIPL_TYPE = new pdef("PCF_PIPL_TYPE", "PIPL", "U", pd.Text, new Guid("af00ee7d-cfc0-4e1c-a2cf-1626e4bb7eb0"), "PIPELINE-TYPE");
+        public readonly pdef PCF_PIPL_DWGNAME = new pdef("PCF_PIPL_DWGNAME","PIPL","U",pd.Text, new Guid("8FFFE45B-E8CD-4781-84DF-E86EFC58ACD0"), "DRAWINGNAME", "ISO");
+        public readonly pdef PCF_PIPL_AT01 = new pdef("PCF_PIPL_AT01", "PIPL", "U", pd.Text, new Guid("718A6AF7-8068-40C0-94FD-B2D387DBBE87"), "Attribute1", "ISO");
+        public readonly pdef PCF_PIPL_AT02 = new pdef("PCF_PIPL_AT02", "PIPL", "U", pd.Text, new Guid("DCD496AC-ACFD-4492-A7D9-EBC562559E2A"), "Attribute2", "ISO");
+        public readonly pdef PCF_PIPL_AT03 = new pdef("PCF_PIPL_AT03", "PIPL", "U", pd.Text, new Guid("A0A067D4-49BB-4E4B-91FB-F30F9E189005"), "Attribute3", "ISO");
+        public readonly pdef PCF_PIPL_AT04 = new pdef("PCF_PIPL_AT04", "PIPL", "U", pd.Text, new Guid("D40703F1-DA19-4FDC-AD1D-28180786A40A"), "Attribute4", "ISO");
+        public readonly pdef PCF_PIPL_AT05 = new pdef("PCF_PIPL_AT05", "PIPL", "U", pd.Text, new Guid("8A1624ED-B59A-47B4-A99D-D45C0254224F"), "Attribute5", "ISO");
+        public readonly pdef PCF_PIPL_AT06 = new pdef("PCF_PIPL_AT06", "PIPL", "U", pd.Text, new Guid("FFE67C20-324D-4997-A7C8-F48AE570A38B"), "Attribute6", "ISO");
+        public readonly pdef PCF_PIPL_AT07 = new pdef("PCF_PIPL_AT07", "PIPL", "U", pd.Text, new Guid("03EC10D4-4837-4C3A-8712-7D140A325D7D"), "Attribute7", "ISO");
+        public readonly pdef PCF_PIPL_AT08 = new pdef("PCF_PIPL_AT08", "PIPL", "U", pd.Text, new Guid("94E807D8-536B-4FDC-900A-A14DB8363A93"), "Attribute8", "ISO");
+        public readonly pdef PCF_PIPL_AT09 = new pdef("PCF_PIPL_AT09", "PIPL", "U", pd.Text, new Guid("0F58336D-F358-4F2F-B13B-515496A28124"), "Attribute9", "ISO");
 
         //Parameters to facilitate export of data to CII
         public readonly pdef PCF_PIPL_CII_PD = new pdef("PCF_PIPL_CII_PD", "PIPL", "U", pd.Text, new Guid("692e2e97-3b9c-4616-8a03-daa493b01760"), "COMPONENT-ATTRIBUTE1", "CII"); //Design pressure
@@ -119,6 +130,7 @@ namespace PCF_Functions
             //ListParametersAll.Add(PCF_ELEM_CATEGORY);
             ListParametersAll.Add(PCF_ELEM_END1);
             ListParametersAll.Add(PCF_ELEM_END2);
+            ListParametersAll.Add(PCF_ELEM_END3);
             ListParametersAll.Add(PCF_ELEM_BP1);
             //ListParametersAll.Add(PCF_ELEM_STATUS);
             //ListParametersAll.Add(PCF_ELEM_TRACING_SPEC);
@@ -139,8 +151,8 @@ namespace PCF_Functions
             ListParametersAll.Add(PCF_MAT_ID);
 
             //Populate the list with pipeline parameters
-            //ListParametersAll.Add(PCF_PIPL_AREA);
-            //ListParametersAll.Add(PCF_PIPL_DATE);
+            ListParametersAll.Add(PCF_PIPL_AREA);
+            ListParametersAll.Add(PCF_PIPL_DATE);
             //ListParametersAll.Add(PCF_PIPL_GRAV);
             //ListParametersAll.Add(PCF_PIPL_INSUL);
             //ListParametersAll.Add(PCF_PIPL_JACKET);
@@ -152,12 +164,22 @@ namespace PCF_Functions
             //ListParametersAll.Add(PCF_PIPL_NOMCLASS);
             //ListParametersAll.Add(PCF_PIPL_PAINT);
             //ListParametersAll.Add(PCF_PIPL_PREFIX);
-            //ListParametersAll.Add(PCF_PIPL_PROJID);
-            //ListParametersAll.Add(PCF_PIPL_REV);
-            //ListParametersAll.Add(PCF_PIPL_SPEC);
+            ListParametersAll.Add(PCF_PIPL_PROJID);
+            ListParametersAll.Add(PCF_PIPL_REV);
+            ListParametersAll.Add(PCF_PIPL_SPEC);
             //ListParametersAll.Add(PCF_PIPL_TEMP);
             //ListParametersAll.Add(PCF_PIPL_TRACING);
             //ListParametersAll.Add(PCF_PIPL_TYPE);
+            ListParametersAll.Add(PCF_PIPL_DWGNAME);
+            ListParametersAll.Add(PCF_PIPL_AT01);
+            ListParametersAll.Add(PCF_PIPL_AT02);
+            ListParametersAll.Add(PCF_PIPL_AT03);
+            ListParametersAll.Add(PCF_PIPL_AT04);
+            ListParametersAll.Add(PCF_PIPL_AT05);
+            ListParametersAll.Add(PCF_PIPL_AT06);
+            ListParametersAll.Add(PCF_PIPL_AT07);
+            ListParametersAll.Add(PCF_PIPL_AT08);
+            ListParametersAll.Add(PCF_PIPL_AT09);
 
             ListParametersAll.Add(PCF_PIPL_CII_PD);
             ListParametersAll.Add(PCF_PIPL_CII_TD);

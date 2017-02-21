@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Windows.Forms.ComponentModel.Com2Interop;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using BuildingCoder;
+using MoreLinq;
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
@@ -28,6 +30,9 @@ namespace PCF_Functions
         //Execution control
         public static bool ExportAll = true;
         public static double DiameterLimit = 0;
+        public static bool WriteWallThickness = false;
+        public static bool ExportToPlant3DIso = false;
+        public static bool ExportToCII = false;
 
         //PCF File Header (preamble) control
         public static string UNITS_BORE = "MM";
@@ -73,7 +78,7 @@ namespace PCF_Functions
         public StringBuilder PreambleComposer()
         {
             StringBuilder sbPreamble = new StringBuilder();
-            sbPreamble.Append("ISOGEN-FILES ISOGEN.FLS");
+            sbPreamble.Append("ISOGEN-FILES ISOCONFIG.FLS");
             sbPreamble.AppendLine();
             sbPreamble.Append("UNITS-BORE " + InputVars.UNITS_BORE);
             sbPreamble.AppendLine();
@@ -111,7 +116,7 @@ namespace PCF_Functions
 
         #region CII export writer
 
-        public StringBuilder CIIWriter(Document document, string systemAbbreviation)
+        public static StringBuilder CIIWriter(Document document, string systemAbbreviation)
         {
             StringBuilder sbCII = new StringBuilder();
             //Handle CII export parameters
@@ -135,14 +140,35 @@ namespace PCF_Functions
             foreach (pdef p in query.ToList())
             {
                 if (string.IsNullOrEmpty(sQuery.get_Parameter(p.Guid).AsString())) continue;
-                sbCII.Append("    ");
-                sbCII.Append(p.Keyword);
-                sbCII.Append(" ");
-                sbCII.Append(sQuery.get_Parameter(p.Guid).AsString());
-                sbCII.AppendLine();
+                sbCII.AppendLine("    " + p.Keyword + " " + sQuery.get_Parameter(p.Guid).AsString());
             }
 
             return sbCII;
+        }
+
+        #endregion
+
+        #region Plant 3D Iso Writer
+        /// <summary>
+        /// Method to write ITEM-CODE and ITEM-DESCRIPTION entries to enable import of the PCF file into the Plant 3D "PLANTPCFTOISO" command.
+        /// </summary>
+        /// <param name="element">The current element being written.</param>
+        /// <returns>StringBuilder containing the entries.</returns>
+        public static StringBuilder Plant3DIsoWriter(Element element, Document doc)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            pdef matId = new plst().PCF_MAT_ID;
+            pdef matDescr = new plst().PCF_MAT_DESCR;
+
+            int itemCode = element.get_Parameter(matId.Guid).AsInteger();
+            string itemDescr = element.get_Parameter(matDescr.Guid).AsString();
+            string key = MepUtils.GetElementPipingSystemType(element, doc).Abbreviation;
+
+            sb.AppendLine("    ITEM-CODE " + key + "-" + itemCode);
+            sb.AppendLine("    ITEM-DESCRIPTION " + itemDescr);
+
+            return sb;
         }
 
         #endregion
@@ -151,7 +177,7 @@ namespace PCF_Functions
         public StringBuilder ElemParameterWriter(Element passedElement)
         {
             StringBuilder sbElemParameters = new StringBuilder();
-            
+
             var pQuery = from p in new plst().ListParametersAll
                          where !string.IsNullOrEmpty(p.Keyword) && string.Equals(p.Domain, "ELEM")
                          select p;
@@ -305,7 +331,7 @@ namespace PCF_Functions
         }
     }
 
-    public class Conversion
+    public static class Conversion
     {
         const double _inch_to_mm = 25.4;
         const double _foot_to_mm = 12 * _inch_to_mm;
@@ -317,7 +343,8 @@ namespace PCF_Functions
         public static string RealString(double a)
         {
             //return a.ToString("0.##");
-            return (Math.Truncate(a * 100) / 100).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
+            //return (Math.Truncate(a * 100) / 100).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
+            return Math.Round(a, 0, MidpointRounding.AwayFromZero).ToString("0", CultureInfo.GetCultureInfo("en-GB"));
         }
 
         /// <summary>
@@ -325,7 +352,7 @@ namespace PCF_Functions
         /// </summary>
         public static string PointStringMm(XYZ p)
         {
-            return string.Format("{0:0.00} {1:0.00} {2:0.00}",
+            return string.Format("{0:0} {1:0} {2:0}",
               RealString(p.X * _foot_to_mm),
               RealString(p.Y * _foot_to_mm),
               RealString(p.Z * _foot_to_mm));
@@ -357,6 +384,11 @@ namespace PCF_Functions
         public static double RadianToDegree(double angle)
         {
             return angle * (180.0 / Math.PI);
+        }
+
+        public static double Round2(this Double number)
+        {
+            return Math.Round(number, 2, MidpointRounding.AwayFromZero);
         }
     }
 
@@ -417,6 +449,26 @@ namespace PCF_Functions
             {
                 sbEndWriter.Append(" ");
                 sbEndWriter.Append(element.LookupParameter("PCF_ELEM_END2").AsString());
+            }
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
+
+        public static StringBuilder WriteEP3(Element element, Connector connector)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            XYZ connectorOrigin = connector.Origin;
+            double connectorSize = connector.Radius;
+            sbEndWriter.Append("    END-POINT ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
+            sbEndWriter.Append(" ");
+            if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
+            if (InputVars.UNITS_BORE_INCH) sbEndWriter.Append(Conversion.PipeSizeToInch(connectorSize));
+            if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_END3").AsString()) == false)
+            {
+                sbEndWriter.Append(" ");
+                sbEndWriter.Append(element.LookupParameter("PCF_ELEM_END3").AsString());
             }
             sbEndWriter.AppendLine();
             return sbEndWriter;
@@ -702,6 +754,133 @@ namespace PCF_Functions
             }
 
             return excelSheetNames;
+        }
+    }
+
+    public static class ParameterDataWriter
+    {
+        public static void SetWallThicknessPipes(HashSet<Element> elements)
+        {
+            //Wallthicknes for pipes are hardcoded until further notice
+            //Values are from 10216-2 - Seamless steel tubes for pressure purposes
+            //TODO: Implement a way to read values from excel
+            Dictionary<int, string> pipeWallThk = new Dictionary<int, string>
+            {
+                [10] = "1.8 mm",
+                [15] = "2 mm",
+                [20] = "2.3 mm",
+                [25] = "2.6 mm",
+                [32] = "2.6 mm",
+                [40] = "2.6 mm",
+                [50] = "2.9 mm",
+                [65] = "2.9 mm",
+                [80] = "3.2 mm",
+                [100] = "3.6 mm",
+                [125] = "4 mm",
+                [150] = "4.5 mm",
+                [200] = "6.3 mm",
+                [250] = "6.3 mm",
+                [300] = "7.1 mm",
+                [350] = "8 mm",
+                [400] = "8.8 mm",
+                [450] = "10 mm",
+                [500] = "11 mm",
+                [600] = "12.5 mm"
+            };
+
+            pdef wallThkDef = new plst().PCF_ELEM_CII_WALLTHK;
+            pdef elemType = new plst().PCF_ELEM_TYPE;
+
+            foreach (Element element in elements)
+            {
+                //See if the parameter already has value and skip element if it has
+                if (!string.IsNullOrEmpty(element.get_Parameter(wallThkDef.Guid).AsString())) continue;
+                if (element.get_Parameter(elemType.Guid).AsString().Equals("SUPPORT")) continue;
+
+                //Retrieve the correct wallthickness from dictionary and set it on the element
+                Parameter wallThkParameter = element.get_Parameter(wallThkDef.Guid);
+
+                //Get connector set for the pipes
+                ConnectorSet connectorSet = MepUtils.GetConnectorManager(element).Connectors;
+
+                Connector c1 = null;
+
+                if (element is Pipe)
+                {
+                    //Filter out non-end types of connectors
+                    c1 = (from Connector connector in connectorSet
+                          where connector.ConnectorType.ToString().Equals("End")
+                          select connector).FirstOrDefault();
+                }
+
+                if (element is FamilyInstance)
+                {
+                    c1 = (from Connector connector in connectorSet
+                          where connector.GetMEPConnectorInfo().IsPrimary
+                          select connector).FirstOrDefault();
+                    Connector c2 = (from Connector connector in connectorSet
+                                    where connector.GetMEPConnectorInfo().IsSecondary
+                                    select connector).FirstOrDefault();
+                    if (c2 != null)
+                    {
+                        if (c1.Radius > c2.Radius) c1 = c2;
+                    }
+                }
+
+                string data = string.Empty;
+                string source = Conversion.PipeSizeToMm(c1.Radius);
+                int dia = Convert.ToInt32(source);
+                pipeWallThk.TryGetValue(dia, out data);
+                wallThkParameter.Set(data);
+            }
+        }
+    }
+
+    public static class MepUtils
+    {
+        /// <summary>
+        /// Return the given element's connector manager, 
+        /// using either the family instance MEPModel or 
+        /// directly from the MEPCurve connector manager
+        /// for ducts and pipes.
+        /// </summary>
+        public static ConnectorManager GetConnectorManager(Element e)
+        {
+            MEPCurve mc = e as MEPCurve;
+            FamilyInstance fi = e as FamilyInstance;
+
+            if (null == mc && null == fi)
+            {
+                throw new ArgumentException(
+                  "Element is neither an MEP curve nor a fitting.");
+            }
+
+            return null == mc
+              ? fi.MEPModel.ConnectorManager
+              : mc.ConnectorManager;
+        }
+
+        public static PipingSystemType GetElementPipingSystemType(Element element, Document doc)
+        {
+            //Retrieve Element PipingSystemType
+            ElementId sysTypeId;
+
+            if (element is MEPCurve)
+            {
+                MEPCurve pipe = (MEPCurve)element;
+                sysTypeId = pipe.MEPSystem.GetTypeId();
+            }
+            else if (element is FamilyInstance)
+            {
+                FamilyInstance famInst = (FamilyInstance)element;
+                ConnectorSet cSet = famInst.MEPModel.ConnectorManager.Connectors;
+                Connector con =
+                    (from Connector c in cSet where c.GetMEPConnectorInfo().IsPrimary select c).FirstOrDefault();
+                sysTypeId = con.MEPSystem.GetTypeId();
+            }
+            else throw new Exception("Trying to get PipingSystemType from nor MEPCurve nor FamilyInstance for element: " + element.Id.IntegerValue);
+
+            return (PipingSystemType)doc.GetElement(sysTypeId);
         }
     }
 }

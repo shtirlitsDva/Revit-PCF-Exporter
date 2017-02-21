@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using MoreLinq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
@@ -89,7 +89,19 @@ namespace PCF_Exporter
                 }
 
                 //DiameterLimit filter applied to ALL elements.
-                IList<Element> elements = (from element in collector where new FilterDiameterLimit().FilterDL(element) select element).ToList();
+                HashSet<Element> elements = (from element in collector where new FilterDiameterLimit().FilterDL(element) select element).ToHashSet();
+
+                //If turned on, write wall thickness of all components
+                if (InputVars.WriteWallThickness)
+                {
+                    //Assign correct wall thickness to elements.
+                    using (Transaction trans1 = new Transaction(doc))
+                    {
+                        trans1.Start("Set wall thickness for pipes!");
+                        ParameterDataWriter.SetWallThicknessPipes(elements);
+                        trans1.Commit();
+                    }
+                }
 
                 //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
                 pipelineGroups = from e in elements
@@ -104,12 +116,9 @@ namespace PCF_Exporter
                 //Make sure that every element has PCF_MAT_DESCR filled out.
                 foreach (Element e in elements)
                 {
-                    string eId = string.Empty;
-                    eId = e.Id.ToString();
                     if (string.IsNullOrEmpty(e.get_Parameter(new plst().PCF_MAT_DESCR.Guid).AsString()))
                     {
-                        Util.ErrorMsg("PCF_MAT_DESCR is empty for element " + eId + "! Please, correct this issue before exporting again.");
-                        throw new Exception();
+                        throw new Exception("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
                     }
                 }
 
@@ -138,15 +147,15 @@ namespace PCF_Exporter
                 #region Pipeline management
                 foreach (IGrouping<string, Element> gp in pipelineGroups)
                 {
-                    IList<Element> pipeList = (from element in gp
+                    HashSet<Element> pipeList = (from element in gp
                                    where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeCurves
-                                   select element).ToList();
-                    IList<Element> fittingList = (from element in gp
+                                   select element).ToHashSet();
+                    HashSet<Element> fittingList = (from element in gp
                                    where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting
-                                   select element).ToList();
-                    IList<Element> accessoryList = (from element in gp
+                                   select element).ToHashSet();
+                    HashSet<Element> accessoryList = (from element in gp
                                    where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
-                                   select element).ToList();
+                                   select element).ToHashSet();
                     
                     StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
                     StringBuilder sbPipes = new PCF_Pipes.PCF_Pipes_Export().Export(gp.Key, pipeList, doc);
