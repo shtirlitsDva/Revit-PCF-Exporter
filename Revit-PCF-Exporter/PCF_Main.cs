@@ -53,7 +53,7 @@ namespace PCF_Exporter
                 #region Element collectors
                 //If user chooses to export a single pipeline get only elements in that pipeline and create grouping.
                 //Grouping is necessary even tho theres only one group to be able to process by the same code as the all pipelines case
-                switch (InputVars.ExportAll)
+                switch (InputVars.ExportAllOneFile)
                 {
                     case false:
                         //Define a collector with multiple filters to collect PipeFittings OR PipeAccessories OR Pipes + filter by System Abbreviation

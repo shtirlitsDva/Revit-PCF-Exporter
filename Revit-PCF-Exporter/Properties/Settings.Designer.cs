@@ -49,18 +49,6 @@ namespace PCF_Functions.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Input here")]
-        public string textBox3SpecificPipeline {
-            get {
-                return ((string)(this["textBox3SpecificPipeline"]));
-            }
-            set {
-                this["textBox3SpecificPipeline"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool radioButton3BoreMM {
             get {
@@ -236,6 +224,30 @@ namespace PCF_Functions.Properties {
             }
             set {
                 this["checkBox2Checked"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool radioButton13AllPipelinesSeparate {
+            get {
+                return ((bool)(this["radioButton13AllPipelinesSeparate"]));
+            }
+            set {
+                this["radioButton13AllPipelinesSeparate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool radioButton14ExportSelection {
+            get {
+                return ((bool)(this["radioButton14ExportSelection"]));
+            }
+            set {
+                this["radioButton14ExportSelection"] = value;
             }
         }
     }

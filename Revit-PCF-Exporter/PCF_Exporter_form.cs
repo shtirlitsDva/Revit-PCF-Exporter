@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using BuildingCoder;
 using PCF_Parameters;
@@ -44,28 +45,36 @@ namespace PCF_Exporter
             //textBox20.Text = _excelPath;
 
             //Init Scope
-            iv.SysAbbr = mySettings.Default.textBox3SpecificPipeline;
-            iv.ExportAll = mySettings.Default.radioButton1AllPipelines;
-            if (iv.ExportAll)
+            iv.ExportAllOneFile = mySettings.Default.radioButton1AllPipelines;
+            iv.ExportAllSepFiles = mySettings.Default.radioButton13AllPipelinesSeparate;
+            iv.ExportSpecificPipeLine = mySettings.Default.radioButton2SpecificPipeline;
+            iv.ExportSelection = mySettings.Default.radioButton14ExportSelection;
+            if (!iv.ExportSpecificPipeLine)
             {
-                textBox3.Visible = false;
+                comboBox1.Visible = false;
                 textBox4.Visible = false;
             }
-            
+
+            //Gather all physical piping systems and collect distinct abbreviations
+            IList<string> pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
+
+            //Use the distinct abbreviations as data source for the comboBox
+            comboBox2.DataSource = pipeLinesAbbreviations;
+
             //Init Bore
             iv.UNITS_BORE_MM = mySettings.Default.radioButton3BoreMM;
             iv.UNITS_BORE_INCH = mySettings.Default.radioButton4BoreINCH;
             iv.UNITS_BORE = iv.UNITS_BORE_MM ? "MM" : "INCH";
-            
+
             //Init cooords
             iv.UNITS_CO_ORDS_MM = mySettings.Default.radioButton5CoordsMm;
             iv.UNITS_CO_ORDS_INCH = mySettings.Default.radioButton6CoordsInch;
             iv.UNITS_CO_ORDS = iv.UNITS_CO_ORDS_MM ? "MM" : "INCH";
 
             //Init weight
-            iv.UNITS_WEIGHT_KGS= mySettings.Default.radioButton7WeightKgs;
+            iv.UNITS_WEIGHT_KGS = mySettings.Default.radioButton7WeightKgs;
             iv.UNITS_WEIGHT_LBS = mySettings.Default.radioButton8WeightLbs;
-            iv.UNITS_WEIGHT = iv.UNITS_WEIGHT_KGS? "KGS" : "LBS";
+            iv.UNITS_WEIGHT = iv.UNITS_WEIGHT_KGS ? "KGS" : "LBS";
 
             //Init weight-length
             iv.UNITS_WEIGHT_LENGTH_METER = mySettings.Default.radioButton9WeightLengthM;
@@ -96,7 +105,7 @@ namespace PCF_Exporter
                 textBox20.Text = _excelPath;
                 //Save excel file to settings
                 mySettings.Default.excelPath = _excelPath;
-                
+
                 //Old excel reader, can be removed
                 ////Proceed to read the file
                 //FileStream stream = File.Open(_excelPath, FileMode.Open, FileAccess.Read);
@@ -147,37 +156,53 @@ namespace PCF_Exporter
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            iv.ExcelSheet = (string) comboBox1.SelectedItem;
+            iv.ExcelSheet = (string)comboBox1.SelectedItem;
             //mySettings.Default.excelWorksheetSelectedName = iv.ExcelSheet;
             DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
             ParameterData.parameterNames = null;
             ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
             ParameterData.parameterNames.RemoveAt(0);
-            Util.InfoMsg("Following parameters will be initialized:\n"+ string.Join("\n", ParameterData.parameterNames.ToArray()));
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-            iv.SysAbbr = textBox3.Text;
+            Util.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
-            {
-                iv.ExportAll = true;
-                textBox3.Visible = false; textBox4.Visible = false;
-                }
+            if (!radioButton1.Checked) return;
+            iv.ExportAllOneFile = radioButton1.Checked;
+            iv.ExportAllSepFiles = !radioButton1.Checked;
+            iv.ExportSpecificPipeLine = !radioButton1.Checked;
+            iv.ExportSelection = !radioButton1.Checked;
+            comboBox2.Visible = false; textBox4.Visible = false;
+        }
+
+        private void radioButton13_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButton13.Checked) return;
+            iv.ExportAllOneFile = !radioButton13.Checked;
+            iv.ExportAllSepFiles = radioButton13.Checked;
+            iv.ExportSpecificPipeLine = !radioButton13.Checked;
+            iv.ExportSelection = !radioButton13.Checked;
+            comboBox2.Visible = false; textBox4.Visible = false;
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton2.Checked)
-            {
-                iv.ExportAll = false;
-                textBox3.Visible = true; textBox4.Visible = true;
-            }
-           
+            if (!radioButton2.Checked) return;
+            iv.ExportAllOneFile = !radioButton2.Checked;
+            iv.ExportAllSepFiles = !radioButton2.Checked;
+            iv.ExportSpecificPipeLine = radioButton2.Checked;
+            iv.ExportSelection = !radioButton2.Checked;
+            comboBox2.Visible = true; textBox4.Visible = true;
+        }
+
+        private void radioButton14_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButton14.Checked) return;
+            iv.ExportAllOneFile = !radioButton14.Checked;
+            iv.ExportAllSepFiles = !radioButton14.Checked;
+            iv.ExportSpecificPipeLine = !radioButton14.Checked;
+            iv.ExportSelection = radioButton14.Checked;
+            comboBox2.Visible = false; textBox4.Visible = false;
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -186,9 +211,9 @@ namespace PCF_Exporter
             DialogResult result = fbd.ShowDialog();
             if (result == DialogResult.OK)
             {
-            iv.OutputDirectoryFilePath = fbd.SelectedPath;
-            textBox5.Text = iv.OutputDirectoryFilePath;
-            mySettings.Default.textBox5OutputPath = iv.OutputDirectoryFilePath;
+                iv.OutputDirectoryFilePath = fbd.SelectedPath;
+                textBox5.Text = iv.OutputDirectoryFilePath;
+                mySettings.Default.textBox5OutputPath = iv.OutputDirectoryFilePath;
             }
         }
 
@@ -259,7 +284,7 @@ namespace PCF_Exporter
                 iv.UNITS_WEIGHT = "LBS";
             }
         }
-        
+
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton9.Checked)
@@ -284,7 +309,7 @@ namespace PCF_Exporter
         {
             ScheduleCreator SC = new ScheduleCreator();
             var output = SC.CreateAllItemsSchedule(_uidoc);
-            
+
             if (output == Result.Succeeded) Util.InfoMsg("Schedules created successfully!");
             else if (output == Result.Failed) Util.InfoMsg("Schedule creation failed for some reason.");
         }
@@ -326,5 +351,12 @@ namespace PCF_Exporter
         {
             iv.ExportToCII = checkBox2.Checked;
         }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            iv.SysAbbr = comboBox2.SelectedItem.ToString();
+        }
+
+        
     }
 }
