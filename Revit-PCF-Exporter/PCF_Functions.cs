@@ -28,7 +28,10 @@ namespace PCF_Functions
         public static string ExcelSheet = "COMP";
 
         //Execution control
-        public static bool ExportAll = true;
+        public static bool ExportAllOneFile = true;
+        public static bool ExportAllSepFiles = false;
+        public static bool ExportSpecificPipeLine = false;
+        public static bool ExportSelection = false;
         public static double DiameterLimit = 0;
         public static bool WriteWallThickness = false;
         public static bool ExportToPlant3DIso = false;
@@ -340,7 +343,7 @@ namespace PCF_Functions
         /// <summary>
         /// Return a string for a real number formatted to two decimal places.
         /// </summary>
-        public static string RealString(double a)
+        private static string RealString(double a)
         {
             //return a.ToString("0.##");
             //return (Math.Truncate(a * 100) / 100).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
@@ -881,6 +884,16 @@ namespace PCF_Functions
             else throw new Exception("Trying to get PipingSystemType from nor MEPCurve nor FamilyInstance for element: " + element.Id.IntegerValue);
 
             return (PipingSystemType)doc.GetElement(sysTypeId);
+        }
+
+        public static IList<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            HashSet<PipingSystem> pipingSystems = collector.OfClass(typeof(PipingSystem)).Cast<PipingSystem>().ToHashSet();
+            HashSet<PipingSystemType> pipingSystemTypes = pipingSystems.Select(ps => doc.GetElement(ps.GetTypeId())).Cast<PipingSystemType>().ToHashSet();
+            HashSet<string> abbreviations = pipingSystemTypes.Select(pst => pst.Abbreviation).ToHashSet();
+
+            return abbreviations.Distinct().ToList();
         }
     }
 }

@@ -8,9 +8,6 @@
     <Setting Name="radioButton2SpecificPipeline" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="textBox3SpecificPipeline" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Input here</Value>
-    </Setting>
     <Setting Name="radioButton3BoreMM" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -54,6 +51,12 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="checkBox2Checked" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="radioButton13AllPipelinesSeparate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="radioButton14ExportSelection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
