@@ -47,6 +47,13 @@ namespace PCF_Exporter
             //textBox20.Text = _excelPath;
 
             //Init Scope
+
+            //Gather all physical piping systems and collect distinct abbreviations
+            pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
+
+            //Use the distinct abbreviations as data source for the comboBox
+            comboBox2.DataSource = pipeLinesAbbreviations;
+
             iv.ExportAllOneFile = mySettings.Default.radioButton1AllPipelines;
             iv.ExportAllSepFiles = mySettings.Default.radioButton13AllPipelinesSeparate;
             iv.ExportSpecificPipeLine = mySettings.Default.radioButton2SpecificPipeline;
@@ -56,13 +63,7 @@ namespace PCF_Exporter
                 comboBox1.Visible = false;
                 textBox4.Visible = false;
             }
-
-            //Gather all physical piping systems and collect distinct abbreviations
-            pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
-
-            //Use the distinct abbreviations as data source for the comboBox
-            comboBox2.DataSource = pipeLinesAbbreviations;
-
+            
             //Init Bore
             iv.UNITS_BORE_MM = mySettings.Default.radioButton3BoreMM;
             iv.UNITS_BORE_INCH = mySettings.Default.radioButton4BoreINCH;
