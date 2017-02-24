@@ -60,7 +60,7 @@ namespace PCF_Exporter
             iv.ExportSelection = mySettings.Default.radioButton14ExportSelection;
             if (!iv.ExportSpecificPipeLine)
             {
-                comboBox1.Visible = false;
+                comboBox2.Visible = false;
                 textBox4.Visible = false;
             }
             
