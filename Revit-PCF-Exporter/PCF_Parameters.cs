@@ -113,7 +113,7 @@ namespace PCF_Parameters
             foreach (IGrouping<string, Element> gp in elementGroups)
             {
                 worksheet.Cells[row, 1] = gp.Key;
-                foreach (var p in query.ToList())
+                foreach (var p in query)
                 {
                     if (row == 2) worksheet.Cells[1, col] = p.Name; //Fill out top row only in the first iteration
                     worksheet.Cells[row, col] = gp.First().get_Parameter(p.Guid).AsString();

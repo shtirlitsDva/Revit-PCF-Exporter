@@ -159,6 +159,12 @@ namespace PCF_Functions
         /// <returns>StringBuilder containing the entries.</returns>
         public static StringBuilder Plant3DIsoWriter(Element element, Document doc)
         {
+            //If an element has EXISTING in it's PCF_ELEM_SPEC the writing of ITEM-CODE will be skipped, making Plant 3D ISO treat it as existing.
+            pdef elemSpec = new plst().PCF_ELEM_SPEC;
+            Parameter pm = element.get_Parameter(elemSpec.Guid);
+            if (string.Equals(pm.AsString(), "EXISTING")) return new StringBuilder();
+
+            //Write ITEM-CODE et al
             StringBuilder sb = new StringBuilder();
 
             pdef matId = new plst().PCF_MAT_ID;
