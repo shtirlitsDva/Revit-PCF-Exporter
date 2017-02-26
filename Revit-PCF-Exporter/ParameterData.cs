@@ -41,7 +41,7 @@ namespace PCF_Functions
 
     public class ParameterList
     {
-        public readonly IList<pdef> ListParametersAll = new List<pdef>();
+        public readonly HashSet<pdef> ListParametersAll = new HashSet<ParameterDefinition>();
 
         #region Parameter Definition
         //Element parameters user defined
@@ -94,15 +94,15 @@ namespace PCF_Functions
         //public readonly pdef PCF_PIPL_TRACING = new pdef("PCF_PIPL_TRACING", "PIPL", "U", pd.Text, new Guid("9d463d11-c9e8-4160-ac55-578795d11b1d"), "TRACING-SPEC");
         //public readonly pdef PCF_PIPL_TYPE = new pdef("PCF_PIPL_TYPE", "PIPL", "U", pd.Text, new Guid("af00ee7d-cfc0-4e1c-a2cf-1626e4bb7eb0"), "PIPELINE-TYPE");
         public readonly pdef PCF_PIPL_DWGNAME = new pdef("PCF_PIPL_DWGNAME","PIPL","U",pd.Text, new Guid("8FFFE45B-E8CD-4781-84DF-E86EFC58ACD0"), "DRAWINGNAME", "ISO");
-        public readonly pdef PCF_PIPL_AT01 = new pdef("PCF_PIPL_AT01", "PIPL", "U", pd.Text, new Guid("718A6AF7-8068-40C0-94FD-B2D387DBBE87"), "Attribute1", "ISO");
-        public readonly pdef PCF_PIPL_AT02 = new pdef("PCF_PIPL_AT02", "PIPL", "U", pd.Text, new Guid("DCD496AC-ACFD-4492-A7D9-EBC562559E2A"), "Attribute2", "ISO");
-        public readonly pdef PCF_PIPL_AT03 = new pdef("PCF_PIPL_AT03", "PIPL", "U", pd.Text, new Guid("A0A067D4-49BB-4E4B-91FB-F30F9E189005"), "Attribute3", "ISO");
-        public readonly pdef PCF_PIPL_AT04 = new pdef("PCF_PIPL_AT04", "PIPL", "U", pd.Text, new Guid("D40703F1-DA19-4FDC-AD1D-28180786A40A"), "Attribute4", "ISO");
-        public readonly pdef PCF_PIPL_AT05 = new pdef("PCF_PIPL_AT05", "PIPL", "U", pd.Text, new Guid("8A1624ED-B59A-47B4-A99D-D45C0254224F"), "Attribute5", "ISO");
-        public readonly pdef PCF_PIPL_AT06 = new pdef("PCF_PIPL_AT06", "PIPL", "U", pd.Text, new Guid("FFE67C20-324D-4997-A7C8-F48AE570A38B"), "Attribute6", "ISO");
-        public readonly pdef PCF_PIPL_AT07 = new pdef("PCF_PIPL_AT07", "PIPL", "U", pd.Text, new Guid("03EC10D4-4837-4C3A-8712-7D140A325D7D"), "Attribute7", "ISO");
-        public readonly pdef PCF_PIPL_AT08 = new pdef("PCF_PIPL_AT08", "PIPL", "U", pd.Text, new Guid("94E807D8-536B-4FDC-900A-A14DB8363A93"), "Attribute8", "ISO");
-        public readonly pdef PCF_PIPL_AT09 = new pdef("PCF_PIPL_AT09", "PIPL", "U", pd.Text, new Guid("0F58336D-F358-4F2F-B13B-515496A28124"), "Attribute9", "ISO");
+        //public readonly pdef PCF_PIPL_AT01 = new pdef("PCF_PIPL_AT01", "PIPL", "U", pd.Text, new Guid("718A6AF7-8068-40C0-94FD-B2D387DBBE87"), "Attribute1", "ISO");
+        //public readonly pdef PCF_PIPL_AT02 = new pdef("PCF_PIPL_AT02", "PIPL", "U", pd.Text, new Guid("DCD496AC-ACFD-4492-A7D9-EBC562559E2A"), "Attribute2", "ISO");
+        //public readonly pdef PCF_PIPL_AT03 = new pdef("PCF_PIPL_AT03", "PIPL", "U", pd.Text, new Guid("A0A067D4-49BB-4E4B-91FB-F30F9E189005"), "Attribute3", "ISO");
+        //public readonly pdef PCF_PIPL_AT04 = new pdef("PCF_PIPL_AT04", "PIPL", "U", pd.Text, new Guid("D40703F1-DA19-4FDC-AD1D-28180786A40A"), "Attribute4", "ISO");
+        //public readonly pdef PCF_PIPL_AT05 = new pdef("PCF_PIPL_AT05", "PIPL", "U", pd.Text, new Guid("8A1624ED-B59A-47B4-A99D-D45C0254224F"), "Attribute5", "ISO");
+        //public readonly pdef PCF_PIPL_AT06 = new pdef("PCF_PIPL_AT06", "PIPL", "U", pd.Text, new Guid("FFE67C20-324D-4997-A7C8-F48AE570A38B"), "Attribute6", "ISO");
+        //public readonly pdef PCF_PIPL_AT07 = new pdef("PCF_PIPL_AT07", "PIPL", "U", pd.Text, new Guid("03EC10D4-4837-4C3A-8712-7D140A325D7D"), "Attribute7", "ISO");
+        //public readonly pdef PCF_PIPL_AT08 = new pdef("PCF_PIPL_AT08", "PIPL", "U", pd.Text, new Guid("94E807D8-536B-4FDC-900A-A14DB8363A93"), "Attribute8", "ISO");
+        //public readonly pdef PCF_PIPL_AT09 = new pdef("PCF_PIPL_AT09", "PIPL", "U", pd.Text, new Guid("0F58336D-F358-4F2F-B13B-515496A28124"), "Attribute9", "ISO");
 
         //Parameters to facilitate export of data to CII
         public readonly pdef PCF_PIPL_CII_PD = new pdef("PCF_PIPL_CII_PD", "PIPL", "U", pd.Text, new Guid("692e2e97-3b9c-4616-8a03-daa493b01760"), "COMPONENT-ATTRIBUTE1", "CII"); //Design pressure
@@ -171,15 +171,15 @@ namespace PCF_Functions
             //ListParametersAll.Add(PCF_PIPL_TRACING);
             //ListParametersAll.Add(PCF_PIPL_TYPE);
             ListParametersAll.Add(PCF_PIPL_DWGNAME);
-            ListParametersAll.Add(PCF_PIPL_AT01);
-            ListParametersAll.Add(PCF_PIPL_AT02);
-            ListParametersAll.Add(PCF_PIPL_AT03);
-            ListParametersAll.Add(PCF_PIPL_AT04);
-            ListParametersAll.Add(PCF_PIPL_AT05);
-            ListParametersAll.Add(PCF_PIPL_AT06);
-            ListParametersAll.Add(PCF_PIPL_AT07);
-            ListParametersAll.Add(PCF_PIPL_AT08);
-            ListParametersAll.Add(PCF_PIPL_AT09);
+            //ListParametersAll.Add(PCF_PIPL_AT01);
+            //ListParametersAll.Add(PCF_PIPL_AT02);
+            //ListParametersAll.Add(PCF_PIPL_AT03);
+            //ListParametersAll.Add(PCF_PIPL_AT04);
+            //ListParametersAll.Add(PCF_PIPL_AT05);
+            //ListParametersAll.Add(PCF_PIPL_AT06);
+            //ListParametersAll.Add(PCF_PIPL_AT07);
+            //ListParametersAll.Add(PCF_PIPL_AT08);
+            //ListParametersAll.Add(PCF_PIPL_AT09);
 
             ListParametersAll.Add(PCF_PIPL_CII_PD);
             ListParametersAll.Add(PCF_PIPL_CII_TD);

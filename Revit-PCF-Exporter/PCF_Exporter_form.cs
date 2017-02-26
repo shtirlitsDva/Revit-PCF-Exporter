@@ -25,6 +25,8 @@ namespace PCF_Exporter
         static Document _doc;
         private string _message;
 
+        private IList<string> pipeLinesAbbreviations;
+
         private string _excelPath = null;
 
         private IList<string> PCF_DATA_TABLE_NAMES = new List<string>();
@@ -45,22 +47,23 @@ namespace PCF_Exporter
             //textBox20.Text = _excelPath;
 
             //Init Scope
+
+            //Gather all physical piping systems and collect distinct abbreviations
+            pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
+
+            //Use the distinct abbreviations as data source for the comboBox
+            comboBox2.DataSource = pipeLinesAbbreviations;
+
             iv.ExportAllOneFile = mySettings.Default.radioButton1AllPipelines;
             iv.ExportAllSepFiles = mySettings.Default.radioButton13AllPipelinesSeparate;
             iv.ExportSpecificPipeLine = mySettings.Default.radioButton2SpecificPipeline;
             iv.ExportSelection = mySettings.Default.radioButton14ExportSelection;
             if (!iv.ExportSpecificPipeLine)
             {
-                comboBox1.Visible = false;
+                comboBox2.Visible = false;
                 textBox4.Visible = false;
             }
-
-            //Gather all physical piping systems and collect distinct abbreviations
-            IList<string> pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
-
-            //Use the distinct abbreviations as data source for the comboBox
-            comboBox2.DataSource = pipeLinesAbbreviations;
-
+            
             //Init Bore
             iv.UNITS_BORE_MM = mySettings.Default.radioButton3BoreMM;
             iv.UNITS_BORE_INCH = mySettings.Default.radioButton4BoreINCH;
@@ -220,7 +223,21 @@ namespace PCF_Exporter
         private void button6_Click(object sender, EventArgs e)
         {
             PCFExport pcfExporter = new PCFExport();
-            Result result = pcfExporter.ExecuteMyCommand(_uiapp, ref _message);
+            Result result = Result.Failed;
+
+            if (iv.ExportAllOneFile || iv.ExportSpecificPipeLine || iv.ExportSelection)
+            {
+                result = pcfExporter.ExecuteMyCommand(_uiapp, ref _message);
+            }
+            else if (iv.ExportAllSepFiles)
+            {
+                foreach (string name in pipeLinesAbbreviations)
+                {
+                    iv.SysAbbr = name;
+                    result = pcfExporter.ExecuteMyCommand(_uiapp, ref _message);
+                }
+            }
+
             if (result == Result.Succeeded) Util.InfoMsg("PCF data exported successfully!");
             if (result == Result.Failed) Util.InfoMsg("PCF data export failed for some reason.");
         }

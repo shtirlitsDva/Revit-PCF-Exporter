@@ -2,25 +2,35 @@
 using System.IO;
 using System.Text;
 using Autodesk.Revit.DB;
+using iv = PCF_Functions.InputVars;
 
 namespace PCF_Output
 {
     public class Output
     {
-        private StringBuilder _collect;
-        private string _outputDir;
-        private Document _document;
-
-        public void OutputWriter(Document doc, StringBuilder collect, string outputDirectory)
+        public void OutputWriter(Document _document, StringBuilder _collect, string _outputDir)
         {
-            _collect = collect; _outputDir = outputDirectory;
-            _document = doc;
-
             string docName = _document.ProjectInformation.Name;
             string dateAndTime = DateTime.Now.ToString();
             dateAndTime = dateAndTime.Replace(" ", "_");
             dateAndTime = dateAndTime.Replace(":", "-");
-            string filename = _outputDir+"\\" + docName + "_" + dateAndTime + ".pcf";
+
+            string scope = string.Empty;
+
+            if (iv.ExportAllOneFile)
+            {
+                scope = "_All_Lines";
+            }
+            else if (iv.ExportAllSepFiles || iv.ExportSpecificPipeLine)
+            {
+                scope = "_" + iv.SysAbbr;
+            }
+            else if (iv.ExportSelection)
+            {
+                scope = "_Selection";
+            }
+
+            string filename = _outputDir + "\\" + docName + "_" + dateAndTime + scope + ".pcf";
             //string filename = _outputDir+"\\" + docName + ".pcf";
 
             //Clear the output file
