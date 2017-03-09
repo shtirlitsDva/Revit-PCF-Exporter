@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Revit_NTR_Exporter
 {
-    public class Class1
+    class NTR_Main
     {
     }
 }

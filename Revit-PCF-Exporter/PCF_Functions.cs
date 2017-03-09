@@ -874,14 +874,12 @@ namespace PCF_Functions
             //Retrieve Element PipingSystemType
             ElementId sysTypeId;
 
-            if (element is MEPCurve)
+            if (element is MEPCurve pipe)
             {
-                MEPCurve pipe = (MEPCurve)element;
                 sysTypeId = pipe.MEPSystem.GetTypeId();
             }
-            else if (element is FamilyInstance)
+            else if (element is FamilyInstance famInst)
             {
-                FamilyInstance famInst = (FamilyInstance)element;
                 ConnectorSet cSet = famInst.MEPModel.ConnectorManager.Connectors;
                 Connector con =
                     (from Connector c in cSet where c.GetMEPConnectorInfo().IsPrimary select c).FirstOrDefault();
