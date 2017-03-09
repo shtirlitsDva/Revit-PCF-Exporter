@@ -61,8 +61,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MoreLinq, Version=2.0.20029.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.2.1.0\lib\net35\MoreLinq.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\morelinq.2.2.0\lib\net35\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">

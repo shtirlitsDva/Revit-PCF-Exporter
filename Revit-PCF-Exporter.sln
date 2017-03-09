@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Revit-PCF-Exporter", "Revit-PCF-exporter\Revit-PCF-Exporter.csproj", "{037B382D-9BC9-4D7A-B76D-55BE5964E44D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Revit-NTR-Exporter", "Revit-NTR-Exporter\Revit-NTR-Exporter.csproj", "{413ED922-8003-4988-BC1C-B61C81587A8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{037B382D-9BC9-4D7A-B76D-55BE5964E44D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{037B382D-9BC9-4D7A-B76D-55BE5964E44D}.Release|x64.ActiveCfg = Release|x64
 		{037B382D-9BC9-4D7A-B76D-55BE5964E44D}.Release|x64.Build.0 = Release|x64
+		{413ED922-8003-4988-BC1C-B61C81587A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413ED922-8003-4988-BC1C-B61C81587A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413ED922-8003-4988-BC1C-B61C81587A8E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{413ED922-8003-4988-BC1C-B61C81587A8E}.Debug|x64.Build.0 = Debug|Any CPU
+		{413ED922-8003-4988-BC1C-B61C81587A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413ED922-8003-4988-BC1C-B61C81587A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413ED922-8003-4988-BC1C-B61C81587A8E}.Release|x64.ActiveCfg = Release|Any CPU
+		{413ED922-8003-4988-BC1C-B61C81587A8E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
