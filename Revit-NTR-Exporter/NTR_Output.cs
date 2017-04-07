@@ -4,7 +4,7 @@ using System.Text;
 using Autodesk.Revit.DB;
 using iv = NTR_Functions.InputVars;
 
-namespace PCF_Output
+namespace NTR_Output
 {
     public class Output
     {

@@ -89,12 +89,6 @@
     <Compile Include="PCF_Pipeline.cs" />
     <Compile Include="PCF_Supports.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PCF_Exporter_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PCF_Exporter_form.Designer.cs">
-      <DependentUpon>PCF_Exporter_form.cs</DependentUpon>
-    </Compile>
     <Compile Include="PCF_Functions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="PCF_Accessories.cs" />
@@ -109,11 +103,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="RadioBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -127,10 +116,6 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\PCF_Functions.Properties.Resources.datasource" />
     <None Include="Properties\DataSources\PCF_Functions.Properties.Settings.datasource" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
@@ -144,9 +129,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="PCF_Exporter_form.resx">
-      <DependentUpon>PCF_Exporter_form.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -12,9 +12,9 @@ using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 
-namespace PCF_Exporter
+namespace NTR_Exporter
 {
-    public partial class PCF_Exporter_form : System.Windows.Forms.Form
+    public partial class NTR_Exporter_form : System.Windows.Forms.Form
     {
         /// <summary>
         /// Required designer variable.
@@ -42,7 +42,7 @@ namespace PCF_Exporter
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PCF_Exporter_form));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NTR_Exporter_form));
             this.Tabs = new System.Windows.Forms.TabControl();
             this.TabSetup = new System.Windows.Forms.TabPage();
             this.radioBox1 = new PCF_Functions.RadioBox();
@@ -844,8 +844,8 @@ namespace PCF_Exporter
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(383, 563);
             this.Controls.Add(this.Tabs);
-            this.Name = "PCF_Exporter_form";
-            this.Text = "PCF_Exporter_form";
+            this.Name = "NTR_Exporter_form";
+            this.Text = "NTR_Exporter_form";
             this.Tabs.ResumeLayout(false);
             this.TabSetup.ResumeLayout(false);
             this.radioBox1.ResumeLayout(false);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Revit_NTR_Exporter
+namespace NTR_Exporter
 {
     class NTR_Main
     {
