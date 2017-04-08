@@ -8,10 +8,11 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using BuildingCoder;
-using PCF_Functions;
+using NTR_Exporter;
 using mySettings = NTR_Exporter.Properties.Settings;
 using iv = NTR_Functions.InputVars;
 using dh = PCF_Functions.DataHandler;
+using PCF_Functions;
 
 namespace NTR_Exporter
 {
@@ -47,7 +48,7 @@ namespace NTR_Exporter
             //Init Scope
 
             //Gather all physical piping systems and collect distinct abbreviations
-            pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
+            pipeLinesAbbreviations = PCF_Functions.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
 
             //Use the distinct abbreviations as data source for the comboBox
             comboBox2.DataSource = pipeLinesAbbreviations;
@@ -137,13 +138,13 @@ namespace NTR_Exporter
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            iv.ExcelSheet = (string)comboBox1.SelectedItem;
-            //mySettings.Default.excelWorksheetSelectedName = iv.ExcelSheet;
-            DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
-            ParameterData.parameterNames = null;
-            ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
-            ParameterData.parameterNames.RemoveAt(0);
-            Util.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
+            //iv.ExcelSheet = (string)comboBox1.SelectedItem;
+            ////mySettings.Default.excelWorksheetSelectedName = iv.ExcelSheet;
+            //DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
+            //ParameterData.parameterNames = null;
+            //ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
+            //ParameterData.parameterNames.RemoveAt(0);
+            //Util.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
