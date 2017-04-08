@@ -17,22 +17,6 @@ namespace NTR_Functions
         //Current SystemAbbreviation
         public static string SysAbbr = null;
 
-        //File handling
-        public static string OutputDirectoryFilePath = "";
-
-        //Diameter limit
-        public static double DiameterLimit = 0;
-
-        //Wall thickness
-        public static bool WriteWallThickness = false;
-
-        //Export options
-        public static bool ExportToPlant3DIso = false;
-        public static bool ExportToCII = false;
-
-        //Read configuration
-        public static string ExcelSheet = "";
-
         //GEN: General settings
         public static string NTR_GEN_TMONT = "10";
         public static string NTR_GEN_UNITKT = "MM";

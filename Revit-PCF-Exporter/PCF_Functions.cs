@@ -267,15 +267,15 @@ namespace PCF_Functions
             LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
 
             //IList<ElementFilter> b = new List<ElementFilter>(6);
-            IList<ElementFilter> b = new List<ElementFilter>
-            {
+            IList<ElementFilter> b = new List<ElementFilter>();
 
-                //b.Add(new ElementClassFilter(typeof(CableTray)));
-                //b.Add(new ElementClassFilter(typeof(Conduit)));
-                //b.Add(new ElementClassFilter(typeof(Duct)));
-                new ElementClassFilter(typeof(Pipe)),
-                familyInstanceFilter
-            };
+            //b.Add(new ElementClassFilter(typeof(CableTray)));
+            //b.Add(new ElementClassFilter(typeof(Conduit)));
+            //b.Add(new ElementClassFilter(typeof(Duct)));
+            b.Add(new ElementClassFilter(typeof(Pipe)));
+
+            b.Add(familyInstanceFilter);
+
             LogicalOrFilter classFilter = new LogicalOrFilter(b);
 
             FilteredElementCollector collector = new FilteredElementCollector(doc);

@@ -23,7 +23,7 @@ using System.Collections;
 
 namespace BuildingCoder
 {
-    public class Util
+    class Util
     {
         #region Geometrical Comparison
         const double _eps = 1.0e-9;
@@ -346,10 +346,9 @@ namespace BuildingCoder
             halfCircle.Append(arc);
             halfCircle.Append(line);
 
-            IList<CurveLoop> loops = new List<CurveLoop>(1)
-            {
-                halfCircle
-            };
+            List<CurveLoop> loops = new List<CurveLoop>(1);
+            loops.Add(halfCircle);
+
             return GeometryCreationUtilities
               .CreateRevolvedGeometry(frame, loops,
                 0, 2 * Math.PI);
@@ -668,7 +667,9 @@ namespace BuildingCoder
 
             // List arc data:
 
-            if (c is Arc arc)
+            Arc arc = c as Arc;
+
+            if (null != arc)
             {
                 s += string.Format(" center {0} radius {1}",
                   PointString(arc.Center), arc.Radius);
@@ -730,11 +731,9 @@ namespace BuildingCoder
           string content)
         {
             Debug.WriteLine(instruction + "\r\n" + content);
-            TaskDialog d = new TaskDialog(_caption)
-            {
-                MainInstruction = instruction,
-                MainContent = content
-            };
+            TaskDialog d = new TaskDialog(_caption);
+            d.MainInstruction = instruction;
+            d.MainContent = content;
             d.Show();
         }
 
@@ -1285,7 +1284,8 @@ namespace BuildingCoder
             }
             /* If this is a list, use the Count property. 
              * The Count property is O(1) while IEnumerable.Count() is O(N). */
-            if (enumerable is ICollection<T> collection)
+            var collection = enumerable as ICollection<T>;
+            if (collection != null)
             {
                 return collection.Count < 1;
             }

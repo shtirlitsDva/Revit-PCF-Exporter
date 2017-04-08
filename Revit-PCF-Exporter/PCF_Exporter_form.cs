@@ -8,15 +8,16 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using BuildingCoder;
+using PCF_Parameters;
 using PCF_Functions;
-using mySettings = NTR_Exporter.Properties.Settings;
-using iv = NTR_Functions.InputVars;
+using mySettings = PCF_Functions.Properties.Settings;
+using iv = PCF_Functions.InputVars;
 using dh = PCF_Functions.DataHandler;
 
-namespace NTR_Exporter
+namespace PCF_Exporter
 {
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    public partial class NTR_Exporter_form : System.Windows.Forms.Form
+    public partial class PCF_Exporter_form : System.Windows.Forms.Form
     {
         static ExternalCommandData _commandData;
         static UIApplication _uiapp;
@@ -32,7 +33,7 @@ namespace NTR_Exporter
         private DataSet DATA_SET = null;
         public static DataTable DATA_TABLE = null;
 
-        public NTR_Exporter_form(ExternalCommandData cData, string message)
+        public PCF_Exporter_form(ExternalCommandData cData, string message)
         {
             InitializeComponent();
             _commandData = cData;
@@ -43,6 +44,7 @@ namespace NTR_Exporter
 
             //Init excel path
             _excelPath = mySettings.Default.excelPath;
+            //textBox20.Text = _excelPath;
 
             //Init Scope
 
@@ -62,6 +64,26 @@ namespace NTR_Exporter
                 textBox4.Visible = false;
             }
             
+            //Init Bore
+            iv.UNITS_BORE_MM = mySettings.Default.radioButton3BoreMM;
+            iv.UNITS_BORE_INCH = mySettings.Default.radioButton4BoreINCH;
+            iv.UNITS_BORE = iv.UNITS_BORE_MM ? "MM" : "INCH";
+
+            //Init cooords
+            iv.UNITS_CO_ORDS_MM = mySettings.Default.radioButton5CoordsMm;
+            iv.UNITS_CO_ORDS_INCH = mySettings.Default.radioButton6CoordsInch;
+            iv.UNITS_CO_ORDS = iv.UNITS_CO_ORDS_MM ? "MM" : "INCH";
+
+            //Init weight
+            iv.UNITS_WEIGHT_KGS = mySettings.Default.radioButton7WeightKgs;
+            iv.UNITS_WEIGHT_LBS = mySettings.Default.radioButton8WeightLbs;
+            iv.UNITS_WEIGHT = iv.UNITS_WEIGHT_KGS ? "KGS" : "LBS";
+
+            //Init weight-length
+            iv.UNITS_WEIGHT_LENGTH_METER = mySettings.Default.radioButton9WeightLengthM;
+            iv.UNITS_WEIGHT_LENGTH_FEET = mySettings.Default.radioButton10WeightLengthF;
+            iv.UNITS_WEIGHT_LENGTH = iv.UNITS_WEIGHT_LENGTH_METER ? "METER" : "FEET";
+
             //Init output path
             iv.OutputDirectoryFilePath = mySettings.Default.textBox5OutputPath;
             textBox5.Text = iv.OutputDirectoryFilePath;
@@ -112,27 +134,27 @@ namespace NTR_Exporter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //CreateParameterBindings CPB = new CreateParameterBindings();
-            //CPB.CreateElementBindings(_uiapp, ref _message);
-            //CPB.CreatePipelineBindings(_uiapp, ref _message);
+            CreateParameterBindings CPB = new CreateParameterBindings();
+            CPB.CreateElementBindings(_uiapp, ref _message);
+            CPB.CreatePipelineBindings(_uiapp, ref _message);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //DeleteParameters DP = new DeleteParameters();
-            //DP.ExecuteMyCommand(_uiapp, ref _message);
+            DeleteParameters DP = new DeleteParameters();
+            DP.ExecuteMyCommand(_uiapp, ref _message);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            //PopulateParameters PP = new PopulateParameters();
-            //PP.PopulateElementData(_uiapp, ref _message, _excelPath);
+            PopulateParameters PP = new PopulateParameters();
+            PP.PopulateElementData(_uiapp, ref _message, _excelPath);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            //PopulateParameters PP = new PopulateParameters();
-            //PP.PopulatePipelineData(_uiapp, ref _message, _excelPath);
+            PopulateParameters PP = new PopulateParameters();
+            PP.PopulatePipelineData(_uiapp, ref _message, _excelPath);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -200,56 +222,104 @@ namespace NTR_Exporter
 
         private void button6_Click(object sender, EventArgs e)
         {
-            //PCFExport pcfExporter = new PCFExport();
-            //Result result = Result.Failed;
+            PCFExport pcfExporter = new PCFExport();
+            Result result = Result.Failed;
 
-            //if (iv.ExportAllOneFile || iv.ExportSpecificPipeLine || iv.ExportSelection)
-            //{
-            //    result = pcfExporter.ExecuteMyCommand(_uiapp, ref _message);
-            //}
-            //else if (iv.ExportAllSepFiles)
-            //{
-            //    foreach (string name in pipeLinesAbbreviations)
-            //    {
-            //        iv.SysAbbr = name;
-            //        result = pcfExporter.ExecuteMyCommand(_uiapp, ref _message);
-            //    }
-            //}
+            if (iv.ExportAllOneFile || iv.ExportSpecificPipeLine || iv.ExportSelection)
+            {
+                result = pcfExporter.ExecuteMyCommand(_uiapp, ref _message);
+            }
+            else if (iv.ExportAllSepFiles)
+            {
+                foreach (string name in pipeLinesAbbreviations)
+                {
+                    iv.SysAbbr = name;
+                    result = pcfExporter.ExecuteMyCommand(_uiapp, ref _message);
+                }
+            }
 
-            //if (result == Result.Succeeded) Util.InfoMsg("PCF data exported successfully!");
-            //if (result == Result.Failed) Util.InfoMsg("PCF data export failed for some reason.");
+            if (result == Result.Succeeded) Util.InfoMsg("PCF data exported successfully!");
+            if (result == Result.Failed) Util.InfoMsg("PCF data export failed for some reason.");
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton3.Checked)
+            {
+                iv.UNITS_BORE_MM = true;
+                iv.UNITS_BORE_INCH = false;
+                iv.UNITS_BORE = "MM";
+            }
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton4.Checked)
+            {
+                iv.UNITS_BORE_MM = false;
+                iv.UNITS_BORE_INCH = true;
+                iv.UNITS_BORE = "INCH";
+            }
         }
 
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton5.Checked)
+            {
+                iv.UNITS_CO_ORDS_MM = true;
+                iv.UNITS_CO_ORDS_INCH = false;
+                iv.UNITS_CO_ORDS = "MM";
+            }
         }
 
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton6.Checked)
+            {
+                iv.UNITS_CO_ORDS_MM = false;
+                iv.UNITS_CO_ORDS_INCH = true;
+                iv.UNITS_CO_ORDS = "INCH";
+            }
         }
 
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton7.Checked)
+            {
+                iv.UNITS_WEIGHT_KGS = true;
+                iv.UNITS_WEIGHT_LBS = false;
+                iv.UNITS_WEIGHT = "KGS";
+            }
         }
 
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton8.Checked)
+            {
+                iv.UNITS_WEIGHT_KGS = false;
+                iv.UNITS_WEIGHT_LBS = true;
+                iv.UNITS_WEIGHT = "LBS";
+            }
         }
 
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton9.Checked)
+            {
+                iv.UNITS_WEIGHT_LENGTH_METER = true;
+                iv.UNITS_WEIGHT_LENGTH_FEET = false;
+                iv.UNITS_WEIGHT_LENGTH = "METER";
+            }
         }
 
         private void radioButton10_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton10.Checked)
+            {
+                iv.UNITS_WEIGHT_LENGTH_METER = false;
+                iv.UNITS_WEIGHT_LENGTH_FEET = true;
+                iv.UNITS_WEIGHT_LENGTH = "FEET";
+            }
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -263,10 +333,10 @@ namespace NTR_Exporter
 
         private void button9_Click(object sender, EventArgs e)
         {
-            //ExportParameters EP = new ExportParameters();
-            //var output = EP.ExecuteMyCommand(_uiapp);
-            //if (output == Result.Succeeded) Util.InfoMsg("Elements exported to EXCEL successfully!");
-            //else if (output == Result.Failed) Util.InfoMsg("Element export to EXCEL failed for some reason.");
+            ExportParameters EP = new ExportParameters();
+            var output = EP.ExecuteMyCommand(_uiapp);
+            if (output == Result.Succeeded) Util.InfoMsg("Elements exported to EXCEL successfully!");
+            else if (output == Result.Failed) Util.InfoMsg("Element export to EXCEL failed for some reason.");
         }
 
         private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)
