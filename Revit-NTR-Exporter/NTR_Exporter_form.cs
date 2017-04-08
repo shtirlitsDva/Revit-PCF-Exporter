@@ -10,7 +10,7 @@ using Autodesk.Revit.UI;
 using BuildingCoder;
 using PCF_Parameters;
 using PCF_Functions;
-using mySettings = PCF_Functions.Properties.Settings;
+using mySettings = NTR_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
 using dh = PCF_Functions.DataHandler;
 
