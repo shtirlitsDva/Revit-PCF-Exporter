@@ -7,11 +7,11 @@ namespace NTR_Exporter
     //to switch on and off correctly inside one RadioBox. I found this solution somewhere on the net.
     public partial class RadioBox : System.Windows.Forms.GroupBox
     {
-
         protected override void OnControlAdded(ControlEventArgs e)
         {
             base.OnControlAdded(e);
-            if (e.Control is RadioButton radioButton) radioButton.Click += radioButton_Click;
+            var radioButton = e.Control as RadioButton;
+            if (radioButton != null) radioButton.Click += radioButton_Click;
         }
 
         void radioButton_Click(object sender, EventArgs e)
@@ -20,11 +20,5 @@ namespace NTR_Exporter
             if (!radio.Checked) radio.Checked = true;
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            this.ResumeLayout(false);
-
-        }
     }
 }

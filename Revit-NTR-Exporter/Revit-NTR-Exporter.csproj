@@ -90,9 +90,6 @@
     <EmbeddedResource Include="NTR_Exporter_form.resx">
       <DependentUpon>NTR_Exporter_form.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RadioBox.resx">
-      <DependentUpon>RadioBox.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
