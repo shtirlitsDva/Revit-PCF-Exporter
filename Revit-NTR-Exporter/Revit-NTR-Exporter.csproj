@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="MoreLinq, Version=2.0.20029.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\packages\morelinq.2.3.0\lib\net35\MoreLinq.dll</HintPath>
     </Reference>
@@ -46,6 +49,10 @@
     </Reference>
     <Reference Include="RevitAPIUI">
       <HintPath>..\..\..\Programs\IDSP17\Revit 2017\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitDevTools, Version=2017.0.0.369, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Revit2017DevTools.1.7.0\lib\net452\RevitDevTools.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

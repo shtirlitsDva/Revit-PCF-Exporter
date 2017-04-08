@@ -8,8 +8,7 @@ using System.IO;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using PCF_Functions;
-//using mySettings = PCF_Functions.Properties.Settings;
+
 
 namespace NTR_Exporter
 {
@@ -74,7 +73,7 @@ namespace NTR_Exporter
             {
                 NTR_Exporter_form fm = new NTR_Exporter_form(commandData, message);
                 fm.ShowDialog();
-                NTR_Exporter.Properties.Settings.Default.Save();
+                Properties.Settings.Default.Save();
                 fm.Close();
                 return Result.Succeeded;
             }
