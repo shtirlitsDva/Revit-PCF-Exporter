@@ -61,7 +61,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MoreLinq, Version=2.0.20029.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.2.2.0\lib\net35\MoreLinq.dll</HintPath>
+      <HintPath>..\packages\morelinq.2.3.0\lib\net35\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
@@ -86,6 +86,12 @@
     <Compile Include="ActiveUIDoc.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ParameterData.cs" />
+    <Compile Include="PCF_Exporter_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PCF_Exporter_form.Designer.cs">
+      <DependentUpon>PCF_Exporter_form.cs</DependentUpon>
+    </Compile>
     <Compile Include="PCF_Pipeline.cs" />
     <Compile Include="PCF_Supports.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +144,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PCF_Exporter_form.resx">
+      <DependentUpon>PCF_Exporter_form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
