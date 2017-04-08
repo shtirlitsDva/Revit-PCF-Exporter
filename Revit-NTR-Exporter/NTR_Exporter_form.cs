@@ -373,7 +373,5 @@ namespace NTR_Exporter
         {
             iv.SysAbbr = comboBox2.SelectedItem.ToString();
         }
-
-        
     }
 }

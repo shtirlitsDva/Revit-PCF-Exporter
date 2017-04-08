@@ -118,20 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>PCF-Exporter
+    <value>NTR-Exporter
 Author: Michail Golubjev
 
 Project GitHub page: https://github.com/shtirlitsDva/Revit-PCF-Exporter
 
-Documentation: https://github.com/shtirlitsDva/Revit-PCF-Exporter/wiki
-
 Create an issue, request feature or provide feedback: https://github.com/shtirlitsDva/Revit-PCF-Exporter/issues
 
-Send me an email: app@mgtek.dk
-
-Sample EXCEL file: https://github.com/shtirlitsDva/Revit-PCF-Exporter/blob/master/PCF-exporter/PCF_DEVELOPEMENT_01.xlsx
-
-Sample project file (Revit 2016): https://drive.google.com/file/d/0B534_mHMn2k2QmRtY1hkWFR5ZkE/view?usp=sharing</value>
+Send me an email: app@mgtek.dk</value>
   </data>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>157, 17</value>

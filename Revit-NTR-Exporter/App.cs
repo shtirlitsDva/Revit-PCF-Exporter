@@ -57,8 +57,8 @@ namespace NTR_Exporter
             PushButtonData data = new PushButtonData("NTRExporter", "NTR Exporter", ExecutingAssemblyPath, "NTR_Exporter.FormCaller")
             {
                 ToolTip = ntrExporterButtonToolTip,
-                Image = NewBitmapImage(exe, "NTR_Exporter.ImgPcfExport16.png"),
-                LargeImage = NewBitmapImage(exe, "NTR_Exporter.ImgPcfExport32.png")
+                Image = NewBitmapImage(exe, "NTR_Exporter.Resources.ImgNtrExport16.png"),
+                LargeImage = NewBitmapImage(exe, "NTR_Exporter.Resources.ImgNtrExport32.png")
             };
             PushButton pushButton = rvtRibbonPanel.AddItem(data) as PushButton;
         }
