@@ -10,8 +10,7 @@ namespace NTR_Exporter
         protected override void OnControlAdded(ControlEventArgs e)
         {
             base.OnControlAdded(e);
-            var radioButton = e.Control as RadioButton;
-            if (radioButton != null) radioButton.Click += radioButton_Click;
+            if (e.Control is RadioButton radioButton) radioButton.Click += radioButton_Click;
         }
 
         void radioButton_Click(object sender, EventArgs e)
