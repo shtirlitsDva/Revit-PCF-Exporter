@@ -12,6 +12,8 @@ using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 
+using mySettings = NTR_Exporter.Properties.Settings;
+
 namespace NTR_Exporter
 {
     public partial class NTR_Exporter_form : System.Windows.Forms.Form
@@ -42,7 +44,6 @@ namespace NTR_Exporter
         /// </summary>
         private void InitializeComponent()
         {
-            NTR_Exporter.Properties.Settings settings1 = new NTR_Exporter.Properties.Settings();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NTR_Exporter_form));
             this.Tabs = new System.Windows.Forms.TabControl();
             this.TabSetup = new System.Windows.Forms.TabPage();
@@ -321,28 +322,8 @@ namespace NTR_Exporter
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            settings1.checkBox1Checked = false;
-            settings1.checkBox2Checked = false;
-            settings1.excelPath = "";
-            settings1.radioButton10WeightLengthF = false;
-            settings1.radioButton11WallThkFalse = true;
-            settings1.radioButton12WallThkTrue = false;
-            settings1.radioButton13AllPipelinesSeparate = false;
-            settings1.radioButton14ExportSelection = false;
-            settings1.radioButton1AllPipelines = true;
-            settings1.radioButton2SpecificPipeline = false;
-            settings1.radioButton3BoreMM = true;
-            settings1.radioButton4BoreINCH = false;
-            settings1.radioButton5CoordsMm = true;
-            settings1.radioButton6CoordsInch = false;
-            settings1.radioButton7WeightKgs = true;
-            settings1.radioButton8WeightLbs = false;
-            settings1.radioButton9WeightLengthM = true;
-            settings1.SettingsKey = "";
-            settings1.textBox22DiameterLimit = "0";
-            settings1.textBox5OutputPath = "";
-            this.checkBox2.Checked = settings1.checkBox2Checked;
-            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "checkBox2Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox2.Checked = global::NTR_Exporter.Properties.Settings.Default.checkBox2Checked;
+            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "checkBox2Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox2.Location = new System.Drawing.Point(251, 20);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(68, 17);
@@ -354,8 +335,8 @@ namespace NTR_Exporter
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = settings1.checkBox1Checked;
-            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "checkBox1Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox1.Checked = global::NTR_Exporter.Properties.Settings.Default.checkBox1Checked;
+            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "checkBox1Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox1.Location = new System.Drawing.Point(143, 20);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(84, 17);
@@ -380,8 +361,8 @@ namespace NTR_Exporter
             // radioButton12
             // 
             this.radioButton12.AutoSize = true;
-            this.radioButton12.Checked = settings1.radioButton12WallThkTrue;
-            this.radioButton12.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton12WallThkTrue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton12.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton12WallThkTrue;
+            this.radioButton12.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton12WallThkTrue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton12.Location = new System.Drawing.Point(143, 68);
             this.radioButton12.Name = "radioButton12";
             this.radioButton12.Size = new System.Drawing.Size(47, 17);
@@ -393,8 +374,8 @@ namespace NTR_Exporter
             // radioButton11
             // 
             this.radioButton11.AutoSize = true;
-            this.radioButton11.Checked = settings1.radioButton11WallThkFalse;
-            this.radioButton11.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton11WallThkFalse", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton11.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton11WallThkFalse;
+            this.radioButton11.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton11WallThkFalse", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton11.Location = new System.Drawing.Point(251, 68);
             this.radioButton11.Name = "radioButton11";
             this.radioButton11.Size = new System.Drawing.Size(50, 17);
@@ -445,8 +426,8 @@ namespace NTR_Exporter
             // radioButton10
             // 
             this.radioButton10.AutoSize = true;
-            this.radioButton10.Checked = settings1.radioButton10WeightLengthF;
-            this.radioButton10.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton10WeightLengthF", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton10.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton10WeightLengthF;
+            this.radioButton10.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton10WeightLengthF", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton10.Location = new System.Drawing.Point(248, 17);
             this.radioButton10.Name = "radioButton10";
             this.radioButton10.Size = new System.Drawing.Size(52, 17);
@@ -458,8 +439,8 @@ namespace NTR_Exporter
             // radioButton9
             // 
             this.radioButton9.AutoSize = true;
-            this.radioButton9.Checked = settings1.radioButton9WeightLengthM;
-            this.radioButton9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton9WeightLengthM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton9.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton9WeightLengthM;
+            this.radioButton9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton9WeightLengthM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton9.Location = new System.Drawing.Point(140, 17);
             this.radioButton9.Name = "radioButton9";
             this.radioButton9.Size = new System.Drawing.Size(63, 17);
@@ -484,8 +465,8 @@ namespace NTR_Exporter
             // radioButton7
             // 
             this.radioButton7.AutoSize = true;
-            this.radioButton7.Checked = settings1.radioButton7WeightKgs;
-            this.radioButton7.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton7WeightKgs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton7.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton7WeightKgs;
+            this.radioButton7.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton7WeightKgs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton7.Location = new System.Drawing.Point(140, 17);
             this.radioButton7.Name = "radioButton7";
             this.radioButton7.Size = new System.Drawing.Size(47, 17);
@@ -498,8 +479,8 @@ namespace NTR_Exporter
             // radioButton8
             // 
             this.radioButton8.AutoSize = true;
-            this.radioButton8.Checked = settings1.radioButton8WeightLbs;
-            this.radioButton8.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton8WeightLbs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton8.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton8WeightLbs;
+            this.radioButton8.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton8WeightLbs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton8.Location = new System.Drawing.Point(248, 17);
             this.radioButton8.Name = "radioButton8";
             this.radioButton8.Size = new System.Drawing.Size(45, 17);
@@ -523,8 +504,8 @@ namespace NTR_Exporter
             // radioButton5
             // 
             this.radioButton5.AutoSize = true;
-            this.radioButton5.Checked = settings1.radioButton5CoordsMm;
-            this.radioButton5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton5CoordsMm", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton5.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton5CoordsMm;
+            this.radioButton5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton5CoordsMm", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton5.Location = new System.Drawing.Point(140, 17);
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.Size = new System.Drawing.Size(43, 17);
@@ -537,8 +518,8 @@ namespace NTR_Exporter
             // radioButton6
             // 
             this.radioButton6.AutoSize = true;
-            this.radioButton6.Checked = settings1.radioButton6CoordsInch;
-            this.radioButton6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton6CoordsInch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton6.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton6CoordsInch;
+            this.radioButton6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton6CoordsInch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton6.Location = new System.Drawing.Point(248, 17);
             this.radioButton6.Name = "radioButton6";
             this.radioButton6.Size = new System.Drawing.Size(51, 17);
@@ -562,8 +543,8 @@ namespace NTR_Exporter
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
-            this.radioButton4.Checked = settings1.radioButton4BoreINCH;
-            this.radioButton4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton4BoreINCH", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton4.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton4BoreINCH;
+            this.radioButton4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton4BoreINCH", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton4.Location = new System.Drawing.Point(248, 19);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(51, 17);
@@ -575,8 +556,8 @@ namespace NTR_Exporter
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Checked = settings1.radioButton3BoreMM;
-            this.radioButton3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton3BoreMM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton3.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton3BoreMM;
+            this.radioButton3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton3BoreMM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton3.Location = new System.Drawing.Point(140, 19);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(43, 17);
@@ -611,8 +592,8 @@ namespace NTR_Exporter
             // radioButton14
             // 
             this.radioButton14.AutoSize = true;
-            this.radioButton14.Checked = settings1.radioButton14ExportSelection;
-            this.radioButton14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton14ExportSelection", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton14.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton14ExportSelection;
+            this.radioButton14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton14ExportSelection", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton14.Location = new System.Drawing.Point(46, 107);
             this.radioButton14.Name = "radioButton14";
             this.radioButton14.Size = new System.Drawing.Size(69, 17);
@@ -625,8 +606,8 @@ namespace NTR_Exporter
             // radioButton13
             // 
             this.radioButton13.AutoSize = true;
-            this.radioButton13.Checked = settings1.radioButton13AllPipelinesSeparate;
-            this.radioButton13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton13AllPipelinesSeparate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton13.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton13AllPipelinesSeparate;
+            this.radioButton13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton13AllPipelinesSeparate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton13.Location = new System.Drawing.Point(46, 62);
             this.radioButton13.Name = "radioButton13";
             this.radioButton13.Size = new System.Drawing.Size(148, 17);
@@ -647,12 +628,12 @@ namespace NTR_Exporter
             // 
             // textBox22
             // 
-            this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", settings1, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::NTR_Exporter.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox22.Location = new System.Drawing.Point(84, 139);
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new System.Drawing.Size(57, 20);
             this.textBox22.TabIndex = 10;
-            this.textBox22.Text = settings1.textBox22DiameterLimit;
+            this.textBox22.Text = global::NTR_Exporter.Properties.Settings.Default.textBox22DiameterLimit;
             this.textBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
             // 
             // textBox23
@@ -691,8 +672,8 @@ namespace NTR_Exporter
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = settings1.radioButton2SpecificPipeline;
-            this.radioButton2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton2SpecificPipeline", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton2.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton2SpecificPipeline;
+            this.radioButton2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton2SpecificPipeline", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton2.Location = new System.Drawing.Point(46, 85);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(105, 17);
@@ -705,8 +686,8 @@ namespace NTR_Exporter
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = settings1.radioButton1AllPipelines;
-            this.radioButton1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", settings1, "radioButton1AllPipelines", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton1.Checked = global::NTR_Exporter.Properties.Settings.Default.radioButton1AllPipelines;
+            this.radioButton1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::NTR_Exporter.Properties.Settings.Default, "radioButton1AllPipelines", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton1.Location = new System.Drawing.Point(46, 39);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(120, 17);
@@ -812,13 +793,13 @@ namespace NTR_Exporter
             // textBox5
             // 
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", settings1, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::NTR_Exporter.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox5.Location = new System.Drawing.Point(3, 88);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(363, 13);
             this.textBox5.TabIndex = 4;
-            this.textBox5.Text = settings1.textBox5OutputPath;
+            this.textBox5.Text = global::NTR_Exporter.Properties.Settings.Default.textBox5OutputPath;
             // 
             // button5
             // 

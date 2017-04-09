@@ -13,6 +13,11 @@ namespace NTR_Functions
         public static bool ExportAllSepFiles = false;
         public static bool ExportSpecificPipeLine = false;
         public static bool ExportSelection = false;
+        public static double DiameterLimit = 0;
+
+        //File control
+        public static string OutputDirectoryFilePath = "";
+        public static string ExcelPath = "";
 
         //Current SystemAbbreviation
         public static string SysAbbr = null;

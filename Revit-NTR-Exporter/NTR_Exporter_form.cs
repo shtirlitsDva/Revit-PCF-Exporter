@@ -11,7 +11,7 @@ using BuildingCoder;
 using PCF_Parameters;
 using PCF_Functions;
 using mySettings = NTR_Exporter.Properties.Settings;
-using iv = PCF_Functions.InputVars;
+using iv = NTR_Functions.InputVars;
 using dh = PCF_Functions.DataHandler;
 
 namespace NTR_Exporter
@@ -28,10 +28,6 @@ namespace NTR_Exporter
         private IList<string> pipeLinesAbbreviations;
 
         private string _excelPath = null;
-
-        private IList<string> PCF_DATA_TABLE_NAMES = new List<string>();
-        private DataSet DATA_SET = null;
-        public static DataTable DATA_TABLE = null;
 
         public NTR_Exporter_form(ExternalCommandData cData, string message)
         {
@@ -64,26 +60,6 @@ namespace NTR_Exporter
                 textBox4.Visible = false;
             }
             
-            //Init Bore
-            iv.UNITS_BORE_MM = mySettings.Default.radioButton3BoreMM;
-            iv.UNITS_BORE_INCH = mySettings.Default.radioButton4BoreINCH;
-            iv.UNITS_BORE = iv.UNITS_BORE_MM ? "MM" : "INCH";
-
-            //Init cooords
-            iv.UNITS_CO_ORDS_MM = mySettings.Default.radioButton5CoordsMm;
-            iv.UNITS_CO_ORDS_INCH = mySettings.Default.radioButton6CoordsInch;
-            iv.UNITS_CO_ORDS = iv.UNITS_CO_ORDS_MM ? "MM" : "INCH";
-
-            //Init weight
-            iv.UNITS_WEIGHT_KGS = mySettings.Default.radioButton7WeightKgs;
-            iv.UNITS_WEIGHT_LBS = mySettings.Default.radioButton8WeightLbs;
-            iv.UNITS_WEIGHT = iv.UNITS_WEIGHT_KGS ? "KGS" : "LBS";
-
-            //Init weight-length
-            iv.UNITS_WEIGHT_LENGTH_METER = mySettings.Default.radioButton9WeightLengthM;
-            iv.UNITS_WEIGHT_LENGTH_FEET = mySettings.Default.radioButton10WeightLengthF;
-            iv.UNITS_WEIGHT_LENGTH = iv.UNITS_WEIGHT_LENGTH_METER ? "METER" : "FEET";
-
             //Init output path
             iv.OutputDirectoryFilePath = mySettings.Default.textBox5OutputPath;
             textBox5.Text = iv.OutputDirectoryFilePath;
@@ -91,12 +67,6 @@ namespace NTR_Exporter
             //Init diameter limit
             iv.DiameterLimit = double.Parse(mySettings.Default.textBox22DiameterLimit);
 
-            //Init write wall thickness
-            iv.WriteWallThickness = mySettings.Default.radioButton12WallThkTrue;
-
-            //Init export to section
-            iv.ExportToPlant3DIso = mySettings.Default.checkBox1Checked;
-            iv.ExportToCII = mySettings.Default.checkBox2Checked;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -109,18 +79,20 @@ namespace NTR_Exporter
                 //Save excel file to settings
                 mySettings.Default.excelPath = _excelPath;
 
-                DATA_SET = dh.ImportExcelToDataSet(_excelPath);
+                iv.ExcelPath = _excelPath;
 
-                DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
+                //DATA_SET = dh.ImportExcelToDataSet(_excelPath);
 
-                PCF_DATA_TABLE_NAMES.Clear();
+                //DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
 
-                foreach (DataTable dt in PCF_DATA_TABLES)
-                {
-                    PCF_DATA_TABLE_NAMES.Add(dt.TableName);
-                }
-                //excelReader.Close();
-                comboBox1.DataSource = PCF_DATA_TABLE_NAMES;
+                //PCF_DATA_TABLE_NAMES.Clear();
+
+                //foreach (DataTable dt in PCF_DATA_TABLES)
+                //{
+                //    PCF_DATA_TABLE_NAMES.Add(dt.TableName);
+                //}
+                ////excelReader.Close();
+                //comboBox1.DataSource = PCF_DATA_TABLE_NAMES;
             }
         }
 
@@ -151,13 +123,13 @@ namespace NTR_Exporter
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            iv.ExcelSheet = (string)comboBox1.SelectedItem;
-            //mySettings.Default.excelWorksheetSelectedName = iv.ExcelSheet;
-            DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
-            ParameterData.parameterNames = null;
-            ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
-            ParameterData.parameterNames.RemoveAt(0);
-            Util.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
+            //iv.ExcelSheet = (string)comboBox1.SelectedItem;
+            ////mySettings.Default.excelWorksheetSelectedName = iv.ExcelSheet;
+            //DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
+            //ParameterData.parameterNames = null;
+            //ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
+            //ParameterData.parameterNames.RemoveAt(0);
+            //Util.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -238,9 +210,6 @@ namespace NTR_Exporter
         {
             if (radioButton3.Checked)
             {
-                iv.UNITS_BORE_MM = true;
-                iv.UNITS_BORE_INCH = false;
-                iv.UNITS_BORE = "MM";
             }
         }
 
@@ -248,9 +217,6 @@ namespace NTR_Exporter
         {
             if (radioButton4.Checked)
             {
-                iv.UNITS_BORE_MM = false;
-                iv.UNITS_BORE_INCH = true;
-                iv.UNITS_BORE = "INCH";
             }
         }
 
@@ -258,9 +224,6 @@ namespace NTR_Exporter
         {
             if (radioButton5.Checked)
             {
-                iv.UNITS_CO_ORDS_MM = true;
-                iv.UNITS_CO_ORDS_INCH = false;
-                iv.UNITS_CO_ORDS = "MM";
             }
         }
 
@@ -268,9 +231,6 @@ namespace NTR_Exporter
         {
             if (radioButton6.Checked)
             {
-                iv.UNITS_CO_ORDS_MM = false;
-                iv.UNITS_CO_ORDS_INCH = true;
-                iv.UNITS_CO_ORDS = "INCH";
             }
         }
 
@@ -278,9 +238,6 @@ namespace NTR_Exporter
         {
             if (radioButton7.Checked)
             {
-                iv.UNITS_WEIGHT_KGS = true;
-                iv.UNITS_WEIGHT_LBS = false;
-                iv.UNITS_WEIGHT = "KGS";
             }
         }
 
@@ -288,9 +245,6 @@ namespace NTR_Exporter
         {
             if (radioButton8.Checked)
             {
-                iv.UNITS_WEIGHT_KGS = false;
-                iv.UNITS_WEIGHT_LBS = true;
-                iv.UNITS_WEIGHT = "LBS";
             }
         }
 
@@ -298,9 +252,6 @@ namespace NTR_Exporter
         {
             if (radioButton9.Checked)
             {
-                iv.UNITS_WEIGHT_LENGTH_METER = true;
-                iv.UNITS_WEIGHT_LENGTH_FEET = false;
-                iv.UNITS_WEIGHT_LENGTH = "METER";
             }
         }
 
@@ -308,9 +259,6 @@ namespace NTR_Exporter
         {
             if (radioButton10.Checked)
             {
-                iv.UNITS_WEIGHT_LENGTH_METER = false;
-                iv.UNITS_WEIGHT_LENGTH_FEET = true;
-                iv.UNITS_WEIGHT_LENGTH = "FEET";
             }
         }
 
@@ -343,22 +291,22 @@ namespace NTR_Exporter
 
         private void radioButton12_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton12.Checked) iv.WriteWallThickness = true;
+            //if (radioButton12.Checked) iv.WriteWallThickness = true;
         }
 
         private void radioButton11_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton12.Checked) iv.WriteWallThickness = false;
+            //if (radioButton12.Checked) iv.WriteWallThickness = false;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            iv.ExportToPlant3DIso = checkBox1.Checked;
+            //iv.ExportToPlant3DIso = checkBox1.Checked;
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            iv.ExportToCII = checkBox2.Checked;
+            //iv.ExportToCII = checkBox2.Checked;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
