@@ -377,8 +377,10 @@ namespace PCF_Parameters
                 {
                     using (File.Create(tempFile)) { }
                     app.SharedParametersFilename = tempFile;
-                    ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(parameter.Name, parameter.Type);
-                    options.GUID = parameter.Guid;
+                    ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(parameter.Name, parameter.Type)
+                    {
+                        GUID = parameter.Guid
+                    };
                     ExternalDefinition def = app.OpenSharedParameterFile().Groups.Create("TemporaryDefinitionGroup").Definitions.Create(options) as ExternalDefinition;
 
                     BindingMap map = doc.ParameterBindings;
@@ -441,8 +443,10 @@ namespace PCF_Parameters
                 {
                     using (File.Create(tempFile)) { }
                     app.SharedParametersFilename = tempFile;
-                    ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(parameter.Name, parameter.Type);
-                    options.GUID = parameter.Guid;
+                    ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(parameter.Name, parameter.Type)
+                    {
+                        GUID = parameter.Guid
+                    };
                     ExternalDefinition def = app.OpenSharedParameterFile().Groups.Create("TemporaryDefinitionGroup").Definitions.Create(options) as ExternalDefinition;
 
                     BindingMap map = doc.ParameterBindings;
