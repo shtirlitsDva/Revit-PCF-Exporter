@@ -109,14 +109,6 @@ namespace NTR_Exporter
                 //Save excel file to settings
                 mySettings.Default.excelPath = _excelPath;
 
-                //Old excel reader, can be removed
-                ////Proceed to read the file
-                //FileStream stream = File.Open(_excelPath, FileMode.Open, FileAccess.Read);
-                //IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                ////First row is column names in dataset
-                //excelReader.IsFirstRowAsColumnNames = true;
-                //DATA_SET = excelReader.AsDataSet();
-
                 DATA_SET = dh.ImportExcelToDataSet(_excelPath);
 
                 DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
