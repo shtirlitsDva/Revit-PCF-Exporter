@@ -1,8 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Windows.Forms.ComponentModel.Com2Interop;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Plumbing;
+using Autodesk.Revit.UI;
+using BuildingCoder;
+using MoreLinq;
+using PCF_Functions;
+using iv = NTR_Functions.InputVars;
 
 namespace NTR_Functions
 {
@@ -16,22 +28,22 @@ namespace NTR_Functions
         public static double DiameterLimit = 0;
 
         //File control
-        public static string OutputDirectoryFilePath = "";
-        public static string ExcelPath = "";
+        public static string OutputDirectoryFilePath = @"C:\";
+        public static string ExcelPath = @"C:\";
 
         //Current SystemAbbreviation
         public static string SysAbbr = null;
+    }
 
-        //GEN: General settings
-        public static string NTR_GEN_TMONT = "10";
-        public static string NTR_GEN_UNITKT = "MM";
-        public static string NTR_GEN_CODE = "EN13480";
+    public class ConfigurationData
+    {
+        public ConfigurationData(ExternalCommandData cData)
+        {
+            DataSet dataSet = DataHandler.ImportExcelToDataSet(iv.ExcelPath);
 
-        //AUFT: Project name
-        public static string NTR_AUFT_TEXT = "Project";
+            DataTableCollection dataTableCollection = dataSet.Tables;
 
-        //TEXT: User defined text
-        public static string NTR_TEXT_TEXT1 = "";
-        public static string NTR_TEXT_TEXT2 = "";
+            var table = dataTableCollection.
+        }
     }
 }

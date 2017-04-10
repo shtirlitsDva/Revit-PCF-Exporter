@@ -28,6 +28,7 @@ namespace NTR_Exporter
         private IList<string> pipeLinesAbbreviations;
 
         private string _excelPath = null;
+        private string _outputDirectoryFilePath = null;
 
         public NTR_Exporter_form(ExternalCommandData cData, string message)
         {
@@ -40,10 +41,15 @@ namespace NTR_Exporter
 
             //Init excel path
             _excelPath = mySettings.Default.excelPath;
+            if (!string.IsNullOrEmpty(_excelPath)) iv.ExcelPath = _excelPath;
             //textBox20.Text = _excelPath;
 
-            //Init Scope
+            //Init output path
+            _outputDirectoryFilePath = mySettings.Default.textBox5OutputPath;
+            if (!string.IsNullOrEmpty(_outputDirectoryFilePath)) iv.OutputDirectoryFilePath = mySettings.Default.textBox5OutputPath;
+            textBox5.Text = iv.OutputDirectoryFilePath;
 
+            //Init Scope
             //Gather all physical piping systems and collect distinct abbreviations
             pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
 
@@ -59,10 +65,6 @@ namespace NTR_Exporter
                 comboBox2.Visible = false;
                 textBox4.Visible = false;
             }
-            
-            //Init output path
-            iv.OutputDirectoryFilePath = mySettings.Default.textBox5OutputPath;
-            textBox5.Text = iv.OutputDirectoryFilePath;
 
             //Init diameter limit
             iv.DiameterLimit = double.Parse(mySettings.Default.textBox22DiameterLimit);
@@ -179,6 +181,7 @@ namespace NTR_Exporter
             if (result == DialogResult.OK)
             {
                 iv.OutputDirectoryFilePath = fbd.SelectedPath;
+                _outputDirectoryFilePath = iv.OutputDirectoryFilePath;
                 textBox5.Text = iv.OutputDirectoryFilePath;
                 mySettings.Default.textBox5OutputPath = iv.OutputDirectoryFilePath;
             }

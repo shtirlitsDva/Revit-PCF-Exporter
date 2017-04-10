@@ -12,7 +12,7 @@
     <ProjectGuid>{413ED922-8003-4988-BC1C-B61C81587A8E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Revit_NTR_Exporter</RootNamespace>
+    <RootNamespace>NTR_Exporter</RootNamespace>
     <AssemblyName>Revit-NTR-Exporter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
