@@ -37,13 +37,21 @@ namespace NTR_Functions
 
     public class ConfigurationData
     {
+        public DataTable GENERAL_GEN { get; }
+        public DataTable GENERAL_AUFT { get; }
+        public DataTable GENERAL_TEXT { get; }
+
         public ConfigurationData(ExternalCommandData cData)
         {
-            DataSet dataSet = DataHandler.ImportExcelToDataSet(iv.ExcelPath);
+            DataSet dataSet = DataHandler.ImportExcelToDataSet(iv.ExcelPath, "NO");
 
             DataTableCollection dataTableCollection = dataSet.Tables;
 
-            var table = dataTableCollection.
+            var table = (from DataTable dt in dataTableCollection where dt.TableName == "GENERAL" select dt).FirstOrDefault();
+
+
+
+            //http://stackoverflow.com/questions/10855/linq-query-on-a-datatable?rq=1
         }
     }
 }

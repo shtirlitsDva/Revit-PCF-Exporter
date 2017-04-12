@@ -706,12 +706,12 @@ namespace PCF_Functions
     {
         //DataSet import is from here:
         //http://stackoverflow.com/a/18006593/6073998
-        public static DataSet ImportExcelToDataSet(string fileName)
+        public static DataSet ImportExcelToDataSet(string fileName, string dataHasHeaders)
         {
             //On connection strings http://www.connectionstrings.com/excel/#p84
             string connectionString =
                 string.Format(
-                    "provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1\"",
+                    "provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0;HDR={1};IMEX=1\"",
                     fileName);
 
             DataSet data = new DataSet();

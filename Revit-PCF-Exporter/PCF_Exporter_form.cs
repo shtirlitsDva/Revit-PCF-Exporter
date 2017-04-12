@@ -117,7 +117,7 @@ namespace PCF_Exporter
                 //excelReader.IsFirstRowAsColumnNames = true;
                 //DATA_SET = excelReader.AsDataSet();
 
-                DATA_SET = dh.ImportExcelToDataSet(_excelPath);
+                DATA_SET = dh.ImportExcelToDataSet(_excelPath, "YES");
 
                 DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
 
