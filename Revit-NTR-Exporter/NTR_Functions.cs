@@ -37,9 +37,9 @@ namespace NTR_Functions
 
     public class ConfigurationData
     {
-        public DataTable GENERAL_GEN { get; }
-        public DataTable GENERAL_AUFT { get; }
-        public DataTable GENERAL_TEXT { get; }
+        public StringBuilder GEN { get; }
+        public StringBuilder AUFT { get; }
+        public StringBuilder TEXT { get; }
 
         public ConfigurationData(ExternalCommandData cData)
         {
@@ -47,11 +47,48 @@ namespace NTR_Functions
 
             DataTableCollection dataTableCollection = dataSet.Tables;
 
-            var table = (from DataTable dt in dataTableCollection where dt.TableName == "GENERAL" select dt).FirstOrDefault();
-
-
+            GEN = ReadConfigurationData(dataTableCollection, "GEN", "C General settings");
+            AUFT = ReadConfigurationData(dataTableCollection, "AUFT", "C Project description");
+            TEXT = ReadConfigurationData(dataTableCollection, "TEXT", "C User text");
 
             //http://stackoverflow.com/questions/10855/linq-query-on-a-datatable?rq=1
+        }
+
+        /// <summary>
+        /// Selects a DataTable by name and creates a StringBuilder output to NTR format based on the data in table.
+        /// </summary>
+        /// <param name="dataTableCollection">A collection of datatables.</param>
+        /// <param name="tableName">The name of the DataTable to process.</param>
+        /// <returns>StringBuilder containing the output NTR data.</returns>
+        private static StringBuilder ReadConfigurationData(DataTableCollection dataTableCollection, string tableName, string description)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(description);
+
+            var table = (from DataTable dtbl in dataTableCollection where dtbl.TableName == tableName select dtbl).FirstOrDefault();
+            if (table == null)
+            {
+                sb.AppendLine("C " + tableName + " does not exist!");
+                return sb;
+            }
+
+            DataRow headerRow = table.Rows[0];
+            DataRow dataRow = table.Rows[1];
+            if (headerRow == null || dataRow == null) throw new NullReferenceException(tableName + " does not have two rows, check EXCEL configuration sheet!");
+
+            sb.Append(tableName);
+
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                sb.Append(" ");
+                sb.Append(headerRow.Field<string>(i));
+                sb.Append("=");
+                sb.Append(dataRow.Field<string>(i));
+            }
+
+            sb.AppendLine();
+
+            return sb;
         }
     }
 }
