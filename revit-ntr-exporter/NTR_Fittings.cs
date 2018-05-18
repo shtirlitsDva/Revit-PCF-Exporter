@@ -27,7 +27,7 @@ namespace NTR_Exporter
 
                 //Read element kind
                 string kind = dw.ReadElementTypeFromDataTable(fat, conf.Elements, "KIND");
-                if (kind == null) continue;
+                if (string.IsNullOrEmpty(kind)) continue;
                 
                 //Write element kind
                 sbFittings.Append(kind);

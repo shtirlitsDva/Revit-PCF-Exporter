@@ -19,11 +19,11 @@ namespace NTR_Exporter
             {
                 //Read the family and type of the element
                 string famAndType = element.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
-
+                ;
                 //Read element kind
-                string kind = dw.ReadElementTypeFromDataTable(famAndType, conf.Elements, "KIND")
-                    ?? dw.ReadElementTypeFromDataTable(famAndType, conf.Supports, "KIND");
-                if (kind == null) continue;
+                string kind = dw.ReadElementTypeFromDataTable(famAndType, conf.Elements, "KIND");
+                if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(famAndType, conf.Supports, "KIND");
+                if (string.IsNullOrEmpty(kind)) continue;
 
                 //Write element kind
                 sbAccessories.Append(kind);
