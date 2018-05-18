@@ -391,12 +391,11 @@ namespace PCF_Exporter
         private void radioButton15_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton15.Checked) iv.Overwrite = true;
-            else iv.Overwrite = false;
         }
 
         private void radioButton16_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (radioButton16.Checked) iv.Overwrite = false;
         }
     }
 }
