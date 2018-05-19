@@ -155,7 +155,7 @@ namespace NTR_Functions
             string valueString = element.LookupParameter("Height").AsValueString();
             double value = double.Parse(valueString).Round() / 1000;
 
-            return " " + p + "=" + value;
+            return (" " + p + "=" + value).Replace(",", ".");
         }
 
         public static string DnWriter(Element element)
