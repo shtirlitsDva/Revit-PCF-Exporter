@@ -139,6 +139,25 @@ namespace NTR_Functions
             return " " + p + "=" + NtrConversion.PointStringMm(((LocationPoint)element.Location).Point);
         }
 
+        public static string PointCoordsHanger(string p, Element element)
+        {
+            XYZ location = ((LocationPoint)element.Location).Point;
+
+            Parameter offsetFromLvlPar = element.LookupParameter("PipeOffsetFromLevel");
+            double PipeOffsetFromLevel = offsetFromLvlPar.AsDouble();
+            XYZ modLocation = new XYZ(location.X, location.Y, location.Z + PipeOffsetFromLevel);
+
+            return " " + p + "=" + NtrConversion.PointStringMm(modLocation);
+        }
+
+        internal static string HangerLength(string p, Element element)
+        {
+            string valueString = element.LookupParameter("Height").AsValueString();
+            double value = double.Parse(valueString).Round() / 1000;
+
+            return " " + p + "=" + value;
+        }
+
         public static string DnWriter(Element element)
         {
             double dia = 0;
@@ -202,6 +221,8 @@ namespace NTR_Functions
         {
             return " " + parameter + "=" + element.Id.IntegerValue;
         }
+
+
     }
 
     public class NtrConversion

@@ -73,6 +73,7 @@
     <Compile Include="NTR_Accessories.cs" />
     <Compile Include="NTR_Fittings.cs" />
     <Compile Include="NTR_Functions.cs" />
+    <Compile Include="NTR_GenericModels.cs" />
     <Compile Include="NTR_Main.cs" />
     <Compile Include="NTR_Output.cs" />
     <Compile Include="NTR_Exporter_form.cs">

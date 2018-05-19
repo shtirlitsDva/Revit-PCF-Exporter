@@ -19,7 +19,7 @@ namespace NTR_Exporter
             {
                 //Read the family and type of the element
                 string famAndType = element.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
-                ;
+                
                 //Read element kind
                 string kind = dw.ReadElementTypeFromDataTable(famAndType, conf.Elements, "KIND");
                 if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(famAndType, conf.Supports, "KIND");
@@ -39,12 +39,12 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.PointCoords("PM", element));
                         sbAccessories.Append(dw.DnWriter("DN1", cons.Primary));
                         sbAccessories.Append(dw.DnWriter("DN2", cons.Secondary));
-                        sbAccessories.Append(dw.ReadParameterFromDataTable(kind, conf.Elements, "GEW"));
+                        sbAccessories.Append(dw.ReadParameterFromDataTable(famAndType, conf.Elements, "GEW"));
                         break;
                     case "SH":
                     case "FH":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
-                        sbAccessories.Append(dw.ReadParameterFromDataTable(kind, conf.Supports, "L"));
+                        sbAccessories.Append(dw.ReadParameterFromDataTable(famAndType, conf.Supports, "L"));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
@@ -57,7 +57,7 @@ namespace NTR_Exporter
                     case "FL":
                     case "GL":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
-                        sbAccessories.Append(dw.ReadParameterFromDataTable(kind, conf.Supports, "MALL"));
+                        sbAccessories.Append(dw.ReadParameterFromDataTable(famAndType, conf.Supports, "MALL"));
                         sbAccessories.AppendLine();
                         continue;
                 }

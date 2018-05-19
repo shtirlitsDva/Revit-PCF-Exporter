@@ -145,6 +145,15 @@ namespace NTR_Exporter
                 }
                 #endregion
 
+                //Temporary section to handle hangers
+                //Works only if all line in one file selected
+                #region Hangers
+
+                outputBuilder.Append(NTR_GenericModels.ExportHangers(conf, doc));
+
+                #endregion
+
+
                 #region Output
                 // Output the processed data
                 Output output = new Output();
