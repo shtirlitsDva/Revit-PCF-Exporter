@@ -48,6 +48,7 @@ namespace NTR_Functions
         public DataTable Pipelines { get; }
         public DataTable Elements { get; }
         public DataTable Supports { get; }
+        public DataTable Profiles { get; }
 
         public ConfigurationData()
         {
@@ -66,6 +67,7 @@ namespace NTR_Functions
             Pipelines = ReadDataTable(dataSetWithHeaders.Tables, "PIPELINES");
             Elements = ReadDataTable(dataSetWithHeaders.Tables, "ELEMENTS");
             Supports = ReadDataTable(dataSetWithHeaders.Tables, "SUPPORTS");
+            Profiles = ReadDataTable(dataSetWithHeaders.Tables, "PROFILES");
 
             //http://stackoverflow.com/questions/10855/linq-query-on-a-datatable?rq=1
         }

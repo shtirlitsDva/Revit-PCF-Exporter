@@ -22,9 +22,6 @@ namespace NTR_Exporter
 
             foreach (Element element in pipeList)
             {
-                //Process RO
-                sbPipes.Append("RO");
-
                 //Process P1, P2, DN
                 Pipe pipe = (Pipe)element;
                 //Get connector set for the pipes
@@ -34,18 +31,38 @@ namespace NTR_Exporter
                                                  where connector.ConnectorType.ToString().Equals("End")
                                                  select connector).ToList();
 
-                sbPipes.Append(dw.PointCoords("P1", connectorEnd.First()));
-                sbPipes.Append(dw.PointCoords("P2", connectorEnd.Last()));
-                sbPipes.Append(dw.DnWriter(element));
-                sbPipes.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "MAT"));
-                sbPipes.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "LAST"));
-                sbPipes.Append(dw.WriteElementId(element, "REF"));
-                sbPipes.Append(" LTG=" + key);
+                //Read the family and type of the element
+                string fat = element.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
+                //Read element kind
+                string kind = dw.ReadElementTypeFromDataTable(fat, conf.Profiles, "KIND");
 
-                //sbPipes.Append("    UNIQUE-COMPONENT-IDENTIFIER ");
-                //sbPipes.Append(element.UniqueId);
-                sbPipes.AppendLine();
-
+                switch (kind)
+                {
+                    case "PROF":
+                        sbPipes.Append("PROF");
+                        sbPipes.Append(dw.PointCoords("P1", connectorEnd.First()));
+                        sbPipes.Append(dw.PointCoords("P2", connectorEnd.Last()));
+                        sbPipes.Append(dw.ReadParameterFromDataTable(fat, conf.Profiles, "MAT"));
+                        sbPipes.Append(dw.ReadParameterFromDataTable(fat, conf.Profiles, "TYP"));
+                        sbPipes.Append(dw.ReadParameterFromDataTable(fat, conf.Profiles, "ACHSE"));
+                        //sbPipes.Append(dw.ReadParameterFromDataTable(fat, conf.Profiles, "RI"));
+                        sbPipes.Append(dw.ReadParameterFromDataTable(fat, conf.Profiles, "LAST"));
+                        sbPipes.Append(dw.WriteElementId(element, "REF"));
+                        sbPipes.AppendLine();
+                        break;
+                    default:
+                        //Process RO
+                        sbPipes.Append("RO");
+                        sbPipes.Append(dw.PointCoords("P1", connectorEnd.First()));
+                        sbPipes.Append(dw.PointCoords("P2", connectorEnd.Last()));
+                        sbPipes.Append(dw.DnWriter(element));
+                        sbPipes.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "MAT"));
+                        sbPipes.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "LAST"));
+                        sbPipes.Append(dw.WriteElementId(element, "REF"));
+                        sbPipes.Append(" LTG=" + key);
+                        sbPipes.AppendLine();
+                        break;
+                }
             }
 
             return sbPipes;

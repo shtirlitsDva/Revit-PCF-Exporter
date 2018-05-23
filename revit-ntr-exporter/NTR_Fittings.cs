@@ -82,6 +82,24 @@ namespace NTR_Exporter
                 sbFittings.Append(" LTG=" + key);
                 sbFittings.AppendLine();
 
+                //Detect and write NOZZLES to exchangers
+                switch (fat)
+                {
+                    case "Compac: DN 150":
+                        sbFittings.Append("NOZZLE");
+                        sbFittings.Append(dw.PointCoords("PNAME", cons.Primary));
+                        sbFittings.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "LQX"));
+                        sbFittings.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "LQY"));
+                        sbFittings.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "LQZ"));
+                        sbFittings.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "LMX"));
+                        sbFittings.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "LMY"));
+                        sbFittings.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "LMZ"));
+                        sbFittings.AppendLine();
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
             return sbFittings;
