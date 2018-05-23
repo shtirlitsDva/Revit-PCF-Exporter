@@ -18,6 +18,9 @@ namespace NTR_Exporter
             StringBuilder sb = new StringBuilder();
 
             //Collect the hangers
+            //First are all instances collected of said hanger models
+            //It is done in FamilyInstance, because Revit won't let collect all Elements (typeof(Element))
+            //Then it is cast back to Elements
             HashSet<FamilyInstance> stiffHangers = Filter.GetElements<FamilyInstance>(doc, "Rørophæng_stift", BuiltInParameter.ELEM_FAMILY_PARAM);
             HashSet<FamilyInstance> springHangers = Filter.GetElements<FamilyInstance>(doc, "Rørophæng_fjeder", BuiltInParameter.ELEM_FAMILY_PARAM);
             HashSet<Element> allHangers = stiffHangers.Union(springHangers).Cast<Element>().ToHashSet();
@@ -39,6 +42,7 @@ namespace NTR_Exporter
                     case "SH":
                     case "FH":
                         sb.Append(dw.PointCoordsHanger("PNAME", element));
+                        if (kind == "FH") sb.Append(dw.ReadParameterFromDataTable(famAndType, conf.Supports, "CW"));
                         sb.Append(dw.HangerLength("L", element));
                         sb.Append(dw.WriteElementId(element, "REF"));
                         sb.AppendLine();
