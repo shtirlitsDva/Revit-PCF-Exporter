@@ -154,7 +154,7 @@ namespace NTR_Functions
 
         internal static string HangerLength(string p, Element element)
         {
-            string valueString = element.LookupParameter("Height").AsValueString();
+            string valueString = element.LookupParameter("HangerLength").AsValueString();
             double value = double.Parse(valueString).Round() / 1000;
 
             return (" " + p + "=" + value).Replace(",", ".");

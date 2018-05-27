@@ -145,12 +145,11 @@ namespace NTR_Exporter
                 }
                 #endregion
 
-                //Temporary section to handle hangers
-                //Works only if all line in one file selected
                 #region Hangers
+                //Temporary section to handle GenericModel hangers
+                //Works only if all line in one file selected
 
-                outputBuilder.Append(NTR_GenericModels.ExportHangers(conf, doc));
-
+                //outputBuilder.Append(NTR_GenericModels.ExportHangers(conf, doc));
                 #endregion
 
 
