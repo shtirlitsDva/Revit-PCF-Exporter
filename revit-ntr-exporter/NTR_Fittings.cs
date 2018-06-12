@@ -52,6 +52,8 @@ namespace NTR_Exporter
                         sbFittings.Append(dw.PointCoords("P2", cons.Secondary));
                         sbFittings.Append(dw.DnWriter("DN1", cons.Primary));
                         sbFittings.Append(dw.DnWriter("DN2", cons.Secondary));
+                        string typ = dw.ReadParameterFromDataTable(fat, conf.Elements, "TYP"); //Handle EXcentric reducers
+                        if (!string.IsNullOrEmpty(typ)) sbFittings.Append(typ);
                         sbFittings.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "NORM"));
                         break;
                     case "FLA":
