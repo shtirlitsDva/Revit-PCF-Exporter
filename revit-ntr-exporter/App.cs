@@ -53,8 +53,8 @@ namespace NTR_Exporter
         {
             //Assembly exe = Assembly.GetExecutingAssembly();
 
-            RibbonPanel rvtRibbonPanel = application.CreateRibbonPanel("NTR Tools");
-            PushButtonData data = new PushButtonData("NTRExporter", "NTR Exporter", ExecutingAssemblyPath, "NTR_Exporter.FormCaller")
+            RibbonPanel rvtRibbonPanel = application.CreateRibbonPanel("NTR");
+            PushButtonData data = new PushButtonData("NTRExporter", "NTR", ExecutingAssemblyPath, "NTR_Exporter.FormCaller")
             {
                 ToolTip = ntrExporterButtonToolTip,
                 Image = NewBitmapImage(exe, "NTR_Exporter.Resources.ImgNtrExport16.png"),
