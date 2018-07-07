@@ -45,7 +45,7 @@ namespace PCF_Exporter
 
             //Init excel path
             _excelPath = mySettings.Default.excelPath;
-            //textBox20.Text = _excelPath;
+            textBox20.Text = _excelPath;
 
             //Init Scope
 
@@ -112,14 +112,6 @@ namespace PCF_Exporter
                 textBox20.Text = _excelPath;
                 //Save excel file to settings
                 mySettings.Default.excelPath = _excelPath;
-
-                //Old excel reader, can be removed
-                ////Proceed to read the file
-                //FileStream stream = File.Open(_excelPath, FileMode.Open, FileAccess.Read);
-                //IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                ////First row is column names in dataset
-                //excelReader.IsFirstRowAsColumnNames = true;
-                //DATA_SET = excelReader.AsDataSet();
 
                 DATA_SET = dh.ImportExcelToDataSet(_excelPath, "YES");
 
@@ -396,6 +388,12 @@ namespace PCF_Exporter
         private void radioButton16_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton16.Checked) iv.Overwrite = false;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            ExportParameters EP = new ExportParameters();
+            EP.ExportUndefinedElements(_doc, _excelPath);
         }
     }
 }

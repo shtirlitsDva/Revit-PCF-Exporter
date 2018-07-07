@@ -777,11 +777,14 @@ namespace PCF_Functions
 
         static string[] GetExcelSheetNames(string connectionString)
         {
-            OleDbConnection con = null;
+            //OleDbConnection con = null;
             DataTable dt = null;
-            con = new OleDbConnection(connectionString);
-            con.Open();
-            dt = con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+            using (OleDbConnection con = new OleDbConnection(connectionString))
+            {
+                //con = new OleDbConnection(connectionString);
+                con.Open();
+                dt = con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+            }
 
             if (dt == null)
             {
@@ -798,6 +801,11 @@ namespace PCF_Functions
             }
 
             return excelSheetNames;
+        }
+
+        public static DataTable ReadDataTable(DataTableCollection dataTableCollection, string tableName)
+        {
+            return (from DataTable dtbl in dataTableCollection where dtbl.TableName == tableName select dtbl).FirstOrDefault();
         }
     }
 

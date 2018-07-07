@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using System.Text;
 using System.Data;
 using System.Reflection;
@@ -23,6 +24,80 @@ namespace PCF_Parameters
 {
     public class ExportParameters
     {
+        public void ExportUndefinedElements(Document doc, string excelPath)
+        {
+            //Read existing values
+            DataSet dataSetWithHeaders = DataHandler.ImportExcelToDataSet(excelPath, "YES");
+            DataTable Elements = DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Elements");
+            DataTable Pipelines = DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
+
+            #region Pipelines
+            //Collect all pipelines
+            FilteredElementCollector colPL = new FilteredElementCollector(doc);
+            var systems = colPL.OfCategory(BuiltInCategory.OST_PipingSystem).ToHashSet();
+            var names = systems.DistinctBy(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString())
+                               .Select(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString()).ToHashSet();
+
+            //Instantiate excel
+            xel.Application excel = new xel.Application();
+            if (null == excel) throw new Exception("Failed to start EXCEL!");
+            excel.Visible = true;
+            xel.Workbook workbook = excel.Workbooks.Add(Missing.Value);
+            xel.Worksheet worksheet;
+
+            //Process pipelines
+            worksheet = excel.ActiveSheet as xel.Worksheet;
+            worksheet.Name = "MISSING_PIPELINES";
+            worksheet.Columns.ColumnWidth = 20;
+
+            //Compare values and write those who are not in configuration workbook
+            int row = 1;
+            int col = 1;
+            foreach (string name in names)
+            {
+                //See if record already is defined
+                if (Pipelines.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == name)) continue;
+                worksheet.Cells[row, col] = name;
+                row++;
+            }
+            #endregion
+
+            #region Elements
+            //Process elements
+            excel.Sheets.Add(Missing.Value, Missing.Value, Missing.Value, Missing.Value);
+            worksheet = excel.ActiveSheet as xel.Worksheet;
+            worksheet.Name = "MISSING_ELEMENTS";
+            worksheet.Columns.ColumnWidth = 20;
+
+            //Collect all elements
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            collector = Filter.GetElementsWithConnectors(doc);
+            HashSet<Element> elements = collector.ToElements().ToHashSet();
+            HashSet<Element> limitedElements = (from Element e in elements
+                                                where new FilterDiameterLimit().FilterDL(e)
+                                                select e).ToHashSet();
+            HashSet<Element> filteredElements = (from Element e in limitedElements
+                                                 where e.Category.Id.IntegerValue != (int)BuiltInCategory.OST_PipeCurves
+                                                 select e).ToHashSet();
+
+            IEnumerable<IGrouping<string, Element>> elementGroups =
+                from e in filteredElements
+                group e by e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
+                .AsValueString();
+
+            //Compare values and write those who are not in configuration workbook
+            row = 1;
+            col = 1;
+            foreach (IGrouping<string, Element> gp in elementGroups)
+            {
+                //See if record already is defined
+                if (Elements.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == gp.Key)) continue;
+                worksheet.Cells[row, col] = gp.Key;
+                row++;
+            } 
+            #endregion
+        }
+
         internal Result ExecuteMyCommand(UIApplication uiApp)
         {
             Document doc = uiApp.ActiveUIDocument.Document;
