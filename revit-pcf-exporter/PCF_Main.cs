@@ -127,6 +127,12 @@ namespace PCF_Exporter
                 }
                 #endregion
 
+                //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
+                if (InputVars.ExportToPlant3DIso)
+                {
+                    pipelineGroups = pipelineGroups.Where(x => !(x.Key == "ARGD"));
+                }
+
                 #region Initialize Material Data
                 //Set the start number to count the COMPID instances and MAT groups.
                 int elementIdentificationNumber = 0;
