@@ -134,20 +134,17 @@ namespace PCF_Fittings
                         XYZ endPointOriginOletSecondary = cons.Secondary.Origin;
 
                         //get reference elements
-                        ConnectorSet refConnectors = cons.Primary.AllRefs;
-                        Element refElement = null;
-                        foreach (Connector c in refConnectors) refElement = c.Owner;
-                        Pipe refPipe = (Pipe)refElement;
-                        //Get connector set for the pipes
-                        ConnectorSet refConnectorSet = refPipe.ConnectorManager.Connectors;
-                        //Filter out non-end types of connectors
-                        IEnumerable<Connector> connectorEnd = from Connector connector in refConnectorSet
-                                                              where connector.ConnectorType.ToString() == "End"
-                                                              select connector;
+                        var refCons = mp.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
+
+                        Connector refCon = refCons.Where(x => x.Owner.IsPipe()).FirstOrDefault();
+                        if (refCon == null) throw new Exception("refCon Owner cannot find a Pipe for element!");
+                        Pipe refPipe = (Pipe)refCon.Owner;
+
+                        Cons refPipeCons = mp.GetConnectors(refPipe);
 
                         //Following code is ported from my python solution in Dynamo.
                         //The olet geometry is analyzed with congruent rectangles to find the connection point on the pipe even for angled olets.
-                        XYZ B = endPointOriginOletPrimary; XYZ D = endPointOriginOletSecondary; XYZ pipeEnd1 = connectorEnd.First().Origin; XYZ pipeEnd2 = connectorEnd.Last().Origin;
+                        XYZ B = endPointOriginOletPrimary; XYZ D = endPointOriginOletSecondary; XYZ pipeEnd1 = refPipeCons.Primary.Origin; XYZ pipeEnd2 = refPipeCons.Secondary.Origin;
                         XYZ BDvector = D - B; XYZ ABvector = pipeEnd1 - pipeEnd2;
                         double angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
                         if (angle > 90)
