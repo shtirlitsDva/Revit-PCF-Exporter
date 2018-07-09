@@ -131,6 +131,9 @@ namespace PCF_Exporter
                 if (InputVars.ExportToPlant3DIso)
                 {
                     pipelineGroups = pipelineGroups.Where(x => !(x.Key == "ARGD"));
+                    elements = elements
+                        .Where(x => !(x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD"))
+                        .ToHashSet();
                 }
 
                 #region Initialize Material Data
