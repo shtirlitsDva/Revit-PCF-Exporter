@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Windows.Forms.ComponentModel.Com2Interop;
+using System.Diagnostics;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
+using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
 using BuildingCoder;
 using MoreLinq;
@@ -433,6 +434,17 @@ namespace PCF_Functions
         public static bool IsOdd(this int number)
         {
             return number % 2 != 0;
+        }
+
+        public static bool IsPipe(this Element elem)
+        {
+            switch (elem)
+            {
+                case Pipe pipe:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 
@@ -959,6 +971,48 @@ namespace PCF_Functions
         }
 
         public static Cons GetConnectors(Element element) => new Cons(element);
+
+        public static HashSet<Connector> GetAllConnectorsFromConnectorSet(ConnectorSet conSet)
+        {
+            IList<Connector> list = new List<Connector>();
+            foreach (Connector con in conSet) list.Add(con);
+            return list.ToHashSet();
+        }
+
+        public static ConnectorSet GetConnectorSet(Element e)
+        {
+            ConnectorSet cs = null;
+
+            if (e is FamilyInstance)
+            {
+                MEPModel m = ((FamilyInstance)e).MEPModel;
+                if (null != m && null != m.ConnectorManager) cs = m.ConnectorManager.Connectors;
+            }
+
+            else if (e is Wire) cs = ((Wire)e).ConnectorManager.Connectors;
+
+            else
+            {
+                Debug.Assert(e.GetType().IsSubclassOf(typeof(MEPCurve)),
+                    "expected all candidate connector provider "
+                    + "elements to be either family instances or "
+                    + "derived from MEPCurve");
+
+                if (e is MEPCurve) cs = ((MEPCurve)e).ConnectorManager.Connectors;
+            }
+
+            return cs ?? new ConnectorSet();
+        }
+
+        public static HashSet<Connector> GetALLConnectorsFromElements(HashSet<Element> elements)
+        {
+            return (from e in elements from Connector c in GetConnectorSet(e) select c).ToHashSet();
+        }
+
+        public static HashSet<Connector> GetALLConnectorsFromElements(Element element)
+        {
+            return (from Connector c in GetConnectorSet(element) select c).ToHashSet();
+        }
     }
 
     public class Cons
@@ -972,35 +1026,50 @@ namespace PCF_Functions
 
         public Cons(Element element)
         {
-            ConnectorManager cmgr = MepUtils.GetConnectorManager(element);
+            var connectors = MepUtils.GetALLConnectorsFromElements(element);
 
-            foreach (Connector connector in cmgr.Connectors)
+            switch (element)
             {
-                Count++;
-                if (connector.GetMEPConnectorInfo().IsPrimary) Primary = connector;
-                else if (connector.GetMEPConnectorInfo().IsSecondary) Secondary = connector;
-                else if ((connector.GetMEPConnectorInfo().IsPrimary == false) && (connector.GetMEPConnectorInfo().IsSecondary == false))
-                    Tertiary = connector;
-            }
+                case Pipe pipe:
 
-            if (Count > 1 && Secondary == null)
-                throw new Exception($"Element {element.Id.ToString()} has {Count} connectors and no secondary!");
+                    var filteredCons = connectors.Where(c => c.ConnectorType.ToString() == "End").ToList();
 
-            if (element is FamilyInstance)
-            {
-                if (element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting)
-                {
-                    var mf = ((FamilyInstance)element).MEPModel as MechanicalFitting;
+                    Primary = filteredCons.First();
+                    Secondary = filteredCons.Last();
+                    break;
 
-                    if (mf.PartType.ToString() == "Transition")
+                case FamilyInstance fi:
+                    foreach (Connector connector in connectors)
                     {
-                        double primDia = (Primary.Radius * 2).Round(3);
-                        double secDia = (Secondary.Radius * 2).Round(3);
-
-                        Largest = primDia > secDia ? Primary : Secondary;
-                        Smallest = primDia < secDia ? Primary : Secondary;
+                        Count++;
+                        if (connector.GetMEPConnectorInfo().IsPrimary) Primary = connector;
+                        else if (connector.GetMEPConnectorInfo().IsSecondary) Secondary = connector;
+                        else if ((connector.GetMEPConnectorInfo().IsPrimary == false) && (connector.GetMEPConnectorInfo().IsSecondary == false))
+                            Tertiary = connector;
                     }
-                }
+
+                    if (Count > 1 && Secondary == null)
+                        throw new Exception($"Element {element.Id.ToString()} has {Count} connectors and no secondary!");
+
+                    if (element is FamilyInstance)
+                    {
+                        if (element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting)
+                        {
+                            var mf = ((FamilyInstance)element).MEPModel as MechanicalFitting;
+
+                            if (mf.PartType.ToString() == "Transition")
+                            {
+                                double primDia = (Primary.Radius * 2).Round(3);
+                                double secDia = (Secondary.Radius * 2).Round(3);
+
+                                Largest = primDia > secDia ? Primary : Secondary;
+                                Smallest = primDia < secDia ? Primary : Secondary;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    throw new Exception("Cons: Element id nr.: " + element.Id.ToString() + " is not a Pipe or FamilyInstance!");
             }
         }
     }
