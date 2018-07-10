@@ -97,7 +97,7 @@ namespace PCF_Accessories
                             //Analyses the geometry to obtain a point opposite the main connector.
                             //Extraction of the direction of the connector and reversing it
                             reverseConnectorVector = -cons.Primary.CoordinateSystem.BasisZ;
-                            Line detectorLine = Line.CreateBound(primConOrigin, reverseConnectorVector * 5);
+                            Line detectorLine = Line.CreateUnbound(primConOrigin, reverseConnectorVector);
                             //Begin geometry analysis
                             GeometryElement geometryElement = familyInstance.get_Geometry(options);
 
@@ -135,7 +135,7 @@ namespace PCF_Accessories
                             //Create an artificial point
                             if (endPointAnalyzed == null)
                             {
-                                endPointAnalyzed = reverseConnectorVector * .3;
+                                endPointAnalyzed = cons.Primary.Origin + reverseConnectorVector * .3;
                             }
 
                             sbAccessories.Append(EndWriter.WriteCO(endPointAnalyzed));
