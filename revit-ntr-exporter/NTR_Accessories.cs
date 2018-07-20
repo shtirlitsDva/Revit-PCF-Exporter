@@ -69,6 +69,14 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.ReadParameterFromDataTable(fat, conf.Supports, "MALL"));
                         sbAccessories.AppendLine();
                         continue;
+                    case "RO":
+                        //Added for preinsulated district heating pipes in Pipe Accessory category
+                        sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
+                        sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
+                        sbAccessories.Append(dw.DnWriter("DN", cons.Primary));
+                        sbAccessories.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "MAT"));
+                        sbAccessories.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "LAST"));
+                        break;
                 }
 
                 sbAccessories.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
