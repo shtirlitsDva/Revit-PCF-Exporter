@@ -92,9 +92,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Revit-PCF-exporter\Revit-PCF-Exporter.csproj">
+    <ProjectReference Include="..\Revit-PCF-exporter\revit-pcf-exporter.csproj">
       <Project>{037b382d-9bc9-4d7a-b76d-55be5964e44d}</Project>
-      <Name>Revit-PCF-Exporter</Name>
+      <Name>revit-pcf-exporter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
