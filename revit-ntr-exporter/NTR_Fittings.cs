@@ -76,6 +76,11 @@ namespace NTR_Exporter
                         sbFittings.Append(dw.DnWriter("DN", cons.Primary));
                         sbFittings.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "NORM"));
                         break;
+                    case "TEW":
+                        sbFittings.Append(dw.PointCoords("P1", dw.OletP1Point(cons)));
+                        sbFittings.Append(dw.PointCoords("P2", cons.Secondary));
+                        sbFittings.Append(dw.DnWriter("DN", cons.Secondary));
+                        break;
                 }
 
                 sbFittings.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?

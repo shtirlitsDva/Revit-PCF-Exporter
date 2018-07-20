@@ -17,6 +17,7 @@ using MoreLinq;
 using PCF_Functions;
 using iv = NTR_Functions.InputVars;
 using xel = Microsoft.Office.Interop.Excel;
+using Autodesk.Revit.DB.Mechanical;
 
 namespace NTR_Functions
 {
@@ -129,14 +130,19 @@ namespace NTR_Functions
 
     public static class DataWriter
     {
-        public static string PointCoords(string p, Connector c)
+        public static string PointCoords<T>(string p, T subj)
         {
-            return " " + p + "=" + NtrConversion.PointStringMm(c.Origin);
-        }
-
-        public static string PointCoords(string p, Element element)
-        {
-            return " " + p + "=" + NtrConversion.PointStringMm(((LocationPoint)element.Location).Point);
+            switch (subj)
+            {
+                case Connector c:
+                    return " " + p + "=" + NtrConversion.PointStringMm(c.Origin);
+                case Element element:
+                    return " " + p + "=" + NtrConversion.PointStringMm(((LocationPoint)element.Location).Point);
+                case XYZ point:
+                    return " " + p + "=" + NtrConversion.PointStringMm(point);
+                default:
+                    return "PointCoords in DataWriter does not handle this type of data!";
+            }
         }
 
         public static string PointCoordsHanger(string p, Element element)
@@ -222,7 +228,50 @@ namespace NTR_Functions
             return " " + parameter + "=" + element.Id.IntegerValue;
         }
 
+        internal static XYZ OletP1Point(Cons cons)
+        {
+            XYZ endPointOriginOletPrimary = cons.Primary.Origin;
+            XYZ endPointOriginOletSecondary = cons.Secondary.Origin;
 
+            //get reference elements
+            var refCons = MepUtils.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
+
+            Connector refCon = refCons.Where(x => x.Owner.IsPipe()).FirstOrDefault();
+            if (refCon == null) throw new Exception("refCon Owner cannot find a Pipe for element!");
+            Pipe refPipe = (Pipe)refCon.Owner;
+
+            Cons refPipeCons = NTR_Utils.GetConnectors(refPipe);
+
+            //Following code is ported from my python solution in Dynamo.
+            //The olet geometry is analyzed with congruent rectangles to find the connection point on the pipe even for angled olets.
+            XYZ B = endPointOriginOletPrimary; XYZ D = endPointOriginOletSecondary; XYZ pipeEnd1 = refPipeCons.Primary.Origin; XYZ pipeEnd2 = refPipeCons.Secondary.Origin;
+            XYZ BDvector = D - B; XYZ ABvector = pipeEnd1 - pipeEnd2;
+            double angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+            if (angle > 90)
+            {
+                ABvector = -ABvector;
+                angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+            }
+            Line refsLine = Line.CreateBound(pipeEnd1, pipeEnd2);
+            XYZ C = refsLine.Project(B).XYZPoint;
+            double L3 = B.DistanceTo(C);
+            XYZ E = refsLine.Project(D).XYZPoint;
+            double L4 = D.DistanceTo(E);
+            double ratio = L4 / L3;
+            double L1 = E.DistanceTo(C);
+            double L5 = L1 / (ratio - 1);
+            XYZ A;
+            if (angle < 89)
+            {
+                XYZ ECvector = C - E;
+                ECvector = ECvector.Normalize();
+                double L = L1 + L5;
+                ECvector = ECvector.Multiply(L);
+                A = E.Add(ECvector);
+            }
+            else A = E;
+            return A;
+        }
     }
 
     public class NtrConversion
@@ -302,21 +351,65 @@ namespace NTR_Functions
 
     public static class NTR_Utils
     {
-        public static (Connector Primary, Connector Secondary, Connector Tertiary) GetConnectors(Element element)
+        public static Cons GetConnectors(Element element) => new Cons(element);
+    }
+
+    public class Cons
+    {
+        public Connector Primary { get; } = null;
+        public Connector Secondary { get; } = null;
+        public Connector Tertiary { get; } = null;
+        public int Count { get; } = 0;
+        public Connector Largest { get; } = null;
+        public Connector Smallest { get; } = null;
+
+        public Cons(Element element)
         {
-            ConnectorManager cmgr = MepUtils.GetConnectorManager(element);
-            //Sort connectors to primary, secondary and none
-            Connector primCon = null; Connector secCon = null; Connector tertCon = null;
+            var connectors = MepUtils.GetALLConnectorsFromElements(element);
 
-            foreach (Connector connector in cmgr.Connectors)
+            switch (element)
             {
-                if (connector.GetMEPConnectorInfo().IsPrimary) primCon = connector;
-                else if (connector.GetMEPConnectorInfo().IsSecondary) secCon = connector;
-                else if ((connector.GetMEPConnectorInfo().IsPrimary == false) && (connector.GetMEPConnectorInfo().IsSecondary == false))
-                    tertCon = connector;
-            }
+                case Pipe pipe:
 
-            return (primCon, secCon, tertCon);
+                    var filteredCons = connectors.Where(c => c.ConnectorType.ToString() == "End").ToList();
+
+                    Primary = filteredCons.First();
+                    Secondary = filteredCons.Last();
+                    break;
+
+                case FamilyInstance fi:
+                    foreach (Connector connector in connectors)
+                    {
+                        Count++;
+                        if (connector.GetMEPConnectorInfo().IsPrimary) Primary = connector;
+                        else if (connector.GetMEPConnectorInfo().IsSecondary) Secondary = connector;
+                        else if ((connector.GetMEPConnectorInfo().IsPrimary == false) && (connector.GetMEPConnectorInfo().IsSecondary == false))
+                            Tertiary = connector;
+                    }
+
+                    if (Count > 1 && Secondary == null)
+                        throw new Exception($"Element {element.Id.ToString()} has {Count} connectors and no secondary!");
+
+                    if (element is FamilyInstance)
+                    {
+                        if (element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting)
+                        {
+                            var mf = ((FamilyInstance)element).MEPModel as MechanicalFitting;
+
+                            if (mf.PartType.ToString() == "Transition")
+                            {
+                                double primDia = (Primary.Radius * 2).Round(3);
+                                double secDia = (Secondary.Radius * 2).Round(3);
+
+                                Largest = primDia > secDia ? Primary : Secondary;
+                                Smallest = primDia < secDia ? Primary : Secondary;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    throw new Exception("Cons: Element id nr.: " + element.Id.ToString() + " is not a Pipe or FamilyInstance!");
+            }
         }
     }
 
