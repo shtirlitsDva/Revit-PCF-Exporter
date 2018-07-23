@@ -73,9 +73,7 @@ namespace NTR_Exporter
                         //Added for preinsulated district heating pipes in Pipe Accessory category
                         sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
                         sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
-                        sbAccessories.Append(dw.DnWriter("DN", cons.Primary));
-                        sbAccessories.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "MAT"));
-                        sbAccessories.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "LAST"));
+                        sbAccessories.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "DN"));
                         break;
                 }
 
