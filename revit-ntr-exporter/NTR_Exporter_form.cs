@@ -67,7 +67,8 @@ namespace NTR_Exporter
             }
 
             //Init diameter limit
-            iv.DiameterLimit = double.Parse(mySettings.Default.textBox22DiameterLimit);
+            iv.DiameterLimitGreaterOrEqThan = double.Parse(mySettings.Default.textBox22DiameterLimit);
+            iv.DiameterLimitLessOrEqThan = double.Parse(mySettings.Default.textBox3DiameterLessThan);
 
         }
 
@@ -290,9 +291,15 @@ namespace NTR_Exporter
             Process.Start(e.LinkText);
         }
 
+        //Diamiter limit control events
         private void TextBox22_TextChanged(object sender, EventArgs e)
         {
-            iv.DiameterLimit = double.Parse(textBox22.Text);
+            iv.DiameterLimitGreaterOrEqThan = double.Parse(textBox22.Text);
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            iv.DiameterLimitLessOrEqThan = double.Parse(textBox3.Text);
         }
 
         private void RadioButton12_CheckedChanged(object sender, EventArgs e)
@@ -319,5 +326,7 @@ namespace NTR_Exporter
         {
             iv.SysAbbr = comboBox2.SelectedItem.ToString();
         }
+
+        
     }
 }

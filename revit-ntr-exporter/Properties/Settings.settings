@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PCF_Functions.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NTR_Exporter.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="radioButton1AllPipelines" Type="System.Boolean" Scope="User">
@@ -58,6 +58,9 @@
     </Setting>
     <Setting Name="radioButton14ExportSelection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="textBox3DiameterLessThan" Type="System.String" Scope="User">
+      <Value Profile="(Default)">9999</Value>
     </Setting>
   </Settings>
 </SettingsFile>

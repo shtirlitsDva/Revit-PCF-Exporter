@@ -28,7 +28,8 @@ namespace NTR_Functions
         public static bool ExportAllSepFiles = false;
         public static bool ExportSpecificPipeLine = false;
         public static bool ExportSelection = false;
-        public static double DiameterLimit = 0;
+        public static double DiameterLimitGreaterOrEqThan = 0;
+        public static double DiameterLimitLessOrEqThan = 9999;
 
         //File control
         public static string OutputDirectoryFilePath = @"C:\";
@@ -311,41 +312,26 @@ namespace NTR_Functions
         /// <returns>True if diameter is larger than limit and false if smaller.</returns>
         public static bool FilterDiameterLimit(Element element)
         {
-            double diameterLimit = iv.DiameterLimit;
-            bool diameterLimitBool = true;
+            double diameterMustBeGreater = iv.DiameterLimitGreaterOrEqThan;
+            double diameterMustBeLess = iv.DiameterLimitLessOrEqThan;
             double testedDiameter = 0;
             switch (element)
             {
                 case MEPCurve pipe:
                     testedDiameter = pipe.Diameter.FtToMm().Round(0);
-                    if (testedDiameter <= diameterLimit) diameterLimitBool = false;
                     break;
 
                 case FamilyInstance inst:
-                    //MEPModel of the elements is accessed
-                    MEPModel mepmodel = inst.MEPModel;
-                    //Get connector set for the element
-                    ConnectorSet connectorSet = mepmodel.ConnectorManager.Connectors;
-                    //Declare a variable for 
-                    Connector testedConnector = null;
-
-                    if (connectorSet.IsEmpty) break;
-                    else if (connectorSet.Size == 1) foreach (Connector connector in connectorSet) testedConnector = connector;
-                    else testedConnector = (from Connector connector in connectorSet
-                                            where connector.GetMEPConnectorInfo().IsPrimary
-                                            select connector).FirstOrDefault();
-
+                    Cons cons = NTR_Utils.GetConnectors(inst);
+                    Connector testedConnector = cons.Primary;
                     if (testedConnector == null)
                         throw new Exception("Element " + inst.Id.IntegerValue + " does not have a primary connector!");
-
-
                     testedDiameter = (testedConnector.Radius * 2).FtToMm().Round(0);
-
-                    if (testedDiameter <= diameterLimit) diameterLimitBool = false;
-
                     break;
             }
-            return diameterLimitBool;
+
+            if ((testedDiameter <= diameterMustBeGreater) || (testedDiameter >= diameterMustBeLess)) return false;
+            else return true;
         }
     }
 
