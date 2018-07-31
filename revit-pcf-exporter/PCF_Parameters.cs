@@ -71,7 +71,7 @@ namespace PCF_Parameters
 
             //Collect all elements
             FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector = Filter.GetElementsWithConnectors(doc);
+            collector = Shared.Filter.GetElementsWithConnectors(doc);
             HashSet<Element> elements = collector.ToElements().ToHashSet();
             HashSet<Element> limitedElements = (from Element e in elements
                                                 where new FilterDiameterLimit().FilterDL(e)
@@ -161,7 +161,7 @@ namespace PCF_Parameters
 
             //Define a collector (Pipe OR FamInst) AND (Fitting OR Accessory OR Pipe).
             //This is to eliminate FamilySymbols from collector which would throw an exception later on.
-            collector = Filter.GetElementsWithConnectors(doc);
+            collector = Shared.Filter.GetElementsWithConnectors(doc);
 
             //Group all elements by their Family and Type
             orderedCollector =
@@ -221,7 +221,7 @@ namespace PCF_Parameters
             string filename = path;
             StringBuilder sbFeedback = new StringBuilder();
 
-            FilteredElementCollector collector = Filter.GetElementsWithConnectors(doc);
+            FilteredElementCollector collector = Shared.Filter.GetElementsWithConnectors(doc);
 
             //prepare input variables which are initialized when looping the elements
             string eFamilyType = null; string columnName = null;

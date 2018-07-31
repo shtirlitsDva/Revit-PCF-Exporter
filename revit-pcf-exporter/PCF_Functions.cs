@@ -19,6 +19,8 @@ using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
 using Autodesk.Revit.DB.Mechanical;
 
+using Shared;
+
 namespace PCF_Functions
 {
     public class InputVars
@@ -122,15 +124,15 @@ namespace PCF_Functions
 
         #region CII export writer
 
-        public static StringBuilder CIIWriter(Document document, string systemAbbreviation)
+        public static StringBuilder CIIWriter(Document doc, string systemAbbreviation)
         {
             StringBuilder sbCII = new StringBuilder();
             //Handle CII export parameters
             //Instantiate collector
-            FilteredElementCollector collector = new FilteredElementCollector(document);
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
             //Get the elements
             PipingSystemType sQuery = collector.OfClass(typeof(PipingSystemType))
-                .WherePasses(Filter.ParameterValueFilterStringEquals(systemAbbreviation, BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM))
+                .WherePasses(Shared.Filter.ParameterValueGenericFilter(doc, systemAbbreviation, BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM))
                 .Cast<PipingSystemType>()
                 .FirstOrDefault();
 
@@ -222,83 +224,83 @@ namespace PCF_Functions
 
     public class Filter
     {
-        public static ElementParameterFilter ParameterValueFilterStringEquals(string valueQualifier, BuiltInParameter testParam)
-        {
-            ParameterValueProvider pvp = new ParameterValueProvider(new ElementId((int)testParam));
-            FilterStringRuleEvaluator str = new FilterStringEquals();
-            FilterStringRule paramFr = new FilterStringRule(pvp, str, valueQualifier, false);
-            return new ElementParameterFilter(paramFr);
-        }
+        //public static ElementParameterFilter ParameterValueFilterStringEquals(string valueQualifier, BuiltInParameter testParam)
+        //{
+        //    ParameterValueProvider pvp = new ParameterValueProvider(new ElementId((int)testParam));
+        //    FilterStringRuleEvaluator str = new FilterStringEquals();
+        //    FilterStringRule paramFr = new FilterStringRule(pvp, str, valueQualifier, false);
+        //    return new ElementParameterFilter(paramFr);
+        //}
 
-        public static FilteredElementCollector GetElementsWithConnectors(Document doc)
-        {
-            // what categories of family instances
-            // are we interested in?
-            // From here: http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html
+        //public static FilteredElementCollector GetElementsWithConnectors(Document doc)
+        //{
+        //    // what categories of family instances
+        //    // are we interested in?
+        //    // From here: http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html
 
-            BuiltInCategory[] bics = new BuiltInCategory[]
-            {
-                //BuiltInCategory.OST_CableTray,
-                //BuiltInCategory.OST_CableTrayFitting,
-                //BuiltInCategory.OST_Conduit,
-                //BuiltInCategory.OST_ConduitFitting,
-                //BuiltInCategory.OST_DuctCurves,
-                //BuiltInCategory.OST_DuctFitting,
-                //BuiltInCategory.OST_DuctTerminal,
-                //BuiltInCategory.OST_ElectricalEquipment,
-                //BuiltInCategory.OST_ElectricalFixtures,
-                //BuiltInCategory.OST_LightingDevices,
-                //BuiltInCategory.OST_LightingFixtures,
-                //BuiltInCategory.OST_MechanicalEquipment,
-                BuiltInCategory.OST_PipeAccessory,
-                BuiltInCategory.OST_PipeCurves,
-                BuiltInCategory.OST_PipeFitting,
-                //BuiltInCategory.OST_PlumbingFixtures,
-                //BuiltInCategory.OST_SpecialityEquipment,
-                //BuiltInCategory.OST_Sprinklers,
-                //BuiltInCategory.OST_Wire
-            };
+        //    BuiltInCategory[] bics = new BuiltInCategory[]
+        //    {
+        //        //BuiltInCategory.OST_CableTray,
+        //        //BuiltInCategory.OST_CableTrayFitting,
+        //        //BuiltInCategory.OST_Conduit,
+        //        //BuiltInCategory.OST_ConduitFitting,
+        //        //BuiltInCategory.OST_DuctCurves,
+        //        //BuiltInCategory.OST_DuctFitting,
+        //        //BuiltInCategory.OST_DuctTerminal,
+        //        //BuiltInCategory.OST_ElectricalEquipment,
+        //        //BuiltInCategory.OST_ElectricalFixtures,
+        //        //BuiltInCategory.OST_LightingDevices,
+        //        //BuiltInCategory.OST_LightingFixtures,
+        //        //BuiltInCategory.OST_MechanicalEquipment,
+        //        BuiltInCategory.OST_PipeAccessory,
+        //        BuiltInCategory.OST_PipeCurves,
+        //        BuiltInCategory.OST_PipeFitting,
+        //        //BuiltInCategory.OST_PlumbingFixtures,
+        //        //BuiltInCategory.OST_SpecialityEquipment,
+        //        //BuiltInCategory.OST_Sprinklers,
+        //        //BuiltInCategory.OST_Wire
+        //    };
 
-            IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
+        //    IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
 
-            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
+        //    foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
 
-            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
+        //    LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
 
-            LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
+        //    LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
 
-            //IList<ElementFilter> b = new List<ElementFilter>(6);
-            IList<ElementFilter> b = new List<ElementFilter>
-            {
+        //    //IList<ElementFilter> b = new List<ElementFilter>(6);
+        //    IList<ElementFilter> b = new List<ElementFilter>
+        //    {
 
-                //b.Add(new ElementClassFilter(typeof(CableTray)));
-                //b.Add(new ElementClassFilter(typeof(Conduit)));
-                //b.Add(new ElementClassFilter(typeof(Duct)));
-                new ElementClassFilter(typeof(Pipe)),
+        //        //b.Add(new ElementClassFilter(typeof(CableTray)));
+        //        //b.Add(new ElementClassFilter(typeof(Conduit)));
+        //        //b.Add(new ElementClassFilter(typeof(Duct)));
+        //        new ElementClassFilter(typeof(Pipe)),
 
-                familyInstanceFilter
-            };
-            LogicalOrFilter classFilter = new LogicalOrFilter(b);
+        //        familyInstanceFilter
+        //    };
+        //    LogicalOrFilter classFilter = new LogicalOrFilter(b);
 
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
+        //    FilteredElementCollector collector = new FilteredElementCollector(doc);
 
-            collector.WherePasses(classFilter);
+        //    collector.WherePasses(classFilter);
 
-            return collector;
-        }
+        //    return collector;
+        //}
 
         /// <summary>
         /// Get the collection of elements of the specified type additionally filtered by a string value of specified BuiltInParameter.
         /// </summary>
         /// <typeparam name="T">The type of element to get.</typeparam>
-        /// <param name="document">The usual active document.</param>
+        /// <param name="doc">The usual active document.</param>
         /// <param name="value">String value of parameter to filter by.</param>
         /// <param name="bip">The BuiltInParameter whose value to filter by.</param>
         /// <returns>A HashSet of revit objects already cast to the specified type.</returns>
-        public static HashSet<T> GetElements<T>(Document document, string value, BuiltInParameter bip)
+        public static HashSet<T> GetElements<T>(Document doc, string value, BuiltInParameter bip)
         {
-            var parValFilter = ParameterValueFilterStringEquals(value, bip);
-            return new FilteredElementCollector(document).OfClass(typeof(T)).WherePasses(parValFilter).Cast<T>().ToHashSet();
+            var parValFilter = Shared.Filter.ParameterValueGenericFilter(doc, value, bip);
+            return new FilteredElementCollector(doc).OfClass(typeof(T)).WherePasses(parValFilter).Cast<T>().ToHashSet();
         }
 
 

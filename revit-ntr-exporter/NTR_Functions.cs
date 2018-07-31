@@ -36,7 +36,8 @@ namespace NTR_Functions
         public static string ExcelPath = @"C:\";
 
         //Current SystemAbbreviation
-        public static string SysAbbr = null;
+        public static string SysAbbr = "FVF";
+        public static BuiltInParameter SysAbbrParam = BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM;
     }
 
     public class ConfigurationData
@@ -415,7 +416,7 @@ namespace NTR_Functions
 
             //Collect all elements
             FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector = PCF_Functions.Filter.GetElementsWithConnectors(doc);
+            collector = Shared.Filter.GetElementsWithConnectors(doc);
             HashSet<Element> elements = collector.ToElements().ToHashSet();
             HashSet<Element> limitedElements = (from Element e in elements
                                                 where NTR_Filter.FilterDiameterLimit(e)

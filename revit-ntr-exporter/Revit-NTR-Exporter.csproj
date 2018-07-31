@@ -93,9 +93,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Revit-PCF-exporter\revit-pcf-exporter.csproj">
-      <Project>{037b382d-9bc9-4d7a-b76d-55be5964e44d}</Project>
-      <Name>revit-pcf-exporter</Name>
+    <ProjectReference Include="..\Shared\revit-shared-utilities.csproj">
+      <Project>{a8bf8252-e12b-4339-9e05-404bf7b2cbe3}</Project>
+      <Name>revit-shared-utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

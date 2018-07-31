@@ -45,7 +45,7 @@ namespace NTR_Exporter
                 FilteredElementCollector collector = new FilteredElementCollector(doc);
 
                 // Define a Filter instance to filter by System Abbreviation
-                ElementParameterFilter sysAbbr = Filter.ParameterValueFilterStringEquals(PCF_Functions.InputVars.SysAbbr, PCF_Functions.InputVars.SysAbbrParam);
+                ElementParameterFilter sysAbbr = Shared.Filter.ParameterValueGenericFilter(doc, InputVars.SysAbbr, InputVars.SysAbbrParam);
 
                 // Declare pipeline grouping object
                 IEnumerable<IGrouping<string, Element>> pipelineGroups;

@@ -31,7 +31,7 @@ namespace PCF_Exporter
                 //FilteredElementCollector pipeTypeCollector = new FilteredElementCollector(doc); //Obsolete???
 
                 // Define a Filter instance to filter by System Abbreviation
-                ElementParameterFilter sysAbbr = Filter.ParameterValueFilterStringEquals(InputVars.SysAbbr, InputVars.SysAbbrParam);
+                ElementParameterFilter sysAbbr = Shared.Filter.ParameterValueGenericFilter(doc, InputVars.SysAbbr, InputVars.SysAbbrParam);
 
                 // Declare pipeline grouping object
                 IEnumerable<IGrouping<string, Element>> pipelineGroups;
