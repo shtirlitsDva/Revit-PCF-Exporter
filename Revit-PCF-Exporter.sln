@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-ntr-exporter", "Revit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-cii-neutral-exporter", "revit-cii-neutral-exporter\revit-cii-neutral-exporter.csproj", "{50023005-3134-4277-A8BE-69476807B787}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{50023005-3134-4277-A8BE-69476807B787}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50023005-3134-4277-A8BE-69476807B787}.Release|x64.ActiveCfg = Release|Any CPU
 		{50023005-3134-4277-A8BE-69476807B787}.Release|x64.Build.0 = Release|Any CPU
+		{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}.Debug|x64.Build.0 = Debug|Any CPU
+		{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}.Release|x64.ActiveCfg = Release|Any CPU
+		{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
