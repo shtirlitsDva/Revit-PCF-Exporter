@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-ntr-exporter", "Revit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-cii-neutral-exporter", "revit-cii-neutral-exporter\revit-cii-neutral-exporter.csproj", "{50023005-3134-4277-A8BE-69476807B787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-shared-utilities", "Shared\revit-shared-utilities.csproj", "{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

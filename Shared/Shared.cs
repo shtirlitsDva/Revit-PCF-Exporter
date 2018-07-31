@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shared
 {
-    public class Shared
+    public class Filter
     {
+
     }
 }
