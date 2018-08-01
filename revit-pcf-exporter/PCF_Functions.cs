@@ -12,7 +12,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
-using BuildingCoder;
+using Shared.BuildingCoder;
 using MoreLinq;
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
@@ -947,30 +947,30 @@ namespace PCF_Functions
             return (PipingSystemType)doc.GetElement(sysTypeId);
         }
 
-        public static IList<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
-        {
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            HashSet<PipingSystem> pipingSystems = collector.OfClass(typeof(PipingSystem)).Cast<PipingSystem>().ToHashSet();
-            HashSet<PipingSystemType> pipingSystemTypes = pipingSystems.Select(ps => doc.GetElement(ps.GetTypeId())).Cast<PipingSystemType>().ToHashSet();
+        //public static IList<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
+        //{
+        //    FilteredElementCollector collector = new FilteredElementCollector(doc);
+        //    HashSet<PipingSystem> pipingSystems = collector.OfClass(typeof(PipingSystem)).Cast<PipingSystem>().ToHashSet();
+        //    HashSet<PipingSystemType> pipingSystemTypes = pipingSystems.Select(ps => doc.GetElement(ps.GetTypeId())).Cast<PipingSystemType>().ToHashSet();
 
-            //Following code takes care if PCF_PIPL_EXCL has not been properly imported.
-            PipingSystemType pstype = pipingSystemTypes.FirstOrDefault();
-            if (pstype == null) throw new Exception("No piping systems created yet! Draw some pipes.");
+        //    //Following code takes care if PCF_PIPL_EXCL has not been properly imported.
+        //    PipingSystemType pstype = pipingSystemTypes.FirstOrDefault();
+        //    if (pstype == null) throw new Exception("No piping systems created yet! Draw some pipes.");
 
-            HashSet<string> abbreviations;
-            if (pstype.get_Parameter(new plst().PCF_PIPL_EXCL.Guid) == null)
-            {
-                abbreviations = pipingSystemTypes.Select(pst => pst.Abbreviation).ToHashSet();
-            }
-            else
-            {
-                abbreviations = pipingSystemTypes
-                      .Where(pst => pst.get_Parameter(new plst().PCF_PIPL_EXCL.Guid).AsInteger() == 0) //Filter out EXCLUDED piping systems
-                      .Select(pst => pst.Abbreviation).ToHashSet();
-            }
+        //    HashSet<string> abbreviations;
+        //    if (pstype.get_Parameter(new plst().PCF_PIPL_EXCL.Guid) == null)
+        //    {
+        //        abbreviations = pipingSystemTypes.Select(pst => pst.Abbreviation).ToHashSet();
+        //    }
+        //    else
+        //    {
+        //        abbreviations = pipingSystemTypes
+        //              .Where(pst => pst.get_Parameter(new plst().PCF_PIPL_EXCL.Guid).AsInteger() == 0) //Filter out EXCLUDED piping systems
+        //              .Select(pst => pst.Abbreviation).ToHashSet();
+        //    }
 
-            return abbreviations.Distinct().ToList();
-        }
+        //    return abbreviations.Distinct().ToList();
+        //}
 
         public static Cons GetConnectors(Element element) => new Cons(element);
 

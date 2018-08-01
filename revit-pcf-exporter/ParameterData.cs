@@ -121,6 +121,8 @@ namespace PCF_Functions
 
         //Usability parameters
         public readonly pdef PCF_ELEM_EXCL = new pdef("PCF_ELEM_EXCL", "CTRL", "U", pd.YesNo, new Guid("CC8EC292-226C-4677-A32D-10B9736BFC1A"));
+        //If guid changes can break other methods!!
+        //Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(Document doc) uses this guid!!!
         public readonly pdef PCF_PIPL_EXCL = new pdef("PCF_PIPL_EXCL", "CTRL", "U", pd.YesNo, new Guid("C1C2C9FE-2634-42BA-89D0-5AF699F54D4C"));
         #endregion
 

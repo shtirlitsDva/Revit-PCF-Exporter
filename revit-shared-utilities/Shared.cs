@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
@@ -9,7 +10,7 @@ using Autodesk.Revit.DB.Plumbing;
 
 namespace Shared
 {
-    public class Filter
+    public static class Filter
     {
         /// <summary>
         /// Generic Parameter value filter. An attempt to write a generic method,
@@ -115,6 +116,39 @@ namespace Shared
             collector.WherePasses(classFilter);
 
             return collector;
+        }
+    }
+
+    public static class MepUtils
+    {
+        public static IList<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            HashSet<PipingSystem> pipingSystems = collector.OfClass(typeof(PipingSystem)).Cast<PipingSystem>().ToHashSet();
+            HashSet<PipingSystemType> pipingSystemTypes = pipingSystems.Select(ps => doc.GetElement(ps.GetTypeId())).Cast<PipingSystemType>().ToHashSet();
+
+            //Following code takes care if PCF_PIPL_EXCL has not been properly imported.
+            PipingSystemType pstype = pipingSystemTypes.FirstOrDefault();
+            if (pstype == null) throw new Exception("No piping systems created yet! Draw some pipes.");
+
+            HashSet<string> abbreviations;
+            //Do not allow systems with PCF_PIPL_EXCL if it exists!
+            //GUID is defined in PCF_Exporter ParameterList!!!
+            //Do not change w/o coordination
+            if (pstype.get_Parameter(new Guid("C1C2C9FE-2634-42BA-89D0-5AF699F54D4C")) == null)
+            {
+                //If parameter doesn't exist, get all systems
+                abbreviations = pipingSystemTypes.Select(pst => pst.Abbreviation).ToHashSet();
+            }
+            else
+            {
+                //If parameter exists, take only not excluded
+                abbreviations = pipingSystemTypes
+                      .Where(pst => pst.get_Parameter(new Guid("C1C2C9FE-2634-42BA-89D0-5AF699F54D4C")).AsInteger() == 0) //Filter out EXCLUDED piping systems
+                      .Select(pst => pst.Abbreviation).ToHashSet();
+            }
+
+            return abbreviations.Distinct().ToList();
         }
     }
 }

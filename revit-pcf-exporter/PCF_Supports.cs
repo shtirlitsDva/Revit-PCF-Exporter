@@ -7,7 +7,7 @@ using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.ApplicationServices;
 using PCF_Functions;
-using BuildingCoder;
+using Shared.BuildingCoder;
 using iv = PCF_Functions.InputVars;
 
 namespace PCF_Functions

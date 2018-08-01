@@ -12,7 +12,7 @@ using System.Windows.Forms.ComponentModel.Com2Interop;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
-using BuildingCoder;
+using Shared.BuildingCoder;
 using MoreLinq;
 using PCF_Functions;
 using iv = NTR_Functions.InputVars;
