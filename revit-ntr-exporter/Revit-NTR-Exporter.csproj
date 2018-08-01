@@ -93,12 +93,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shared\revit-shared-utilities.csproj">
-      <Project>{a8bf8252-e12b-4339-9e05-404bf7b2cbe3}</Project>
-      <Name>revit-shared-utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
