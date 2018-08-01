@@ -27,9 +27,9 @@ namespace PCF_Parameters
         public void ExportUndefinedElements(Document doc, string excelPath)
         {
             //Read existing values
-            DataSet dataSetWithHeaders = DataHandler.ImportExcelToDataSet(excelPath, "YES");
-            DataTable Elements = DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Elements");
-            DataTable Pipelines = DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
+            DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
+            DataTable Elements = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Elements");
+            DataTable Pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
 
             #region Pipelines
             //Collect all pipelines
@@ -74,7 +74,7 @@ namespace PCF_Parameters
             collector = Shared.Filter.GetElementsWithConnectors(doc);
             HashSet<Element> elements = collector.ToElements().ToHashSet();
             HashSet<Element> limitedElements = (from Element e in elements
-                                                where new FilterDiameterLimit().FilterDL(e)
+                                                where FilterDiameterLimit.FilterDL(e)
                                                 select e).ToHashSet();
             HashSet<Element> filteredElements = (from Element e in limitedElements
                                                  where e.Category.Id.IntegerValue != (int)BuiltInCategory.OST_PipeCurves

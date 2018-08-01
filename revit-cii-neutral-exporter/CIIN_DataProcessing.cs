@@ -584,7 +584,10 @@ namespace CIINExporter
             int delta = fieldWidth - result.Length;
 
             if (delta > 0) result = result.PadLeft(fieldWidth);
-            else if (delta == 0) ; //Do nothing
+            else if (delta == 0)
+            {
+                ; //Do nothing
+            }
             else result = result.Remove(result.Length + delta);
 
             if (totalNumberOfInstances > 1)

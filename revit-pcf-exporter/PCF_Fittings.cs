@@ -6,10 +6,11 @@ using System.Text;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using PCF_Functions;
+using Shared;
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
-using mp = PCF_Functions.MepUtils;
+using mp = Shared.MepUtils;
 
 namespace PCF_Fittings
 {

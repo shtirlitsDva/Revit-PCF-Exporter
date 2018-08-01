@@ -2,19 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Globalization;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Windows.Forms.ComponentModel.Com2Interop;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
-using Autodesk.Revit.UI;
-using Shared.BuildingCoder;
+using Shared;
 using MoreLinq;
-using PCF_Functions;
 using iv = NTR_Functions.InputVars;
 using xel = Microsoft.Office.Interop.Excel;
 using Autodesk.Revit.DB.Mechanical;
@@ -55,7 +50,7 @@ namespace NTR_Functions
 
         public ConfigurationData()
         {
-            DataSet dataSet = DataHandler.ImportExcelToDataSet(iv.ExcelPath, "NO");
+            DataSet dataSet = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "NO");
 
             DataTableCollection dataTableCollection = dataSet.Tables;
 
@@ -66,7 +61,7 @@ namespace NTR_Functions
             _05_DN = ReadNtrConfigurationData(dataTableCollection, "DN", "C Definition of pipe dimensions");
             _06_ISO = ReadNtrConfigurationData(dataTableCollection, "IS", "C Definition of insulation type");
 
-            DataSet dataSetWithHeaders = DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
+            DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
             Pipelines = ReadDataTable(dataSetWithHeaders.Tables, "PIPELINES");
             Elements = ReadDataTable(dataSetWithHeaders.Tables, "ELEMENTS");
             Supports = ReadDataTable(dataSetWithHeaders.Tables, "SUPPORTS");
@@ -319,7 +314,7 @@ namespace NTR_Functions
             switch (element)
             {
                 case MEPCurve pipe:
-                    testedDiameter = pipe.Diameter.FtToMm().Round(0);
+                    testedDiameter = pipe.Diameter.FtToMm().Round();
                     break;
 
                 case FamilyInstance inst:
@@ -331,8 +326,7 @@ namespace NTR_Functions
                     break;
             }
 
-            if ((testedDiameter <= diameterMustBeGreater) || (testedDiameter >= diameterMustBeLess)) return false;
-            else return true;
+            return testedDiameter >= diameterMustBeGreater && testedDiameter <= diameterMustBeLess;
         }
     }
 
@@ -435,7 +429,7 @@ namespace NTR_Functions
                 .AsValueString();
 
             //Read existing values
-            DataSet dataSetWithHeaders = DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
+            DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
             DataTable Elements = ConfigurationData.ReadDataTable(dataSetWithHeaders.Tables, "ELEMENTS");
             DataTable Supports = ConfigurationData.ReadDataTable(dataSetWithHeaders.Tables, "SUPPORTS");
 

@@ -13,7 +13,7 @@ using PCF_Functions;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using mySettings = PCF_Functions.Properties.Settings;
 using iv = PCF_Functions.InputVars;
-using dh = PCF_Functions.DataHandler;
+using dh = Shared.DataHandler;
 
 namespace PCF_Exporter
 {
@@ -50,7 +50,7 @@ namespace PCF_Exporter
             //Init Scope
 
             //Gather all physical piping systems and collect distinct abbreviations
-            pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
+            pipeLinesAbbreviations = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
 
             //Use the distinct abbreviations as data source for the comboBox
             comboBox2.DataSource = pipeLinesAbbreviations;
