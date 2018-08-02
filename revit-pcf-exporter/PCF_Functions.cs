@@ -558,7 +558,6 @@ namespace PCF_Functions
         }
     }
        
-
     public static class ParameterDataWriter
     {
         public static void SetWallThicknessPipes(HashSet<Element> elements)
@@ -644,10 +643,5 @@ namespace PCF_Functions
                 wallThkParameter.Set(data);
             }
         }
-    }
-
-    public static class MepUtils
-    {
-       
     }
 }
