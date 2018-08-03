@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using MoreLinq;
 using System.Text;
 using System.Threading.Tasks;
@@ -743,7 +744,7 @@ namespace Shared
         public static FamilyInstance PlaceAdaptiveFamilyInstance(Document doc, string famAndTypeName, XYZ p1, XYZ p2)
         {
             //Get the symbol
-            ElementParameterFilter filter = Filter.ParameterValueFilter(famAndTypeName,
+            ElementParameterFilter filter = Filter.ParameterValueGenericFilter(doc, famAndTypeName,
                 BuiltInParameter.SYMBOL_FAMILY_AND_TYPE_NAMES_PARAM); //Hardcoded until implements
 
             FamilySymbol markerSymbol =

@@ -22,10 +22,10 @@ namespace NTR_Exporter
             //Then it is cast back to Elements
             HashSet<FamilyInstance> stiffHangers
                 = Filter.GetElements<FamilyInstance, BuiltInParameter>
-                (doc, "Rørophæng_stift", BuiltInParameter.ELEM_FAMILY_PARAM);
+                (doc, BuiltInParameter.ELEM_FAMILY_PARAM, "Rørophæng_stift");
             HashSet<FamilyInstance> springHangers
                 = Filter.GetElements<FamilyInstance, BuiltInParameter>
-                (doc, "Rørophæng_fjeder", BuiltInParameter.ELEM_FAMILY_PARAM);
+                (doc, BuiltInParameter.ELEM_FAMILY_PARAM, "Rørophæng_fjeder");
 
             HashSet<Element> allHangers = stiffHangers.Union(springHangers).Cast<Element>().ToHashSet();
 

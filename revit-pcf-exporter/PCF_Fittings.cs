@@ -137,7 +137,7 @@ namespace PCF_Fittings
                         //get reference elements
                         var refCons = mp.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
 
-                        Connector refCon = refCons.Where(x => x.Owner.IsPipe()).FirstOrDefault();
+                        Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
                         if (refCon == null) throw new Exception("refCon Owner cannot find a Pipe for element!");
                         Pipe refPipe = (Pipe)refCon.Owner;
 
