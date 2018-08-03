@@ -131,12 +131,106 @@ namespace Shared
         /// <typeparam name="T1">The type of element to get.</typeparam>
         /// <param name="doc">The usual active document.</param>
         /// <param name="value">String value of parameter to filter by.</param>
-        /// <param name="param">Guid or BuiltInParameter whose value to filter by.</param>
+        /// <param name="param">Guid or BuiltInParameter whose value to filter by OR BuiltInCategory OR INVALID</param>
         /// <returns>A HashSet of revit objects already cast to the specified type.</returns>
-        public static HashSet<T1> GetElements<T1, T2>(Document doc, string value, T2 param)
+        public static HashSet<T1> GetElements<T1, T2>(Document doc, T2 param, string value = null, ElementId viewId = null)
         {
-            var parValFilter = Shared.Filter.ParameterValueGenericFilter(doc, value, param);
-            return new FilteredElementCollector(doc).OfClass(typeof(T1)).WherePasses(parValFilter).Cast<T1>().ToHashSet();
+            if (value != null)
+            {
+                var parValFilter = Shared.Filter.ParameterValueGenericFilter(doc, value, param);
+                return new FilteredElementCollector(doc).OfClass(typeof(T1)).WherePasses(parValFilter).Cast<T1>().ToHashSet();
+            }
+
+            if (viewId != null)
+            {
+                return new FilteredElementCollector(doc, viewId).OfClass(typeof(T1)).Cast<T1>().ToHashSet();
+            }
+
+            if (param is BuiltInCategory bic)
+            {
+                switch (bic)
+                {
+                    case BuiltInCategory.OST_PipeCurves:
+                        return new FilteredElementCollector(doc).OfCategory(bic).OfClass(typeof(Pipe)).Cast<T1>().ToHashSet();
+                    case BuiltInCategory.OST_PipeAccessory:
+                    case BuiltInCategory.OST_PipeFitting:
+                        return new FilteredElementCollector(doc).OfCategory(bic).OfClass(typeof(FamilyInstance)).Cast<T1>().ToHashSet();
+                    case BuiltInCategory.OST_PipeInsulations:
+                        return new FilteredElementCollector(doc).OfCategory(bic).OfClass(typeof(PipeInsulation)).Cast<T1>().ToHashSet();
+                    default:
+                        throw new NotImplementedException($"The {bic} is not implemented in the GetElements method!");
+                }
+            }
+
+            return new FilteredElementCollector(doc).OfClass(typeof(T1)).Cast<T1>().ToHashSet();
+        }
+
+        /// <summary>
+        /// Return a view, specify the type of view and name.
+        /// </summary>
+        /// <typeparam name="T">Type of view needed.</typeparam>
+        /// <param name="name">The name of view needed.</param>
+        /// <param name="doc">Standard Document.</param>
+        /// <returns></returns>
+        public static T GetViewByName<T>(string name, Document doc) where T : Element
+        {
+            return
+                (from v in GetElements<View, object>(doc, BuiltInCategory.INVALID) where v != null && !v.IsTemplate && v.Name == name select v as T)
+                    .FirstOrDefault();
+        }
+
+        public static LogicalOrFilter FamSymbolsAndPipeTypes()
+        {
+            BuiltInCategory[] bics =
+            {
+                BuiltInCategory.OST_PipeAccessory,
+                BuiltInCategory.OST_PipeCurves,
+                BuiltInCategory.OST_PipeFitting,
+            };
+
+            IList<ElementFilter> a = new List<ElementFilter>(bics.Length);
+
+            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
+
+            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
+
+            LogicalAndFilter familySymbolFilter = new LogicalAndFilter(categoryFilter,
+                new ElementClassFilter(typeof(FamilySymbol)));
+
+            IList<ElementFilter> b = new List<ElementFilter>
+            {
+                new ElementClassFilter(typeof(PipeType)),
+
+                familySymbolFilter
+            };
+            LogicalOrFilter classFilter = new LogicalOrFilter(b);
+
+            return classFilter;
+        }
+
+        public static LogicalOrFilter FamInstOfDetailComp()
+        {
+            BuiltInCategory[] bics =
+            {
+                BuiltInCategory.OST_DetailComponents,
+            };
+
+            IList<ElementFilter> a = new List<ElementFilter>(bics.Length);
+
+            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
+
+            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
+
+            LogicalAndFilter familySymbolFilter = new LogicalAndFilter(categoryFilter,
+                new ElementClassFilter(typeof(FamilyInstance)));
+
+            IList<ElementFilter> b = new List<ElementFilter>
+            {
+                familySymbolFilter
+            };
+            LogicalOrFilter classFilter = new LogicalOrFilter(b);
+
+            return classFilter;
         }
     }
 
@@ -260,6 +354,11 @@ namespace Shared
         public static HashSet<Connector> GetALLConnectorsFromElements(Element element)
         {
             return (from Connector c in GetConnectorSet(element) select c).ToHashSet();
+        }
+
+        public static HashSet<Connector> GetALLConnectorsInDocument(Document doc, bool includeMechEquipment = false)
+        {
+            return (from e in Filter.GetElementsWithConnectors(doc) from Connector c in GetConnectorSet(e) select c).ToHashSet();
         }
     }
 
@@ -391,6 +490,23 @@ namespace Shared
         {
             return (from DataTable dtbl in dataTableCollection where dtbl.TableName == tableName select dtbl).FirstOrDefault();
         }
+
+        public static string ReadParameterFromDataTable(string key, DataTable table, string parameter)
+        {
+            //Test if value exists
+            if (table.AsEnumerable().Any(row => row.Field<string>(0) == key))
+            {
+                var query = from row in table.AsEnumerable()
+                            where row.Field<string>(0) == key
+                            select row.Field<string>(parameter);
+
+                string value = query.FirstOrDefault();
+
+                //if (value.IsNullOrEmpty()) return null;
+                return value;
+            }
+            else return null;
+        }
     }
 
     public static class Conversion
@@ -447,6 +563,11 @@ namespace Shared
         {
             return angle * (180.0 / Math.PI);
         }
+
+        public static double DegreeToRadian(double angle)
+        {
+            return Math.PI * angle / 180.0;
+        }
     }
 
     public static class Extensions
@@ -454,11 +575,9 @@ namespace Shared
         const double _inch_to_mm = 25.4;
         const double _foot_to_mm = 12 * _inch_to_mm;
         const double _foot_to_inch = 12;
-
-        public static double Round2(this Double number)
-        {
-            return Math.Round(number, 2, MidpointRounding.AwayFromZero);
-        }
+        const double _convertFootToMeter = _foot_to_mm * 0.001;
+        const double _convertSqrFootToSqrMeter = _convertFootToMeter * _convertFootToMeter;
+        const double _convertCubicFootToCubicMeter = _convertFootToMeter * _convertFootToMeter * _convertFootToMeter;
 
         public static double Round(this Double number, int decimals = 0)
         {
@@ -467,22 +586,185 @@ namespace Shared
 
         public static double FtToMm(this Double l) => l * _foot_to_mm;
 
+        /// <summary>
+        /// Returns the value converted to meters.
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public static double FtToMtrs(this Double l) => l * _foot_to_mm / 1000;
+
         public static double FtToInch(this Double l) => l * _foot_to_inch;
+
+        public static double MmToFt(this Double l) => l / _foot_to_mm;
+
+        public static double SqrFeetToSqrMeters(this Double l) => l * _convertSqrFootToSqrMeter;
 
         public static bool IsOdd(this int number)
         {
             return number % 2 != 0;
         }
 
-        public static bool IsPipe(this Element elem)
+        public static bool IsType<T>(this object obj)
         {
-            switch (elem)
+            return obj is T;
+
+            //switch (obj)
+            //{
+            //    case Pipe pipe:
+            //        return true;
+            //    default:
+            //        return false;
+            //}
+        }
+
+        public static bool IsEqual(this XYZ p, XYZ q) => 0 == Util.Compare(p, q);
+
+        public static bool IsEqual(this Connector c1, Connector c2) => c1.Origin.IsEqual(c2.Origin);
+    }
+
+    public static class Transformation
+    {
+        public static void RotateElementInPosition(XYZ placementPoint, Connector conOnFamilyToConnect, Connector start, Element element)
+        {
+            #region Geometric manipulation
+
+            //http://thebuildingcoder.typepad.com/blog/2012/05/create-a-pipe-cap.html
+
+            //Select the OTHER connector
+            MEPCurve hostPipe = start.Owner as MEPCurve;
+
+            Connector end = (from Connector c in hostPipe.ConnectorManager.Connectors //End of the host/dummy pipe
+                             where c.Id != start.Id && (int)c.ConnectorType == 1
+                             select c).FirstOrDefault();
+
+            XYZ dir = (start.Origin - end.Origin);
+
+            // rotate the cap if necessary
+            // rotate about Z first
+
+            XYZ pipeHorizontalDirection = new XYZ(dir.X, dir.Y, 0.0).Normalize();
+            //XYZ pipeHorizontalDirection = new XYZ(dir.X, dir.Y, 0.0);
+
+            XYZ connectorDirection = -conOnFamilyToConnect.CoordinateSystem.BasisZ;
+
+            double zRotationAngle = pipeHorizontalDirection.AngleTo(connectorDirection);
+
+            Transform trf = Transform.CreateRotationAtPoint(XYZ.BasisZ, zRotationAngle, placementPoint);
+
+            XYZ testRotation = trf.OfVector(connectorDirection).Normalize();
+
+            if (Math.Abs(testRotation.DotProduct(pipeHorizontalDirection) - 1) > 0.00001)
+                zRotationAngle = -zRotationAngle;
+
+            Line axis = Line.CreateBound(placementPoint, placementPoint + XYZ.BasisZ);
+
+            ElementTransformUtils.RotateElement(element.Document, element.Id, axis, zRotationAngle);
+
+            //Parameter comments = element.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS);
+            //comments.Set("Horizontal only");
+
+            // Need to rotate vertically?
+
+            if (Math.Abs(dir.DotProduct(XYZ.BasisZ)) > 0.000001)
             {
-                case Pipe pipe:
-                    return true;
-                default:
-                    return false;
+                // if pipe is straight up and down, 
+                // kludge it my way else
+
+                if (dir.X.Round(3) == 0 && dir.Y.Round(3) == 0 && dir.Z.Round(3) != 0)
+                {
+                    XYZ yaxis = new XYZ(0.0, 1.0, 0.0);
+                    //XYZ yaxis = dir.CrossProduct(connectorDirection);
+
+                    double rotationAngle = dir.AngleTo(yaxis);
+                    //double rotationAngle = 90;
+
+                    if (dir.Z.Equals(1)) rotationAngle = -rotationAngle;
+
+                    axis = Line.CreateBound(placementPoint,
+                        new XYZ(placementPoint.X, placementPoint.Y + 5, placementPoint.Z));
+
+                    ElementTransformUtils.RotateElement(element.Document, element.Id, axis, rotationAngle);
+
+                    //comments.Set("Vertical!");
+                }
+                else
+                {
+                    #region sloped pipes
+
+                    double rotationAngle = dir.AngleTo(pipeHorizontalDirection);
+
+                    XYZ normal = pipeHorizontalDirection.CrossProduct(XYZ.BasisZ);
+
+                    trf = Transform.CreateRotationAtPoint(normal, rotationAngle, placementPoint);
+
+                    testRotation = trf.OfVector(dir).Normalize();
+
+                    if (Math.Abs(testRotation.DotProduct(pipeHorizontalDirection) - 1) < 0.00001)
+                        rotationAngle = -rotationAngle;
+
+                    axis = Line.CreateBound(placementPoint, placementPoint + normal);
+
+                    ElementTransformUtils.RotateElement(element.Document, element.Id, axis, rotationAngle);
+
+                    //comments.Set("Sloped");
+
+                    #endregion
+                }
             }
+
+            #endregion
+        }
+    }
+
+    public static class Output
+    {
+        public static void WriteDebugFile<T>(string filePath, T whatToWrite)
+        {
+            // Clear the output file
+            System.IO.File.WriteAllBytes(filePath, new byte[0]);
+
+            using (StreamWriter w = File.AppendText(filePath))
+            {
+                w.Write(whatToWrite);
+                w.Close();
+            }
+        }
+    }
+
+    public class Dbg
+    {
+        /// <summary>
+        /// This method is used to place an adaptive family which helps in debugging
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+        public static FamilyInstance PlaceAdaptiveFamilyInstance(Document doc, string famAndTypeName, XYZ p1, XYZ p2)
+        {
+            //Get the symbol
+            ElementParameterFilter filter = Filter.ParameterValueFilter(famAndTypeName,
+                BuiltInParameter.SYMBOL_FAMILY_AND_TYPE_NAMES_PARAM); //Hardcoded until implements
+
+            FamilySymbol markerSymbol =
+                new FilteredElementCollector(doc).WherePasses(filter)
+                    .Cast<FamilySymbol>()
+                    .FirstOrDefault();
+
+            // Create a new instance of an adaptive component family
+            FamilyInstance instance = AdaptiveComponentInstanceUtils.CreateAdaptiveComponentInstance(doc,
+                markerSymbol);
+
+            // Get the placement points of this instance
+            IList<ElementId> placePointIds = new List<ElementId>();
+            placePointIds = AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds(instance);
+            // Set the position of each placement point
+            ReferencePoint point1 = doc.GetElement(placePointIds[0]) as ReferencePoint;
+            point1.Position = p1;
+            ReferencePoint point2 = doc.GetElement(placePointIds[1]) as ReferencePoint;
+            point2.Position = p2;
+
+            return instance;
         }
     }
 }
