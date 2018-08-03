@@ -600,6 +600,11 @@ namespace Shared
 
         public static double SqrFeetToSqrMeters(this Double l) => l * _convertSqrFootToSqrMeter;
 
+        public static bool Equalz(this double a, double b, double tolerance = Util._eps)
+        {
+            return Util.IsZero(b - a, tolerance);
+        }
+
         public static bool IsOdd(this int number)
         {
             return number % 2 != 0;
@@ -621,6 +626,11 @@ namespace Shared
         public static bool IsEqual(this XYZ p, XYZ q) => 0 == Util.Compare(p, q);
 
         public static bool IsEqual(this Connector c1, Connector c2) => c1.Origin.IsEqual(c2.Origin);
+
+        public static bool IsNullOrEmpty(this string str)
+        {
+            return string.IsNullOrEmpty(str);
+        }
     }
 
     public static class Transformation
