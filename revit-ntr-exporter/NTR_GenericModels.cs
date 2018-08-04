@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using MoreLinq;
 using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using NTR_Functions;
 using dw = NTR_Functions.DataWriter;
-using PCF_Functions;
+using Shared;
 
 namespace NTR_Exporter
 {
@@ -21,8 +20,13 @@ namespace NTR_Exporter
             //First are all instances collected of said hanger models
             //It is done in FamilyInstance, because Revit won't let collect all Elements (typeof(Element))
             //Then it is cast back to Elements
-            HashSet<FamilyInstance> stiffHangers = Filter.GetElements<FamilyInstance>(doc, "Rørophæng_stift", BuiltInParameter.ELEM_FAMILY_PARAM);
-            HashSet<FamilyInstance> springHangers = Filter.GetElements<FamilyInstance>(doc, "Rørophæng_fjeder", BuiltInParameter.ELEM_FAMILY_PARAM);
+            HashSet<FamilyInstance> stiffHangers
+                = Filter.GetElements<FamilyInstance, BuiltInParameter>
+                (doc, BuiltInParameter.ELEM_FAMILY_PARAM, "Rørophæng_stift");
+            HashSet<FamilyInstance> springHangers
+                = Filter.GetElements<FamilyInstance, BuiltInParameter>
+                (doc, BuiltInParameter.ELEM_FAMILY_PARAM, "Rørophæng_fjeder");
+
             HashSet<Element> allHangers = stiffHangers.Union(springHangers).Cast<Element>().ToHashSet();
 
             foreach (Element element in allHangers)

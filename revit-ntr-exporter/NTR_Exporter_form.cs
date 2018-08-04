@@ -7,13 +7,13 @@ using System.Diagnostics;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
-using BuildingCoder;
-using PCF_Parameters;
+using Shared.BuildingCoder;
+
 using PCF_Functions;
 using mySettings = NTR_Exporter.Properties.Settings;
 using NTR_Functions;
 using iv = NTR_Functions.InputVars;
-using dh = PCF_Functions.DataHandler;
+
 
 namespace NTR_Exporter
 {
@@ -51,7 +51,7 @@ namespace NTR_Exporter
 
             //Init Scope
             //Gather all physical piping systems and collect distinct abbreviations
-            pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
+            pipeLinesAbbreviations = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
 
             //Use the distinct abbreviations as data source for the comboBox
             comboBox2.DataSource = pipeLinesAbbreviations;
@@ -269,11 +269,6 @@ namespace NTR_Exporter
 
         private void Button8_Click(object sender, EventArgs e)
         {
-            ScheduleCreator SC = new ScheduleCreator();
-            var output = SC.CreateAllItemsSchedule(_uidoc);
-
-            if (output == Result.Succeeded) Util.InfoMsg("Schedules created successfully!");
-            else if (output == Result.Failed) Util.InfoMsg("Schedule creation failed for some reason.");
         }
 
         private void Button9_Click(object sender, EventArgs e)

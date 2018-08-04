@@ -13,7 +13,7 @@ using Autodesk.Revit.ApplicationServices;
 using xel = Microsoft.Office.Interop.Excel;
 
 using PCF_Functions;
-using BuildingCoder;
+using Shared.BuildingCoder;
 using PCF_Exporter;
 using pd = PCF_Functions.ParameterData;
 using pdef = PCF_Functions.ParameterDefinition;
@@ -27,9 +27,9 @@ namespace PCF_Parameters
         public void ExportUndefinedElements(Document doc, string excelPath)
         {
             //Read existing values
-            DataSet dataSetWithHeaders = DataHandler.ImportExcelToDataSet(excelPath, "YES");
-            DataTable Elements = DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Elements");
-            DataTable Pipelines = DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
+            DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
+            DataTable Elements = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Elements");
+            DataTable Pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
 
             #region Pipelines
             //Collect all pipelines
@@ -71,10 +71,10 @@ namespace PCF_Parameters
 
             //Collect all elements
             FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector = Filter.GetElementsWithConnectors(doc);
+            collector = Shared.Filter.GetElementsWithConnectors(doc);
             HashSet<Element> elements = collector.ToElements().ToHashSet();
             HashSet<Element> limitedElements = (from Element e in elements
-                                                where new FilterDiameterLimit().FilterDL(e)
+                                                where FilterDiameterLimit.FilterDL(e)
                                                 select e).ToHashSet();
             HashSet<Element> filteredElements = (from Element e in limitedElements
                                                  where e.Category.Id.IntegerValue != (int)BuiltInCategory.OST_PipeCurves
@@ -161,7 +161,7 @@ namespace PCF_Parameters
 
             //Define a collector (Pipe OR FamInst) AND (Fitting OR Accessory OR Pipe).
             //This is to eliminate FamilySymbols from collector which would throw an exception later on.
-            collector = Filter.GetElementsWithConnectors(doc);
+            collector = Shared.Filter.GetElementsWithConnectors(doc);
 
             //Group all elements by their Family and Type
             orderedCollector =
@@ -221,7 +221,7 @@ namespace PCF_Parameters
             string filename = path;
             StringBuilder sbFeedback = new StringBuilder();
 
-            FilteredElementCollector collector = Filter.GetElementsWithConnectors(doc);
+            FilteredElementCollector collector = Shared.Filter.GetElementsWithConnectors(doc);
 
             //prepare input variables which are initialized when looping the elements
             string eFamilyType = null; string columnName = null;

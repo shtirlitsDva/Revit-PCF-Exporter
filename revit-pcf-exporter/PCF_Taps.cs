@@ -7,7 +7,8 @@ using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.ApplicationServices;
 using PCF_Functions;
-using BuildingCoder;
+using Shared.BuildingCoder;
+using Shared;
 
 namespace PCF_Taps
 {
@@ -141,8 +142,7 @@ namespace PCF_Taps
                 if (InputVars.UNITS_BORE_MM) tapsWriter.Append(Conversion.PipeSizeToMm(connectorSize));
                 if (InputVars.UNITS_BORE_INCH) tapsWriter.Append(Conversion.PipeSizeToInch(connectorSize));
                 tapsWriter.AppendLine();
-                FilterDiameterLimit fdl = new FilterDiameterLimit();
-                if (!fdl.FilterDL(tappingElement)) tapsWriter = null;
+                if (!FilterDiameterLimit.FilterDL(tappingElement)) tapsWriter = null;
             }
 
             catch (NullReferenceException ex)

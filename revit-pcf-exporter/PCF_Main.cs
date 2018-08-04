@@ -7,7 +7,7 @@ using MoreLinq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
-using BuildingCoder;
+using Shared.BuildingCoder;
 using PCF_Functions;
 using PCF_Output;
 using pd = PCF_Functions.ParameterData;
@@ -31,7 +31,7 @@ namespace PCF_Exporter
                 //FilteredElementCollector pipeTypeCollector = new FilteredElementCollector(doc); //Obsolete???
 
                 // Define a Filter instance to filter by System Abbreviation
-                ElementParameterFilter sysAbbr = Filter.ParameterValueFilterStringEquals(InputVars.SysAbbr, InputVars.SysAbbrParam);
+                ElementParameterFilter sysAbbr = Shared.Filter.ParameterValueGenericFilter(doc, InputVars.SysAbbr, InputVars.SysAbbrParam);
 
                 // Declare pipeline grouping object
                 IEnumerable<IGrouping<string, Element>> pipelineGroups;
@@ -108,7 +108,7 @@ namespace PCF_Exporter
                     elements = (from element in colElements
                                 where
                                 //Diameter limit filter
-                                new FilterDiameterLimit().FilterDL(element) &&
+                                FilterDiameterLimit.FilterDL(element) &&
                                 ////Filter out elements with empty PCF_ELEM_TYPE field (remember to !negate)
                                 //!string.IsNullOrEmpty(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString()) &&
                                 //Filter out EXCLUDED elements -> 0 means no checkmark

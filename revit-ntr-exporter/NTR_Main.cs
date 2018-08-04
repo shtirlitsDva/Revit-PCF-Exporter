@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
-using BuildingCoder;
+using Shared.BuildingCoder;
 using MoreLinq;
 using NTR_Functions;
 using NTR_Output;
@@ -45,7 +45,7 @@ namespace NTR_Exporter
                 FilteredElementCollector collector = new FilteredElementCollector(doc);
 
                 // Define a Filter instance to filter by System Abbreviation
-                ElementParameterFilter sysAbbr = Filter.ParameterValueFilterStringEquals(PCF_Functions.InputVars.SysAbbr, PCF_Functions.InputVars.SysAbbrParam);
+                ElementParameterFilter sysAbbr = Shared.Filter.ParameterValueGenericFilter(doc, InputVars.SysAbbr, InputVars.SysAbbrParam);
 
                 // Declare pipeline grouping object
                 IEnumerable<IGrouping<string, Element>> pipelineGroups;
@@ -112,7 +112,7 @@ namespace NTR_Exporter
 
                 //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
                 pipelineGroups = from e in elements
-                                 group e by e.LookupParameter(PCF_Functions.InputVars.PipelineGroupParameterName).AsString();
+                                 group e by e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
                 #endregion
 
                 outputBuilder.AppendLine("C Element definitions");

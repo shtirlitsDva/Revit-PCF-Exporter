@@ -12,12 +12,14 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
-using BuildingCoder;
+using Shared.BuildingCoder;
 using MoreLinq;
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
 using Autodesk.Revit.DB.Mechanical;
+
+using Shared;
 
 namespace PCF_Functions
 {
@@ -122,15 +124,15 @@ namespace PCF_Functions
 
         #region CII export writer
 
-        public static StringBuilder CIIWriter(Document document, string systemAbbreviation)
+        public static StringBuilder CIIWriter(Document doc, string systemAbbreviation)
         {
             StringBuilder sbCII = new StringBuilder();
             //Handle CII export parameters
             //Instantiate collector
-            FilteredElementCollector collector = new FilteredElementCollector(document);
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
             //Get the elements
             PipingSystemType sQuery = collector.OfClass(typeof(PipingSystemType))
-                .WherePasses(Filter.ParameterValueFilterStringEquals(systemAbbreviation, BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM))
+                .WherePasses(Shared.Filter.ParameterValueGenericFilter(doc, systemAbbreviation, BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM))
                 .Cast<PipingSystemType>()
                 .FirstOrDefault();
 
@@ -175,7 +177,7 @@ namespace PCF_Functions
 
             int itemCode = element.get_Parameter(matId.Guid).AsInteger();
             string itemDescr = element.get_Parameter(matDescr.Guid).AsString();
-            string key = MepUtils.GetElementPipingSystemType(element, doc).Abbreviation;
+            string key = Shared.MepUtils.GetElementPipingSystemType(element, doc).Abbreviation;
 
             sb.AppendLine("    ITEM-CODE " + key + "-" + itemCode);
             sb.AppendLine("    ITEM-DESCRIPTION " + itemDescr);
@@ -220,125 +222,29 @@ namespace PCF_Functions
         #endregion
     }
 
-    public class Filter
+    public static class FilterDiameterLimit
     {
-        public static ElementParameterFilter ParameterValueFilterStringEquals(string valueQualifier, BuiltInParameter testParam)
-        {
-            ParameterValueProvider pvp = new ParameterValueProvider(new ElementId((int)testParam));
-            FilterStringRuleEvaluator str = new FilterStringEquals();
-            FilterStringRule paramFr = new FilterStringRule(pvp, str, valueQualifier, false);
-            return new ElementParameterFilter(paramFr);
-        }
-
-        public static FilteredElementCollector GetElementsWithConnectors(Document doc)
-        {
-            // what categories of family instances
-            // are we interested in?
-            // From here: http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html
-
-            BuiltInCategory[] bics = new BuiltInCategory[]
-            {
-                //BuiltInCategory.OST_CableTray,
-                //BuiltInCategory.OST_CableTrayFitting,
-                //BuiltInCategory.OST_Conduit,
-                //BuiltInCategory.OST_ConduitFitting,
-                //BuiltInCategory.OST_DuctCurves,
-                //BuiltInCategory.OST_DuctFitting,
-                //BuiltInCategory.OST_DuctTerminal,
-                //BuiltInCategory.OST_ElectricalEquipment,
-                //BuiltInCategory.OST_ElectricalFixtures,
-                //BuiltInCategory.OST_LightingDevices,
-                //BuiltInCategory.OST_LightingFixtures,
-                //BuiltInCategory.OST_MechanicalEquipment,
-                BuiltInCategory.OST_PipeAccessory,
-                BuiltInCategory.OST_PipeCurves,
-                BuiltInCategory.OST_PipeFitting,
-                //BuiltInCategory.OST_PlumbingFixtures,
-                //BuiltInCategory.OST_SpecialityEquipment,
-                //BuiltInCategory.OST_Sprinklers,
-                //BuiltInCategory.OST_Wire
-            };
-
-            IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
-
-            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
-
-            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
-
-            LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
-
-            //IList<ElementFilter> b = new List<ElementFilter>(6);
-            IList<ElementFilter> b = new List<ElementFilter>
-            {
-
-                //b.Add(new ElementClassFilter(typeof(CableTray)));
-                //b.Add(new ElementClassFilter(typeof(Conduit)));
-                //b.Add(new ElementClassFilter(typeof(Duct)));
-                new ElementClassFilter(typeof(Pipe)),
-
-                familyInstanceFilter
-            };
-            LogicalOrFilter classFilter = new LogicalOrFilter(b);
-
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-
-            collector.WherePasses(classFilter);
-
-            return collector;
-        }
-
-        /// <summary>
-        /// Get the collection of elements of the specified type additionally filtered by a string value of specified BuiltInParameter.
-        /// </summary>
-        /// <typeparam name="T">The type of element to get.</typeparam>
-        /// <param name="document">The usual active document.</param>
-        /// <param name="value">String value of parameter to filter by.</param>
-        /// <param name="bip">The BuiltInParameter whose value to filter by.</param>
-        /// <returns>A HashSet of revit objects already cast to the specified type.</returns>
-        public static HashSet<T> GetElements<T>(Document document, string value, BuiltInParameter bip)
-        {
-            var parValFilter = ParameterValueFilterStringEquals(value, bip);
-            return new FilteredElementCollector(document).OfClass(typeof(T)).WherePasses(parValFilter).Cast<T>().ToHashSet();
-        }
-
-
-    }
-
-    public class FilterDiameterLimit
-    {
-        private Element element;
-        private bool diameterLimitBool;
-        private double diameterLimit;
         /// <summary>
         /// Tests the diameter of the pipe or primary connector of element against the diameter limit set in the interface.
         /// </summary>
         /// <param name="passedElement"></param>
         /// <returns>True if diameter is larger than limit and false if smaller.</returns>
-        public bool FilterDL(Element passedElement)
+        public static bool FilterDL(Element element)
         {
-            element = passedElement;
-            diameterLimit = iv.DiameterLimit;
-            diameterLimitBool = true;
+            double diameterLimit = iv.DiameterLimit;
             double testedDiameter = 0;
-            switch (element.Category.Id.IntegerValue)
+            switch (element)
             {
-                case (int)BuiltInCategory.OST_PipeCurves:
-                    if (iv.UNITS_BORE_MM) testedDiameter = double.Parse(Conversion.PipeSizeToMm(((MEPCurve)element).Diameter / 2));
-                    else if (iv.UNITS_BORE_INCH) testedDiameter = double.Parse(Conversion.PipeSizeToInch(((MEPCurve)element).Diameter / 2));
-
-                    if (testedDiameter <= diameterLimit) diameterLimitBool = false;
-
+                case MEPCurve pipe:
+                    if (iv.UNITS_BORE_MM) testedDiameter = pipe.Diameter.FtToMm().Round();
+                    else if (iv.UNITS_BORE_INCH) testedDiameter = pipe.Diameter.FtToInch().Round();
                     break;
-
-                case (int)BuiltInCategory.OST_PipeFitting:
-                case (int)BuiltInCategory.OST_PipeAccessory:
-
+                case FamilyInstance fi:
                     //Declare a variable for 
                     Connector testedConnector = null;
-
                     //Gather connectors of the element
-                    var cons = MepUtils.GetConnectors(element);
-
+                    var cons = Shared.MepUtils.GetConnectors(element);
+                    //This check is more robust than NTR_Functions one, must keep this part when merging
                     if (cons.Primary == null) break;
                     else if (cons.Count == 0) break;
                     else if (cons.Count == 1 || cons.Count > 2) testedConnector = cons.Primary;
@@ -346,105 +252,9 @@ namespace PCF_Functions
 
                     if (iv.UNITS_BORE_MM) testedDiameter = (testedConnector.Radius * 2).FtToMm().Round();
                     else if (iv.UNITS_BORE_INCH) testedDiameter = (testedConnector.Radius * 2).FtToInch().Round(3);
-
-                    if (testedDiameter <= diameterLimit) diameterLimitBool = false;
-
                     break;
             }
-            return diameterLimitBool;
-        }
-    }
-
-    public static class Conversion
-    {
-        const double _inch_to_mm = 25.4;
-        const double _foot_to_mm = 12 * _inch_to_mm;
-        const double _foot_to_inch = 12;
-
-        /// <summary>
-        /// Return a string for a real number.
-        /// </summary>
-        private static string RealString(double a)
-        {
-            //return a.ToString("0.##");
-            //return (Math.Truncate(a * 100) / 100).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
-            return Math.Round(a, 2, MidpointRounding.AwayFromZero).ToString("0.00", CultureInfo.GetCultureInfo("en-GB"));
-        }
-
-        /// <summary>
-        /// Return a string for an XYZ point or vector with its coordinates converted from feet to millimetres.
-        /// </summary>
-        public static string PointStringMm(XYZ p)
-        {
-            return string.Format("{0:0} {1:0} {2:0}",
-              RealString(p.X * _foot_to_mm),
-              RealString(p.Y * _foot_to_mm),
-              RealString(p.Z * _foot_to_mm));
-        }
-
-        public static string PointStringInch(XYZ p)
-        {
-            return string.Format("{0:0.00} {1:0.00} {2:0.00}",
-              RealString(p.X * _foot_to_inch),
-              RealString(p.Y * _foot_to_inch),
-              RealString(p.Z * _foot_to_inch));
-        }
-
-        public static string PipeSizeToMm(double l)
-        {
-            return string.Format("{0}", Math.Round(l * 2 * _foot_to_mm));
-        }
-
-        public static string PipeSizeToInch(double l)
-        {
-            return string.Format("{0}", RealString(l * 2 * _foot_to_inch));
-        }
-
-        public static string AngleToPCF(double l)
-        {
-            return string.Format("{0}", l);
-        }
-
-        public static double RadianToDegree(double angle)
-        {
-            return angle * (180.0 / Math.PI);
-        }
-    }
-
-    public static class Extensions
-    {
-        const double _inch_to_mm = 25.4;
-        const double _foot_to_mm = 12 * _inch_to_mm;
-        const double _foot_to_inch = 12;
-
-        public static double Round2(this Double number)
-        {
-            return Math.Round(number, 2, MidpointRounding.AwayFromZero);
-        }
-
-        public static double Round(this Double number, int decimals = 0)
-        {
-            return Math.Round(number, decimals, MidpointRounding.AwayFromZero);
-        }
-
-        public static double FtToMm(this Double l) => l * _foot_to_mm;
-
-        public static double FtToInch(this Double l) => l * _foot_to_inch;
-
-        public static bool IsOdd(this int number)
-        {
-            return number % 2 != 0;
-        }
-
-        public static bool IsPipe(this Element elem)
-        {
-            switch (elem)
-            {
-                case Pipe pipe:
-                    return true;
-                default:
-                    return false;
-            }
+            return testedDiameter >= diameterLimit;
         }
     }
 
@@ -747,80 +557,7 @@ namespace PCF_Functions
 
         }
     }
-
-    public class DataHandler
-    {
-        //DataSet import is from here:
-        //http://stackoverflow.com/a/18006593/6073998
-        public static DataSet ImportExcelToDataSet(string fileName, string dataHasHeaders)
-        {
-            //On connection strings http://www.connectionstrings.com/excel/#p84
-            string connectionString =
-                string.Format(
-                    "provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0;HDR={1};IMEX=1\"",
-                    fileName, dataHasHeaders);
-
-            DataSet data = new DataSet();
-
-            foreach (string sheetName in GetExcelSheetNames(connectionString))
-            {
-                using (OleDbConnection con = new OleDbConnection(connectionString))
-                {
-                    var dataTable = new DataTable();
-                    string query = string.Format("SELECT * FROM [{0}]", sheetName);
-                    con.Open();
-                    OleDbDataAdapter adapter = new OleDbDataAdapter(query, con);
-                    adapter.Fill(dataTable);
-
-                    //Remove ' and $ from sheetName
-                    Regex rgx = new Regex("[^a-zA-Z0-9 _-]");
-                    string tableName = rgx.Replace(sheetName, "");
-
-                    dataTable.TableName = tableName;
-                    data.Tables.Add(dataTable);
-                }
-            }
-
-            if (data == null) Util.ErrorMsg("Data set is null");
-            if (data.Tables.Count < 1) Util.ErrorMsg("Table count in DataSet is 0");
-
-            return data;
-        }
-
-        static string[] GetExcelSheetNames(string connectionString)
-        {
-            //OleDbConnection con = null;
-            DataTable dt = null;
-            using (OleDbConnection con = new OleDbConnection(connectionString))
-            {
-                //con = new OleDbConnection(connectionString);
-                con.Open();
-                dt = con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-            }
-
-            if (dt == null)
-            {
-                return null;
-            }
-
-            string[] excelSheetNames = new string[dt.Rows.Count];
-            int i = 0;
-
-            foreach (DataRow row in dt.Rows)
-            {
-                excelSheetNames[i] = row["TABLE_NAME"].ToString();
-                i++;
-            }
-
-            return excelSheetNames;
-        }
-
-        public static DataTable ReadDataTable(DataTableCollection dataTableCollection, string tableName)
-        {
-            return (from DataTable dtbl in dataTableCollection where dtbl.TableName == tableName select dtbl).FirstOrDefault();
-        }
-    }
-
+       
     public static class ParameterDataWriter
     {
         public static void SetWallThicknessPipes(HashSet<Element> elements)
@@ -865,30 +602,38 @@ namespace PCF_Functions
                 Parameter wallThkParameter = element.get_Parameter(wallThkDef.Guid);
 
                 //Get connector set for the pipes
-                ConnectorSet connectorSet = MepUtils.GetConnectorManager(element).Connectors;
+                ConnectorSet connectorSet = Shared.MepUtils.GetConnectorManager(element).Connectors;
 
                 Connector c1 = null;
 
+                switch (element)
+                {
+                    case Pipe pipe:
+                        //Filter out non-end types of connectors
+                        c1 = (from Connector connector in connectorSet
+                              where connector.ConnectorType.ToString().Equals("End")
+                              select connector).FirstOrDefault();
+                        break;
+                    case FamilyInstance fi:
+                        c1 = (from Connector connector in connectorSet
+                              where connector.GetMEPConnectorInfo().IsPrimary
+                              select connector).FirstOrDefault();
+                        Connector c2 = (from Connector connector in connectorSet
+                                        where connector.GetMEPConnectorInfo().IsSecondary
+                                        select connector).FirstOrDefault();
+                        if (c2 != null) if (c1.Radius > c2.Radius) c1 = c2;
+                        break;
+                    default:
+                        break;
+                }
                 if (element is Pipe)
                 {
-                    //Filter out non-end types of connectors
-                    c1 = (from Connector connector in connectorSet
-                          where connector.ConnectorType.ToString().Equals("End")
-                          select connector).FirstOrDefault();
+                    
                 }
 
                 if (element is FamilyInstance)
                 {
-                    c1 = (from Connector connector in connectorSet
-                          where connector.GetMEPConnectorInfo().IsPrimary
-                          select connector).FirstOrDefault();
-                    Connector c2 = (from Connector connector in connectorSet
-                                    where connector.GetMEPConnectorInfo().IsSecondary
-                                    select connector).FirstOrDefault();
-                    if (c2 != null)
-                    {
-                        if (c1.Radius > c2.Radius) c1 = c2;
-                    }
+                    
                 }
 
                 string data = string.Empty;
@@ -896,180 +641,6 @@ namespace PCF_Functions
                 int dia = Convert.ToInt32(source);
                 pipeWallThk.TryGetValue(dia, out data);
                 wallThkParameter.Set(data);
-            }
-        }
-    }
-
-    public static class MepUtils
-    {
-        /// <summary>
-        /// Return the given element's connector manager, 
-        /// using either the family instance MEPModel or 
-        /// directly from the MEPCurve connector manager
-        /// for ducts and pipes.
-        /// </summary>
-        public static ConnectorManager GetConnectorManager(Element e)
-        {
-            MEPCurve mc = e as MEPCurve;
-            FamilyInstance fi = e as FamilyInstance;
-
-            if (null == mc && null == fi)
-            {
-                throw new ArgumentException(
-                  "Element is neither an MEP curve nor a fitting.");
-            }
-
-            return null == mc
-              ? fi.MEPModel.ConnectorManager
-              : mc.ConnectorManager;
-        }
-
-        public static PipingSystemType GetElementPipingSystemType(Element element, Document doc)
-        {
-            //Retrieve Element PipingSystemType
-            ElementId sysTypeId;
-
-            if (element is MEPCurve pipe)
-            {
-                sysTypeId = pipe.MEPSystem.GetTypeId();
-            }
-            else if (element is FamilyInstance famInst)
-            {
-                ConnectorSet cSet = famInst.MEPModel.ConnectorManager.Connectors;
-                Connector con =
-                    (from Connector c in cSet where c.GetMEPConnectorInfo().IsPrimary select c).FirstOrDefault();
-                sysTypeId = con.MEPSystem.GetTypeId();
-            }
-            else throw new Exception("Trying to get PipingSystemType from nor MEPCurve nor FamilyInstance for element: " + element.Id.IntegerValue);
-
-            return (PipingSystemType)doc.GetElement(sysTypeId);
-        }
-
-        public static IList<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
-        {
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-            HashSet<PipingSystem> pipingSystems = collector.OfClass(typeof(PipingSystem)).Cast<PipingSystem>().ToHashSet();
-            HashSet<PipingSystemType> pipingSystemTypes = pipingSystems.Select(ps => doc.GetElement(ps.GetTypeId())).Cast<PipingSystemType>().ToHashSet();
-
-            //Following code takes care if PCF_PIPL_EXCL has not been properly imported.
-            PipingSystemType pstype = pipingSystemTypes.FirstOrDefault();
-            if (pstype == null) throw new Exception("No piping systems created yet! Draw some pipes.");
-
-            HashSet<string> abbreviations;
-            if (pstype.get_Parameter(new plst().PCF_PIPL_EXCL.Guid) == null)
-            {
-                abbreviations = pipingSystemTypes.Select(pst => pst.Abbreviation).ToHashSet();
-            }
-            else
-            {
-                abbreviations = pipingSystemTypes
-                      .Where(pst => pst.get_Parameter(new plst().PCF_PIPL_EXCL.Guid).AsInteger() == 0) //Filter out EXCLUDED piping systems
-                      .Select(pst => pst.Abbreviation).ToHashSet();
-            }
-
-            return abbreviations.Distinct().ToList();
-        }
-
-        public static Cons GetConnectors(Element element) => new Cons(element);
-
-        public static HashSet<Connector> GetAllConnectorsFromConnectorSet(ConnectorSet conSet)
-        {
-            IList<Connector> list = new List<Connector>();
-            foreach (Connector con in conSet) list.Add(con);
-            return list.ToHashSet();
-        }
-
-        public static ConnectorSet GetConnectorSet(Element e)
-        {
-            ConnectorSet cs = null;
-
-            if (e is FamilyInstance)
-            {
-                MEPModel m = ((FamilyInstance)e).MEPModel;
-                if (null != m && null != m.ConnectorManager) cs = m.ConnectorManager.Connectors;
-            }
-
-            else if (e is Wire) cs = ((Wire)e).ConnectorManager.Connectors;
-
-            else
-            {
-                Debug.Assert(e.GetType().IsSubclassOf(typeof(MEPCurve)),
-                    "expected all candidate connector provider "
-                    + "elements to be either family instances or "
-                    + "derived from MEPCurve");
-
-                if (e is MEPCurve) cs = ((MEPCurve)e).ConnectorManager.Connectors;
-            }
-
-            return cs ?? new ConnectorSet();
-        }
-
-        public static HashSet<Connector> GetALLConnectorsFromElements(HashSet<Element> elements)
-        {
-            return (from e in elements from Connector c in GetConnectorSet(e) select c).ToHashSet();
-        }
-
-        public static HashSet<Connector> GetALLConnectorsFromElements(Element element)
-        {
-            return (from Connector c in GetConnectorSet(element) select c).ToHashSet();
-        }
-    }
-
-    public class Cons
-    {
-        public Connector Primary { get; } = null;
-        public Connector Secondary { get; } = null;
-        public Connector Tertiary { get; } = null;
-        public int Count { get; } = 0;
-        public Connector Largest { get; } = null;
-        public Connector Smallest { get; } = null;
-
-        public Cons(Element element)
-        {
-            var connectors = MepUtils.GetALLConnectorsFromElements(element);
-
-            switch (element)
-            {
-                case Pipe pipe:
-
-                    var filteredCons = connectors.Where(c => c.ConnectorType.ToString() == "End").ToList();
-
-                    Primary = filteredCons.First();
-                    Secondary = filteredCons.Last();
-                    break;
-
-                case FamilyInstance fi:
-                    foreach (Connector connector in connectors)
-                    {
-                        Count++;
-                        if (connector.GetMEPConnectorInfo().IsPrimary) Primary = connector;
-                        else if (connector.GetMEPConnectorInfo().IsSecondary) Secondary = connector;
-                        else if ((connector.GetMEPConnectorInfo().IsPrimary == false) && (connector.GetMEPConnectorInfo().IsSecondary == false))
-                            Tertiary = connector;
-                    }
-
-                    if (Count > 1 && Secondary == null)
-                        throw new Exception($"Element {element.Id.ToString()} has {Count} connectors and no secondary!");
-
-                    if (element is FamilyInstance)
-                    {
-                        if (element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting)
-                        {
-                            var mf = ((FamilyInstance)element).MEPModel as MechanicalFitting;
-
-                            if (mf.PartType.ToString() == "Transition")
-                            {
-                                double primDia = (Primary.Radius * 2).Round(3);
-                                double secDia = (Secondary.Radius * 2).Round(3);
-
-                                Largest = primDia > secDia ? Primary : Secondary;
-                                Smallest = primDia < secDia ? Primary : Secondary;
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    throw new Exception("Cons: Element id nr.: " + element.Id.ToString() + " is not a Pipe or FamilyInstance!");
             }
         }
     }
