@@ -33,7 +33,7 @@ namespace NTR_Exporter
                 sbFittings.Append(kind);
 
                 //Get the connectors
-                var cons = NTR_Utils.GetConnectors(element);
+                var cons = Shared.MepUtils.GetConnectors(element);
 
                 switch (kind)
                 {
