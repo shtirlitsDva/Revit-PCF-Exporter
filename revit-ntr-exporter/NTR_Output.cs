@@ -11,7 +11,7 @@ namespace NTR_Output
         public void OutputWriter(Document _document, StringBuilder _collect, string _outputDir)
         {
             string docName = _document.ProjectInformation.Name;
-            string dateAndTime = DateTime.Now.ToString();
+            string dateAndTime = DateTime.Now.ToString("yyyy.MM.dd-HH.mm.ss");
             dateAndTime = dateAndTime.Replace(" ", "_");
             dateAndTime = dateAndTime.Replace(":", "-");
 
