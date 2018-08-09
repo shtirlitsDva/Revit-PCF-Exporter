@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-pcf-exporter", "Revit-PCF-exporter\revit-pcf-exporter.csproj", "{037B382D-9BC9-4D7A-B76D-55BE5964E44D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-pcf-exporter", "revit-pcf-exporter\revit-pcf-exporter.csproj", "{037B382D-9BC9-4D7A-B76D-55BE5964E44D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-ntr-exporter", "Revit-NTR-Exporter\revit-ntr-exporter.csproj", "{413ED922-8003-4988-BC1C-B61C81587A8E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-ntr-exporter", "revit-ntr-exporter\revit-ntr-exporter.csproj", "{413ED922-8003-4988-BC1C-B61C81587A8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-cii-neutral-exporter", "revit-cii-neutral-exporter\revit-cii-neutral-exporter.csproj", "{50023005-3134-4277-A8BE-69476807B787}"
 EndProject
