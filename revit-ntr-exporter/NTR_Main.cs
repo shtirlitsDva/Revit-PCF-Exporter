@@ -23,6 +23,7 @@ namespace NTR_Exporter
         public NTR_Exporter()
         {
             //Clear data from previous runs
+            //Test comment
             outputBuilder.Clear();
 
             outputBuilder.Append(conf._01_GEN);

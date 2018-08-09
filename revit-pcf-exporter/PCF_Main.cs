@@ -21,6 +21,7 @@ namespace PCF_Exporter
         internal Result ExecuteMyCommand(UIApplication uiApp, ref string msg)
         {
             // UIApplication uiApp = commandData.Application;
+            //Test comment
             Document doc = uiApp.ActiveUIDocument.Document;
 
             try
