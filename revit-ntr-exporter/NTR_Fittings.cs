@@ -93,6 +93,7 @@ namespace NTR_Exporter
                 sbFittings.AppendLine();
 
                 //Detect and write NOZZLES to exchangers
+                //This is a test comment
                 switch (fat)
                 {
                     case "Compac: DN 150":
