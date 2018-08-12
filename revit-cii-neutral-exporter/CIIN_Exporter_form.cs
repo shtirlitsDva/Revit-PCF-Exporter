@@ -8,7 +8,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using CIINExporter.BuildingCoder;
+using Shared.BuildingCoder;
 using mySettings = CIINExporter.Properties.Settings;
 using iv = CIINExporter.InputVars;
 using dh = CIINExporter.DataHandler;

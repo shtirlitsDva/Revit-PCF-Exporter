@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PCF_Functions
+namespace Shared
 {
     //This class is introduced to fix the default behaviour of radiobuttons in RadioBox. I couldn't get the radiobuttons
     //to switch on and off correctly inside one RadioBox. I found this solution somewhere on the net.

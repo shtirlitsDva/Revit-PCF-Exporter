@@ -13,7 +13,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.UI;
-using CIINExporter.BuildingCoder;
+using Shared.BuildingCoder;
 using MoreLinq;
 using iv = CIINExporter.InputVars;
 using pdef = CIINExporter.ParameterDefinition;
