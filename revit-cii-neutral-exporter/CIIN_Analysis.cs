@@ -531,14 +531,14 @@ namespace MEPSystemTraversal
                     oDia = Element.get_Parameter(BuiltInParameter.RBS_PIPE_OUTER_DIAMETER).AsDouble().FtToMm();
                     //Wallthk
                     DN = (int)pipe.Diameter.FtToMm().Round();
-                    WallThk = MepUtilsStaging.pipeWallThkDict()[DN];
+                    WallThk = MepUtils.pipeWallThkDict()[DN];
                     break;
                 case FamilyInstance fi:
                     //Outside diameter
                     Cons cons = MepUtils.GetConnectors(fi);
                     DN = (int)(cons.Primary.Radius * 2).FtToMm().Round();
-                    oDia = MepUtilsStaging.outerDiaDict()[DN];
-                    WallThk = MepUtilsStaging.pipeWallThkDict()[DN];
+                    oDia = MepUtils.outerDiaDict()[DN];
+                    WallThk = MepUtils.pipeWallThkDict()[DN];
                     break;
                 default:
                     break;
@@ -560,12 +560,12 @@ namespace MEPSystemTraversal
         public void AnalyzeReducer()
         {
             int fromDN = (int)(From.NextCon.Radius * 2).FtToMm().Round();
-            oDia = MepUtilsStaging.outerDiaDict()[fromDN];
-            WallThk = MepUtilsStaging.pipeWallThkDict()[fromDN];
+            oDia = MepUtils.outerDiaDict()[fromDN];
+            WallThk = MepUtils.pipeWallThkDict()[fromDN];
 
             int toDN = (int)(To.PreviousCon.Radius * 2).FtToMm().Round();
-            secondODia = MepUtilsStaging.outerDiaDict()[toDN];
-            secondWallThk = MepUtilsStaging.pipeWallThkDict()[toDN];
+            secondODia = MepUtils.outerDiaDict()[toDN];
+            secondWallThk = MepUtils.pipeWallThkDict()[toDN];
         }
     }
 

@@ -362,7 +362,7 @@ namespace Shared
             return (from e in Filter.GetElementsWithConnectors(doc) from Connector c in GetConnectorSet(e) select c).ToHashSet();
         }
 
-        internal static bool IsTheElementACap(Element element)
+        public static bool IsTheElementACap(Element element)
         {
             switch (element)
             {
@@ -396,7 +396,7 @@ namespace Shared
             }
         }
 
-        internal static Dictionary<int, double> pipeWallThkDict()
+        public static Dictionary<int, double> pipeWallThkDict()
         {
             return new Dictionary<int, double>
             {
@@ -423,7 +423,7 @@ namespace Shared
             };
         }
 
-        internal static Dictionary<int, double> outerDiaDict()
+        public static Dictionary<int, double> outerDiaDict()
         {
             return new Dictionary<int, double>
             {
