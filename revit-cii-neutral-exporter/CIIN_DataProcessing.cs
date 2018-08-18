@@ -10,8 +10,10 @@ using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.UI;
 using Shared.BuildingCoder;
+using Shared;
 
-using static CIINExporter.Enums;
+using MEPSystemTraversal;
+using static MEPSystemTraversal.Enums;
 
 namespace CIINExporter
 {

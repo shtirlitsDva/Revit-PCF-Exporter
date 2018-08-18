@@ -9,9 +9,10 @@ using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Shared.BuildingCoder;
+using mp = Shared.MepUtils;
 using mySettings = CIINExporter.Properties.Settings;
 using iv = CIINExporter.InputVars;
-using dh = CIINExporter.DataHandler;
+using dh = Shared.DataHandler;
 
 namespace CIINExporter
 {
@@ -48,7 +49,7 @@ namespace CIINExporter
             //Init Scope
 
             //Gather all physical piping systems and collect distinct abbreviations
-            pipeLinesAbbreviations = MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
+            pipeLinesAbbreviations = mp.GetDistinctPhysicalPipingSystemTypeNames(_doc);
 
             //Use the distinct abbreviations as data source for the comboBox
             comboBox2.DataSource = pipeLinesAbbreviations;

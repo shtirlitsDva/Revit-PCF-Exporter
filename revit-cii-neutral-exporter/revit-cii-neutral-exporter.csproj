@@ -109,6 +109,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="SharedStagingArea.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

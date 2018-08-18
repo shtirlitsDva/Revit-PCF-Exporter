@@ -10,12 +10,12 @@ using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.UI;
 using Shared.BuildingCoder;
+using Shared;
 
-using static CIINExporter.MepUtils;
-using static CIINExporter.Debugger;
-using static CIINExporter.Enums;
+using static MEPSystemTraversal.Enums;
 
-namespace CIINExporter
+
+namespace MEPSystemTraversal
 {
     class CIIN_Analysis
     {
@@ -119,7 +119,7 @@ namespace CIINExporter
 
                         break;
                     case FamilyInstance fi:
-                        Cons cons = GetConnectors(fi);
+                        Cons cons = MepUtils.GetConnectors(fi);
                         int cat = fi.Category.Id.IntegerValue;
                         switch (cat)
                         {
@@ -147,7 +147,7 @@ namespace CIINExporter
 
                                         //Second Analytic Element
                                         //First determine the To connector
-                                        To = (from Connector c in GetALLConnectorsFromElements(curElem)
+                                        To = (from Connector c in MepUtils.GetALLConnectorsFromElements(curElem)
                                               where c.Id != From.Id
                                               select c).FirstOrDefault();
 
@@ -302,7 +302,7 @@ namespace CIINExporter
                                         }
                                         break;
                                     case PartType.Transition:
-                                        To = (from Connector c in GetALLConnectorsFromElements(curElem)
+                                        To = (from Connector c in MepUtils.GetALLConnectorsFromElements(curElem)
                                               where c.Id != From.Id
                                               select c).FirstOrDefault();
                                         ToNode.PreviousCon = To;
@@ -322,7 +322,7 @@ namespace CIINExporter
                                     case PartType.Cap:
                                         //Handles flanges because of the workaround PartType.Cap for flanges
                                         //Real Caps are ignored for now
-                                        To = (from Connector c in GetALLConnectorsFromElements(curElem)
+                                        To = (from Connector c in MepUtils.GetALLConnectorsFromElements(curElem)
                                               where c.Id != From.Id
                                               select c).FirstOrDefault();
                                         ToNode.PreviousCon = To;
@@ -531,14 +531,14 @@ namespace CIINExporter
                     oDia = Element.get_Parameter(BuiltInParameter.RBS_PIPE_OUTER_DIAMETER).AsDouble().FtToMm();
                     //Wallthk
                     DN = (int)pipe.Diameter.FtToMm().Round();
-                    WallThk = pipeWallThkDict()[DN];
+                    WallThk = MepUtilsStaging.pipeWallThkDict()[DN];
                     break;
                 case FamilyInstance fi:
                     //Outside diameter
-                    Cons cons = GetConnectors(fi);
+                    Cons cons = MepUtils.GetConnectors(fi);
                     DN = (int)(cons.Primary.Radius * 2).FtToMm().Round();
-                    oDia = outerDiaDict()[DN];
-                    WallThk = pipeWallThkDict()[DN];
+                    oDia = MepUtilsStaging.outerDiaDict()[DN];
+                    WallThk = MepUtilsStaging.pipeWallThkDict()[DN];
                     break;
                 default:
                     break;
@@ -547,7 +547,7 @@ namespace CIINExporter
         }
         public void AnalyzeBend()
         {
-            Cons cons = GetConnectors(Element);
+            Cons cons = MepUtils.GetConnectors(Element);
             XYZ P = cons.Primary.Origin;
             XYZ Q = cons.Secondary.Origin;
             double a = P.DistanceTo(Q) / 2;
@@ -560,12 +560,12 @@ namespace CIINExporter
         public void AnalyzeReducer()
         {
             int fromDN = (int)(From.NextCon.Radius * 2).FtToMm().Round();
-            oDia = outerDiaDict()[fromDN];
-            WallThk = pipeWallThkDict()[fromDN];
+            oDia = MepUtilsStaging.outerDiaDict()[fromDN];
+            WallThk = MepUtilsStaging.pipeWallThkDict()[fromDN];
 
             int toDN = (int)(To.PreviousCon.Radius * 2).FtToMm().Round();
-            secondODia = outerDiaDict()[toDN];
-            secondWallThk = pipeWallThkDict()[toDN];
+            secondODia = MepUtilsStaging.outerDiaDict()[toDN];
+            secondWallThk = MepUtilsStaging.pipeWallThkDict()[toDN];
         }
     }
 
@@ -581,7 +581,7 @@ namespace CIINExporter
         public List<AnalyticElement> AllAnalyticElements { get; } = new List<AnalyticElement>();
         public List<Connector> AllConnectors { get; set; }
         public List<Element> AllElements { get; }
-        public ModelData Data { get; set; } = null;
+        public CIINExporter.ModelData Data { get; set; } = null;
 
         public int Counter_Bends { get; set; } = 0;
         public int Counter_Reducers { get; set; } = 0;
@@ -590,7 +590,7 @@ namespace CIINExporter
         public AnalyticModel(HashSet<Element> elements)
         {
             AllElements = elements.ToList();
-            AllConnectors = GetALLConnectorsFromElements(elements).ToList();
+            AllConnectors = MepUtils.GetALLConnectorsFromElements(elements).ToList();
         }
     }
 
