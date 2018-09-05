@@ -189,7 +189,7 @@ namespace NTR_Functions
             return " " + p + "=DN" + dia.FtToMm().Round(0);
         }
 
-        public static string ReadParameterFromDataTable(string key, DataTable table, string parameter)
+        public static string ReadWritePropertyFromDataTable(string key, DataTable table, string parameter)
         {
             //Test if value exists
             if (table.AsEnumerable().Any(row => row.Field<string>(0) == key))
@@ -200,6 +200,21 @@ namespace NTR_Functions
                 string value = query.FirstOrDefault();
                 if (string.IsNullOrEmpty(value)) return "";
                 return " " + parameter + "=" + value;
+            }
+            return "";
+        }
+
+        public static string ReadPropertyValueFromDataTable(string key, DataTable table, string parameter)
+        {
+            //Test if value exists
+            if (table.AsEnumerable().Any(row => row.Field<string>(0) == key))
+            {
+                var query = from row in table.AsEnumerable()
+                            where row.Field<string>(0) == key
+                            select row.Field<string>(parameter);
+                string value = query.FirstOrDefault();
+                if (string.IsNullOrEmpty(value)) return "";
+                return value;
             }
             return "";
         }

@@ -46,7 +46,7 @@ namespace NTR_Exporter
                     case "SH":
                     case "FH":
                         sb.Append(dw.PointCoordsHanger("PNAME", element));
-                        if (kind == "FH") sb.Append(dw.ReadParameterFromDataTable(famAndType, conf.Supports, "CW"));
+                        if (kind == "FH") sb.Append(dw.ReadWritePropertyFromDataTable(famAndType, conf.Supports, "CW"));
                         sb.Append(dw.HangerLength("L", element));
                         sb.Append(dw.WriteElementId(element, "REF"));
                         sb.AppendLine();

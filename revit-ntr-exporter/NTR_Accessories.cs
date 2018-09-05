@@ -39,7 +39,7 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.PointCoords("PM", element));
                         sbAccessories.Append(dw.DnWriter("DN1", cons.Primary));
                         sbAccessories.Append(dw.DnWriter("DN2", cons.Secondary));
-                        sbAccessories.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "GEW"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "GEW"));
                         break;
                     // Old SymbolicSupport cases
                     //case "SH":
@@ -52,7 +52,7 @@ namespace NTR_Exporter
                     case "SH":
                     case "FH":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
-                        if (kind == "FH") sbAccessories.Append(dw.ReadParameterFromDataTable(fat, conf.Supports, "CW"));
+                        if (kind == "FH") sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "CW"));
                         sbAccessories.Append(dw.HangerLength("L", element));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
@@ -66,19 +66,19 @@ namespace NTR_Exporter
                     case "FL":
                     case "GL":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
-                        sbAccessories.Append(dw.ReadParameterFromDataTable(fat, conf.Supports, "MALL"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MALL"));
                         sbAccessories.AppendLine();
                         continue;
                     case "RO":
                         //Added for preinsulated district heating pipes in Pipe Accessory category
                         sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
                         sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
-                        sbAccessories.Append(dw.ReadParameterFromDataTable(fat, conf.Elements, "DN"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "DN"));
                         break;
                 }
 
-                sbAccessories.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
-                sbAccessories.Append(dw.ReadParameterFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
+                sbAccessories.Append(dw.ReadWritePropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
+                sbAccessories.Append(dw.ReadWritePropertyFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
                 sbAccessories.Append(dw.WriteElementId(element, "REF"));
                 sbAccessories.Append(" LTG=" + key);
                 sbAccessories.AppendLine();
