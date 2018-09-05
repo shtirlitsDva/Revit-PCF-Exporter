@@ -9,12 +9,11 @@ using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.UI;
-using CIINExporter.BuildingCoder;
+using Shared.BuildingCoder;
+using Shared;
 
-using static CIINExporter.MepUtils;
-using static CIINExporter.Debugger;
-using static CIINExporter.Enums;
-using static CIINExporter.Extensions;
+using MEPSystemTraversal;
+using static MEPSystemTraversal.Enums;
 
 namespace CIINExporter
 {

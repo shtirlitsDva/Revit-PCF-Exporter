@@ -361,6 +361,94 @@ namespace Shared
         {
             return (from e in Filter.GetElementsWithConnectors(doc) from Connector c in GetConnectorSet(e) select c).ToHashSet();
         }
+
+        public static bool IsTheElementACap(Element element)
+        {
+            switch (element)
+            {
+                case Pipe pipe:
+                    return false;
+                case FamilyInstance fi:
+                    int cat = fi.Category.Id.IntegerValue;
+                    switch (cat)
+                    {
+                        case (int)BuiltInCategory.OST_PipeFitting:
+                            var mf = fi.MEPModel as MechanicalFitting;
+                            var partType = mf.PartType;
+                            switch (partType)
+                            {
+                                case PartType.Cap:
+                                    //Flanges share the same PartType with Caps
+                                    //I assume that Family Name of the Cap contains word "Cap"
+                                    //Thus filtering for Cap families and retaining flanges
+                                    Parameter para = element.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM);
+                                    string familyName = para.AsValueString();
+                                    if (familyName.Contains("Cap")) return true;
+                                    else return false;
+                                default:
+                                    return false;
+                            }
+                        default:
+                            return false;
+                    }
+                default:
+                    return false;
+            }
+        }
+
+        public static Dictionary<int, double> pipeWallThkDict()
+        {
+            return new Dictionary<int, double>
+            {
+                [10] = 1.8,
+                [15] = 2.0,
+                [20] = 2.3,
+                [25] = 2.6,
+                [32] = 2.6,
+                [40] = 2.6,
+                [50] = 2.9,
+                [65] = 2.9,
+                [80] = 3.2,
+                [100] = 3.6,
+                [125] = 4.0,
+                [150] = 4.5,
+                [200] = 6.3,
+                [250] = 6.3,
+                [300] = 7.1,
+                [350] = 8.0,
+                [400] = 8.8,
+                [450] = 10.0,
+                [500] = 11.0,
+                [600] = 12.5
+            };
+        }
+
+        public static Dictionary<int, double> outerDiaDict()
+        {
+            return new Dictionary<int, double>
+            {
+                [10] = 17.2,
+                [15] = 21.3,
+                [20] = 26.9,
+                [25] = 33.7,
+                [32] = 42.4,
+                [40] = 48.3,
+                [50] = 60.3,
+                [65] = 76.1,
+                [80] = 88.9,
+                [100] = 114.3,
+                [125] = 139.7,
+                [150] = 168.3,
+                [200] = 219.1,
+                [250] = 273.0,
+                [300] = 323.9,
+                [350] = 355.6,
+                [400] = 406.4,
+                [450] = 457.0,
+                [500] = 508.0,
+                [600] = 610.0
+            };
+        }
     }
 
     public class Cons
@@ -630,6 +718,11 @@ namespace Shared
         public static bool IsNullOrEmpty(this string str)
         {
             return string.IsNullOrEmpty(str);
+        }
+
+        public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate)
+        {
+            return source.Where(x => !predicate(x));
         }
     }
 

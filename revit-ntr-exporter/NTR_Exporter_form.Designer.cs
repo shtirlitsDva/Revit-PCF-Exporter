@@ -13,7 +13,7 @@ using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 
 using mySettings = NTR_Exporter.Properties.Settings;
-using RadioBox = PCF_Functions.RadioBox;
+using Shared;
 
 namespace NTR_Exporter
 {
@@ -48,7 +48,7 @@ namespace NTR_Exporter
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NTR_Exporter_form));
             this.Tabs = new System.Windows.Forms.TabControl();
             this.TabSetup = new System.Windows.Forms.TabPage();
-            this.radioBox1 = new PCF_Functions.RadioBox();
+            this.radioBox1 = new RadioBox();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -62,15 +62,15 @@ namespace NTR_Exporter
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.radioBox3 = new PCF_Functions.RadioBox();
-            this.radioBox2 = new PCF_Functions.RadioBox();
+            this.radioBox3 = new RadioBox();
+            this.radioBox2 = new RadioBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
-            this.groupBox6 = new PCF_Functions.RadioBox();
-            this.groupBox10 = new PCF_Functions.RadioBox();
-            this.groupBox9 = new PCF_Functions.RadioBox();
-            this.groupBox8 = new PCF_Functions.RadioBox();
-            this.groupBox7 = new PCF_Functions.RadioBox();
-            this.groupBox3 = new PCF_Functions.RadioBox();
+            this.groupBox6 = new RadioBox();
+            this.groupBox10 = new RadioBox();
+            this.groupBox9 = new RadioBox();
+            this.groupBox8 = new RadioBox();
+            this.groupBox7 = new RadioBox();
+            this.groupBox3 = new RadioBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.textBox24 = new System.Windows.Forms.TextBox();
