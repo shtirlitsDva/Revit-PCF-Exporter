@@ -260,13 +260,21 @@ namespace PCF_Functions
 
     public class EndWriter
     {
+        internal static string PointStringMm(XYZ p)
+        {
+            return string.Concat(
+                Math.Round(p.X.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Y.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Z.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")));
+        }
+
         public static StringBuilder WriteEP1(Element element, Connector connector)
         {
             StringBuilder sbEndWriter = new StringBuilder();
             XYZ connectorOrigin = connector.Origin;
             double connectorSize = connector.Radius;
             sbEndWriter.Append("    END-POINT ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(connectorOrigin));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
             sbEndWriter.Append(" ");
             if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
@@ -286,7 +294,7 @@ namespace PCF_Functions
             XYZ connectorOrigin = connector.Origin;
             double connectorSize = connector.Radius;
             sbEndWriter.Append("    END-POINT ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(connectorOrigin));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
             sbEndWriter.Append(" ");
             if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
@@ -306,7 +314,7 @@ namespace PCF_Functions
             XYZ connectorOrigin = connector;
             double connectorSize = size;
             sbEndWriter.Append("    END-POINT ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(connectorOrigin));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
             sbEndWriter.Append(" ");
             if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
@@ -326,7 +334,7 @@ namespace PCF_Functions
             XYZ connectorOrigin = connector.Origin;
             double connectorSize = connector.Radius;
             sbEndWriter.Append("    END-POINT ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(connectorOrigin));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
             sbEndWriter.Append(" ");
             if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
@@ -346,7 +354,7 @@ namespace PCF_Functions
             XYZ connectorOrigin = connector.Origin;
             double connectorSize = connector.Radius;
             sbEndWriter.Append("    BRANCH1-POINT ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(connectorOrigin));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
             sbEndWriter.Append(" ");
             if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
@@ -365,7 +373,7 @@ namespace PCF_Functions
             StringBuilder sbEndWriter = new StringBuilder();
             XYZ elementLocation = ((LocationPoint)familyInstance.Location).Point;
             sbEndWriter.Append("    CENTRE-POINT ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(elementLocation));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(elementLocation));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(elementLocation));
             sbEndWriter.AppendLine();
             return sbEndWriter;
@@ -375,7 +383,7 @@ namespace PCF_Functions
         {
             StringBuilder sbEndWriter = new StringBuilder();
             sbEndWriter.Append("    CENTRE-POINT ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(point));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(point));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(point));
             sbEndWriter.AppendLine();
             return sbEndWriter;
@@ -385,7 +393,7 @@ namespace PCF_Functions
         {
             StringBuilder sbEndWriter = new StringBuilder();
             sbEndWriter.Append("    CO-ORDS ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(point));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(point));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(point));
             sbEndWriter.AppendLine();
             return sbEndWriter;
@@ -396,7 +404,7 @@ namespace PCF_Functions
             StringBuilder sbEndWriter = new StringBuilder();
             XYZ elementLocation = ((LocationPoint)familyInstance.Location).Point;
             sbEndWriter.Append("    CO-ORDS ");
-            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(Conversion.PointStringMm(elementLocation));
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(elementLocation));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(elementLocation));
             double connectorSize = passedConnector.Radius;
             sbEndWriter.Append(" ");
