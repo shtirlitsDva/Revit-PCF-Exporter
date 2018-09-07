@@ -158,6 +158,8 @@ namespace Shared
                         return new FilteredElementCollector(doc).OfCategory(bic).OfClass(typeof(FamilyInstance)).Cast<T1>().ToHashSet();
                     case BuiltInCategory.OST_PipeInsulations:
                         return new FilteredElementCollector(doc).OfCategory(bic).OfClass(typeof(PipeInsulation)).Cast<T1>().ToHashSet();
+                    case BuiltInCategory.INVALID:
+                        return new FilteredElementCollector(doc).OfClass(typeof(T1)).Cast<T1>().ToHashSet();
                     default:
                         throw new NotImplementedException($"The {bic} is not implemented in the GetElements method!");
                 }
