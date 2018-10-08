@@ -81,7 +81,7 @@ namespace NTR_Exporter
 
                 }
 
-                if (iv.ExportAllSepFiles || iv.ExportSpecificPipeLine)
+                else if (iv.ExportAllSepFiles || iv.ExportSpecificPipeLine)
                 {
                     //Define a collector with multiple filters to collect PipeFittings OR PipeAccessories OR Pipes + filter by System Abbreviation
                     //System Abbreviation filter also filters FamilySymbols out.
@@ -96,7 +96,7 @@ namespace NTR_Exporter
                     colElements = collector.ToElements().ToHashSet();
                 }
 
-                if (iv.ExportSelection)
+                else if (iv.ExportSelection)
                 {
                     ICollection<ElementId> selection = cData.Application.ActiveUIDocument.Selection.GetElementIds();
                     colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
