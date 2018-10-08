@@ -9,7 +9,7 @@ using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using Shared.BuildingCoder;
 using Shared;
-using MEPSystemTraversal;
+using RevitMEPSystemTraversal;
 using pd = CIINExporter.ParameterData;
 using plst = CIINExporter.ParameterList;
 using pdef = CIINExporter.ParameterDefinition;
@@ -123,7 +123,7 @@ namespace CIINExporter
 
                 #region Analysis
 
-                CIIN_Analysis cIIA = new CIIN_Analysis(doc, filteredElements);
+                 cIIA = new CIIN_Analysis(doc, filteredElements);
                 cIIA.AnalyzeSystem();
                 cIIA.NumberNodes();
                 //cIIA.PlaceTextNotesAtNodes();

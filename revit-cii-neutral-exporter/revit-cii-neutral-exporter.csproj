@@ -128,5 +128,11 @@
       <DependentUpon>CIIN_Exporter_form.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\revit-mep-system-traversal\revit-mep-system-traversal.csproj">
+      <Project>{7df61751-7dd4-4130-ab37-fda26c23e5a3}</Project>
+      <Name>revit-mep-system-traversal</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
