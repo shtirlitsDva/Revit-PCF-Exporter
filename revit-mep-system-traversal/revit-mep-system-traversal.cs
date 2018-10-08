@@ -16,7 +16,7 @@ using static RevitMEPSystemTraversal.Enums;
 
 namespace RevitMEPSystemTraversal
 {
-    class MEPSystemTraversal
+    public class MEPSystemTraversal
     {
         Document doc;
         public AnalyticModel Model;
@@ -580,8 +580,6 @@ namespace RevitMEPSystemTraversal
         public List<AnalyticElement> AllAnalyticElements { get; } = new List<AnalyticElement>();
         public List<Connector> AllConnectors { get; set; }
         public List<Element> AllElements { get; }
-        //public CIINExporter.ModelData Data { get; set; } = null;
-
         public int Counter_Bends { get; set; } = 0;
         public int Counter_Reducers { get; set; } = 0;
         public int Counter_Intersection { get; set; } = 0;

@@ -123,15 +123,15 @@ namespace CIINExporter
 
                 #region Analysis
 
-                 cIIA = new CIIN_Analysis(doc, filteredElements);
-                cIIA.AnalyzeSystem();
-                cIIA.NumberNodes();
-                //cIIA.PlaceTextNotesAtNodes();
+                MEPSystemTraversal MST = new MEPSystemTraversal(doc, filteredElements);
+                MST.AnalyzeSystem();
+                MST.NumberNodes();
+                //MST.PlaceTextNotesAtNodes();
 
                 #endregion
 
                 #region Data Processing
-                ModelData Data = new ModelData(cIIA.Model);
+                ModelData Data = new ModelData(MST.Model);
                 Data.ProcessData();
 
                 #endregion

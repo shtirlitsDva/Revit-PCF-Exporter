@@ -12,8 +12,8 @@ using Autodesk.Revit.UI;
 using Shared.BuildingCoder;
 using Shared;
 
-using MEPSystemTraversal;
-using static MEPSystemTraversal.Enums;
+using RevitMEPSystemTraversal;
+using static RevitMEPSystemTraversal.Enums;
 
 namespace CIINExporter
 {

@@ -89,7 +89,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CIIN_Analysis.cs" />
     <Compile Include="CIIN_App.cs" />
     <Compile Include="CIIN_DataProcessing.cs" />
     <Compile Include="CIIN_Exporter_form.cs">
