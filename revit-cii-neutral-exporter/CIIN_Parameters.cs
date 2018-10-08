@@ -11,6 +11,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.ApplicationServices;
 using xel = Microsoft.Office.Interop.Excel;
 
+using Shared;
 using Shared.BuildingCoder;
 
 using pd = CIINExporter.ParameterData;
@@ -85,7 +86,7 @@ namespace CIINExporter
 
             //Define a collector (Pipe OR FamInst) AND (Fitting OR Accessory OR Pipe).
             //This is to eliminate FamilySymbols from collector which would throw an exception later on.
-            collector = Filter.GetElementsWithConnectors(doc);
+            collector = Shared.Filter.GetElementsWithConnectors(doc);
 
             //Group all elements by their Family and Type
             orderedCollector =

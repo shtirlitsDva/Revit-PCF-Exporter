@@ -73,78 +73,7 @@ namespace CIINExporter
         //Shared parameter group
         //public const string PCF_GROUP_NAME = "PCF"; OBSOLETE
         public const BuiltInParameterGroup PCF_BUILTIN_GROUP_NAME = BuiltInParameterGroup.PG_ANALYTICAL_MODEL;
-
-        //PCF specification - OBSOLETE
-        //public static string PIPING_SPEC = "STD";
         #endregion
-    }
-
-    public class Filter
-    {
-        public static ElementParameterFilter ParameterValueFilterStringEquals(string valueQualifier, BuiltInParameter testParam)
-        {
-            ParameterValueProvider pvp = new ParameterValueProvider(new ElementId((int)testParam));
-            FilterStringRuleEvaluator str = new FilterStringEquals();
-            FilterStringRule paramFr = new FilterStringRule(pvp, str, valueQualifier, false);
-            return new ElementParameterFilter(paramFr);
-        }
-
-        public static FilteredElementCollector GetElementsWithConnectors(Document doc)
-        {
-            // what categories of family instances
-            // are we interested in?
-            // From here: http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html
-
-            BuiltInCategory[] bics = new BuiltInCategory[]
-            {
-                //BuiltInCategory.OST_CableTray,
-                //BuiltInCategory.OST_CableTrayFitting,
-                //BuiltInCategory.OST_Conduit,
-                //BuiltInCategory.OST_ConduitFitting,
-                //BuiltInCategory.OST_DuctCurves,
-                //BuiltInCategory.OST_DuctFitting,
-                //BuiltInCategory.OST_DuctTerminal,
-                //BuiltInCategory.OST_ElectricalEquipment,
-                //BuiltInCategory.OST_ElectricalFixtures,
-                //BuiltInCategory.OST_LightingDevices,
-                //BuiltInCategory.OST_LightingFixtures,
-                //BuiltInCategory.OST_MechanicalEquipment,
-                BuiltInCategory.OST_PipeAccessory,
-                BuiltInCategory.OST_PipeCurves,
-                BuiltInCategory.OST_PipeFitting,
-                //BuiltInCategory.OST_PlumbingFixtures,
-                //BuiltInCategory.OST_SpecialityEquipment,
-                //BuiltInCategory.OST_Sprinklers,
-                //BuiltInCategory.OST_Wire
-            };
-
-            IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
-
-            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
-
-            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
-
-            LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
-
-            //IList<ElementFilter> b = new List<ElementFilter>(6);
-            IList<ElementFilter> b = new List<ElementFilter>
-            {
-
-                //b.Add(new ElementClassFilter(typeof(CableTray)));
-                //b.Add(new ElementClassFilter(typeof(Conduit)));
-                //b.Add(new ElementClassFilter(typeof(Duct)));
-                new ElementClassFilter(typeof(Pipe)),
-
-                familyInstanceFilter
-            };
-            LogicalOrFilter classFilter = new LogicalOrFilter(b);
-
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
-
-            collector.WherePasses(classFilter);
-
-            return collector;
-        }
     }
 
     internal static class FilterDiameterLimit
