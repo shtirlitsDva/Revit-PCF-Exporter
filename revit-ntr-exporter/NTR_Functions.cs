@@ -351,6 +351,15 @@ namespace NTR_Functions
             var partType = mf.PartType;
             return 0 == partType.CompareTo(pt);
         }
+
+        public static int OwnerIdAsInt(this Element e)
+        {
+            var cons = MepUtils.GetConnectors(e);
+            var refCons = MepUtils.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
+            Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
+            Element owner = refCon.Owner;
+            return owner.Id.IntegerValue;
+        }
     }
 
     public class NTR_Excel

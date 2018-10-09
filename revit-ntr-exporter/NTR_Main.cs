@@ -141,8 +141,8 @@ namespace NTR_Exporter
 
                     //SpudAdjustable -> Olets
                     //Find fittings of this type:
-                    var spudAdjQry = fittingList.Where(x => x.OfPartType(PartType.SpudAdjustable));
-
+                    var spudAdjQry = fittingList.Where(x => x.OfPartType(PartType.SpudAdjustable)).GroupBy(x => x.OwnerIdAsInt());
+                    
 
                     #endregion
 
