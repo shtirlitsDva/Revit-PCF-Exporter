@@ -343,6 +343,14 @@ namespace NTR_Functions
 
             return testedDiameter >= diameterMustBeGreater && testedDiameter <= diameterMustBeLess;
         }
+
+        public static bool OfPartType(this Element e, PartType pt)
+        {
+            FamilyInstance fi = (FamilyInstance)e;
+            var mf = fi.MEPModel as MechanicalFitting;
+            var partType = mf.PartType;
+            return 0 == partType.CompareTo(pt);
+        }
     }
 
     public class NTR_Excel

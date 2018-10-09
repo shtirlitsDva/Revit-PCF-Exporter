@@ -130,12 +130,20 @@ namespace NTR_Exporter
                                                       where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
                                                       select element).ToHashSet();
 
-                    #region Olets and other non-breakable items
+                    #region Olets and other non-breaking items
                     //Here be code to handle non-breaking in elements as olets by the following principle:
                     //Find the non-breaking elements (fx. olets) and affected pipes.
                     //Remove affected pipes from pipeList and create in a transaction new, broken up pieces of pipe coinciding
                     //with olet and ends. Then add those pieces to the pipeList, copy parameter values also.
                     //Process pipeList as usual and then delete those new dummy pipes from model.
+
+                    //TODO: Implement multiple types of non-breaking items per pipe
+
+                    //SpudAdjustable -> Olets
+                    //Find fittings of this type:
+                    var spudAdjQry = fittingList.Where(x => x.OfPartType(PartType.SpudAdjustable));
+
+
                     #endregion
 
                     //TODO: Change the splitting of elements to follow the worksheets
