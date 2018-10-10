@@ -125,13 +125,13 @@ namespace NTR_Exporter
         }
     }
 
-    class NonBreakInFittings
+    class NonBreakInElement
     {
         public Pipe HeadPipe;
         public List<XYZ> AllCreationPoints = new List<XYZ>();
         public List<Element> CreatedElements = new List<Element>();
 
-        public NonBreakInFittings(Document doc, IGrouping<int, Element> group)
+        public NonBreakInElement(Document doc, IGrouping<int, Element> group)
         {
             //Retreive and store the pipe the said elements are connected to:
             ElementId headPipeId = new ElementId(group.Key);
@@ -144,7 +144,7 @@ namespace NTR_Exporter
             AllCreationPoints.Add(referencePoint);
             AllCreationPoints.Add(pipeCons.Secondary.Origin);
             var allCons = mu.GetALLConnectorsFromElements(refElement);
-            var curvePts = allCons.Where(x => x.OfConnectorType(ConnectorType.Curve)).Select(x => x.Origin).ToList();
+            var curvePts = allCons.Where(x => x.OfConType(ConnectorType.Curve)).Select(x => x.Origin).ToList();
             AllCreationPoints.AddRange(curvePts);
             AllCreationPoints.OrderBy(x => x.DistanceTo(referencePoint));
         }

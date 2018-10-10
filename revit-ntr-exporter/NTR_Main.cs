@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Plumbing;
+using Autodesk.Revit.UI;
+using MoreLinq;
+using NTR_Functions;
+using NTR_Output;
+using Shared.BuildingCoder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Plumbing;
-using Autodesk.Revit.UI;
-using Shared.BuildingCoder;
-using MoreLinq;
-using NTR_Functions;
-using NTR_Output;
 using iv = NTR_Functions.InputVars;
 
 namespace NTR_Exporter
@@ -119,69 +119,84 @@ namespace NTR_Exporter
 
                 #region Pipeline management
 
-                List<NonBreakInFittings> nbifAllList = new List<NonBreakInFittings>();
-
-                foreach (IGrouping<string, Element> gp in pipelineGroups)
+                //TransactionGroup to rollback the changes in creating the NonBreakInElements
+                using (TransactionGroup txGp = new TransactionGroup(doc))
                 {
-                    HashSet<Element> pipeList = (from element in gp
-                                                 where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeCurves
-                                                 select element).ToHashSet();
-                    HashSet<Element> fittingList = (from element in gp
-                                                    where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting
-                                                    select element).ToHashSet();
-                    HashSet<Element> accessoryList = (from element in gp
-                                                      where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
-                                                      select element).ToHashSet();
 
-                    #region Olets and other non-breaking items
-                    //Here be code to handle non-breaking in elements as olets by the following principle:
-                    //Find the non-breaking elements (fx. olets) and affected pipes.
-                    //Remove affected pipes from pipeList and create in a transaction new, broken up pieces of pipe coinciding
-                    //with olet and ends. Then add those pieces to the pipeList, copy parameter values also.
-                    //Process pipeList as usual and then delete those new dummy pipes from model.
 
-                    //TODO: Implement multiple types of non-breaking items per pipe -> only if needed -> cannot think of others than olets
+                    //List to store ALL created NonBreakInElements
+                    List<NonBreakInElement> nbifAllList = new List<NonBreakInElement>();
 
-                    //SpudAdjustable -> Olets
-                    //Find fittings of this type:
-                    IEnumerable<IGrouping<int, Element>> spudAdjQry = fittingList.Where(x => x.OfPartType(PartType.SpudAdjustable)).GroupBy(x => x.OwnerIdAsInt());
-
-                    IList<NonBreakInFittings> nbifList = new List<NonBreakInFittings>();
-
-                    foreach (IGrouping<int, Element> group in spudAdjQry) nbifList.Add(new NonBreakInFittings(doc, group));
-                    nbifAllList.AddRange(nbifList);
-
-                    //Remove the HeadPipes from the PipeList
-                    var pipesToRemoveIds = nbifList.Select(x => x.HeadPipe.Id.IntegerValue).ToHashSet();
-                    pipeList = pipeList.Where(x => !pipesToRemoveIds.Contains(x.Id.IntegerValue)).ToHashSet();
-
-                    //Transaction to create all part pipes
-                    using (Transaction tx1 = new Transaction(doc))
+                    foreach (IGrouping<string, Element> gp in pipelineGroups)
                     {
-                        tx1.Start("Create broken pipes.");
+                        HashSet<Element> pipeList = (from element in gp
+                                                     where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeCurves
+                                                     select element).ToHashSet();
+                        HashSet<Element> fittingList = (from element in gp
+                                                        where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting
+                                                        select element).ToHashSet();
+                        HashSet<Element> accessoryList = (from element in gp
+                                                          where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
+                                                          select element).ToHashSet();
 
-                        foreach (var g in nbifList)
+                        #region Olets and other non-break in items
+                        //Here be code to handle non-breaking in elements as olets by the following principle:
+                        //Find the non-breaking elements (fx. olets) and affected pipes.
+                        //Remove affected pipes from pipeList and create in a transaction new, broken up pieces of pipe coinciding
+                        //with olet and ends. Then add those pieces to the pipeList, !!!copy parameter values also!!! <- not needed for NTR?.
+                        //Process pipeList as usual and then delete those new dummy pipes from model.
+
+                        //TODO: Implement multiple types of non-breaking items per pipe -> only if needed -> cannot think of others than olets
+
+                        //SpudAdjustable -> Olets
+                        //Find fittings of this type:
+                        IEnumerable<IGrouping<int, Element>> spudAdjQry = fittingList.Where(x => x.OfPartType(PartType.SpudAdjustable)).GroupBy(x => x.OletRefOwnerIdAsInt());
+
+                        IList<NonBreakInElement> nbifList = new List<NonBreakInElement>();
+
+                        foreach (IGrouping<int, Element> group in spudAdjQry) nbifList.Add(new NonBreakInElement(doc, group));
+                        nbifAllList.AddRange(nbifList);
+
+                        //Remove the HeadPipes from the PipeList
+                        var pipesToRemoveIds = nbifList.Select(x => x.HeadPipe.Id.IntegerValue).ToHashSet();
+                        pipeList = pipeList.Where(x => !pipesToRemoveIds.Contains(x.Id.IntegerValue)).ToHashSet();
+
+                        //Transaction to create all part pipes
+                        using (Transaction tx1 = new Transaction(doc))
                         {
-                            Pipe test = Pipe.Create(doc, g.HeadPipe.MEPSystem.GetTypeId(), g.HeadPipe.GetTypeId(), g.HeadPipe.LevelId, )
+                            tx1.Start("Create broken pipes.");
+
+                            foreach (var g in nbifList)
+                            {
+                                for (int i = 0; i < g.AllCreationPoints.Count - 1; i++)
+                                {
+                                    int j = i + 1;
+                                    g.CreatedElements.Add(Pipe.Create(doc, g.HeadPipe.MEPSystem.GetTypeId(), g.HeadPipe.GetTypeId(),
+                                        g.HeadPipe.LevelId, g.AllCreationPoints[i], g.AllCreationPoints[j]));
+                                }
+                                //Add created pipes to pipeList
+                                pipeList.UnionWith(g.CreatedElements);
+                            }
+
+                            tx1.Commit();
                         }
-                        
-                        tx1.Commit();
+
+                        #endregion
+
+                        //TODO: Change the splitting of elements to follow the worksheets
+                        //There's now a mismatch of how many worksheets define the elements (ELEMENTS and SUPPORTS) and
+                        //the division into fittings and accessories. Would be more concise to follow the excel configuration
+                        //by worksheet
+
+                        StringBuilder sbPipes = NTR_Pipes.Export(gp.Key, pipeList, conf, doc);
+                        StringBuilder sbFittings = NTR_Fittings.Export(gp.Key, fittingList, conf, doc);
+                        StringBuilder sbAccessories = NTR_Accessories.Export(gp.Key, accessoryList, conf, doc);
+
+                        outputBuilder.Append(sbPipes);
+                        outputBuilder.Append(sbFittings);
+                        outputBuilder.Append(sbAccessories);
                     }
-
-                    #endregion
-
-                    //TODO: Change the splitting of elements to follow the worksheets
-                    //There's now a mismatch of how many worksheets define the elements (ELEMENTS and SUPPORTS) and
-                    //the division into fittings and accessories. Would be more concise to follow the excel configuration
-                    //by worksheet
-
-                    StringBuilder sbPipes = NTR_Pipes.Export(gp.Key, pipeList, conf, doc);
-                    StringBuilder sbFittings = NTR_Fittings.Export(gp.Key, fittingList, conf, doc);
-                    StringBuilder sbAccessories = NTR_Accessories.Export(gp.Key, accessoryList, conf, doc);
-
-                    outputBuilder.Append(sbPipes);
-                    outputBuilder.Append(sbFittings);
-                    outputBuilder.Append(sbAccessories);
+                    txGp.RollBack(); //Rollback the extra elements created
                 }
                 #endregion
 

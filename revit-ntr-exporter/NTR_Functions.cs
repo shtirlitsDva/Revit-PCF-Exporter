@@ -352,13 +352,14 @@ namespace NTR_Functions
             return 0 == partType.CompareTo(pt);
         }
 
-        public static bool OfConnectorType(this Connector c, ConnectorType ct) => 0 == c.ConnectorType.CompareTo(ct);
+        public static bool OfConType(this Connector c, ConnectorType ct) => 0 == c.ConnectorType.CompareTo(ct);
         
-        public static int OwnerIdAsInt(this Element e)
+        public static int OletRefOwnerIdAsInt(this Element e)
         {
             var cons = MepUtils.GetConnectors(e);
             var refCons = MepUtils.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
             Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
+            if (refCon == null) throw new Exception("Olet id " + e.Id.ToString() + " has no reference connector! Check connectivity.");
             Element owner = refCon.Owner;
             return owner.Id.IntegerValue;
         }
