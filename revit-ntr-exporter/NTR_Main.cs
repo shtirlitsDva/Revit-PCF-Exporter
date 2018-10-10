@@ -118,6 +118,9 @@ namespace NTR_Exporter
                 outputBuilder.AppendLine("C Element definitions");
 
                 #region Pipeline management
+
+                List<NonBreakInFittings> nbifAllList = new List<NonBreakInFittings>();
+
                 foreach (IGrouping<string, Element> gp in pipelineGroups)
                 {
                     HashSet<Element> pipeList = (from element in gp
@@ -137,12 +140,33 @@ namespace NTR_Exporter
                     //with olet and ends. Then add those pieces to the pipeList, copy parameter values also.
                     //Process pipeList as usual and then delete those new dummy pipes from model.
 
-                    //TODO: Implement multiple types of non-breaking items per pipe
+                    //TODO: Implement multiple types of non-breaking items per pipe -> only if needed -> cannot think of others than olets
 
                     //SpudAdjustable -> Olets
                     //Find fittings of this type:
-                    var spudAdjQry = fittingList.Where(x => x.OfPartType(PartType.SpudAdjustable)).GroupBy(x => x.OwnerIdAsInt());
-                    
+                    IEnumerable<IGrouping<int, Element>> spudAdjQry = fittingList.Where(x => x.OfPartType(PartType.SpudAdjustable)).GroupBy(x => x.OwnerIdAsInt());
+
+                    IList<NonBreakInFittings> nbifList = new List<NonBreakInFittings>();
+
+                    foreach (IGrouping<int, Element> group in spudAdjQry) nbifList.Add(new NonBreakInFittings(doc, group));
+                    nbifAllList.AddRange(nbifList);
+
+                    //Remove the HeadPipes from the PipeList
+                    var pipesToRemoveIds = nbifList.Select(x => x.HeadPipe.Id.IntegerValue).ToHashSet();
+                    pipeList = pipeList.Where(x => !pipesToRemoveIds.Contains(x.Id.IntegerValue)).ToHashSet();
+
+                    //Transaction to create all part pipes
+                    using (Transaction tx1 = new Transaction(doc))
+                    {
+                        tx1.Start("Create broken pipes.");
+
+                        foreach (var g in nbifList)
+                        {
+                            Pipe test = Pipe.Create(doc, g.HeadPipe.MEPSystem.GetTypeId(), g.HeadPipe.GetTypeId(), g.HeadPipe.LevelId, )
+                        }
+                        
+                        tx1.Commit();
+                    }
 
                     #endregion
 
@@ -174,6 +198,7 @@ namespace NTR_Exporter
                 Output output = new Output();
                 output.OutputWriter(doc, outputBuilder, iv.OutputDirectoryFilePath);
                 #endregion
+
 
             }
 

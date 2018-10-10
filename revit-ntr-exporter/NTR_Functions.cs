@@ -352,6 +352,8 @@ namespace NTR_Functions
             return 0 == partType.CompareTo(pt);
         }
 
+        public static bool OfConnectorType(this Connector c, ConnectorType ct) => 0 == c.ConnectorType.CompareTo(ct);
+        
         public static int OwnerIdAsInt(this Element e)
         {
             var cons = MepUtils.GetConnectors(e);
