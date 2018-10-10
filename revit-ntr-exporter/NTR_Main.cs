@@ -122,7 +122,7 @@ namespace NTR_Exporter
                 //TransactionGroup to rollback the changes in creating the NonBreakInElements
                 using (TransactionGroup txGp = new TransactionGroup(doc))
                 {
-
+                    txGp.Start("Olets non breakin elems.");
 
                     //List to store ALL created NonBreakInElements
                     List<NonBreakInElement> nbifAllList = new List<NonBreakInElement>();
@@ -172,7 +172,7 @@ namespace NTR_Exporter
                                 {
                                     int j = i + 1;
                                     g.CreatedElements.Add(Pipe.Create(doc, g.HeadPipe.MEPSystem.GetTypeId(), g.HeadPipe.GetTypeId(),
-                                        g.HeadPipe.LevelId, g.AllCreationPoints[i], g.AllCreationPoints[j]));
+                                        g.HeadPipe.ReferenceLevel.Id, g.AllCreationPoints[i], g.AllCreationPoints[j])); //Cast to Element needed?
                                 }
                                 //Add created pipes to pipeList
                                 pipeList.UnionWith(g.CreatedElements);
@@ -180,7 +180,6 @@ namespace NTR_Exporter
 
                             tx1.Commit();
                         }
-
                         #endregion
 
                         //TODO: Change the splitting of elements to follow the worksheets
@@ -196,6 +195,12 @@ namespace NTR_Exporter
                         outputBuilder.Append(sbFittings);
                         outputBuilder.Append(sbAccessories);
                     }
+                    #region Debug
+                    //string ids = string.Empty;
+                    //foreach (var g in nbifAllList) foreach (var e in g.CreatedElements) ids += e.Id.ToString() + "\n";
+                    //Util.InfoMsg(ids);
+                    #endregion
+
                     txGp.RollBack(); //Rollback the extra elements created
                 }
                 #endregion
