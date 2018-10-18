@@ -726,6 +726,8 @@ namespace Shared
         {
             return source.Where(x => !predicate(x));
         }
+
+        public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
     }
 
     public static class Transformation

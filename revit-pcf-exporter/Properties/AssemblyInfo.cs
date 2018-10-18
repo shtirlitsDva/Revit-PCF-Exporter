@@ -78,4 +78,4 @@ using System.Reflection;
 // 2016-03-05 - 2016.0.0.1 - implemented interface
 //
 [assembly: AssemblyVersion("2019.0.0.*")]
-[assembly: AssemblyFileVersion("2019.0.0.1")]
+[assembly: AssemblyFileVersion("2019.0.2.1")]

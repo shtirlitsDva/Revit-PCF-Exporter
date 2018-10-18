@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Plumbing;
+using Autodesk.Revit.UI;
+using MoreLinq;
+using PCF_Functions;
+using PCF_Output;
+using Shared;
+using Shared.BuildingCoder;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MoreLinq;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Plumbing;
-using Autodesk.Revit.UI;
-using Shared.BuildingCoder;
-using PCF_Functions;
-using PCF_Output;
 using pd = PCF_Functions.ParameterData;
-using plst = PCF_Functions.ParameterList;
 using pdef = PCF_Functions.ParameterDefinition;
+using plst = PCF_Functions.ParameterList;
 
 namespace PCF_Exporter
 {
@@ -189,27 +190,82 @@ namespace PCF_Exporter
 
                 #endregion
 
-                #region Pipeline management
-                foreach (IGrouping<string, Element> gp in pipelineGroups)
+                using (TransactionGroup txGp = new TransactionGroup(doc))
                 {
-                    HashSet<Element> pipeList = (from element in gp
-                                                 where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeCurves
-                                                 select element).ToHashSet();
-                    HashSet<Element> fittingList = (from element in gp
-                                                    where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting
-                                                    select element).ToHashSet();
-                    HashSet<Element> accessoryList = (from element in gp
-                                                      where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
-                                                      select element).ToHashSet();
+                    txGp.Start("Bogus transactionGroup for the break in hangers");
+                    #region Pipeline management
+                    foreach (IGrouping<string, Element> gp in pipelineGroups)
+                    {
+                        HashSet<Element> pipeList = (from element in gp
+                                                     where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeCurves
+                                                     select element).ToHashSet();
+                        HashSet<Element> fittingList = (from element in gp
+                                                        where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting
+                                                        select element).ToHashSet();
+                        HashSet<Element> accessoryList = (from element in gp
+                                                          where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
+                                                          select element).ToHashSet();
 
-                    StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
-                    StringBuilder sbPipes = new PCF_Pipes.PCF_Pipes_Export().Export(gp.Key, pipeList, doc);
-                    StringBuilder sbFittings = new PCF_Fittings.PCF_Fittings_Export().Export(gp.Key, fittingList, doc);
-                    StringBuilder sbAccessories = new PCF_Accessories.PCF_Accessories_Export().Export(gp.Key, accessoryList, doc);
+                        //Here be code to handle break in accessories that act as supports
+                        //Find the supports in current acessoryList and add to supportList
+                        //Instantiate a brokenPipesGroup class
+                        //Choose one and traverse in both directions finding other supports on same pipe
+                        //Continue conditions:
+                        //  1. Element is Pipe -> Remove from pipeList, add to brokenPipesList, continue
+                        //      a. AND PipingSystemAbbreviation remains unchanged
+                        //      b. AND PCF_ELEM_SPEC remains unchanged
+                        //  2. Element is PipeAccessory and is one of the Support family instances -> continue
+                        //Break conditions:
+                        //  1. Element is PipeFitting -> Break
+                        //  2. Element is PipeAccessory and NOT an instance of a Support family -> Break
+                        //  3. Element is Pipe AND PipingSystemAbbreviation changes -> Break
+                        //  4. Element is Pipe AND PCF_ELEM_SPEC changes -> Break
+                        //
+                        //Collect all Connectors from brokenPipesList and find the longest distance
+                        //Create a temporary pipe from the Connectors with longest distance
+                        //Copy PCF_ELEM parameter values to the temporary pipe
+                        //Add the temporary pipe to the pipeList
+                        //Roll back the TransactionGroup after the elements are sent to Export class' Export methods.
 
-                    sbCollect.Append(sbPipeline); sbCollect.Append(sbPipes); sbCollect.Append(sbFittings); sbCollect.Append(sbAccessories);
+                        //Add here a hardcoded list of eligible support families
+                        IList<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
+
+                        //Collect all PipeAccessories that pass the above list of FamilyNames
+                        HashSet<Element> supportList = new FilteredElementCollector(doc)
+                            .OfCategory(BuiltInCategory.OST_PipeAccessory) //Filter accessories
+                            .WherePasses(//Filter SysAbbr
+                                    Filter.ParameterValueGenericFilter(doc, gp.Key, BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
+                                        )
+                            .WherePasses(//Filter by a List 
+                                    new LogicalOrFilter(supportFamilyNameList
+                                                        .Select(x => Filter.ParameterValueGenericFilter(doc, x, BuiltInParameter.ELEM_FAMILY_PARAM))
+                                                        .Cast<ElementFilter>().ToList())
+                                        )
+                            .ToElements()
+                            .ToHashSet();
+
+                        if (true)
+                        {
+                            //Find a way to detect if the above supportList is empty -> no elements collected
+                            //Or if it throws an exception
+                        }
+                        //var supportList = accessoryList.Where(x => supportFamilyNameList);
+
+                        //IList<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
+
+
+
+                        StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
+                        StringBuilder sbPipes = new PCF_Pipes.PCF_Pipes_Export().Export(gp.Key, pipeList, doc);
+                        StringBuilder sbFittings = new PCF_Fittings.PCF_Fittings_Export().Export(gp.Key, fittingList, doc);
+                        StringBuilder sbAccessories = new PCF_Accessories.PCF_Accessories_Export().Export(gp.Key, accessoryList, doc);
+
+                        sbCollect.Append(sbPipeline); sbCollect.Append(sbPipes); sbCollect.Append(sbFittings); sbCollect.Append(sbAccessories);
+                    }
+                    #endregion 
+
+                    txGp.RollBack(); //RollBack the temporary created elements
                 }
-                #endregion
 
                 #region Materials
                 StringBuilder sbMaterials = composer.MaterialsSection(materialGroups);
@@ -218,7 +274,7 @@ namespace PCF_Exporter
 
                 #region Output
                 // Output the processed data
-                Output output = new Output();
+                PCF_Output.Output output = new PCF_Output.Output();
                 output.OutputWriter(doc, sbCollect, InputVars.OutputDirectoryFilePath);
                 #endregion
 
