@@ -652,4 +652,13 @@ namespace PCF_Functions
             }
         }
     }
+
+    public class BrokenPipesGroup
+    {
+        public List<Element> BrokenPipes = new List<Element>();
+        public Element HealedPipe = null;
+        public List<Element> SupportsOnPipe = new List<Element>();
+
+        public BrokenPipesGroup(){}
+    }
 }

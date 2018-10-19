@@ -231,6 +231,8 @@ namespace PCF_Exporter
                         IList<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
 
                         //Collect all PipeAccessories that pass the above list of FamilyNames
+                        //After some deliberation it is decided that this methond of collection of support elements is not adequate
+                        //We should only operate on already collected and filterede collections to avoid some kind of issue
                         //HashSet<Element> supportList = new FilteredElementCollector(doc)
                         //    .OfCategory(BuiltInCategory.OST_PipeAccessory) //Filter accessories
                         //    .WherePasses(//Filter SysAbbr
@@ -243,6 +245,13 @@ namespace PCF_Exporter
                         //                )
                         //    .ToElements()
                         //    .ToHashSet();
+
+                        List<Element> supportsList = accessoryList.Where(x => supportFamilyNameList.Contains(x.FamilyName())).ToList();
+
+                        while (supportsList.Count != 0)
+                        {
+
+                        }
 
                         //if (true)
                         //{
