@@ -231,24 +231,24 @@ namespace PCF_Exporter
                         IList<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
 
                         //Collect all PipeAccessories that pass the above list of FamilyNames
-                        HashSet<Element> supportList = new FilteredElementCollector(doc)
-                            .OfCategory(BuiltInCategory.OST_PipeAccessory) //Filter accessories
-                            .WherePasses(//Filter SysAbbr
-                                    Filter.ParameterValueGenericFilter(doc, gp.Key, BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
-                                        )
-                            .WherePasses(//Filter by a List 
-                                    new LogicalOrFilter(supportFamilyNameList
-                                                        .Select(x => Filter.ParameterValueGenericFilter(doc, x, BuiltInParameter.ELEM_FAMILY_PARAM))
-                                                        .Cast<ElementFilter>().ToList())
-                                        )
-                            .ToElements()
-                            .ToHashSet();
+                        //HashSet<Element> supportList = new FilteredElementCollector(doc)
+                        //    .OfCategory(BuiltInCategory.OST_PipeAccessory) //Filter accessories
+                        //    .WherePasses(//Filter SysAbbr
+                        //            Filter.ParameterValueGenericFilter(doc, gp.Key, BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
+                        //                )
+                        //    .WherePasses(//Filter by a List 
+                        //            new LogicalOrFilter(supportFamilyNameList
+                        //                                .Select(x => Filter.ParameterValueGenericFilter(doc, x, BuiltInParameter.ELEM_FAMILY_PARAM))
+                        //                                .Cast<ElementFilter>().ToList())
+                        //                )
+                        //    .ToElements()
+                        //    .ToHashSet();
 
-                        if (true)
-                        {
-                            //Find a way to detect if the above supportList is empty -> no elements collected
-                            //Or if it throws an exception
-                        }
+                        //if (true)
+                        //{
+                        //    //Find a way to detect if the above supportList is empty -> no elements collected
+                        //    //Or if it throws an exception
+                        //}
                         //var supportList = accessoryList.Where(x => supportFamilyNameList);
 
                         //IList<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
