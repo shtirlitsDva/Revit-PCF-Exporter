@@ -655,39 +655,55 @@ namespace PCF_Functions
 
     public class BrokenPipesGroup
     {
-        Element SeedElement = null;
+        Element SeedElement;
         public List<Element> BrokenPipes = new List<Element>();
         public Element HealedPipe { get; set; } = null;
         public List<Element> SupportsOnPipe = new List<Element>();
-
         List<Connector> AllConnectors = new List<Connector>();
+        readonly string CurSysAbr;
+        List<string> SupportFamilyNames = null;
 
-        public BrokenPipesGroup(Element seedElement)
+        public BrokenPipesGroup(Element seedElement, string sysAbr, List<string> supportFamilyNames)
         {
             SeedElement = seedElement;
             SupportsOnPipe.Add(seedElement);
+            CurSysAbr = sysAbr;
+            SupportFamilyNames = supportFamilyNames;
         }
+
+        //Choose one and traverse in both directions finding other supports on same pipe
+        //Continue conditions:
+        //  1. Element is Pipe -> Remove from pipeList, add to brokenPipesList, continue
+        //      a. AND PipingSystemAbbreviation remains unchanged
+        //      b. AND PCF_ELEM_SPEC remains unchanged
+        //  2. Element is PipeAccessory and is one of the Support family instances -> continue
+        //Break conditions:
+        //  1. Element is PipeFitting -> Break
+        //  2. Element is PipeAccessory and NOT an instance of a Support family -> Break
+        //  3. Element is Pipe AND PipingSystemAbbreviation changes -> Break
+        //  4. Element is Pipe AND PCF_ELEM_SPEC changes -> Break
+        //  5. Free end -> Break
 
         public void Traverse()
         {
             //Get connectors from the Seed Element
             Cons cons = MepUtils.GetConnectors(SeedElement);
-
             //Assign the connectors from the support to the two directions
             Connector firstSideCon = cons.Primary; Connector secondSideCon = cons.Secondary;
-
             //Loop controller
             bool Continue = true;
-
             //Side controller
             bool firstSideDone = false;
-
             //Loop variables
             Connector start = null;
 
+            //Initialize first loop
+            start = firstSideCon;
+
             while (Continue == true)
             {
-                
+                var refCons = MepUtils.GetAllConnectorsFromConnectorSet(start.AllRefs);
+                Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>() || x.Owner.IsType<FamilyInstance>()).FirstOrDefault();
             }
         }
     }

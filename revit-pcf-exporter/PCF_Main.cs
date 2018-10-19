@@ -210,17 +210,7 @@ namespace PCF_Exporter
                         //Here be code to handle break in accessories that act as supports
                         //Find the supports in current acessoryList and add to supportList
                         //Instantiate a brokenPipesGroup class
-                        //Choose one and traverse in both directions finding other supports on same pipe
-                        //Continue conditions:
-                        //  1. Element is Pipe -> Remove from pipeList, add to brokenPipesList, continue
-                        //      a. AND PipingSystemAbbreviation remains unchanged
-                        //      b. AND PCF_ELEM_SPEC remains unchanged
-                        //  2. Element is PipeAccessory and is one of the Support family instances -> continue
-                        //Break conditions:
-                        //  1. Element is PipeFitting -> Break
-                        //  2. Element is PipeAccessory and NOT an instance of a Support family -> Break
-                        //  3. Element is Pipe AND PipingSystemAbbreviation changes -> Break
-                        //  4. Element is Pipe AND PCF_ELEM_SPEC changes -> Break
+                        
                         //
                         //Collect all Connectors from brokenPipesList and find the longest distance
                         //Create a temporary pipe from the Connectors with longest distance
@@ -229,7 +219,7 @@ namespace PCF_Exporter
                         //Roll back the TransactionGroup after the elements are sent to Export class' Export methods.
 
                         //Add here a hardcoded list of eligible support families
-                        IList<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
+                        List<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
 
                         //Collect all PipeAccessories that pass the above list of FamilyNames
                         //After some deliberation it is decided that this methond of collection of support elements is not adequate
@@ -257,7 +247,7 @@ namespace PCF_Exporter
                                 throw new Exception("BrokenPipes: Seed element returned null! supportsList.Count is " + supportsList.Count);
                             
                             //Instantiate the BrokenPipesGroup
-                            BrokenPipesGroup bpg = new BrokenPipesGroup(seedElement);
+                            BrokenPipesGroup bpg = new BrokenPipesGroup(seedElement, gp.Key, supportFamilyNameList);
 
                             //Traverse system
                             bpg.Traverse();
