@@ -655,10 +655,40 @@ namespace PCF_Functions
 
     public class BrokenPipesGroup
     {
+        Element SeedElement = null;
         public List<Element> BrokenPipes = new List<Element>();
-        public Element HealedPipe = null;
+        public Element HealedPipe { get; set; } = null;
         public List<Element> SupportsOnPipe = new List<Element>();
 
-        public BrokenPipesGroup(){}
+        List<Connector> AllConnectors = new List<Connector>();
+
+        public BrokenPipesGroup(Element seedElement)
+        {
+            SeedElement = seedElement;
+            SupportsOnPipe.Add(seedElement);
+        }
+
+        public void Traverse()
+        {
+            //Get connectors from the Seed Element
+            Cons cons = MepUtils.GetConnectors(SeedElement);
+
+            //Assign the connectors from the support to the two directions
+            Connector firstSideCon = cons.Primary; Connector secondSideCon = cons.Secondary;
+
+            //Loop controller
+            bool Continue = true;
+
+            //Side controller
+            bool firstSideDone = false;
+
+            //Loop variables
+            Connector start = null;
+
+            while (Continue == true)
+            {
+                
+            }
+        }
     }
 }

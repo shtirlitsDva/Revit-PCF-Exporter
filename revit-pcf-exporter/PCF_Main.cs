@@ -205,6 +205,7 @@ namespace PCF_Exporter
                         HashSet<Element> accessoryList = (from element in gp
                                                           where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
                                                           select element).ToHashSet();
+                        #region BrokenPipes
 
                         //Here be code to handle break in accessories that act as supports
                         //Find the supports in current acessoryList and add to supportList
@@ -248,9 +249,24 @@ namespace PCF_Exporter
 
                         List<Element> supportsList = accessoryList.Where(x => supportFamilyNameList.Contains(x.FamilyName())).ToList();
 
-                        while (supportsList.Count != 0)
+                        while (supportsList.Count < 1)
                         {
+                            //Get an element to start traversing
+                            Element seedElement = supportsList.FirstOrDefault();
+                            if (seedElement == null)
+                                throw new Exception("BrokenPipes: Seed element returned null! supportsList.Count is " + supportsList.Count);
+                            
+                            //Instantiate the BrokenPipesGroup
+                            BrokenPipesGroup bpg = new BrokenPipesGroup(seedElement);
 
+                            //Traverse system
+                            bpg.Traverse();
+
+                            //Remove the support Elements from the collection
+                            foreach (Element support in bpg.SupportsOnPipe)
+                            {
+                                supportsList = supportsList.ExceptWhere(x => x.Id.IntegerValue == support.Id.IntegerValue).ToList();
+                            }
                         }
 
                         //if (true)
@@ -262,6 +278,7 @@ namespace PCF_Exporter
 
                         //IList<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
 
+                        #endregion
 
 
                         StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
