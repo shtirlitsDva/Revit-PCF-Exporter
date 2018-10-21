@@ -690,13 +690,41 @@ namespace PCF_Functions
             Cons cons = MepUtils.GetConnectors(SeedElement);
             //Assign the connectors from the support to the two directions
             Connector firstSideCon = cons.Primary; Connector secondSideCon = cons.Secondary;
+
+            #region SpecFinder
+            //The spec of the support can be different from the pipe's
+            //It is decided that the spec of the pipe is decisive
+            //Undefined: if pipes on both sides have different spec -> throw an exception
+
+            var refFirstCons = MepUtils.GetAllConnectorsFromConnectorSet(firstSideCon.AllRefs);
+            var refSecondCons = MepUtils.GetAllConnectorsFromConnectorSet(secondSideCon.AllRefs);
+
+            Connector refFirstCon = refFirstCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
+            Connector refSecondCon = refSecondCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
+
+            string firstSpec = null; string secondSpec = null;
+
+            if (refFirstCon != null)
+            {
+                Element el = refFirstCon.Owner;
+                firstSpec = el.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+            }
+            if (refSecondCon != null)
+            {
+                Element el = refFirstCon.Owner;
+                firstSpec = el.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+            }
+
+            Element elementToConsider = refCon.Owner;
+
+            #endregion
+
             //Loop controller
             bool Continue = true;
             //Side controller
             bool firstSideDone = false;
             //Loop variables
             Connector start = null;
-
             //Initialize first loop
             start = firstSideCon;
 
