@@ -700,10 +700,31 @@ namespace PCF_Functions
             //Initialize first loop
             start = firstSideCon;
 
-            while (Continue == true)
+            while (Continue)
             {
+                //Using a seed connector, get the next element
+                //Determine if next element is eligible for continue
+                //If yes, add element to collections, get next connector
+                //If not, continue next side if side not already done
+                bool pass = false;
+
                 var refCons = MepUtils.GetAllConnectorsFromConnectorSet(start.AllRefs);
                 Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>() || x.Owner.IsType<FamilyInstance>()).FirstOrDefault();
+                Element elementToConsider = refCon.Owner;
+
+                switch (elementToConsider)
+                {
+                    case Pipe pipe:
+                        string elementSysAbr = elementToConsider.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
+                        string 
+                        if (CurSysAbr == elementSysAbr) pass = true;
+                        break;
+                    case FamilyInstance fi:
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
     }
