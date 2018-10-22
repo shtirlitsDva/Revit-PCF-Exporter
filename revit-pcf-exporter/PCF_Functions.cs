@@ -694,7 +694,8 @@ namespace PCF_Functions
             #region SpecFinder
             //The spec of the support can be different from the pipe's
             //It is decided that the spec of the pipe is decisive
-            //Undefined: if pipes on both sides have different spec -> throw an exception
+            //This means spec must be determined before loop starts
+            //ATTENTION: If pipes on both sides have different spec -> no traversal needed -> the support is placed at a natural boundary
 
             var refFirstCons = MepUtils.GetAllConnectorsFromConnectorSet(firstSideCon.AllRefs);
             var refSecondCons = MepUtils.GetAllConnectorsFromConnectorSet(secondSideCon.AllRefs);
@@ -702,7 +703,7 @@ namespace PCF_Functions
             Connector refFirstCon = refFirstCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
             Connector refSecondCon = refSecondCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
 
-            string firstSpec = null; string secondSpec = null;
+            string firstSpec = ""; string secondSpec = ""; string spec = "";
 
             if (refFirstCon != null)
             {
@@ -711,12 +712,18 @@ namespace PCF_Functions
             }
             if (refSecondCon != null)
             {
-                Element el = refFirstCon.Owner;
-                firstSpec = el.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+                Element el = refSecondCon.Owner;
+                secondSpec = el.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
             }
 
-            Element elementToConsider = refCon.Owner;
-
+            if (firstSpec.IsNullOrEmpty() && secondSpec.IsNullOrEmpty()) return; //<- Both empty
+            if (!firstSpec.IsNullOrEmpty() && secondSpec.IsNullOrEmpty()) spec = firstSpec; //<- First not empty, but second
+            else if (firstSpec.IsNullOrEmpty() && !secondSpec.IsNullOrEmpty()) spec = secondSpec; //<- Second not empty, but first
+            else
+            {
+                if (firstSpec == secondSpec) spec = firstSpec;
+                else return; //<- Different specs -> support is at natural boundary
+            }
             #endregion
 
             //Loop controller
@@ -736,18 +743,31 @@ namespace PCF_Functions
                 //If not, continue next side if side not already done
                 bool pass = false;
 
-                var refCons = MepUtils.GetAllConnectorsFromConnectorSet(start.AllRefs);
-                Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>() || x.Owner.IsType<FamilyInstance>()).FirstOrDefault();
-                Element elementToConsider = refCon.Owner;
+                var refCons = MepUtils.GetAllConnectorsFromConnectorSet(start.AllRefs); //<- DOES ALLREFS RETURN NULL IF EMPTY???
+                Connector refCon;
+                Element elementToConsider;
+                if (refCons != null)
+                {
+                    refCon = refCons.Where(x => x.Owner.IsType<Pipe>() || x.Owner.IsType<FamilyInstance>()).FirstOrDefault();
+                    elementToConsider = refCon.Owner;
+                }
+                else
+                {
+                    //This case if the element is not properly connected and
+
+                }
 
                 switch (elementToConsider)
                 {
                     case Pipe pipe:
                         string elementSysAbr = elementToConsider.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
-                        string 
+                        string elementSpec = elementToConsider.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
                         if (CurSysAbr == elementSysAbr) pass = true;
+                        else if (spec == elementSpec) pass = true;
                         break;
                     case FamilyInstance fi:
+                        if (elementToConsider.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting) pass = false;
+
                         break;
                     default:
                         break;
