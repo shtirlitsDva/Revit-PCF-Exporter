@@ -253,6 +253,7 @@ namespace PCF_Exporter
                             bpg.Traverse(doc);
 
                             //Remove the broken pipes from the pipeList
+                            if (bpg.BrokenPipes.Count == 1)
                             foreach (Element pipe in bpg.BrokenPipes)
                             {
                                 pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
@@ -262,6 +263,7 @@ namespace PCF_Exporter
                             {
                                 supportsList = supportsList.ExceptWhere(x => x.Id.IntegerValue == support.Id.IntegerValue).ToList();
                             }
+                            //TODO: Consider case with only one broken pipe 
                         }
 
                         //if (true)
