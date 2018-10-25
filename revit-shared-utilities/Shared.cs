@@ -361,7 +361,7 @@ namespace Shared
 
         public static HashSet<Connector> GetALLConnectorsInDocument(Document doc, bool includeMechEquipment = false)
         {
-            return (from e in Filter.GetElementsWithConnectors(doc) from Connector c in GetConnectorSet(e) select c).ToHashSet();
+            return (from e in Filter.GetElementsWithConnectors(doc, includeMechEquipment) from Connector c in GetConnectorSet(e) select c).ToHashSet();
         }
 
         public static bool IsTheElementACap(Element element)

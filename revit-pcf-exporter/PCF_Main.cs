@@ -239,7 +239,7 @@ namespace PCF_Exporter
 
                         List<Element> supportsList = accessoryList.Where(x => supportFamilyNameList.Contains(x.FamilyName())).ToList();
 
-                        while (supportsList.Count < 1)
+                        while (supportsList.Count > 0)
                         {
                             //Get an element to start traversing
                             Element seedElement = supportsList.FirstOrDefault();
@@ -250,8 +250,13 @@ namespace PCF_Exporter
                             BrokenPipesGroup bpg = new BrokenPipesGroup(seedElement, gp.Key, supportFamilyNameList);
 
                             //Traverse system
-                            bpg.Traverse();
+                            bpg.Traverse(doc);
 
+                            //Remove the broken pipes from the pipeList
+                            foreach (Element pipe in bpg.BrokenPipes)
+                            {
+                                pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
+                            }
                             //Remove the support Elements from the collection
                             foreach (Element support in bpg.SupportsOnPipe)
                             {
