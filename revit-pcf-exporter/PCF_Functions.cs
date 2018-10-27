@@ -746,7 +746,6 @@ namespace PCF_Functions
 
             while (Continue)
             {
-
                 //Using a seed connector, "start", get the next element
                 //If "start" does not yield a connector to continue on -> stop this side
                 //Determine if next element is eligible for continue
@@ -769,12 +768,11 @@ namespace PCF_Functions
                     if (firstSideDone == false)
                     {
                         //Dead end -> first side done -> continue second side
-                        firstSideDone = true;
-                        start = secondSideCon;
+                        firstSideDone = true; start = secondSideCon; continue;
                     }
-                    else break; //Dead end -> both sides done -> end traversal
+                    else break; //Dead end -> both sides done -> end traversal loop
                 }
-                
+
                 Element elementToConsider = refCon.Owner;
 
                 //Determine if the element is a support
@@ -787,9 +785,7 @@ namespace PCF_Functions
                     if (firstSideDone == false)
                     {
                         //Dead end -> first side done -> continue second side
-                        firstSideDone = true;
-                        start = secondSideCon;
-                        pass = false;
+                        firstSideDone = true; start = secondSideCon; continue;
                     }
                     else break; //Dead end -> both sides done -> end traversal
                 }
@@ -801,9 +797,7 @@ namespace PCF_Functions
                     if (firstSideDone == false)
                     {
                         //Dead end -> first side done -> continue second side
-                        firstSideDone = true;
-                        start = secondSideCon;
-                        pass = false;
+                        firstSideDone = true; start = secondSideCon; continue;
                     }
                     else break; //Dead end -> both sides done -> end traversal
                 }
@@ -812,13 +806,10 @@ namespace PCF_Functions
                 {
                     //Remove from pipeList, add to brokenPipesList, continue
                     case Pipe pipe:
-                        if (pass)
-                        {
-                            BrokenPipes.Add(elementToConsider);
-                            start = (from Connector c in pipe.ConnectorManager.Connectors //Find next seed connector
-                                     where c.Id != refCon.Id && (int)c.ConnectorType == 1
-                                     select c).FirstOrDefault();
-                        }
+                        BrokenPipes.Add(elementToConsider);
+                        start = (from Connector c in pipe.ConnectorManager.Connectors //Find next seed connector
+                                 where c.Id != refCon.Id && (int)c.ConnectorType == 1
+                                 select c).FirstOrDefault();
                         break;
                     case FamilyInstance fi:
                         //Break condition 1: Element is a fitting
@@ -827,9 +818,7 @@ namespace PCF_Functions
                             if (firstSideDone == false)
                             {
                                 //Dead end -> first side done -> continue second side
-                                firstSideDone = true;
-                                start = secondSideCon;
-                                pass = false;
+                                firstSideDone = true; start = secondSideCon; continue;
                             }
                             else break; //Dead end -> both sides done -> end traversal
                         }
@@ -840,29 +829,30 @@ namespace PCF_Functions
                             if (firstSideDone == false)
                             {
                                 //Dead end -> first side done -> continue second side
-                                firstSideDone = true;
-                                start = secondSideCon;
-                                pass = false;
+                                firstSideDone = true; start = secondSideCon; continue;
                             }
                             else break; //Dead end -> both sides done -> end traversal
                         }
-                        if (pass)
+                        //If execution reaches this part, then the element is a support and is eligible for consideration
+                        SupportsOnPipe.Add(elementToConsider);
+                        //Find next seed connector
+                        Cons supportCons = MepUtils.GetConnectors(elementToConsider);
+                        if (refCon.GetMEPConnectorInfo().IsPrimary)
                         {
-                            SupportsOnPipe.Add(elementToConsider);
-                            //Find next seed connector
-                            Cons supportCons = MepUtils.GetConnectors(elementToConsider);
-                            if (refCon.GetMEPConnectorInfo().IsPrimary)
-                            {
-                                start = cons.Secondary;
-                            }
-                            else start = cons.Primary;
+                            start = supportCons.Secondary;
                         }
+                        else start = supportCons.Primary;
+
                         break;
                     default:
                         break;
                 }
-
             }
+        }
+
+        public void CreateHealedPipe()
+        {
+
         }
 
         private Connector DetectUnconnectedConnector(Document doc, Connector knownCon)

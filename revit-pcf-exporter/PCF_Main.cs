@@ -210,7 +210,7 @@ namespace PCF_Exporter
                         //Here be code to handle break in accessories that act as supports
                         //Find the supports in current acessoryList and add to supportList
                         //Instantiate a brokenPipesGroup class
-                        
+
                         //
                         //Collect all Connectors from brokenPipesList and find the longest distance
                         //Create a temporary pipe from the Connectors with longest distance
@@ -237,6 +237,7 @@ namespace PCF_Exporter
                         //    .ToElements()
                         //    .ToHashSet();
 
+                        List<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
                         List<Element> supportsList = accessoryList.Where(x => supportFamilyNameList.Contains(x.FamilyName())).ToList();
 
                         while (supportsList.Count > 0)
@@ -245,35 +246,53 @@ namespace PCF_Exporter
                             Element seedElement = supportsList.FirstOrDefault();
                             if (seedElement == null)
                                 throw new Exception("BrokenPipes: Seed element returned null! supportsList.Count is " + supportsList.Count);
-                            
+
                             //Instantiate the BrokenPipesGroup
                             BrokenPipesGroup bpg = new BrokenPipesGroup(seedElement, gp.Key, supportFamilyNameList);
 
                             //Traverse system
                             bpg.Traverse(doc);
 
-                            //Remove the broken pipes from the pipeList
-                            if (bpg.BrokenPipes.Count == 1)
-                            foreach (Element pipe in bpg.BrokenPipes)
-                            {
-                                pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
-                            }
-                            //Remove the support Elements from the collection
+                            //Remove the support Elements from the collection to keep track of the while loop
                             foreach (Element support in bpg.SupportsOnPipe)
                             {
                                 supportsList = supportsList.ExceptWhere(x => x.Id.IntegerValue == support.Id.IntegerValue).ToList();
                             }
-                            //TODO: Consider case with only one broken pipe 
+
+                            bpgList.Add(bpg);
                         }
 
-                        //if (true)
-                        //{
-                        //    //Find a way to detect if the above supportList is empty -> no elements collected
-                        //    //Or if it throws an exception
-                        //}
-                        //var supportList = accessoryList.Where(x => supportFamilyNameList);
+                        using (Transaction tx = new Transaction(doc))
+                        {
+                            tx.Start("Create healed pipes");
+                            foreach (BrokenPipesGroup bpg in bpgList)
+                            {
+                                //Remove the broken pipes from the pipeList
+                                //If there's only one broken pipe, then there's no need to do anything
+                                //If there's no broken pipes, then there's no need to do anything either
+                                if (bpg.BrokenPipes.Count != 0 || bpg.BrokenPipes.Count != 1)
+                                {
+                                    foreach (Element pipe in bpg.BrokenPipes)
+                                    {
+                                        pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
+                                    }
 
-                        //IList<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
+                                    var brokenCons = MepUtils.GetALLConnectorsFromElements(bpg.BrokenPipes.ToHashSet());
+                                    //Create distinct pair combinations with distance from all broken connectors
+                                    //https://stackoverflow.com/a/47003122/6073998
+                                    List<(Connector c1, Connector c2, double dist)> pairs = brokenCons
+                                        .SelectMany((fst, i) => brokenCons.Skip(i + 1)
+                                        .Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin))))
+                                        .ToList();
+                                    var longest = pairs.MaxBy(x => x.dist).FirstOrDefault();
+                                    Pipe dPipe = (Pipe)longest.c1.Owner;
+                                    bpg.HealedPipe = Pipe.Create(doc, dPipe.MEPSystem.GetTypeId(), dPipe.GetTypeId(),
+                                        dPipe.ReferenceLevel.Id, longest.c1.Origin, longest.c2.Origin);
+                                        
+                                }
+                            }
+                            tx.Commit();
+                        }
 
                         #endregion
 
