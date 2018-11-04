@@ -277,7 +277,8 @@ namespace PCF_Exporter
                                         pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
                                     }
 
-                                    var brokenCons = MepUtils.GetALLConnectorsFromElements(bpg.BrokenPipes.ToHashSet());
+                                    //Using the new IEqualityComparer for Connectors to get distinct connectors in the collection
+                                    var brokenCons = SharedStagingArea.GetALLConnectorsFromElements(bpg.BrokenPipes.ToHashSet(), new ConnectorXyzComparer());
                                     //Create distinct pair combinations with distance from all broken connectors
                                     //https://stackoverflow.com/a/47003122/6073998
                                     List<(Connector c1, Connector c2, double dist)> pairs = brokenCons
@@ -288,8 +289,24 @@ namespace PCF_Exporter
                                     Pipe dPipe = (Pipe)longest.c1.Owner;
                                     bpg.HealedPipe = Pipe.Create(doc, dPipe.MEPSystem.GetTypeId(), dPipe.GetTypeId(),
                                         dPipe.ReferenceLevel.Id, longest.c1.Origin, longest.c2.Origin);
-                                        
+
+                                    //Add the healed pipe to the pipeList for processing
+                                    pipeList.Add(bpg.HealedPipe);
                                 }
+                            }
+                            tx.Commit();
+                        }
+
+                        //Now the healed pipe must be populated by the parameters from a donorPipe
+                        using (Transaction tx = new Transaction(doc))
+                        {
+                            tx.Start("Populate the HealedPipe parameters!");
+                            foreach (BrokenPipesGroup bpg in bpgList)
+                            {
+                                //Skip iteration if there's only 1 or no broken pipes
+                                if (bpg.BrokenPipes.Count == 0 || bpg.BrokenPipes.Count == 1) continue;
+                                Element donorPipe = bpg.BrokenPipes.FirstOrDefault();
+                                //TODO: Continue here!
                             }
                             tx.Commit();
                         }

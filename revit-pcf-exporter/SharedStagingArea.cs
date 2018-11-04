@@ -32,16 +32,22 @@ namespace Shared
             return string.Format("({0},{1},{2})", HashString(p.X), HashString(p.Y), HashString(p.Z));
         }
 
-        public class ConnectorXyzComparer : IEqualityComparer<Connector>
+        public static HashSet<Connector> GetALLConnectorsFromElements(HashSet<Element> elements, IEqualityComparer<Connector> comparer)
         {
-            public bool Equals(Connector x, Connector y)
-            {
-                return null != x && null != y && Shared.Extensions.IsEqual(x.Origin, y.Origin);
-            }
+            return (from e in elements from Connector c in Shared.MepUtils.GetConnectorSet(e) select c).ToHashSet(comparer);
+        }
+    }
 
-            public int GetHashCode(Connector x) => HashString(x.Origin).GetHashCode();
+    public class ConnectorXyzComparer : IEqualityComparer<Connector>
+    {
+        public bool Equals(Connector x, Connector y)
+        {
+            return null != x && null != y && Shared.Extensions.IsEqual(x.Origin, y.Origin);
         }
 
-
+        public int GetHashCode(Connector x) => SharedStagingArea.HashString(x.Origin).GetHashCode();
     }
+
+
+
 }
