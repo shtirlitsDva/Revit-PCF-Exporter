@@ -23,6 +23,7 @@ namespace NTR_Exporter
                 //Read element kind
                 string kind = dw.ReadElementTypeFromDataTable(fat, conf.Elements, "KIND");
                 if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(fat, conf.Supports, "KIND");
+                if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(fat, conf.Flexjoints, "KIND");
                 if (string.IsNullOrEmpty(kind)) continue;
 
                 //Write element kind
@@ -74,6 +75,20 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
                         sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
                         sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "DN"));
+                        break;
+                    //Flexible joints hereafter
+                    case "KLAT": //Lateral kompensator
+                        sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
+                        sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
+                        sbAccessories.Append(dw.DnWriter("DN", cons.Primary));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "GEW"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "CR"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "CL"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "CP"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "CT"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "L"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "LMAX"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "ANZRI"));
                         break;
                 }
 

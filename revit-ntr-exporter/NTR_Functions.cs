@@ -47,6 +47,7 @@ namespace NTR_Functions
         public DataTable Elements { get; }
         public DataTable Supports { get; }
         public DataTable Profiles { get; }
+        public DataTable Flexjoints { get; }
 
         public ConfigurationData()
         {
@@ -66,6 +67,7 @@ namespace NTR_Functions
             Elements = ReadDataTable(dataSetWithHeaders.Tables, "ELEMENTS");
             Supports = ReadDataTable(dataSetWithHeaders.Tables, "SUPPORTS");
             Profiles = ReadDataTable(dataSetWithHeaders.Tables, "PROFILES");
+            Flexjoints = ReadDataTable(dataSetWithHeaders.Tables, "FLEXJOINTS");
 
             //http://stackoverflow.com/questions/10855/linq-query-on-a-datatable?rq=1
         }
