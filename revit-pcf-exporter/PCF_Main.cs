@@ -211,7 +211,6 @@ namespace PCF_Exporter
                         //Find the supports in current acessoryList and add to supportList
                         //Instantiate a brokenPipesGroup class
 
-                        //
                         //Collect all Connectors from brokenPipesList and find the longest distance
                         //Create a temporary pipe from the Connectors with longest distance
                         //Copy PCF_ELEM parameter values to the temporary pipe
@@ -278,7 +277,7 @@ namespace PCF_Exporter
                                     }
 
                                     //Using the new IEqualityComparer for Connectors to get distinct connectors in the collection
-                                    var brokenCons = SharedStagingArea.GetALLConnectorsFromElements(bpg.BrokenPipes.ToHashSet(), new ConnectorXyzComparer());
+                                    var brokenCons = MepUtils.GetALLConnectorsFromElements(bpg.BrokenPipes.ToHashSet(), new ConnectorXyzComparer());
                                     //Create distinct pair combinations with distance from all broken connectors
                                     //https://stackoverflow.com/a/47003122/6073998
                                     List<(Connector c1, Connector c2, double dist)> pairs = brokenCons
@@ -300,13 +299,45 @@ namespace PCF_Exporter
                         //Now the healed pipe must be populated by the parameters from a donorPipe
                         using (Transaction tx = new Transaction(doc))
                         {
+                            //Gather all relevant parameter definitions
+                            List<pdef> plist = new plst().LPAll.Where(x => x.Domain == "ELEM" && x.Usage == "U").ToList();
+                            plist.Add(new plst().PCF_MAT_ID);
+
                             tx.Start("Populate the HealedPipe parameters!");
                             foreach (BrokenPipesGroup bpg in bpgList)
                             {
                                 //Skip iteration if there's only 1 or no broken pipes
                                 if (bpg.BrokenPipes.Count == 0 || bpg.BrokenPipes.Count == 1) continue;
                                 Element donorPipe = bpg.BrokenPipes.FirstOrDefault();
-                                //TODO: Continue here!
+
+                                foreach (pdef p in plist)
+                                {
+                                    Parameter donorParameter = donorPipe.get_Parameter(p.Guid);
+                                    if (donorParameter == null) continue;
+                                    switch (donorParameter.StorageType)
+                                    {
+                                        case StorageType.None:
+                                            continue;
+                                        case StorageType.Integer:
+                                            int donorInt = donorParameter.AsInteger();
+                                            if (donorInt == 0) continue;
+                                            Parameter targetParInt = bpg.HealedPipe.get_Parameter(p.Guid);
+                                            targetParInt.Set(donorInt);
+                                            break;
+                                        case StorageType.Double:
+                                            continue;
+                                        case StorageType.String:
+                                            string donorStr = donorParameter.AsString();
+                                            if (donorStr.IsNullOrEmpty()) continue;
+                                            Parameter targetParStr = bpg.HealedPipe.get_Parameter(p.Guid);
+                                            targetParStr.Set(donorStr);
+                                            break;
+                                        case StorageType.ElementId:
+                                            continue;
+                                        default:
+                                            continue;
+                                    }
+                                }
                             }
                             tx.Commit();
                         }
