@@ -205,22 +205,12 @@ namespace PCF_Exporter
                         HashSet<Element> accessoryList = (from element in gp
                                                           where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
                                                           select element).ToHashSet();
+                        #region BrokenPipes
 
                         //Here be code to handle break in accessories that act as supports
                         //Find the supports in current acessoryList and add to supportList
                         //Instantiate a brokenPipesGroup class
-                        //Choose one and traverse in both directions finding other supports on same pipe
-                        //Continue conditions:
-                        //  1. Element is Pipe -> Remove from pipeList, add to brokenPipesList, continue
-                        //      a. AND PipingSystemAbbreviation remains unchanged
-                        //      b. AND PCF_ELEM_SPEC remains unchanged
-                        //  2. Element is PipeAccessory and is one of the Support family instances -> continue
-                        //Break conditions:
-                        //  1. Element is PipeFitting -> Break
-                        //  2. Element is PipeAccessory and NOT an instance of a Support family -> Break
-                        //  3. Element is Pipe AND PipingSystemAbbreviation changes -> Break
-                        //  4. Element is Pipe AND PCF_ELEM_SPEC changes -> Break
-                        //
+
                         //Collect all Connectors from brokenPipesList and find the longest distance
                         //Create a temporary pipe from the Connectors with longest distance
                         //Copy PCF_ELEM parameter values to the temporary pipe
@@ -228,9 +218,11 @@ namespace PCF_Exporter
                         //Roll back the TransactionGroup after the elements are sent to Export class' Export methods.
 
                         //Add here a hardcoded list of eligible support families
-                        IList<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
+                        List<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
 
                         //Collect all PipeAccessories that pass the above list of FamilyNames
+                        //After some deliberation it is decided that this methond of collection of support elements is not adequate
+                        //We should only operate on already collected and filterede collections to avoid some kind of issue
                         //HashSet<Element> supportList = new FilteredElementCollector(doc)
                         //    .OfCategory(BuiltInCategory.OST_PipeAccessory) //Filter accessories
                         //    .WherePasses(//Filter SysAbbr
@@ -244,15 +236,113 @@ namespace PCF_Exporter
                         //    .ToElements()
                         //    .ToHashSet();
 
-                        //if (true)
-                        //{
-                        //    //Find a way to detect if the above supportList is empty -> no elements collected
-                        //    //Or if it throws an exception
-                        //}
-                        //var supportList = accessoryList.Where(x => supportFamilyNameList);
+                        List<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
+                        List<Element> supportsList = accessoryList.Where(x => supportFamilyNameList.Contains(x.FamilyName())).ToList();
 
-                        //IList<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
+                        while (supportsList.Count > 0)
+                        {
+                            //Get an element to start traversing
+                            Element seedElement = supportsList.FirstOrDefault();
+                            if (seedElement == null)
+                                throw new Exception("BrokenPipes: Seed element returned null! supportsList.Count is " + supportsList.Count);
 
+                            //Instantiate the BrokenPipesGroup
+                            BrokenPipesGroup bpg = new BrokenPipesGroup(seedElement, gp.Key, supportFamilyNameList);
+
+                            //Traverse system
+                            bpg.Traverse(doc);
+
+                            //Remove the support Elements from the collection to keep track of the while loop
+                            foreach (Element support in bpg.SupportsOnPipe)
+                            {
+                                supportsList = supportsList.ExceptWhere(x => x.Id.IntegerValue == support.Id.IntegerValue).ToList();
+                            }
+
+                            bpgList.Add(bpg);
+                        }
+
+                        using (Transaction tx = new Transaction(doc))
+                        {
+                            tx.Start("Create healed pipes");
+                            foreach (BrokenPipesGroup bpg in bpgList)
+                            {
+                                //Remove the broken pipes from the pipeList
+                                //If there's only one broken pipe, then there's no need to do anything
+                                //If there's no broken pipes, then there's no need to do anything either
+                                if (bpg.BrokenPipes.Count != 0 || bpg.BrokenPipes.Count != 1)
+                                {
+                                    foreach (Element pipe in bpg.BrokenPipes)
+                                    {
+                                        pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
+                                    }
+
+                                    //Using the new IEqualityComparer for Connectors to get distinct connectors in the collection
+                                    var brokenCons = MepUtils.GetALLConnectorsFromElements(bpg.BrokenPipes.ToHashSet(), new ConnectorXyzComparer());
+                                    //Create distinct pair combinations with distance from all broken connectors
+                                    //https://stackoverflow.com/a/47003122/6073998
+                                    List<(Connector c1, Connector c2, double dist)> pairs = brokenCons
+                                        .SelectMany((fst, i) => brokenCons.Skip(i + 1)
+                                        .Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin))))
+                                        .ToList();
+                                    var longest = pairs.MaxBy(x => x.dist).FirstOrDefault();
+                                    Pipe dPipe = (Pipe)longest.c1.Owner;
+                                    bpg.HealedPipe = Pipe.Create(doc, dPipe.MEPSystem.GetTypeId(), dPipe.GetTypeId(),
+                                        dPipe.ReferenceLevel.Id, longest.c1.Origin, longest.c2.Origin);
+
+                                    //Add the healed pipe to the pipeList for processing
+                                    pipeList.Add(bpg.HealedPipe);
+                                }
+                            }
+                            tx.Commit();
+                        }
+
+                        //Now the healed pipe must be populated by the parameters from a donorPipe
+                        using (Transaction tx = new Transaction(doc))
+                        {
+                            //Gather all relevant parameter definitions
+                            List<pdef> plist = new plst().LPAll.Where(x => x.Domain == "ELEM" && x.Usage == "U").ToList();
+                            plist.Add(new plst().PCF_MAT_ID);
+
+                            tx.Start("Populate the HealedPipe parameters!");
+                            foreach (BrokenPipesGroup bpg in bpgList)
+                            {
+                                //Skip iteration if there's only 1 or no broken pipes
+                                if (bpg.BrokenPipes.Count == 0 || bpg.BrokenPipes.Count == 1) continue;
+                                Element donorPipe = bpg.BrokenPipes.FirstOrDefault();
+
+                                foreach (pdef p in plist)
+                                {
+                                    Parameter donorParameter = donorPipe.get_Parameter(p.Guid);
+                                    if (donorParameter == null) continue;
+                                    switch (donorParameter.StorageType)
+                                    {
+                                        case StorageType.None:
+                                            continue;
+                                        case StorageType.Integer:
+                                            int donorInt = donorParameter.AsInteger();
+                                            if (donorInt == 0) continue;
+                                            Parameter targetParInt = bpg.HealedPipe.get_Parameter(p.Guid);
+                                            targetParInt.Set(donorInt);
+                                            break;
+                                        case StorageType.Double:
+                                            continue;
+                                        case StorageType.String:
+                                            string donorStr = donorParameter.AsString();
+                                            if (donorStr.IsNullOrEmpty()) continue;
+                                            Parameter targetParStr = bpg.HealedPipe.get_Parameter(p.Guid);
+                                            targetParStr.Set(donorStr);
+                                            break;
+                                        case StorageType.ElementId:
+                                            continue;
+                                        default:
+                                            continue;
+                                    }
+                                }
+                            }
+                            tx.Commit();
+                        }
+
+                        #endregion
 
 
                         StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);

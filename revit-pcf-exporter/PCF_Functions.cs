@@ -1,25 +1,24 @@
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Electrical;
+using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.DB.Plumbing;
+using Autodesk.Revit.UI;
+using MoreLinq;
+using Shared;
+using Shared.BuildingCoder;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Plumbing;
-using Autodesk.Revit.DB.Electrical;
-using Autodesk.Revit.UI;
-using Shared.BuildingCoder;
-using MoreLinq;
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
-using Autodesk.Revit.DB.Mechanical;
-
-using Shared;
 
 namespace PCF_Functions
 {
@@ -565,7 +564,7 @@ namespace PCF_Functions
 
         }
     }
-       
+
     public static class ParameterDataWriter
     {
         public static void SetWallThicknessPipes(HashSet<Element> elements)
@@ -636,12 +635,12 @@ namespace PCF_Functions
                 }
                 if (element is Pipe)
                 {
-                    
+
                 }
 
                 if (element is FamilyInstance)
                 {
-                    
+
                 }
 
                 string data = string.Empty;
@@ -650,6 +649,216 @@ namespace PCF_Functions
                 pipeWallThk.TryGetValue(dia, out data);
                 wallThkParameter.Set(data);
             }
+        }
+    }
+
+    public class BrokenPipesGroup
+    {
+        Element SeedElement;
+        public List<Element> BrokenPipes = new List<Element>();
+        public Element HealedPipe { get; set; } = null;
+        public List<Element> SupportsOnPipe = new List<Element>();
+        List<Connector> AllConnectors = new List<Connector>();
+        readonly string CurSysAbr;
+        List<string> SupportFamilyNames = null;
+
+        public BrokenPipesGroup(Element seedElement, string sysAbr, List<string> supportFamilyNames)
+        {
+            SeedElement = seedElement;
+            SupportsOnPipe.Add(seedElement);
+            CurSysAbr = sysAbr;
+            SupportFamilyNames = supportFamilyNames;
+        }
+
+        //Choose one and traverse in both directions finding other supports on same pipe
+        //Continue conditions:
+        //  1. Element is Pipe -> add to brokenPipesList, continue
+        //      a. AND PipingSystemAbbreviation remains unchanged
+        //      b. AND PCF_ELEM_SPEC remains unchanged
+        //  2. Element is PipeAccessory and is one of the Support family instances -> add to supports on pipe
+        //Break conditions:
+        //  1. Element is PipeFitting -> Break
+        //  2. Element is PipeAccessory and NOT an instance of a Support family -> Break
+        //  3. Element is Pipe AND PipingSystemAbbreviation changes -> Break
+        //  4. Element is Pipe AND PCF_ELEM_SPEC changes -> Break
+        //  5. Free end -> Break
+
+        public void Traverse(Document doc)
+        {
+            //Get connectors from the Seed Element
+            Cons cons = MepUtils.GetConnectors(SeedElement);
+            //Assign the connectors from the support to the two directions
+            Connector firstSideCon = cons.Primary; Connector secondSideCon = cons.Secondary;
+
+            #region SpecFinder
+            //The spec of the support can be different from the pipe's
+            //It is decided that the spec of the pipe is decisive
+            //This means spec must be determined before loop starts
+            //ATTENTION: If pipes on both sides have different spec -> no traversal needed -> the support is placed at a natural boundary
+
+            Connector refFirstCon = null; Connector refSecondCon = null;
+
+            if (firstSideCon.IsConnected)
+            {
+                var refFirstCons = MepUtils.GetAllConnectorsFromConnectorSet(firstSideCon.AllRefs);
+                refFirstCon = refFirstCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
+            }
+            else refFirstCon = DetectUnconnectedConnector(doc, firstSideCon);
+
+            if (secondSideCon.IsConnected)
+            {
+                var refSecondCons = MepUtils.GetAllConnectorsFromConnectorSet(secondSideCon.AllRefs);
+                refSecondCon = refSecondCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
+            }
+            else refSecondCon = DetectUnconnectedConnector(doc, secondSideCon);
+
+            string firstSpec = ""; string secondSpec = ""; string spec = "";
+
+            if (refFirstCon != null)
+            {
+                Element el = refFirstCon.Owner;
+                firstSpec = el.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+            }
+            if (refSecondCon != null)
+            {
+                Element el = refSecondCon.Owner;
+                secondSpec = el.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+            }
+
+            if (firstSpec.IsNullOrEmpty() && secondSpec.IsNullOrEmpty()) return; //<- Both empty
+            if (!firstSpec.IsNullOrEmpty() && secondSpec.IsNullOrEmpty()) spec = firstSpec; //<- First not empty, but second
+            else if (firstSpec.IsNullOrEmpty() && !secondSpec.IsNullOrEmpty()) spec = secondSpec; //<- Second not empty, but first
+            else
+            {
+                if (firstSpec == secondSpec) spec = firstSpec;
+                else return; //<- Different specs -> support is at natural boundary
+            }
+            #endregion
+
+            //Loop controller
+            bool Continue = true;
+            //Side controller
+            bool firstSideDone = false;
+            //Loop variables
+            Connector start = null;
+            //Initialize first loop
+            start = firstSideCon;
+
+            while (Continue)
+            {
+                //Using a seed connector, "start", get the next element
+                //If "start" does not yield a connector to continue on -> stop this side
+                //Determine if next element is eligible for continue
+                //If yes, add element to collections, get next connector
+                //If not, continue next side if side not already done
+                bool pass = true;
+
+                Connector refCon;
+
+                if (start.IsConnected)
+                {
+                    var refCons = MepUtils.GetAllConnectorsFromConnectorSet(start.AllRefs); //<- DOES ALLREFS RETURN NULL IF EMPTY???
+                    refCon = refCons.Where(x => x.Owner.IsType<Pipe>() || x.Owner.IsType<FamilyInstance>()).FirstOrDefault();
+                }
+                else refCon = DetectUnconnectedConnector(doc, start);
+
+                //Break condition 5: Free end
+                if (refCon == null) //Dead end
+                {
+                    if (firstSideDone == false)
+                    {
+                        //Dead end -> first side done -> continue second side
+                        firstSideDone = true; start = secondSideCon; continue;
+                    }
+                    else break; //Dead end -> both sides done -> end traversal loop
+                }
+
+                Element elementToConsider = refCon.Owner;
+
+                //Determine if the element is a support
+                bool isSupport = SupportFamilyNames.Any(x => x == elementToConsider.FamilyName());
+
+                //Continuation 1a
+                string elementSysAbr = elementToConsider.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
+                if (CurSysAbr != elementSysAbr)
+                {
+                    if (firstSideDone == false)
+                    {
+                        //Dead end -> first side done -> continue second side
+                        firstSideDone = true; start = secondSideCon; continue;
+                    }
+                    else break; //Dead end -> both sides done -> end traversal
+                }
+
+                //Continuation 1b
+                string elementSpec = elementToConsider.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+                if (spec != elementSpec && !isSupport) //The spec can be different for another support on the pipe, so it must accept those
+                {
+                    if (firstSideDone == false)
+                    {
+                        //Dead end -> first side done -> continue second side
+                        firstSideDone = true; start = secondSideCon; continue;
+                    }
+                    else break; //Dead end -> both sides done -> end traversal
+                }
+
+                switch (elementToConsider)
+                {
+                    //Remove from pipeList, add to brokenPipesList, continue
+                    case Pipe pipe:
+                        BrokenPipes.Add(elementToConsider);
+                        start = (from Connector c in pipe.ConnectorManager.Connectors //Find next seed connector
+                                 where c.Id != refCon.Id && (int)c.ConnectorType == 1
+                                 select c).FirstOrDefault();
+                        break;
+                    case FamilyInstance fi:
+                        //Break condition 1: Element is a fitting
+                        if (elementToConsider.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting)
+                        {
+                            if (firstSideDone == false)
+                            {
+                                //Dead end -> first side done -> continue second side
+                                firstSideDone = true; start = secondSideCon; continue;
+                            }
+                            else break; //Dead end -> both sides done -> end traversal
+                        }
+                        //Break condition 2: Element is a PipeAccessory and NOT a support
+                        if (elementToConsider.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
+                            && !isSupport)
+                        {
+                            if (firstSideDone == false)
+                            {
+                                //Dead end -> first side done -> continue second side
+                                firstSideDone = true; start = secondSideCon; continue;
+                            }
+                            else break; //Dead end -> both sides done -> end traversal
+                        }
+                        //If execution reaches this part, then the element is a support and is eligible for consideration
+                        SupportsOnPipe.Add(elementToConsider);
+                        //Find next seed connector
+                        Cons supportCons = MepUtils.GetConnectors(elementToConsider);
+                        if (refCon.GetMEPConnectorInfo().IsPrimary)
+                        {
+                            start = supportCons.Secondary;
+                        }
+                        else start = supportCons.Primary;
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        public void CreateHealedPipe()
+        {
+
+        }
+
+        private Connector DetectUnconnectedConnector(Document doc, Connector knownCon)
+        {
+            var allCons = MepUtils.GetALLConnectorsInDocument(doc);
+            return allCons.Where(c => c.IsEqual(knownCon) && c.Owner.Id.IntegerValue != knownCon.Owner.Id.IntegerValue).FirstOrDefault();
         }
     }
 }

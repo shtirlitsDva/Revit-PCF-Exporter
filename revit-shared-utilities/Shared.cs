@@ -361,7 +361,26 @@ namespace Shared
 
         public static HashSet<Connector> GetALLConnectorsInDocument(Document doc, bool includeMechEquipment = false)
         {
-            return (from e in Filter.GetElementsWithConnectors(doc) from Connector c in GetConnectorSet(e) select c).ToHashSet();
+            return (from e in Filter.GetElementsWithConnectors(doc, includeMechEquipment) from Connector c in GetConnectorSet(e) select c).ToHashSet();
+        }
+
+        /// <summary>
+        /// Return a hash string for a real number formatted to nine decimal places.
+        /// </summary>
+        public static string HashString(double a) => a.ToString("0.#########");
+
+        /// <summary>
+        /// Return a hash string for an XYZ point or vector with its coordinates
+        /// formatted to nine decimal places.
+        /// </summary>
+        public static string HashString(XYZ p)
+        {
+            return string.Format("({0},{1},{2})", HashString(p.X), HashString(p.Y), HashString(p.Z));
+        }
+
+        public static HashSet<Connector> GetALLConnectorsFromElements(HashSet<Element> elements, IEqualityComparer<Connector> comparer)
+        {
+            return (from e in elements from Connector c in Shared.MepUtils.GetConnectorSet(e) select c).ToHashSet(comparer);
         }
 
         public static bool IsTheElementACap(Element element)
@@ -451,6 +470,16 @@ namespace Shared
                 [600] = 610.0
             };
         }
+    }
+
+    public class ConnectorXyzComparer : IEqualityComparer<Connector>
+    {
+        public bool Equals(Connector x, Connector y)
+        {
+            return null != x && null != y && Extensions.IsEqual(x.Origin, y.Origin);
+        }
+
+        public int GetHashCode(Connector x) => MepUtils.HashString(x.Origin).GetHashCode();
     }
 
     public class Cons
@@ -704,10 +733,7 @@ namespace Shared
 
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
 
-        public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate)
-        {
-            return source.Where(x => !predicate(x));
-        }
+        public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate) => source.Where(x => !predicate(x));
 
         public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
 
