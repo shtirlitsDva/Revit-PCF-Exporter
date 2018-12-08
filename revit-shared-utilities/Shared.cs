@@ -365,17 +365,12 @@ namespace Shared
         }
 
         /// <summary>
-        /// Return a hash string for a real number formatted to nine decimal places.
+        /// Return a hash string for an XYZ point or vector with its coordinates formatted to 2 decimal places.
+        /// Connectors can have tolerance which exceeds 3 decimal places.
         /// </summary>
-        public static string HashString(double a) => a.ToString("0.#########");
-
-        /// <summary>
-        /// Return a hash string for an XYZ point or vector with its coordinates
-        /// formatted to nine decimal places.
-        /// </summary>
-        public static string HashString(XYZ p)
+        public static string HashStringForConnectorXYZ(XYZ p)
         {
-            return string.Format("({0},{1},{2})", HashString(p.X), HashString(p.Y), HashString(p.Z));
+            return string.Format("({0},{1},{2})", p.X.ToString("0.##"), p.Y.ToString("0.##"), p.Z.ToString("0.##"));
         }
 
         public static HashSet<Connector> GetALLConnectorsFromElements(HashSet<Element> elements, IEqualityComparer<Connector> comparer)
@@ -474,12 +469,9 @@ namespace Shared
 
     public class ConnectorXyzComparer : IEqualityComparer<Connector>
     {
-        public bool Equals(Connector x, Connector y)
-        {
-            return null != x && null != y && Extensions.IsEqual(x.Origin, y.Origin);
-        }
+        public bool Equals(Connector x, Connector y) => null != x && null != y && x.Equalz(y, Extensions._1mmTol);
 
-        public int GetHashCode(Connector x) => MepUtils.HashString(x.Origin).GetHashCode();
+        public int GetHashCode(Connector x) => MepUtils.HashStringForConnectorXYZ(x.Origin).GetHashCode();
     }
 
     public class Cons
