@@ -23,7 +23,7 @@ using System.Collections;
 
 namespace Shared.BuildingCoder
 {
-    public static class Util
+    public static class BuildingCoderUtilities
     {
         #region Geometrical Comparison
         public const double _epx = 1.0e-9; //Original tolerance
@@ -53,32 +53,11 @@ namespace Shared.BuildingCoder
             }
         }
 
-        public static bool IsZero(
-          double a,
-          double tolerance)
-        {
-            return tolerance > Math.Abs(a);
-        }
+        public static bool IsZero(double a, double tolerance) => tolerance > Math.Abs(a);
 
-        public static bool IsZero(double a)
-        {
-            return IsZero(a, _eps);
-        }
+        public static bool IsZero(double a) => IsZero(a, _epx);
 
-        public static bool IsEqual(double a, double b)
-        {
-            return IsZero(b - a);
-        }
-
-        public static bool IsEqual(double a, double b, double tolerance)
-        {
-            return IsZero(b - a, tolerance);
-        }
-
-        public static bool Equalz(this double a, double b, double tolerance = _eps)
-        {
-            return IsZero(b - a, tolerance);
-        }
+        public static bool IsEqual(double a, double b) => IsZero(b - a);
 
         public static int Compare(double a, double b)
         {
@@ -119,10 +98,10 @@ namespace Shared.BuildingCoder
             return d;
         }
 
-        public static bool IsEqual(XYZ p, XYZ q)
-        {
-            return 0 == Compare(p, q);
-        }
+        //public static bool IsEqual(XYZ p, XYZ q)
+        //{
+        //    return 0 == Compare(p, q);
+        //}
 
         /// <summary>
         /// Return true if the given bounding box bb
@@ -885,7 +864,7 @@ namespace Shared.BuildingCoder
         {
             Element e = GetSingleSelectedElement(uidoc);
 
-            if (!HasRequestedType(e, t, acceptDerivedClass)) e = Util.SelectSingleElement(uidoc, description);
+            if (!HasRequestedType(e, t, acceptDerivedClass)) e = BuildingCoderUtilities.SelectSingleElement(uidoc, description);
 
             return HasRequestedType(e, t, acceptDerivedClass) ? e : null;
         }
@@ -1353,7 +1332,7 @@ namespace Shared.BuildingCoder
           XYZ p)
         {
             Debug.Assert(
-              Util.IsEqual(plane.Normal.GetLength(), 1),
+              BuildingCoderUtilities.IsEqual(plane.Normal.GetLength(), 1),
               "expected normalised plane normal");
 
             XYZ v = p - plane.Origin;
@@ -1373,7 +1352,7 @@ namespace Shared.BuildingCoder
             XYZ q = p + d * plane.Normal;
 
             Debug.Assert(
-              Util.IsZero(plane.SignedDistanceTo(q)),
+              BuildingCoderUtilities.IsZero(plane.SignedDistanceTo(q)),
               "expected point on plane to have zero distance to plane");
 
             return q;
