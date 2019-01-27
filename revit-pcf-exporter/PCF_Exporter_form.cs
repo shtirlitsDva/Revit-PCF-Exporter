@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
@@ -46,6 +47,36 @@ namespace PCF_Exporter
             //Init excel path
             _excelPath = mySettings.Default.excelPath;
             textBox20.Text = _excelPath;
+
+            //Init data table selection
+            if (!string.IsNullOrEmpty(_excelPath))
+            {
+                if (File.Exists(_excelPath))
+                {
+                    comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
+
+                    DATA_SET = dh.ImportExcelToDataSet(_excelPath, "YES");
+
+                    DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
+
+                    PCF_DATA_TABLE_NAMES.Clear();
+
+                    foreach (DataTable dt in PCF_DATA_TABLES)
+                    {
+                        PCF_DATA_TABLE_NAMES.Add(dt.TableName);
+                    }
+                    //excelReader.Close();
+                    comboBox1.DataSource = PCF_DATA_TABLE_NAMES;
+
+                    comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+
+                    iv.ExcelSheet = (string)comboBox1.SelectedItem;
+                    DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
+                    ParameterData.parameterNames = null;
+                    ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
+                    ParameterData.parameterNames.RemoveAt(0);
+                }
+            }
 
             //Init Scope
 
