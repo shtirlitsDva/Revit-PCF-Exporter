@@ -129,6 +129,12 @@ namespace PCF_Exporter
                 }
                 #endregion
 
+                //When exporting, remove Instrument pipes completely
+
+                pipelineGroups = pipelineGroups.ExceptWhere(x => x.Key == "INSTR");
+                elements = elements.ExceptWhere(x => x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
+                                                      .AsString() == "INSTR").ToHashSet();
+
                 //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
                 if (InputVars.ExportToPlant3DIso)
                 {
