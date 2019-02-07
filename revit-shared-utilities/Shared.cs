@@ -1,20 +1,20 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Electrical;
+using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.DB.Plumbing;
+using MoreLinq;
+using Shared.BuildingCoder;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
-using System.Text.RegularExpressions;
-using System.Linq;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using MoreLinq;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Mechanical;
-using Autodesk.Revit.DB.Plumbing;
-using Autodesk.Revit.DB.Electrical;
-using Shared.BuildingCoder;
 
 namespace Shared
 {
@@ -361,7 +361,21 @@ namespace Shared
 
         public static HashSet<Connector> GetALLConnectorsInDocument(Document doc, bool includeMechEquipment = false)
         {
-            return (from e in Filter.GetElementsWithConnectors(doc) from Connector c in GetConnectorSet(e) select c).ToHashSet();
+            return (from e in Filter.GetElementsWithConnectors(doc, includeMechEquipment) from Connector c in GetConnectorSet(e) select c).ToHashSet();
+        }
+
+        /// <summary>
+        /// Return a hash string for an XYZ point or vector with its coordinates formatted to 2 decimal places.
+        /// Connectors can have tolerance which exceeds 3 decimal places.
+        /// </summary>
+        public static string HashStringForConnectorXYZ(XYZ p)
+        {
+            return string.Format("({0},{1},{2})", p.X.ToString("0.##"), p.Y.ToString("0.##"), p.Z.ToString("0.##"));
+        }
+
+        public static HashSet<Connector> GetALLConnectorsFromElements(HashSet<Element> elements, IEqualityComparer<Connector> comparer)
+        {
+            return (from e in elements from Connector c in Shared.MepUtils.GetConnectorSet(e) select c).ToHashSet(comparer);
         }
 
         public static bool IsTheElementACap(Element element)
@@ -451,6 +465,13 @@ namespace Shared
                 [600] = 610.0
             };
         }
+    }
+
+    public class ConnectorXyzComparer : IEqualityComparer<Connector>
+    {
+        public bool Equals(Connector x, Connector y) => null != x && null != y && x.Equalz(y, Extensions._1mmTol);
+
+        public int GetHashCode(Connector x) => MepUtils.HashStringForConnectorXYZ(x.Origin).GetHashCode();
     }
 
     public class Cons
@@ -547,8 +568,8 @@ namespace Shared
                 }
             }
 
-            if (data == null) Util.ErrorMsg("Data set is null");
-            if (data.Tables.Count < 1) Util.ErrorMsg("Table count in DataSet is 0");
+            if (data == null) BuildingCoderUtilities.ErrorMsg("Data set is null");
+            if (data.Tables.Count < 1) BuildingCoderUtilities.ErrorMsg("Table count in DataSet is 0");
 
             return data;
         }
@@ -663,6 +684,8 @@ namespace Shared
 
     public static class Extensions
     {
+        public const double _epx = 1.0e-9; //Original tolerance
+        public const double _1mmTol = 0.00328; //Tolerance roughly 1 mm
         const double _inch_to_mm = 25.4;
         const double _foot_to_mm = 12 * _inch_to_mm;
         const double _foot_to_inch = 12;
@@ -670,64 +693,48 @@ namespace Shared
         const double _convertSqrFootToSqrMeter = _convertFootToMeter * _convertFootToMeter;
         const double _convertCubicFootToCubicMeter = _convertFootToMeter * _convertFootToMeter * _convertFootToMeter;
 
-        public static double Round(this Double number, int decimals = 0)
+        public static double Round(this double number, int decimals = 0)
         {
             return Math.Round(number, decimals, MidpointRounding.AwayFromZero);
         }
 
-        public static double FtToMm(this Double l) => l * _foot_to_mm;
+        public static double FtToMm(this double l) => l * _foot_to_mm;
 
         /// <summary>
         /// Returns the value converted to meters.
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
-        public static double FtToMtrs(this Double l) => l * _foot_to_mm / 1000;
+        public static double FtToMtrs(this double l) => l * _foot_to_mm / 1000;
 
-        public static double FtToInch(this Double l) => l * _foot_to_inch;
+        public static double FtToInch(this double l) => l * _foot_to_inch;
 
-        public static double MmToFt(this Double l) => l / _foot_to_mm;
+        public static double MmToFt(this double l) => l / _foot_to_mm;
 
-        public static double SqrFeetToSqrMeters(this Double l) => l * _convertSqrFootToSqrMeter;
+        public static double SqrFeetToSqrMeters(this double l) => l * _convertSqrFootToSqrMeter;
 
-        public static bool Equalz(this double a, double b, double tolerance = Util._eps)
-        {
-            return Util.IsZero(b - a, tolerance);
-        }
+        public static bool Equalz(this double a, double b, double tol) => Math.Abs(a - b) <= tol;
 
-        public static bool IsOdd(this int number)
-        {
-            return number % 2 != 0;
-        }
+        public static bool Equalz(this XYZ a, XYZ b, double tol) => a.X.Equalz(b.X, tol) && a.Y.Equalz(b.Y, tol) && a.Z.Equalz(b.Z, tol);
 
-        public static bool IsType<T>(this object obj)
-        {
-            return obj is T;
+        public static bool Equalz(this Connector a, Connector b, double tol) => a.Origin.Equalz(b.Origin, tol);
 
-            //switch (obj)
-            //{
-            //    case Pipe pipe:
-            //        return true;
-            //    default:
-            //        return false;
-            //}
-        }
+        public static bool IsOdd(this int number) => number % 2 != 0;
 
-        public static bool IsEqual(this XYZ p, XYZ q) => 0 == Util.Compare(p, q);
+        public static bool IsType<T>(this object obj) => obj is T;
 
-        public static bool IsEqual(this Connector c1, Connector c2) => c1.Origin.IsEqual(c2.Origin);
+        public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
 
-        public static bool IsNullOrEmpty(this string str)
-        {
-            return string.IsNullOrEmpty(str);
-        }
-
-        public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate)
-        {
-            return source.Where(x => !predicate(x));
-        }
+        public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate) => source.Where(x => !predicate(x));
 
         public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
+
+        public static string MEPSystemAbbreviation(this Connector con, Document doc)
+        {
+            MEPSystem ps = con.MEPSystem;
+            PipingSystemType pst = (PipingSystemType)doc.GetElement(ps.GetTypeId());
+            return pst.Abbreviation;
+        }
     }
 
     public static class Transformation

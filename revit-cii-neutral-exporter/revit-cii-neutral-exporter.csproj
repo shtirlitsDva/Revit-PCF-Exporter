@@ -40,8 +40,8 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mg.revit-shared-utilities, Version=2019.1.0.38800, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mg.revit-shared-utilities.2019.1.0.38800\lib\net47\mg.revit-shared-utilities.dll</HintPath>
+    <Reference Include="mg.revit-shared-utilities, Version=2019.1.2.20493, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mg.revit-shared-utilities.2019.1.2.20493\lib\net47\mg.revit-shared-utilities.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
