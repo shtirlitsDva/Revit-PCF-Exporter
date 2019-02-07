@@ -31,12 +31,12 @@ namespace PCF_Functions
                 Type t = typeof(Pipe);
 
                 //Select tap element
-                Element systemDonor = Util.SelectSingleElementOfType(uidoc, t, "Select a pipe in desired system.", false);
+                Element systemDonor = BuildingCoderUtilities.SelectSingleElementOfType(uidoc, t, "Select a pipe in desired system.", false);
 
                 if (systemDonor == null) throw new Exception("System assignment cancelled!");
 
                 //Select Element to add to system
-                Element elementToAdd = Util.SelectSingleElement(uidoc, "Select support to add to system.");
+                Element elementToAdd = BuildingCoderUtilities.SelectSingleElement(uidoc, "Select support to add to system.");
 
                 if (elementToAdd == null) throw new Exception("System assignment cancelled!");
 

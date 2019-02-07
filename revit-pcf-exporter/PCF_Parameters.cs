@@ -116,7 +116,7 @@ namespace PCF_Parameters
             xel.Application excel = new xel.Application();
             if (null == excel)
             {
-                Util.ErrorMsg("Failed to get or start Excel.");
+                BuildingCoderUtilities.ErrorMsg("Failed to get or start Excel.");
                 return Result.Failed;
             }
             excel.Visible = true;
@@ -137,7 +137,7 @@ namespace PCF_Parameters
                         where p.Domain == curDomain && p.Usage == curUsage
                         select p;
 
-            worksheet.Range["A1", Util.GetColumnName(query.Count()) + "1"].Font.Bold = true;
+            worksheet.Range["A1", BuildingCoderUtilities.GetColumnName(query.Count()) + "1"].Font.Bold = true;
 
             //Export family and type names to first column and parameter values
             int row = 2, col = 2;
@@ -182,7 +182,7 @@ namespace PCF_Parameters
             curDomain = "ELEM";
 
             //Formatting must occur here, because it depends on query
-            worksheet.Range["A1", Util.GetColumnName(query.Count()) + "1"].Font.Bold = true;
+            worksheet.Range["A1", BuildingCoderUtilities.GetColumnName(query.Count()) + "1"].Font.Bold = true;
 
             //Export family and type names to first column and parameter values
             row = 2; col = 2;
@@ -214,7 +214,7 @@ namespace PCF_Parameters
             //Test to see if the list of parameter names is defined at all, if not -- break.
             if (pd.parameterNames.IsNullOrEmpty())
             {
-                Util.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
+                BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;
             };
             Document doc = uiApp.ActiveUIDocument.Document;
@@ -263,7 +263,7 @@ namespace PCF_Parameters
                         //Check if parGuid returns a match
                         if (parGuid == null)
                         {
-                            Util.ErrorMsg("Wrong parameter set. Select ELEMENT parameters.");
+                            BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select ELEMENT parameters.");
                             return Result.Failed;
                         }
 
@@ -287,7 +287,7 @@ namespace PCF_Parameters
 
                 trans.Commit();
                 sbFeedback.Append(pNumber + " Pipes initialized.\n" + fNumber + " Pipe fittings initialized.\n" + aNumber + " Pipe accessories initialized.");
-                Util.InfoMsg(sbFeedback.ToString());
+                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
                 //excelReader.Close();
 
                 //// Debugging
@@ -309,7 +309,7 @@ namespace PCF_Parameters
             catch (Exception ex)
             {
                 msg = ex.Message;
-                Util.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
+                BuildingCoderUtilities.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
                 trans.RollBack();
                 return Result.Failed;
             }
@@ -323,7 +323,7 @@ namespace PCF_Parameters
             //Test to see if the list of parameter names is defined at all, if not -- break.
             if (pd.parameterNames.IsNullOrEmpty())
             {
-                Util.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
+                BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;
             };
             Document doc = uiApp.ActiveUIDocument.Document;
@@ -385,7 +385,7 @@ namespace PCF_Parameters
                         //Check if parGuid returns a match
                         if (parGuid == null)
                         {
-                            Util.ErrorMsg("Wrong parameter set. Select PIPELINE parameters.");
+                            BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select PIPELINE parameters.");
                             return Result.Failed;
                         }
                         element.get_Parameter(parGuid).Set(parameterValue);
@@ -400,7 +400,7 @@ namespace PCF_Parameters
                 //}
                 trans.Commit();
                 sbFeedback.Append(sNumber + " Pipe Systems (Pipelines) initialized.\n");
-                Util.InfoMsg(sbFeedback.ToString());
+                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
                 //excelReader.Close();
 
                 //// Debugging
@@ -421,7 +421,7 @@ namespace PCF_Parameters
             catch (Exception ex)
             {
                 msg = ex.Message;
-                Util.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
+                BuildingCoderUtilities.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
                 trans.RollBack();
                 return Result.Failed;
             }
@@ -485,7 +485,7 @@ namespace PCF_Parameters
                     File.Delete(tempFile);
                 }
                 trans.Commit();
-                Util.InfoMsg(sbFeedback.ToString());
+                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
             }
 
             catch (Autodesk.Revit.Exceptions.OperationCanceledException) { return Result.Cancelled; }
@@ -554,7 +554,7 @@ namespace PCF_Parameters
                     File.Delete(tempFile);
                 }
                 trans.Commit();
-                Util.InfoMsg(sbFeedback.ToString());
+                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
             }
 
             catch (Autodesk.Revit.Exceptions.OperationCanceledException) { return Result.Cancelled; }
@@ -589,7 +589,7 @@ namespace PCF_Parameters
                 foreach (pdef parameter in new plst().LPAll.ToList())
                     RemoveSharedParameterBinding(doc.Application, parameter.Name, parameter.Type);
                 trans.Commit();
-                Util.InfoMsg(sbFeedback.ToString());
+                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
             }
             catch (Autodesk.Revit.Exceptions.OperationCanceledException)
             {

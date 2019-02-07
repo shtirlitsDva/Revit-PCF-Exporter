@@ -556,7 +556,7 @@ namespace PCF_Functions
             }
             catch (Exception e)
             {
-                Util.InfoMsg(e.Message);
+                BuildingCoderUtilities.InfoMsg(e.Message);
                 return Result.Failed;
             }
 
@@ -858,7 +858,7 @@ namespace PCF_Functions
         private Connector DetectUnconnectedConnector(Document doc, Connector knownCon)
         {
             var allCons = MepUtils.GetALLConnectorsInDocument(doc);
-            return allCons.Where(c => c.IsEqual(knownCon) && c.Owner.Id.IntegerValue != knownCon.Owner.Id.IntegerValue).FirstOrDefault();
+            return allCons.Where(c => c.Equalz(knownCon, 0.00328) && c.Owner.Id.IntegerValue != knownCon.Owner.Id.IntegerValue).FirstOrDefault();
         }
     }
 }

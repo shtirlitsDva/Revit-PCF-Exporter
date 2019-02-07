@@ -192,7 +192,7 @@ namespace PCF_Exporter
             ParameterData.parameterNames = null;
             ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
             ParameterData.parameterNames.RemoveAt(0);
-            Util.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
+            BuildingCoderUtilities.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -275,8 +275,8 @@ namespace PCF_Exporter
                 }
             }
 
-            if (result == Result.Succeeded) Util.InfoMsg("PCF data exported successfully!");
-            if (result == Result.Failed) Util.InfoMsg("PCF data export failed for some reason.");
+            if (result == Result.Succeeded) BuildingCoderUtilities.InfoMsg("PCF data exported successfully!");
+            if (result == Result.Failed) BuildingCoderUtilities.InfoMsg("PCF data export failed for some reason.");
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
@@ -364,16 +364,16 @@ namespace PCF_Exporter
             ScheduleCreator SC = new ScheduleCreator();
             var output = SC.CreateAllItemsSchedule(_uidoc);
 
-            if (output == Result.Succeeded) Util.InfoMsg("Schedules created successfully!");
-            else if (output == Result.Failed) Util.InfoMsg("Schedule creation failed for some reason.");
+            if (output == Result.Succeeded) BuildingCoderUtilities.InfoMsg("Schedules created successfully!");
+            else if (output == Result.Failed) BuildingCoderUtilities.InfoMsg("Schedule creation failed for some reason.");
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
             ExportParameters EP = new ExportParameters();
             var output = EP.ExecuteMyCommand(_uiapp);
-            if (output == Result.Succeeded) Util.InfoMsg("Elements exported to EXCEL successfully!");
-            else if (output == Result.Failed) Util.InfoMsg("Element export to EXCEL failed for some reason.");
+            if (output == Result.Succeeded) BuildingCoderUtilities.InfoMsg("Elements exported to EXCEL successfully!");
+            else if (output == Result.Failed) BuildingCoderUtilities.InfoMsg("Element export to EXCEL failed for some reason.");
         }
 
         private void richTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)

@@ -27,7 +27,7 @@ namespace PCF_Taps
             {
 
                 //Select tapped element
-                Element tappedElement = Util.SelectSingleElement(uidoc, "Select tapped element.");
+                Element tappedElement = BuildingCoderUtilities.SelectSingleElement(uidoc, "Select tapped element.");
 
                 if (!(tappedElement != null)) throw new Exception("Tap Connection cancelled!");
 
@@ -35,7 +35,7 @@ namespace PCF_Taps
                 Type t = typeof(Pipe);
 
                 //Select tap element
-                Element tappingElement = Util.SelectSingleElementOfType(uidoc, t, "Select tapping element (must be a pipe).", false);
+                Element tappingElement = BuildingCoderUtilities.SelectSingleElementOfType(uidoc, t, "Select tapping element (must be a pipe).", false);
 
                 if (!(tappingElement != null)) throw new Exception("Tap Connection cancelled!");
 
@@ -56,7 +56,7 @@ namespace PCF_Taps
                 }
                 else
                 {
-                    Util.ErrorMsg("All tapping slots are taken. Manually delete unwanted values og increase number of tapping slots.");
+                    BuildingCoderUtilities.ErrorMsg("All tapping slots are taken. Manually delete unwanted values og increase number of tapping slots.");
                 }
 
                 trans.Commit();

@@ -148,7 +148,7 @@ namespace PCF_Exporter
                 {
                     if (string.IsNullOrEmpty(e.get_Parameter(new plst().PCF_MAT_DESCR.Guid).AsString()))
                     {
-                        Util.ErrorMsg("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
+                        BuildingCoderUtilities.ErrorMsg("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
                         throw new Exception("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
                     }
                 }

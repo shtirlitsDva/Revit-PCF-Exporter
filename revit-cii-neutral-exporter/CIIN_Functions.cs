@@ -278,7 +278,7 @@ namespace CIINExporter
             }
             catch (Exception e)
             {
-                Util.InfoMsg(e.Message);
+                BuildingCoderUtilities.InfoMsg(e.Message);
                 return Result.Failed;
             }
 

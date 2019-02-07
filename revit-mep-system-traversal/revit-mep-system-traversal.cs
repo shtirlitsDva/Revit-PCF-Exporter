@@ -20,11 +20,13 @@ namespace RevitMEPSystemTraversal
     {
         Document doc;
         public AnalyticModel Model;
+        double _1mmTol;
 
         public MEPSystemTraversal(Document doc, HashSet<Element> elements)
         {
             Model = new AnalyticModel(elements);
             this.doc = doc;
+            _1mmTol = 0.00328;
         }
 
         public void AnalyzeSystem()
@@ -51,16 +53,16 @@ namespace RevitMEPSystemTraversal
                     if (branchEnds.Count > 0)
                     {
                         From = branchEnds.FirstOrDefault();
-                        branchEnds = branchEnds.ExceptWhere(c => c.IsEqual(From)).ToList();
+                        branchEnds = branchEnds.ExceptWhere(c => c.Equalz(From, _1mmTol)).ToList();
                         FromNode = (from Node n in Model.AllNodes
-                                    where n.PreviousCon != null && n.PreviousCon.IsEqual(From)
+                                    where n.PreviousCon != null && n.PreviousCon.Equalz(From, _1mmTol)
                                     select n).FirstOrDefault();
                         FromNode.NextCon = From;
                     }
                     else
                     {
                         From = openEnds.FirstOrDefault();
-                        openEnds = openEnds.ExceptWhere(c => c.IsEqual(From)).ToList();
+                        openEnds = openEnds.ExceptWhere(c => c.Equalz(From, _1mmTol)).ToList();
                         FromNode = new Node();
                         FromNode.NextCon = From;
                         Model.AllNodes.Add(FromNode);
@@ -92,8 +94,8 @@ namespace RevitMEPSystemTraversal
                         //TODO: This test must be copied to all other elements
                         Node existingToNode = (from Node n in Model.AllNodes
                                                where
-                                               (n.PreviousCon != null && n.PreviousCon.IsEqual(To)) ||
-                                               (n.NextCon != null && n.NextCon.IsEqual(To))
+                                               (n.PreviousCon != null && n.PreviousCon.Equalz(To, _1mmTol)) ||
+                                               (n.NextCon != null && n.NextCon.Equalz(To, _1mmTol))
                                                select n).FirstOrDefault();
 
                         if (existingToNode != null)
@@ -239,10 +241,10 @@ namespace RevitMEPSystemTraversal
                                         if (From.GetMEPConnectorInfo().IsPrimary)
                                         {
                                             candidate1 = (from Connector c in Model.AllConnectors
-                                                          where c.IsEqual(cons.Secondary)
+                                                          where c.Equalz(cons.Secondary, _1mmTol)
                                                           select c).FirstOrDefault();
                                             candidate2 = (from Connector c in Model.AllConnectors
-                                                          where c.IsEqual(cons.Tertiary)
+                                                          where c.Equalz(cons.Tertiary, _1mmTol)
                                                           select c).FirstOrDefault();
 
                                             if (candidate1 != null)
@@ -260,10 +262,10 @@ namespace RevitMEPSystemTraversal
                                         else if (From.GetMEPConnectorInfo().IsSecondary)
                                         {
                                             candidate1 = (from Connector c in Model.AllConnectors
-                                                          where c.IsEqual(cons.Primary)
+                                                          where c.Equalz(cons.Primary, _1mmTol)
                                                           select c).FirstOrDefault();
                                             candidate2 = (from Connector c in Model.AllConnectors
-                                                          where c.IsEqual(cons.Tertiary)
+                                                          where c.Equalz(cons.Tertiary, _1mmTol)
                                                           select c).FirstOrDefault();
 
                                             if (candidate1 != null)
@@ -281,10 +283,10 @@ namespace RevitMEPSystemTraversal
                                         else
                                         {
                                             candidate1 = (from Connector c in Model.AllConnectors
-                                                          where c.IsEqual(cons.Primary)
+                                                          where c.Equalz(cons.Primary, _1mmTol)
                                                           select c).FirstOrDefault();
                                             candidate2 = (from Connector c in Model.AllConnectors
-                                                          where c.IsEqual(cons.Secondary)
+                                                          where c.Equalz(cons.Secondary, _1mmTol)
                                                           select c).FirstOrDefault();
 
                                             if (candidate1 != null)
@@ -371,7 +373,7 @@ namespace RevitMEPSystemTraversal
                 Model.AllConnectors = Model.AllConnectors.ExceptWhere(c => c.Owner.Id.IntegerValue == curElem.Id.IntegerValue).ToList();
 
                 From = (from Connector c in Model.AllConnectors
-                        where c.IsEqual(To)
+                        where c.Equalz(To, _1mmTol)
                         select c).FirstOrDefault();
 
                 if (From != null)
@@ -388,11 +390,11 @@ namespace RevitMEPSystemTraversal
                 else
                 {
                     continueSequence = false;
-                    openEnds = openEnds.ExceptWhere(c => c.IsEqual(To)).ToList();
+                    openEnds = openEnds.ExceptWhere(c => c.Equalz(To, _1mmTol)).ToList();
 
                     if (branchEnds.Count > 0 && To != null)
                     {
-                        branchEnds = branchEnds.ExceptWhere(c => c.IsEqual(To)).ToList();
+                        branchEnds = branchEnds.ExceptWhere(c => c.Equalz(To, _1mmTol)).ToList();
                     }
 
                     if (branchEnds.Count < 1) Model.Sequences.Add(curSequence);
@@ -412,7 +414,7 @@ namespace RevitMEPSystemTraversal
             //Loop over ALL nodes and populate coordinate information
             foreach (Node n in Model.AllNodes) n.PopulateCoordinates();
 
-            Util.InfoMsg(Model.AllNodes.Count.ToString());
+           BuildingCoderUtilities.InfoMsg(Model.AllNodes.Count.ToString());
         }
 
         public void NumberNodes()
@@ -466,7 +468,7 @@ namespace RevitMEPSystemTraversal
         internal static List<Connector> detectOpenEnds(AnalyticModel Model)
         {
             List<Connector> singleConnectors = new List<Connector>();
-            foreach (Connector c1 in Model.AllConnectors) if (!(1 < Model.AllConnectors.Count(c => c.IsEqual(c1)))) singleConnectors.Add(c1);
+            foreach (Connector c1 in Model.AllConnectors) if (!(1 < Model.AllConnectors.Count(c => c.Equalz(c1, Shared.Extensions._1mmTol)))) singleConnectors.Add(c1);
             return singleConnectors;
         }
     }

@@ -131,7 +131,7 @@ namespace NTR_Exporter
             //ParameterData.parameterNames = null;
             //ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
             //ParameterData.parameterNames.RemoveAt(0);
-            //Util.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
+            //BuildingCoderUtilities.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
         }
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
@@ -206,8 +206,8 @@ namespace NTR_Exporter
                 }
             }
 
-            if (result == Result.Succeeded) Util.InfoMsg("NTR data exported successfully!");
-            if (result == Result.Failed) Util.InfoMsg("NTR data export failed for some reason.");
+            if (result == Result.Succeeded) BuildingCoderUtilities.InfoMsg("NTR data exported successfully!");
+            if (result == Result.Failed) BuildingCoderUtilities.InfoMsg("NTR data export failed for some reason.");
         }
 
         private void RadioButton3_CheckedChanged(object sender, EventArgs e)
@@ -276,8 +276,8 @@ namespace NTR_Exporter
             excel.ExportUndefinedElements(_doc);
             //ExportParameters EP = new ExportParameters();
             //var output = EP.ExecuteMyCommand(_uiapp);
-            //if (output == Result.Succeeded) Util.InfoMsg("Elements exported to EXCEL successfully!");
-            //else if (output == Result.Failed) Util.InfoMsg("Element export to EXCEL failed for some reason.");
+            //if (output == Result.Succeeded) BuildingCoderUtilities.InfoMsg("Elements exported to EXCEL successfully!");
+            //else if (output == Result.Failed) BuildingCoderUtilities.InfoMsg("Element export to EXCEL failed for some reason.");
         }
 
         private void RichTextBox1_LinkClicked(object sender, LinkClickedEventArgs e)

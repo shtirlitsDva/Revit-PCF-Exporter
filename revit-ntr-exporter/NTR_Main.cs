@@ -198,7 +198,7 @@ namespace NTR_Exporter
                     #region Debug
                     //string ids = string.Empty;
                     //foreach (var g in nbifAllList) foreach (var e in g.CreatedElements) ids += e.Id.ToString() + "\n";
-                    //Util.InfoMsg(ids);
+                    //BuildingCoderUtilities.InfoMsg(ids);
                     #endregion
 
                     txGp.RollBack(); //Rollback the extra elements created
