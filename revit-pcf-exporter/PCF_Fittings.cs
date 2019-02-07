@@ -54,6 +54,11 @@ namespace PCF_Fittings
                         sbFittings.AppendLine();
 
                         break;
+                    //case ("BEND"):
+                    //    sbFittings.Append(EndWriter.WriteEP1(element, cons.Primary));
+                    //    sbFittings.Append(EndWriter.WriteEP2(element, cons.Secondary));
+                    //    sbFittings.Append(EndWriter.WriteCP(familyInstance));
+                    //    break;
 
                     case ("TEE"):
                         //Process endpoints of the component
