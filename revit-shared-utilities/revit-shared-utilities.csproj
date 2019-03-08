@@ -65,25 +65,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseFormTableLayoutPanel_BasicList.cs">
+    <Compile Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BaseFormTableLayoutPanel_BasicList.Designer.cs">
+    <Compile Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.Designer.cs">
       <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
     </Compile>
-    <Compile Include="RadioBox.cs">
+    <Compile Include="01 Shared code\RadioBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Shared.cs" />
+    <Compile Include="01 Shared code\Shared.cs" />
+    <Compile Include="02 Connector position validation\01 SpatialValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="01 Shared code\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BaseFormTableLayoutPanel_BasicList.resx">
+    <EmbeddedResource Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.resx">
       <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
