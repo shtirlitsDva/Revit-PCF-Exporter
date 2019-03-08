@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>
 	<AddIn Type="Application">    
-		<Assembly>PCF-Exporter.dll</Assembly>
+		<Assembly>E:\GitHub\shtirlitsDva\Revit-PCF-Exporter\revit-pcf-exporter\bin\Release\PCF-Exporter.dll</Assembly>
 		<ClientId>73348466-3f81-4752-8283-1b5dd6b04c3b</ClientId>
 		<FullClassName>PCF_Exporter.App</FullClassName>
 		<Name>PCF Tools</Name>
@@ -9,7 +9,7 @@
 		<VendorDescription>MGTek, info@mgtek.dk</VendorDescription>
   	</AddIn>
 	<AddIn Type="Application">    
-		<Assembly>Revit-NTR-Exporter.dll</Assembly>
+		<Assembly>E:\GitHub\shtirlitsDva\Revit-PCF-Exporter\revit-ntr-exporter\bin\Release\Revit-NTR-Exporter.dll</Assembly>
 		<ClientId>153AE0AE-57EA-4D3A-8209-69B9F5F3FA18</ClientId>
 		<FullClassName>NTR_Exporter.App</FullClassName>
 		<Name>NTR Tools</Name>

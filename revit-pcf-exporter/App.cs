@@ -21,7 +21,7 @@ namespace PCF_Exporter
     {
         public const string pcfExporterButtonToolTip = "Export piping data to PCF";
         public const string tapConnectionButtonToolTip = "Define a tap connection";
-        public const string supportSystemTypeToolTip = "Set system type for pipe support";
+        //public const string supportSystemTypeToolTip = "Set system type for pipe support";
 
         //Method to get the button image
         BitmapImage NewBitmapImage(Assembly a, string imageName)
@@ -70,11 +70,11 @@ namespace PCF_Exporter
             data.LargeImage = NewBitmapImage(exe, "PCF_Functions.ImgTapCon32.png");
             pushButton = rvtRibbonPanel.AddItem(data) as PushButton;
 
-            data = new PushButtonData("SupportSystemType","SST",ExecutingAssemblyPath, "PCF_Exporter.SupportsCaller");
-            data.ToolTip = supportSystemTypeToolTip;
-            data.Image = NewBitmapImage(exe, "PCF_Functions.ImgSupports16.png");
-            data.LargeImage = NewBitmapImage(exe, "PCF_Functions.ImgSupports32.png");
-            pushButton = rvtRibbonPanel.AddItem(data) as PushButton;
+            //data = new PushButtonData("SupportSystemType","SST",ExecutingAssemblyPath, "PCF_Exporter.SupportsCaller");
+            //data.ToolTip = supportSystemTypeToolTip;
+            //data.Image = NewBitmapImage(exe, "PCF_Functions.ImgSupports16.png");
+            //data.LargeImage = NewBitmapImage(exe, "PCF_Functions.ImgSupports32.png");
+            //pushButton = rvtRibbonPanel.AddItem(data) as PushButton;
         }
     }
 
@@ -114,17 +114,17 @@ namespace PCF_Exporter
         }
     }
 
-    [Transaction(TransactionMode.Manual)]
-    [Regeneration(RegenerationOption.Manual)]
-    class SupportsCaller : IExternalCommand
-    {
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
-        {
-            SetSupportPipingSystem dtc = new SetSupportPipingSystem();
-            Result result = dtc.Execute(commandData, ref message, elements);
-            if (result == Result.Failed) return Result.Failed;
-            else if (result == Result.Succeeded) return Result.Succeeded;
-            else return Result.Cancelled;
-        }
-    }
+    //[Transaction(TransactionMode.Manual)]
+    //[Regeneration(RegenerationOption.Manual)]
+    //class SupportsCaller : IExternalCommand
+    //{
+    //    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+    //    {
+    //        SetSupportPipingSystem dtc = new SetSupportPipingSystem();
+    //        Result result = dtc.Execute(commandData, ref message, elements);
+    //        if (result == Result.Failed) return Result.Failed;
+    //        else if (result == Result.Succeeded) return Result.Succeeded;
+    //        else return Result.Cancelled;
+    //    }
+    //}
 }
