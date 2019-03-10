@@ -15,9 +15,9 @@ using op = Shared.Output;
 using tr = Shared.Transformation;
 using mp = Shared.MepUtils;
 
-namespace MEPUtils
+namespace Shared.Tools
 {
-    public partial class MEPUtilsChooser : System.Windows.Forms.Form
+    public partial class Tools : System.Windows.Forms.Form
     {
         private Dictionary<int, Func<ExternalCommandData, Result>> methodDict;
         private Dictionary<int, string> nameDict;
@@ -26,7 +26,7 @@ namespace MEPUtils
         private int desiredStartLocationX;
         private int desiredStartLocationY;
 
-        public MEPUtilsChooser()
+        public Tools()
         {
             InitializeComponent();
 
@@ -53,31 +53,13 @@ namespace MEPUtils
             //Place methods to execute in this dict
             methodDict = new Dictionary<int, Func<ExternalCommandData, Result>>
             {
-                {0, InsulationHandler.CreateAllInsulation },
-                {1, InsulationHandler.DeleteAllPipeInsulation },
-                {2, new InsulationHandler().ExecuteInsulationSettings },
-                {3, PipeCreator.CreatePipeFromConnector },
-                {4, FlangeCreator.CreateFlangeForElements },
-                {5, TotalLineLength.TotalLineLengths },
-                {6, CreateInstrumentation.StartCreatingInstrumentation.StartCreating },
-                {7, PAHangers.CalculateHeight.Calculate },
-                {8, MoveToDistance.MoveToDistance.Move },
-                {9, new CountWelds.CountWelds().CountWeldsMethod }
+                {0, null },
             };
 
             //Place names for methods in this dict
             nameDict = new Dictionary<int, string>
             {
-                {0, "Create all insulation" },
-                {1, "Delete all insulation" },
-                {2, "Insulation settings" },
-                {3, "Create pipe from connector" },
-                {4, "Create flanges" },
-                {5, "Total length of lines" },
-                {6, "Create Instrument!" },
-                {7, "Hanger height calc" },
-                {8, "Move e to distance" },
-                {9, "(ctrl) Count welds" }
+                {0, "Not implemented yet!" },
             };
 
             for (int i = 0; i < methodDict.Count; i++)
@@ -94,12 +76,12 @@ namespace MEPUtils
             }
         }
 
-        public MEPUtilsChooser(int x, int y) : this()
+        public Tools(int x, int y) : this()
         {
             desiredStartLocationX = x;
             desiredStartLocationY = y;
 
-            Load += new EventHandler(MEPUtilsChooser_Load);
+            Load += new EventHandler(Tools_Load);
         }
 
         private void B_Click(object sender, EventArgs e)
@@ -111,7 +93,7 @@ namespace MEPUtils
             Close();
         }
 
-        private void MEPUtilsChooser_Load(object sender, EventArgs e)
+        private void Tools_Load(object sender, EventArgs e)
         {
             SetDesktopLocation(desiredStartLocationX, desiredStartLocationY);
         }

@@ -1,6 +1,6 @@
-﻿namespace MEPUtils
+﻿namespace Shared.Tools
 {
-    partial class MEPUtilsChooser
+    partial class Tools
     {
         /// <summary>
         /// Required designer variable.

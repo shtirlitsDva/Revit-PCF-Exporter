@@ -15,19 +15,19 @@ using tr = Shared.Transformation;
 using mp = Shared.MepUtils;
 
 
-namespace MEPUtils
+namespace Shared.Tools
 {
-    public class MEPUtilsClass
+    public class AnalysisTools
     {
         public static Result FormCaller(ExternalCommandData cData)
         {
-            MEPUtilsChooser mepuc = new MEPUtilsChooser(Cursor.Position.X, Cursor.Position.Y);
-            mepuc.ShowDialog();
+            Tools tools = new Tools(Cursor.Position.X, Cursor.Position.Y);
+            tools.ShowDialog();
             //mepuc.Close();
             
-            if (mepuc.MethodToExecute == null) return Result.Cancelled;
+            if (tools.MethodToExecute == null) return Result.Cancelled;
 
-            return mepuc.MethodToExecute.Invoke(cData);
+            return tools.MethodToExecute.Invoke(cData);
         }
     }
 }
