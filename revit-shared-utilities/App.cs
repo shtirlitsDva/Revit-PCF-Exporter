@@ -8,20 +8,16 @@ using System.IO;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using PCF_Functions;
 //using mySettings = PCF_Functions.Properties.Settings;
-using PCF_Taps;
 
-namespace PCF_Exporter
+namespace Shared
 {
 
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     //[Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     public class App : IExternalApplication
     {
-        public const string pcfExporterButtonToolTip = "Export piping data to PCF";
-        public const string tapConnectionButtonToolTip = "Define a tap connection";
-        //public const string supportSystemTypeToolTip = "Set system type for pipe support";
+        public const string analysisTools = "Analysis tools";
 
         //Method to get the button image
         BitmapImage NewBitmapImage(Assembly a, string imageName)
@@ -57,18 +53,12 @@ namespace PCF_Exporter
         {
             //Assembly exe = Assembly.GetExecutingAssembly();
 
-            RibbonPanel rvtRibbonPanel = application.CreateRibbonPanel("PCF Tools");
-            PushButtonData data = new PushButtonData("PCFExporter","PCF",ExecutingAssemblyPath,"PCF_Exporter.FormCaller");
-            data.ToolTip = pcfExporterButtonToolTip;
-            data.Image = NewBitmapImage(exe, "PCF_Functions.ImgPcfExport16.png");
-            data.LargeImage = NewBitmapImage(exe, "PCF_Functions.ImgPcfExport32.png");
+            RibbonPanel rvtRibbonPanel = application.CreateRibbonPanel("Tools");
+            PushButtonData data = new PushButtonData("Tools","TLS",ExecutingAssemblyPath,"Shared.FormCaller");
+            data.ToolTip = analysisTools;
+            data.Image = NewBitmapImage(exe, "Shared.Resources.AnalysisTools16.png");
+            data.LargeImage = NewBitmapImage(exe, "Shared.Resources.AnalysisTools32.png");
             PushButton pushButton = rvtRibbonPanel.AddItem(data) as PushButton;
-
-            data = new PushButtonData("TAPConnection", "Taps", ExecutingAssemblyPath, "PCF_Exporter.TapsCaller");
-            data.ToolTip = tapConnectionButtonToolTip;
-            data.Image = NewBitmapImage(exe, "PCF_Functions.ImgTapCon16.png");
-            data.LargeImage = NewBitmapImage(exe, "PCF_Functions.ImgTapCon32.png");
-            pushButton = rvtRibbonPanel.AddItem(data) as PushButton;
 
             //data = new PushButtonData("SupportSystemType","SST",ExecutingAssemblyPath, "PCF_Exporter.SupportsCaller");
             //data.ToolTip = supportSystemTypeToolTip;
@@ -85,11 +75,8 @@ namespace PCF_Exporter
         {
             try
             {
-                PCF_Exporter_form fm = new PCF_Exporter_form(commandData, message);
-                fm.ShowDialog();
-                PCF_Functions.Properties.Settings.Default.Save();
-                fm.Close();
-                return Result.Succeeded;
+                Result result = Shared.Tools.AnalysisTools.FormCaller(commandData);
+                return result;
             }
 
             catch (Autodesk.Revit.Exceptions.OperationCanceledException) { return Result.Cancelled; }
@@ -100,31 +87,4 @@ namespace PCF_Exporter
             }
         }
     }
-
-    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-    class TapsCaller : IExternalCommand
-    {
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
-        {
-            DefineTapConnection dtc = new DefineTapConnection();
-            Result result = dtc.defineTapConnection(commandData, ref message, elements);
-            if (result == Result.Failed) return Result.Failed;
-            else if (result == Result.Succeeded) return Result.Succeeded;
-            else return Result.Cancelled;
-        }
-    }
-
-    //[Transaction(TransactionMode.Manual)]
-    //[Regeneration(RegenerationOption.Manual)]
-    //class SupportsCaller : IExternalCommand
-    //{
-    //    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
-    //    {
-    //        SetSupportPipingSystem dtc = new SetSupportPipingSystem();
-    //        Result result = dtc.Execute(commandData, ref message, elements);
-    //        if (result == Result.Failed) return Result.Failed;
-    //        else if (result == Result.Succeeded) return Result.Succeeded;
-    //        else return Result.Cancelled;
-    //    }
-    //}
 }

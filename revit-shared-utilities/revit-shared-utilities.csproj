@@ -63,6 +63,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.cs">
@@ -76,6 +77,7 @@
     </Compile>
     <Compile Include="01 Shared code\Shared.cs" />
     <Compile Include="02 Connector position validation\01 SpatialValidation.cs" />
+    <Compile Include="App.cs" />
     <Compile Include="Tools.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,6 +99,11 @@
     <EmbeddedResource Include="Tools.resx">
       <DependentUpon>Tools.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\AnalysisTools16.png" />
+    <EmbeddedResource Include="Resources\AnalysisTools32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
