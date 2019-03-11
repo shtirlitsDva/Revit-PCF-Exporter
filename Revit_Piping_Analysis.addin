@@ -16,4 +16,12 @@
 		<VendorId>MGTek</VendorId>
 		<VendorDescription>MGTek, info@mgtek.dk</VendorDescription>
   	</AddIn>
+	<AddIn Type="Application">    
+		<Assembly>E:\GitHub\shtirlitsDva\Revit-PCF-Exporter\revit-shared-utilities\bin\Release\mg.revit-shared-utilities.dll</Assembly>
+		<ClientId>41992AB4-EBC1-4B42-BB0A-D2675F3EE5A6</ClientId>
+		<FullClassName>Shared.App</FullClassName>
+		<Name>Analysis Tools</Name>
+		<VendorId>MGTek</VendorId>
+		<VendorDescription>MGTek, info@mgtek.dk</VendorDescription>
+  	</AddIn>
   </RevitAddIns>
