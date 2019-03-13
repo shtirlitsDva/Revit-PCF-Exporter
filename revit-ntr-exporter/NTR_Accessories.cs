@@ -55,6 +55,8 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
                         if (kind == "FH") sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "CW"));
                         sbAccessories.Append(dw.HangerLength("L", element));
+                        if (kind == "FH") sbAccessories.Append(dw.ParameterValue("RF", "NTR_ELEM_RF", element)); //Installation load -- calculate beforehand
+                        sbAccessories.Append(dw.ParameterValue("TEXT", "Mark", element));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
