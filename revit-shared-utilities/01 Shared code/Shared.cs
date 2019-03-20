@@ -467,9 +467,20 @@ namespace Shared
         }
     }
 
+    /// <summary>
+    /// Comparer for Connector objects based on their geometric location within a set tolerance.
+    /// Tolerance must be in feet.
+    /// </summary>
     public class ConnectorXyzComparer : IEqualityComparer<Connector>
     {
-        public bool Equals(Connector x, Connector y) => null != x && null != y && x.Equalz(y, Extensions._1mmTol);
+        double Tol = Extensions._1mmTol;
+
+        public ConnectorXyzComparer(double tol)
+        {
+            Tol = tol;
+        }
+
+        public bool Equals(Connector x, Connector y) => null != x && null != y && x.Equalz(y, Tol);
 
         public int GetHashCode(Connector x) => MepUtils.HashStringForConnectorXYZ(x.Origin).GetHashCode();
     }

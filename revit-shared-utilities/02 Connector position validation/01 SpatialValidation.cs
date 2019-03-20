@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Plumbing;
+using Autodesk.Revit.DB.Structure;
+using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Selection;
+using MoreLinq;
+using Shared;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using MoreLinq;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Plumbing;
-using Autodesk.Revit.DB.Structure;
-using Shared;
-using fi = Shared.Filter;
-using tr = Shared.Transformation;
-using mp = Shared.MepUtils;
 using dbg = Shared.Dbg;
+using fi = Shared.Filter;
+using mp = Shared.MepUtils;
+using tr = Shared.Transformation;
 
 namespace Shared.Tools
 {
@@ -28,41 +29,67 @@ namespace Shared.Tools
             //Gather all connectors from the document
             HashSet<Connector> AllCons = mp.GetALLConnectorsInDocument(doc);
 
-            //Create collection with distinct connectors
-            var DistinctCons = AllCons.ToHashSet(new ConnectorXyzComparer());
+            //Create collection with distinct connectors with a set tolerance
+            double Tol = 3.0.MmToFt();
+            var DistinctCons = AllCons.ToHashSet(new ConnectorXyzComparer(Tol));
 
             List<connectorSpatialGroup> csgList = new List<connectorSpatialGroup>();
 
             foreach (Connector distinctCon in DistinctCons)
             {
-                csgList.Add(new connectorSpatialGroup(AllCons.Where(x => distinctCon.Equalz(x, Shared.Extensions._1mmTol))));
-                AllCons = AllCons.ExceptWhere(x => distinctCon.Equalz(x, Shared.Extensions._1mmTol)).ToHashSet();
+                csgList.Add(new connectorSpatialGroup(AllCons.Where(x => distinctCon.Equalz(x, Tol))));
+                AllCons = AllCons.ExceptWhere(x => distinctCon.Equalz(x, Tol)).ToHashSet();
             }
+
+            foreach (var g in csgList)
+            {
+                g.pairs = g.Connectors
+                           .SelectMany((fst, i) => g.Connectors.Skip(i + 1)
+                           .Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin))))
+                           .ToList();
+                g.longestPair = g.pairs.MaxBy(x => x.dist).FirstOrDefault();
+
+                g.longestDist = g.longestPair.dist.FtToMm().Round(4);
+            }
+
+            csgList.Sort((y, x) => x.longestDist.CompareTo(y.longestDist));
 
             List<string> results = new List<string>();
 
             foreach (var g in csgList)
             {
-                List<(Connector c1, Connector c2, double dist)> pairs = g.Connectors
-                                        .SelectMany((fst, i) => g.Connectors.Skip(i + 1)
-                                        .Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin))))
-                                        .ToList();
-                var longest = pairs.MaxBy(x => x.dist).FirstOrDefault();
-
-                double longestDist = longest.dist.FtToMm();
-
-                if (longestDist > 0.1)
+                if (g.longestDist > 0.001)
                 {
-                    Element owner1 = longest.c1.Owner;
-                    Element owner2 = longest.c2.Owner;
-                    string intermediateResult = string.Concat(owner1.Name, ": ", owner1.Id, " => ", longestDist, " mm\n");
-                    results.Add(intermediateResult);
+                    //Element owner1 = g.longestPair.c1.Owner;
+                    //Element owner2 = g.longestPair.c2.Owner;
+                    //string intermediateResult = $"{owner1.Name}: {owner1.Id} - {owner2.Name}: {owner2.Id} => {g.longestDist} mm\n";
+                    //results.Add(intermediateResult);
+                    string s1 = PointStringMm(g.longestPair.c1.Origin);
+                    string s2 = PointStringMm(g.longestPair.c2.Origin);
+                    if (!(s1 == s2))
+                    {
+                        //results.Add($"{s1} != {s2}\n");
+                        foreach (var c in g.Connectors)
+                        {
+                            string s = PointStringMm(c.Origin);
+                            results.Add($"{s}\n");
+                        }
+                        results.Add("\n");
+                    }
                 }
             }
 
             Shared.BuildingCoder.BuildingCoderUtilities.InfoMsg(string.Join(string.Empty, results));
 
             return Result.Succeeded;
+        }
+
+        internal static string PointStringMm(XYZ p)
+        {
+            return string.Concat(
+                Math.Round(p.X.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Y.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Z.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")));
         }
     }
 
@@ -76,6 +103,10 @@ namespace Shared.Tools
         public List<string> SpecList = new List<string>();
         [DataMember] //More of a debug property
         List<string> ListOfIds = null;
+        [DataMember]
+        public double longestDist = 0;
+        public List<(Connector c1, Connector c2, double dist)> pairs;
+        public (Connector c1, Connector c2, double dist) longestPair;
 
         internal connectorSpatialGroup(IEnumerable<Connector> collection)
         {
