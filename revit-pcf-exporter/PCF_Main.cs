@@ -283,7 +283,7 @@ namespace PCF_Exporter
                                     }
 
                                     //Using the new IEqualityComparer for Connectors to get distinct connectors in the collection
-                                    var brokenCons = MepUtils.GetALLConnectorsFromElements(bpg.BrokenPipes.ToHashSet(), new ConnectorXyzComparer());
+                                    var brokenCons = MepUtils.GetALLConnectorsFromElements(bpg.BrokenPipes.ToHashSet(), new ConnectorXyzComparer(2.0.MmToFt()));
                                     //Create distinct pair combinations with distance from all broken connectors
                                     //https://stackoverflow.com/a/47003122/6073998
                                     List<(Connector c1, Connector c2, double dist)> pairs = brokenCons

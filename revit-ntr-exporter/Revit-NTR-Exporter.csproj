@@ -40,14 +40,11 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mg.revit-shared-utilities, Version=2019.1.4.41328, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mg.revit-shared-utilities.2019.1.4.41328\lib\net47\mg.revit-shared-utilities.dll</HintPath>
+    <Reference Include="MoreLinq, Version=3.1.0.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.3.1.0\lib\net451\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="MoreLinq, Version=3.1.0.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.3.1.0\lib\net451\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
@@ -97,7 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -111,6 +110,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\ImgNtrExport16.png" />
     <EmbeddedResource Include="Resources\ImgNtrExport32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\revit-shared-utilities\revit-shared-utilities.csproj">
+      <Project>{a8bf8252-e12b-4339-9e05-404bf7b2cbe3}</Project>
+      <Name>revit-shared-utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
