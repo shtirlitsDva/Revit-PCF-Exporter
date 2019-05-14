@@ -65,5 +65,8 @@
     <Setting Name="radioButton16Append" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="TextBoxFilterPCF_ELEM_SPEC" Type="System.String" Scope="User">
+      <Value Profile="(Default)">EXISTING</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

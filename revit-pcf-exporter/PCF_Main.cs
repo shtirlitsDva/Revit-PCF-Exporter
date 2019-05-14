@@ -103,23 +103,40 @@ namespace PCF_Exporter
                     colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
                 }
 
+
+                #region Sub: Filtering
                 HashSet<Element> elements;
                 try
                 {
                     //DiameterLimit filter applied to ALL elements.
-                    elements = (from element in colElements
-                                where
-                                //Diameter limit filter
-                                FilterDiameterLimit.FilterDL(element) &&
-                                ////Filter out elements with empty PCF_ELEM_TYPE field (remember to !negate)
-                                //!string.IsNullOrEmpty(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString()) &&
-                                //Filter out EXCLUDED elements -> 0 means no checkmark
-                                element.get_Parameter(new plst().PCF_ELEM_EXCL.Guid).AsInteger() == 0
-                                select element).ToHashSet();
+                    var filtering = from element in colElements where FilterDiameterLimit.FilterDL(element) select element;
+                    
+                    //Filter out EXCLUDED elements -> 0 means no checkmark
+                    filtering = from element in filtering
+                                     where element.get_Parameter(new plst().PCF_ELEM_EXCL.Guid).AsInteger() == 0
+                                     select element;
+                    
+                    //Remove instrument pipes
+                    filtering = filtering.ExceptWhere(x => x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
+                                                      .AsString() == "INSTR");
+
+                    if (InputVars.PCF_ELEM_SPEC_FILTER.IsNullOrEmpty() == false)
+                    {
+                        filtering = filtering.ExceptWhere(x => x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == InputVars.PCF_ELEM_SPEC_FILTER);
+                    }
+                    
+                    //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
+                    if (InputVars.ExportToPlant3DIso)
+                    {
+                        filtering = filtering
+                            .Where(x => !(x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD"));
+                    }
 
                     //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
-                    pipelineGroups = from e in elements
-                                     group e by e.LookupParameter(InputVars.PipelineGroupParameterName).AsString();
+                    pipelineGroups = from e in filtering
+                                     group e by e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
+
+                    elements = filtering.ToHashSet();
                 }
                 catch (Exception ex)
                 {
@@ -128,21 +145,7 @@ namespace PCF_Exporter
                         "1. See if parameter PCF_ELEM_EXCL exists, if not, rerun parameter import.");
                 }
                 #endregion
-
-                //When exporting, remove Instrument pipes completely
-
-                pipelineGroups = pipelineGroups.ExceptWhere(x => x.Key == "INSTR");
-                elements = elements.ExceptWhere(x => x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
-                                                      .AsString() == "INSTR").ToHashSet();
-
-                //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
-                if (InputVars.ExportToPlant3DIso)
-                {
-                    pipelineGroups = pipelineGroups.Where(x => !(x.Key == "ARGD"));
-                    elements = elements
-                        .Where(x => !(x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD"))
-                        .ToHashSet();
-                }
+                #endregion
 
                 #region Initialize Material Data
                 //Set the start number to count the COMPID instances and MAT groups.
@@ -225,22 +228,6 @@ namespace PCF_Exporter
 
                         //Add here a hardcoded list of eligible support families
                         List<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
-
-                        //Collect all PipeAccessories that pass the above list of FamilyNames
-                        //After some deliberation it is decided that this methond of collection of support elements is not adequate
-                        //We should only operate on already collected and filterede collections to avoid some kind of issue
-                        //HashSet<Element> supportList = new FilteredElementCollector(doc)
-                        //    .OfCategory(BuiltInCategory.OST_PipeAccessory) //Filter accessories
-                        //    .WherePasses(//Filter SysAbbr
-                        //            Filter.ParameterValueGenericFilter(doc, gp.Key, BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
-                        //                )
-                        //    .WherePasses(//Filter by a List 
-                        //            new LogicalOrFilter(supportFamilyNameList
-                        //                                .Select(x => Filter.ParameterValueGenericFilter(doc, x, BuiltInParameter.ELEM_FAMILY_PARAM))
-                        //                                .Cast<ElementFilter>().ToList())
-                        //                )
-                        //    .ToElements()
-                        //    .ToHashSet();
 
                         List<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
                         List<Element> supportsList = accessoryList.Where(x => supportFamilyNameList.Contains(x.FamilyName())).ToList();

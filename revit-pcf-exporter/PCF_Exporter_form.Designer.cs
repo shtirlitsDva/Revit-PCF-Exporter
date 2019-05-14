@@ -46,13 +46,14 @@ namespace PCF_Exporter
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PCF_Exporter_form));
             this.Tabs = new System.Windows.Forms.TabControl();
             this.TabSetup = new System.Windows.Forms.TabPage();
-            this.radioBox1 = new RadioBox();
+            this.radioBox1 = new Shared.RadioBox();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.radioBox4 = new RadioBox();
+            this.radioBox4 = new Shared.RadioBox();
             this.radioButton16 = new System.Windows.Forms.RadioButton();
             this.radioButton15 = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button10 = new System.Windows.Forms.Button();
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -63,33 +64,36 @@ namespace PCF_Exporter
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.radioBox3 = new RadioBox();
+            this.radioBox3 = new Shared.RadioBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.radioBox2 = new RadioBox();
+            this.radioBox2 = new Shared.RadioBox();
             this.radioButton12 = new System.Windows.Forms.RadioButton();
             this.radioButton11 = new System.Windows.Forms.RadioButton();
             this.textBox8 = new System.Windows.Forms.TextBox();
-            this.groupBox6 = new RadioBox();
-            this.groupBox10 = new RadioBox();
+            this.groupBox6 = new Shared.RadioBox();
+            this.groupBox10 = new Shared.RadioBox();
             this.radioButton10 = new System.Windows.Forms.RadioButton();
             this.radioButton9 = new System.Windows.Forms.RadioButton();
-            this.groupBox9 = new RadioBox();
+            this.groupBox9 = new Shared.RadioBox();
             this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.groupBox8 = new RadioBox();
+            this.groupBox8 = new Shared.RadioBox();
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.groupBox7 = new RadioBox();
+            this.groupBox7 = new Shared.RadioBox();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new RadioBox();
+            this.groupBox3 = new Shared.RadioBox();
             this.radioButton14 = new System.Windows.Forms.RadioButton();
             this.radioButton13 = new System.Windows.Forms.RadioButton();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
             this.textBox22 = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.textBox24 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox21 = new System.Windows.Forms.TextBox();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -107,7 +111,6 @@ namespace PCF_Exporter
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.button10 = new System.Windows.Forms.Button();
             this.Tabs.SuspendLayout();
             this.TabSetup.SuspendLayout();
             this.radioBox1.SuspendLayout();
@@ -240,6 +243,16 @@ namespace PCF_Exporter
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PCF parameter INITIALIZATION";
             // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(267, 20);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(96, 46);
+            this.button10.TabIndex = 8;
+            this.button10.Text = "Export undefined elements";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // textBox20
             // 
             this.textBox20.BackColor = System.Drawing.SystemColors.Window;
@@ -353,7 +366,7 @@ namespace PCF_Exporter
             this.radioBox3.Controls.Add(this.checkBox2);
             this.radioBox3.Controls.Add(this.checkBox1);
             this.radioBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioBox3.Location = new System.Drawing.Point(3, 466);
+            this.radioBox3.Location = new System.Drawing.Point(3, 516);
             this.radioBox3.Name = "radioBox3";
             this.radioBox3.Size = new System.Drawing.Size(369, 68);
             this.radioBox3.TabIndex = 3;
@@ -392,7 +405,7 @@ namespace PCF_Exporter
             this.radioBox2.Controls.Add(this.radioButton11);
             this.radioBox2.Controls.Add(this.textBox8);
             this.radioBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioBox2.Location = new System.Drawing.Point(3, 370);
+            this.radioBox2.Location = new System.Drawing.Point(3, 420);
             this.radioBox2.Name = "radioBox2";
             this.radioBox2.Size = new System.Drawing.Size(369, 96);
             this.radioBox2.TabIndex = 2;
@@ -445,7 +458,7 @@ namespace PCF_Exporter
             this.groupBox6.Controls.Add(this.groupBox8);
             this.groupBox6.Controls.Add(this.groupBox7);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(3, 192);
+            this.groupBox6.Location = new System.Drawing.Point(3, 242);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(369, 178);
             this.groupBox6.TabIndex = 1;
@@ -613,9 +626,12 @@ namespace PCF_Exporter
             this.groupBox3.Controls.Add(this.radioButton14);
             this.groupBox3.Controls.Add(this.radioButton13);
             this.groupBox3.Controls.Add(this.comboBox2);
+            this.groupBox3.Controls.Add(this.textBox9);
             this.groupBox3.Controls.Add(this.textBox22);
+            this.groupBox3.Controls.Add(this.textBox10);
             this.groupBox3.Controls.Add(this.textBox23);
             this.groupBox3.Controls.Add(this.textBox24);
+            this.groupBox3.Controls.Add(this.textBox3);
             this.groupBox3.Controls.Add(this.textBox21);
             this.groupBox3.Controls.Add(this.radioButton2);
             this.groupBox3.Controls.Add(this.radioButton1);
@@ -625,7 +641,7 @@ namespace PCF_Exporter
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(369, 189);
+            this.groupBox3.Size = new System.Drawing.Size(369, 239);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Scope";
@@ -667,6 +683,16 @@ namespace PCF_Exporter
             this.comboBox2.TabIndex = 11;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
+            // textBox9
+            // 
+            this.textBox9.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "TextBoxFilterPCF_ELEM_SPEC", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox9.Location = new System.Drawing.Point(129, 182);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(233, 20);
+            this.textBox9.TabIndex = 10;
+            this.textBox9.Text = global::PCF_Functions.Properties.Settings.Default.TextBoxFilterPCF_ELEM_SPEC;
+            this.textBox9.TextChanged += new System.EventHandler(this.TextBox9_TextChanged);
+            // 
             // textBox22
             // 
             this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -676,6 +702,17 @@ namespace PCF_Exporter
             this.textBox22.TabIndex = 10;
             this.textBox22.Text = global::PCF_Functions.Properties.Settings.Default.textBox22DiameterLimit;
             this.textBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
+            // 
+            // textBox10
+            // 
+            this.textBox10.BackColor = System.Drawing.SystemColors.Window;
+            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox10.Location = new System.Drawing.Point(3, 208);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.ReadOnly = true;
+            this.textBox10.Size = new System.Drawing.Size(359, 13);
+            this.textBox10.TabIndex = 7;
+            this.textBox10.Text = "Elements with matching values will not be exported. Leave empty to avoid.";
             // 
             // textBox23
             // 
@@ -698,6 +735,17 @@ namespace PCF_Exporter
             this.textBox24.Size = new System.Drawing.Size(91, 13);
             this.textBox24.TabIndex = 8;
             this.textBox24.Text = "Nominal";
+            // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.SystemColors.Window;
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox3.Location = new System.Drawing.Point(3, 185);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(121, 13);
+            this.textBox3.TabIndex = 9;
+            this.textBox3.Text = "Filter PCF_ELEM_SPEC:";
             // 
             // textBox21
             // 
@@ -881,16 +929,6 @@ namespace PCF_Exporter
             // 
             this.openFileDialog2.FileName = "openFileDialog1";
             // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(267, 20);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(96, 46);
-            this.button10.TabIndex = 8;
-            this.button10.Text = "Export undefined elements";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
-            // 
             // PCF_Exporter_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -998,5 +1036,8 @@ namespace PCF_Exporter
         private System.Windows.Forms.RadioButton radioButton16;
         private System.Windows.Forms.RadioButton radioButton15;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox10;
     }
 }

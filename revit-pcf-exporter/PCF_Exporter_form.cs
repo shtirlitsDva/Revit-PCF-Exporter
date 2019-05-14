@@ -123,6 +123,10 @@ namespace PCF_Exporter
             //Init diameter limit
             iv.DiameterLimit = double.Parse(mySettings.Default.textBox22DiameterLimit);
 
+            //Init PCF_ELEM_SPEC filter
+            iv.PCF_ELEM_SPEC_FILTER = mySettings.Default.TextBoxFilterPCF_ELEM_SPEC;
+            textBox9.Text = iv.PCF_ELEM_SPEC_FILTER;
+
             //Init write wall thickness
             iv.WriteWallThickness = mySettings.Default.radioButton12WallThkTrue;
 
@@ -386,6 +390,12 @@ namespace PCF_Exporter
             iv.DiameterLimit = double.Parse(textBox22.Text);
         }
 
+        //PCF_ELEM_SPEC filter
+        private void TextBox9_TextChanged(object sender, EventArgs e)
+        {
+            iv.PCF_ELEM_SPEC_FILTER = textBox9.Text;
+        }
+
         private void radioButton12_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton12.Checked) iv.WriteWallThickness = true;
@@ -426,5 +436,7 @@ namespace PCF_Exporter
             ExportParameters EP = new ExportParameters();
             EP.ExportUndefinedElements(_doc, _excelPath);
         }
+
+        
     }
 }

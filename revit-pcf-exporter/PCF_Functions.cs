@@ -35,7 +35,6 @@ namespace PCF_Functions
         public static bool ExportAllSepFiles = false;
         public static bool ExportSpecificPipeLine = false;
         public static bool ExportSelection = false;
-        public static double DiameterLimit = 0;
         public static bool WriteWallThickness = false;
         public static bool ExportToPlant3DIso = false;
         public static bool ExportToCII = false;
@@ -65,6 +64,10 @@ namespace PCF_Functions
         public static string SysAbbr = "FVF";
         public static BuiltInParameter SysAbbrParam = BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM;
         public static string PipelineGroupParameterName = "System Abbreviation";
+
+        public static double DiameterLimit = 0;
+        public static string PCF_ELEM_SPEC_FILTER = "EXISTING";
+
         #endregion Filters
 
         #region Element parameter definition
