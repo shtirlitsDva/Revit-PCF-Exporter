@@ -228,13 +228,7 @@ namespace PCF_Exporter
 
                         List<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
 
-                        List<Element> supportsList = new List<Element>();
-                        foreach (Element e in accessoryList)
-                        {
-                            Parameter par = e.get_Parameter(new Guid("a7f72797-135b-4a1c-8969-e2e3fc76ff14")); //Component Class 1
-                            if (par == null) continue;
-                            if (par.AsString() == "Pipe Support") supportsList.Add(e);
-                        }
+                        List<Element> supportsList = accessoryList.Where(x => x.ComponentClass1() == "Pipe Support").ToList();
 
                         while (supportsList.Count > 0)
                         {

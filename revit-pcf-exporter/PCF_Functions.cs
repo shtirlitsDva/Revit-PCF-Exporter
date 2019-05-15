@@ -663,7 +663,6 @@ namespace PCF_Functions
         public List<Element> SupportsOnPipe = new List<Element>();
         List<Connector> AllConnectors = new List<Connector>();
         readonly string CurSysAbr;
-        List<string> SupportFamilyNames = null;
 
         public BrokenPipesGroup(Element seedElement, string sysAbr)
         {
@@ -777,8 +776,7 @@ namespace PCF_Functions
                 Element elementToConsider = refCon.Owner;
 
                 //Determine if the element is a support
-                bool isSupport = elementToConsider.ComponentClass1() != null &&
-                                 elementToConsider.ComponentClass1() == "Pipe Support";
+                bool isSupport = elementToConsider.ComponentClass1() == "Pipe Support";
 
                 //Continuation 1a
                 string elementSysAbr = elementToConsider.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
