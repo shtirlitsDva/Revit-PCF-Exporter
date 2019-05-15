@@ -226,11 +226,15 @@ namespace PCF_Exporter
                         //Add the temporary pipe to the pipeList
                         //Roll back the TransactionGroup after the elements are sent to Export class' Export methods.
 
-                        //Add here a hardcoded list of eligible support families
-                        List<string> supportFamilyNameList = new List<string> { "Rigid Hanger - Simple", "Spring Hanger - Simple" };
-
                         List<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
-                        List<Element> supportsList = accessoryList.Where(x => supportFamilyNameList.Contains(x.FamilyName())).ToList();
+
+                        List<Element> supportsList = new List<Element>();
+                        foreach (Element e in accessoryList)
+                        {
+                            Parameter par = e.get_Parameter(new Guid("a7f72797-135b-4a1c-8969-e2e3fc76ff14")); //Component Class 1
+                            if (par == null) continue;
+                            if (par.AsString() == "Pipe Support") supportsList.Add(e);
+                        }
 
                         while (supportsList.Count > 0)
                         {
@@ -240,7 +244,7 @@ namespace PCF_Exporter
                                 throw new Exception("BrokenPipes: Seed element returned null! supportsList.Count is " + supportsList.Count);
 
                             //Instantiate the BrokenPipesGroup
-                            BrokenPipesGroup bpg = new BrokenPipesGroup(seedElement, gp.Key, supportFamilyNameList);
+                            BrokenPipesGroup bpg = new BrokenPipesGroup(seedElement, gp.Key);
 
                             //Traverse system
                             bpg.Traverse(doc);

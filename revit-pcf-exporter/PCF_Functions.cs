@@ -665,12 +665,11 @@ namespace PCF_Functions
         readonly string CurSysAbr;
         List<string> SupportFamilyNames = null;
 
-        public BrokenPipesGroup(Element seedElement, string sysAbr, List<string> supportFamilyNames)
+        public BrokenPipesGroup(Element seedElement, string sysAbr)
         {
             SeedElement = seedElement;
             SupportsOnPipe.Add(seedElement);
             CurSysAbr = sysAbr;
-            SupportFamilyNames = supportFamilyNames;
         }
 
         //Choose one and traverse in both directions finding other supports on same pipe
@@ -754,7 +753,6 @@ namespace PCF_Functions
                 //Determine if next element is eligible for continue
                 //If yes, add element to collections, get next connector
                 //If not, continue next side if side not already done
-                bool pass = true;
 
                 Connector refCon;
 
@@ -779,7 +777,8 @@ namespace PCF_Functions
                 Element elementToConsider = refCon.Owner;
 
                 //Determine if the element is a support
-                bool isSupport = SupportFamilyNames.Any(x => x == elementToConsider.FamilyName());
+                bool isSupport = elementToConsider.ComponentClass1() != null &&
+                                 elementToConsider.ComponentClass1() == "Pipe Support";
 
                 //Continuation 1a
                 string elementSysAbr = elementToConsider.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
