@@ -115,6 +115,23 @@ namespace NTR_Exporter
                                  group e by e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
                 #endregion
 
+                #region Configuration validation
+
+                //Validate if configuration has all pipelines defined
+                //Else no LAST value will be written!
+                List<string> pipeSysAbbrs = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(doc).ToList();
+                foreach (string sa in pipeSysAbbrs)
+                {
+                    string returnValue = DataWriter.ReadWritePropertyFromDataTable(sa, conf.Pipelines, "LAST");
+                    if (returnValue.IsNullOrEmpty())
+                    {
+                        throw new Exception($"Pipeline {sa} is not defined in the configuration!");
+                    }
+                }
+
+
+                #endregion
+
                 outputBuilder.AppendLine("C Element definitions");
 
                 #region Pipeline management
