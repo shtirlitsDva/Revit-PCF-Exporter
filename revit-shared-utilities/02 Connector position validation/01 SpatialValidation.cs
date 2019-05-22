@@ -64,15 +64,19 @@ namespace Shared.Tools
                     //Element owner2 = g.longestPair.c2.Owner;
                     //string intermediateResult = $"{owner1.Name}: {owner1.Id} - {owner2.Name}: {owner2.Id} => {g.longestDist} mm\n";
                     //results.Add(intermediateResult);
+
+                    //This check (if(), s1, s2) is to detect wether the coordinates will display differently in exported (ntr, pcf) text which causes problems
+                    //The goal is to have all geometric coordinates have same string value
+                    //If the distance between connectors too small to register in the string value -> we don't care (i think)
                     string s1 = PointStringMm(g.longestPair.c1.Origin);
                     string s2 = PointStringMm(g.longestPair.c2.Origin);
                     if (!(s1 == s2))
                     {
-                        //results.Add($"{s1} != {s2}\n");
+                        results.Add($"{g.longestDist}\n");
                         foreach (var c in g.Connectors)
                         {
                             string s = PointStringMm(c.Origin);
-                            results.Add($"{s}\n");
+                            results.Add($"{s} {c.Owner.Id.ToString()}\n");
                         }
                         results.Add("\n");
                     }
