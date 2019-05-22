@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using iv = NTR_Functions.InputVars;
+using Shared;
 
 namespace NTR_Exporter
 {
@@ -232,7 +233,7 @@ namespace NTR_Exporter
 
                 #region Output
                 // Output the processed data
-                Output output = new Output();
+                NTR_Output.Output output = new NTR_Output.Output();
                 output.OutputWriter(doc, outputBuilder, iv.OutputDirectoryFilePath);
                 #endregion
 
