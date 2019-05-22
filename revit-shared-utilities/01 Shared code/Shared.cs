@@ -507,9 +507,9 @@ namespace Shared
                     {
                         filteredCons = connectors
                             .Where(c => c.ConnectorType.ToString() == "End")
-                            .OrderBy(c => c.Origin.X.Round())
-                            .ThenBy(c => c.Origin.Y.Round())
-                            .ThenBy(c => c.Origin.Z.Round())
+                            .OrderBy(c => c.Origin.X.Round(1))
+                            .ThenBy(c => c.Origin.Y.Round(1))
+                            .ThenBy(c => c.Origin.Z.Round(1))
                             .ToList();
                     }
                     else filteredCons = connectors.Where(c => c.ConnectorType.ToString() == "End").ToList();

@@ -39,7 +39,7 @@ namespace NTR_Exporter
                         sbPipes.Append(dw.PointCoords("P2", cons.Secondary));
                         sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "MAT"));
                         sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "TYP"));
-                        sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "ACHSE"));
+                        //sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "ACHSE"));
                         //sbPipes.Append(dw.ReadParameterFromDataTable(fat, conf.Profiles, "RI"));
                         sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "LAST"));
                         sbPipes.Append(dw.WriteElementId(element, "REF"));
