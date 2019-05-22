@@ -445,6 +445,7 @@ namespace NTR_Functions
             DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
             DataTable Elements = ConfigurationData.ReadDataTable(dataSetWithHeaders.Tables, "ELEMENTS");
             DataTable Supports = ConfigurationData.ReadDataTable(dataSetWithHeaders.Tables, "SUPPORTS");
+            DataTable Pipelines = ConfigurationData.ReadDataTable(dataSetWithHeaders.Tables, "PIPELINES");
 
             //Compare values and write those who are not in configuration workbook
             int row = 1;
@@ -457,6 +458,21 @@ namespace NTR_Functions
                 worksheet.Cells[row, col] = gp.Key;
                 row++;
             }
+
+            //Validate if configuration has all pipelines defined
+            //Else no LAST value will be written!
+            List<string> pipeSysAbbrs = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(doc)
+                                                       .OrderBy(x => x).ToList();
+            foreach (string sa in pipeSysAbbrs)
+            {
+                string returnValue = DataWriter.ReadWritePropertyFromDataTable(sa, Pipelines, "LAST");
+                if (returnValue.IsNullOrEmpty())
+                {
+                    worksheet.Cells[row, col] = $"Pipeline: {sa}";
+                    row++;
+                }
+            }
+
         }
     }
 }
