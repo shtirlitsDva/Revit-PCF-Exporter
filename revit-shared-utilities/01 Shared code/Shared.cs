@@ -494,7 +494,7 @@ namespace Shared
         public Connector Largest { get; } = null;
         public Connector Smallest { get; } = null;
 
-        public Cons(Element element)
+        public Cons(Element element, bool pipeConnectorsOrdered = false)
         {
             var connectors = MepUtils.GetALLConnectorsFromElements(element);
 
@@ -502,7 +502,17 @@ namespace Shared
             {
                 case Pipe pipe:
 
-                    var filteredCons = connectors.Where(c => c.ConnectorType.ToString() == "End").ToList();
+                    List<Connector> filteredCons = new List<Connector>();
+                    if (pipeConnectorsOrdered)
+                    {
+                        filteredCons = connectors
+                            .Where(c => c.ConnectorType.ToString() == "End")
+                            .OrderBy(c => c.Origin.X.Round())
+                            .ThenBy(c => c.Origin.Y.Round())
+                            .ThenBy(c => c.Origin.Z.Round())
+                            .ToList();
+                    }
+                    else filteredCons = connectors.Where(c => c.ConnectorType.ToString() == "End").ToList();
 
                     Primary = filteredCons.First();
                     Secondary = filteredCons.Last();
