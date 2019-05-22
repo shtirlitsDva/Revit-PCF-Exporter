@@ -434,10 +434,12 @@ namespace NTR_Functions
             //    .OrderBy(e => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
             //    .AsValueString());
 
-            IEnumerable<IGrouping<string, Element>> elementGroups =
-                from e in filteredElements
-                group e by e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
-                .AsValueString();
+            //IEnumerable<IGrouping<string, Element>> elementGroups =
+            //    from e in filteredElements
+            //    group e by e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
+            //    .AsValueString();
+
+            var elGr = filteredElements.GroupBy(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString()).OrderBy(x => x.Key);
 
             //Read existing values
             DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
@@ -447,7 +449,7 @@ namespace NTR_Functions
             //Compare values and write those who are not in configuration workbook
             int row = 1;
             int col = 1;
-            foreach (IGrouping<string, Element> gp in elementGroups)
+            foreach (IGrouping<string, Element> gp in elGr)
             {
                 //See if record already is defined
                 if (Elements.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == gp.Key)) continue;
