@@ -749,7 +749,7 @@ namespace Shared
         public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate) => source.Where(x => !predicate(x));
 
         public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
-
+        
         public static string MEPSystemAbbreviation(this Connector con, Document doc)
         {
             MEPSystem ps = con.MEPSystem;
