@@ -66,10 +66,27 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
-                    case "FL":
                     case "GL":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SAV"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SAB"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MAQ"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MAV"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SQV"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SQB"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MQA"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MQV"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SVV"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SVB"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MVA"));
+                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MVQ"));
+                        sbAccessories.Append(dw.WriteElementId(element, "REF"));
+                        sbAccessories.AppendLine();
+                        continue;
+                    case "FL":
+                        sbAccessories.Append(dw.PointCoords("PNAME", element));
                         sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MALL"));
+                        sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
                     case "RO":
