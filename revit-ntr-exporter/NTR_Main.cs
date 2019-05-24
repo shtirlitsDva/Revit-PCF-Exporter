@@ -123,7 +123,7 @@ namespace NTR_Exporter
                 List<string> pipeSysAbbrs = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(doc).ToList();
                 foreach (string sa in pipeSysAbbrs)
                 {
-                    string returnValue = DataWriter.ReadWritePropertyFromDataTable(sa, conf.Pipelines, "LAST");
+                    string returnValue = DataWriter.ReadPropertyFromDataTable(sa, conf.Pipelines, "LAST");
                     if (returnValue.IsNullOrEmpty())
                     {
                         throw new Exception($"Pipeline {sa} is not defined in the configuration!");

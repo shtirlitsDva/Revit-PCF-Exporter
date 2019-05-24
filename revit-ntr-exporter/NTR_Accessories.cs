@@ -40,7 +40,7 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.PointCoords("PM", element));
                         sbAccessories.Append(dw.DnWriter("DN1", cons.Primary));
                         sbAccessories.Append(dw.DnWriter("DN2", cons.Secondary));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "GEW"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "GEW"));
                         break;
                     // Old SymbolicSupport cases
                     //case "SH":
@@ -53,7 +53,7 @@ namespace NTR_Exporter
                     case "SH":
                     case "FH":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
-                        if (kind == "FH") sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "CW"));
+                        if (kind == "FH") sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "CW"));
                         sbAccessories.Append(dw.HangerLength("L", element));
                         if (kind == "FH") sbAccessories.Append(dw.ParameterValue("RF", "NTR_ELEM_RF", element)); //Installation load -- calculate beforehand
                         sbAccessories.Append(dw.ParameterValue("TEXT", "Mark", element));
@@ -68,24 +68,24 @@ namespace NTR_Exporter
                         continue;
                     case "GL":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SAV"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SAB"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MAQ"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MAV"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SQV"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SQB"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MQA"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MQV"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SVV"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "SVB"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MVA"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MVQ"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SAV"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SAB"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MAQ"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MAV"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SQV"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SQB"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MQA"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MQV"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SVV"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SVB"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MVA"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MVQ"));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
                     case "FL":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Supports, "MALL"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MALL"));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
@@ -93,26 +93,26 @@ namespace NTR_Exporter
                         //Added for preinsulated district heating pipes in Pipe Accessory category
                         sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
                         sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "DN"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "DN"));
                         break;
                     //Flexible joints hereafter
                     case "KLAT": //Lateral kompensator
                         sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
                         sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
                         sbAccessories.Append(dw.DnWriter("DN", cons.Primary));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "GEW"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "CR"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "CL"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "CP"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "CT"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "L"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "LMAX"));
-                        sbAccessories.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Flexjoints, "ANZRI"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "GEW"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "CR"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "CL"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "CP"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "CT"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "L"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "LMAX"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "ANZRI"));
                         break;
                 }
 
-                sbAccessories.Append(dw.ReadWritePropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
-                sbAccessories.Append(dw.ReadWritePropertyFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
+                sbAccessories.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
+                sbAccessories.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
                 sbAccessories.Append(dw.WriteElementId(element, "REF"));
                 sbAccessories.Append(" LTG=" + key);
                 sbAccessories.AppendLine();
