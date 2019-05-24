@@ -99,6 +99,8 @@ namespace NTR_Exporter
 
                 else if (iv.ExportSelection)
                 {
+                    //TODO: If selection is exported -- validate selected elements:
+                    //Only fittings, accessories and pipes allowed -> everything else must be filtered out
                     ICollection<ElementId> selection = cData.Application.ActiveUIDocument.Selection.GetElementIds();
                     colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
                 }
