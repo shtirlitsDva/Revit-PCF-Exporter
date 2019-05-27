@@ -84,6 +84,8 @@ namespace NTR_Exporter
                         sbAccessories.AppendLine();
                         continue;
                     case "FL":
+                    case "QS":
+                    case "QSVX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MALL"));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
