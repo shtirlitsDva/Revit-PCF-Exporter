@@ -85,6 +85,7 @@ namespace NTR_Exporter
                         continue;
                     case "FL":
                     case "FGL":
+                    case "FFL":
                     case "QS":
                     case "QSVX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
