@@ -56,13 +56,14 @@ namespace NTR_Exporter
                         if (kind == "FH") sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "CW"));
                         sbAccessories.Append(dw.HangerLength("L", element));
                         if (kind == "FH") sbAccessories.Append(dw.ParameterValue("RF", "NTR_ELEM_RF", element)); //Installation load -- calculate beforehand
-                        sbAccessories.Append(dw.ParameterValue("TEXT", "Mark", element));
+                        sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
                     case "FP":
                     case "AX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
+                        sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
@@ -80,6 +81,7 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SVB"));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MVA"));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MVQ"));
+                        sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
@@ -90,6 +92,7 @@ namespace NTR_Exporter
                     case "QSVX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MALL"));
+                        sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
@@ -117,6 +120,7 @@ namespace NTR_Exporter
 
                 sbAccessories.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
                 sbAccessories.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
+                sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
                 sbAccessories.Append(dw.WriteElementId(element, "REF"));
                 sbAccessories.Append(" LTG=" + key);
                 sbAccessories.AppendLine();
