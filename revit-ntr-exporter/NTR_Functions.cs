@@ -170,6 +170,18 @@ namespace NTR_Functions
             return $" {keyword}={valueString}";
         }
 
+        internal static string ParameterValue(string keyword, string[] parNames, Element element)
+        {
+            List<string> values = new List<string>();
+            foreach (string name in parNames)
+            {
+                string value = element.LookupParameter(name).ToValueString();
+                if (!value.IsNullOrEmpty()) values.Add(value);
+            }
+            if (values.Count < 1) return "";
+            else return $" {keyword}={string.Join("_", values)}";
+        }
+
         /// <summary>
         /// Method is taken from here:
         /// https://spiderinnet.typepad.com/blog/2011/08/revit-parameter-api-asvaluestring-tostring-tovaluestring-and-tovaluedisplaystring.html
