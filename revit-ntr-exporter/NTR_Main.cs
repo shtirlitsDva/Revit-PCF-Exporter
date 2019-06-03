@@ -99,6 +99,8 @@ namespace NTR_Exporter
 
                 else if (iv.ExportSelection)
                 {
+                    //TODO: If selection is exported -- validate selected elements:
+                    //Only fittings, accessories and pipes allowed -> everything else must be filtered out
                     ICollection<ElementId> selection = cData.Application.ActiveUIDocument.Selection.GetElementIds();
                     colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
                 }
@@ -123,7 +125,7 @@ namespace NTR_Exporter
                 List<string> pipeSysAbbrs = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(doc).ToList();
                 foreach (string sa in pipeSysAbbrs)
                 {
-                    string returnValue = DataWriter.ReadWritePropertyFromDataTable(sa, conf.Pipelines, "LAST");
+                    string returnValue = DataWriter.ReadPropertyFromDataTable(sa, conf.Pipelines, "LAST");
                     if (returnValue.IsNullOrEmpty())
                     {
                         throw new Exception($"Pipeline {sa} is not defined in the configuration!");

@@ -37,11 +37,11 @@ namespace NTR_Exporter
                         sbPipes.Append("PROF");
                         sbPipes.Append(dw.PointCoords("P1", cons.Primary));
                         sbPipes.Append(dw.PointCoords("P2", cons.Secondary));
-                        sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "MAT"));
-                        sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "TYP"));
+                        sbPipes.Append(dw.ReadPropertyFromDataTable(fat, conf.Profiles, "MAT"));
+                        sbPipes.Append(dw.ReadPropertyFromDataTable(fat, conf.Profiles, "TYP"));
                         //sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "ACHSE"));
                         //sbPipes.Append(dw.ReadParameterFromDataTable(fat, conf.Profiles, "RI"));
-                        sbPipes.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Profiles, "LAST"));
+                        sbPipes.Append(dw.ReadPropertyFromDataTable(fat, conf.Profiles, "LAST"));
                         sbPipes.Append(dw.WriteElementId(element, "REF"));
                         sbPipes.AppendLine();
                         break;
@@ -51,8 +51,8 @@ namespace NTR_Exporter
                         sbPipes.Append(dw.PointCoords("P1", cons.Primary));
                         sbPipes.Append(dw.PointCoords("P2", cons.Secondary));
                         sbPipes.Append(dw.DnWriter(element));
-                        sbPipes.Append(dw.ReadWritePropertyFromDataTable(key, conf.Pipelines, "MAT"));
-                        sbPipes.Append(dw.ReadWritePropertyFromDataTable(key, conf.Pipelines, "LAST"));
+                        sbPipes.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "MAT"));
+                        sbPipes.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "LAST"));
                         sbPipes.Append(dw.WriteElementId(element, "REF"));
                         sbPipes.Append(" LTG=" + key);
                         sbPipes.AppendLine();

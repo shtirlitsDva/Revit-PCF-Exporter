@@ -241,7 +241,7 @@ namespace NTR_Functions
             return " " + p + "=DN" + dia.FtToMm().Round(0);
         }
 
-        public static string ReadWritePropertyFromDataTable(string key, DataTable table, string parameter)
+        public static string ReadPropertyFromDataTable(string key, DataTable table, string parameter)
         {
             //Test if value exists
             if (table.AsEnumerable().Any(row => row.Field<string>(0) == key))
@@ -477,7 +477,7 @@ namespace NTR_Functions
                                                        .OrderBy(x => x).ToList();
             foreach (string sa in pipeSysAbbrs)
             {
-                string returnValue = DataWriter.ReadWritePropertyFromDataTable(sa, Pipelines, "LAST");
+                string returnValue = DataWriter.ReadPropertyFromDataTable(sa, Pipelines, "LAST");
                 if (returnValue.IsNullOrEmpty())
                 {
                     worksheet.Cells[row, col] = $"Pipeline: {sa}";

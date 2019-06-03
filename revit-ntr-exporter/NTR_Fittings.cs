@@ -45,29 +45,29 @@ namespace NTR_Exporter
                         sbFittings.Append(dw.PointCoords("PA2", cons.Tertiary));
                         sbFittings.Append(dw.DnWriter("DNH", cons.Primary));
                         sbFittings.Append(dw.DnWriter("DNA", cons.Tertiary));
-                        sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "TYP"));
-                        sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "NORM"));
+                        sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "TYP"));
+                        sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "NORM"));
                         break;
                     case "RED":
                         sbFittings.Append(dw.PointCoords("P1", cons.Primary));
                         sbFittings.Append(dw.PointCoords("P2", cons.Secondary));
                         sbFittings.Append(dw.DnWriter("DN1", cons.Primary));
                         sbFittings.Append(dw.DnWriter("DN2", cons.Secondary));
-                        string typ = dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "TYP"); //Handle EXcentric reducers
+                        string typ = dw.ReadPropertyFromDataTable(fat, conf.Elements, "TYP"); //Handle EXcentric reducers
                         if (!string.IsNullOrEmpty(typ)) sbFittings.Append(typ);
-                        sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "NORM"));
+                        sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "NORM"));
                         break;
                     case "FLA":
                         sbFittings.Append(dw.PointCoords("P1", cons.Secondary));
                         sbFittings.Append(dw.PointCoords("P2", cons.Primary));
                         sbFittings.Append(dw.DnWriter("DN", cons.Primary));
-                        sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "NORM"));
+                        sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "NORM"));
                         //TODO: Implement flange weight GEW (not necessary, ROHR2 reads some default values if absent)
                         break;
                     case "FLABL":
                         sbFittings.Append(dw.PointCoords("PNAME", cons.Primary));
                         sbFittings.Append(dw.DnWriter("DN", cons.Primary));
-                        sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "NORM"));
+                        sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "NORM"));
                         //TODO: Implement flange weight GEW
                         break;
                     case "BOG":
@@ -75,7 +75,7 @@ namespace NTR_Exporter
                         sbFittings.Append(dw.PointCoords("P2", cons.Secondary));
                         sbFittings.Append(dw.PointCoords("PT", element));
                         sbFittings.Append(dw.DnWriter("DN", cons.Primary));
-                        sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "NORM"));
+                        sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "NORM"));
                         break;
                     case "TEW":
                         //sbFittings.Replace("TEW", "RO"); //Workaround for olets
@@ -87,8 +87,8 @@ namespace NTR_Exporter
                         break;
                 }
 
-                sbFittings.Append(dw.ReadWritePropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
-                sbFittings.Append(dw.ReadWritePropertyFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
+                sbFittings.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
+                sbFittings.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
                 sbFittings.Append(dw.WriteElementId(element, "REF"));
                 sbFittings.Append(" LTG=" + key);
                 sbFittings.AppendLine();
@@ -103,12 +103,13 @@ namespace NTR_Exporter
                             case "NOZ":
                                 sbFittings.Append("NOZZLE");
                                 sbFittings.Append(dw.PointCoords("PNAME", cons.Primary));
-                                sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "LQX"));
-                                sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "LQY"));
-                                sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "LQZ"));
-                                sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "LMX"));
-                                sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "LMY"));
-                                sbFittings.Append(dw.ReadWritePropertyFromDataTable(fat, conf.Elements, "LMZ"));
+                                sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "LQX"));
+                                sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "LQY"));
+                                sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "LQZ"));
+                                sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "LMX"));
+                                sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "LMY"));
+                                sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "LMZ"));
+                                sbFittings.Append(dw.WriteElementId(element, "REF")+"NOZ");
                                 sbFittings.AppendLine();
                                 break;
                             default:
