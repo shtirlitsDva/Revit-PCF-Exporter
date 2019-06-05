@@ -86,11 +86,11 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\Programs\IDSP19\Revit 2019\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Revit2020 SDK\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\Programs\IDSP19\Revit 2019\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\Revit2020 SDK\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
