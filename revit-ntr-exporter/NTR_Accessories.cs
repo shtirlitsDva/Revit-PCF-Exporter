@@ -24,7 +24,7 @@ namespace NTR_Exporter
                 string kind = dw.ReadElementTypeFromDataTable(fat, conf.Elements, "KIND");
                 if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(fat, conf.Supports, "KIND");
                 if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(fat, conf.Flexjoints, "KIND");
-                if (string.IsNullOrEmpty(kind)) continue;
+                if (string.IsNullOrEmpty(kind)) throw new Exception ($"{fat} is not defined in the configuration file!");
 
                 //Write element kind
                 sbAccessories.Append(kind);

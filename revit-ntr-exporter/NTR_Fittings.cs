@@ -110,6 +110,8 @@ namespace NTR_Exporter
                                 sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "LMY"));
                                 sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "LMZ"));
                                 sbFittings.Append(dw.WriteElementId(element, "REF")+"NOZ");
+                                sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "RIX"));
+                                sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "RIY"));
                                 sbFittings.AppendLine();
                                 break;
                             default:
