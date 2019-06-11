@@ -68,6 +68,9 @@ namespace NTR_Exporter
                         sbAccessories.AppendLine();
                         continue;
                     case "GL":
+                    case "FL":
+                    case "FGL":
+                    case "FFL":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SAV"));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "SAB"));
@@ -85,9 +88,6 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
                         sbAccessories.AppendLine();
                         continue;
-                    case "FL":
-                    case "FGL":
-                    case "FFL":
                     case "QS":
                     case "QSVX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
