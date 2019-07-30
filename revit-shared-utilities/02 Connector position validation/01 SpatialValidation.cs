@@ -27,7 +27,8 @@ namespace Shared.Tools
             UIDocument uidoc = uiApp.ActiveUIDocument;
 
             //Gather all connectors from the document
-            HashSet<Connector> AllCons = mp.GetALLConnectorsInDocument(doc);
+            //Filter also out all "Curve" connectors, which are olet ends at pipe cntr.
+            HashSet<Connector> AllCons = mp.GetALLConnectorsInDocument(doc).ExceptWhere(c => c.ConnectorType == ConnectorType.Curve).ToHashSet();
 
             //Create collection with distinct connectors with a set tolerance
             double Tol = 3.0.MmToFt();
