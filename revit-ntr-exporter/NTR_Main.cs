@@ -178,8 +178,8 @@ namespace NTR_Exporter
                         nbifAllList.AddRange(nbifList);
 
                         //Remove the HeadPipes from the PipeList
-                        var pipesToRemoveIds = nbifList.Select(x => x.HeadPipe.Id.IntegerValue).ToHashSet();
-                        pipeList = pipeList.Where(x => !pipesToRemoveIds.Contains(x.Id.IntegerValue)).ToHashSet();
+                        List<int> pipesToRemoveIds = nbifList.Select(x => x.HeadPipe.Id.IntegerValue).ToList();
+                        pipeList = pipeList.ExceptWhere(x => pipesToRemoveIds.Contains(x.Id.IntegerValue)).ToHashSet();
 
                         //Transaction to create all part pipes
                         using (Transaction tx1 = new Transaction(doc))

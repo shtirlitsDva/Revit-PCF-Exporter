@@ -79,8 +79,8 @@ namespace NTR_Exporter
                         break;
                     case "TEW":
                         //sbFittings.Replace("TEW", "RO"); //Workaround for olets
-                        sbFittings.Length = sbFittings.Length - 3; //Workaround for olets, moves the pointer position back to overwrite TEW
-                        sbFittings.Append("RO");
+                        //sbFittings.Length = sbFittings.Length - 3; //Workaround for olets, moves the pointer position back to overwrite TEW
+                        //sbFittings.Append("RO");
                         sbFittings.Append(dw.PointCoords("P1", dw.OletP1Point(cons)));
                         sbFittings.Append(dw.PointCoords("P2", cons.Secondary));
                         sbFittings.Append(dw.DnWriter("DN", cons.Secondary));
