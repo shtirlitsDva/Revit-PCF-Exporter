@@ -13,6 +13,7 @@ using Autodesk.Revit.ApplicationServices;
 using xel = Microsoft.Office.Interop.Excel;
 
 using PCF_Functions;
+using Shared;
 using Shared.BuildingCoder;
 using PCF_Exporter;
 using pd = PCF_Functions.ParameterData;
@@ -273,8 +274,8 @@ namespace PCF_Parameters
                         else
                         {
                             Parameter par = element.get_Parameter(parGuid);
-                            if (!string.IsNullOrEmpty(par.AsString())) continue;
-                            else par.Set(parameterValue);
+                            if (string.IsNullOrEmpty(par.ToValueString())) par.Set(parameterValue);
+                            else continue;
                         }
                     }
 
@@ -427,6 +428,8 @@ namespace PCF_Parameters
             }
             return Result.Succeeded;
         }
+
+        
     }
 
     public class CreateParameterBindings
