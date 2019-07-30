@@ -35,6 +35,7 @@ namespace NTR_Exporter
                 switch (kind)
                 {
                     case "ARM":
+                    case "ARMECK":
                         sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
                         sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
                         sbAccessories.Append(dw.PointCoords("PM", element));
@@ -116,6 +117,8 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "LMAX"));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "ANZRI"));
                         break;
+                    default:
+                        throw new Exception($"In NTR_Accessories no switch handling for element kind: {kind}");
                 }
 
                 sbAccessories.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
