@@ -149,7 +149,7 @@ namespace NTR_Exporter
             var allCons = mu.GetALLConnectorsFromElements(refElement);
             var curvePts = allCons.Where(x => x.OfConType(ConnectorType.Curve)).Select(x => x.Origin).ToList();
             AllCreationPoints.AddRange(curvePts);
-            AllCreationPoints.OrderBy(x => x.DistanceTo(referencePoint));
+            AllCreationPoints = AllCreationPoints.OrderBy(x => x.DistanceTo(referencePoint)).ToList();
         }
     }
 }
