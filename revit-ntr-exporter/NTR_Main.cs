@@ -196,6 +196,14 @@ namespace NTR_Exporter
                                 }
                                 //Add created pipes to pipeList
                                 pipeList.UnionWith(g.CreatedElements);
+
+                                foreach (Element el in g.CreatedElements)
+                                {
+                                    using (Pipe pipe = (Pipe)el)
+                                    {
+                                        pipe.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM).Set(g.HeadPipe.Diameter);
+                                    }
+                                }
                             }
 
                             tx1.Commit();

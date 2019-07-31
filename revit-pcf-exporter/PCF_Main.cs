@@ -280,6 +280,9 @@ namespace PCF_Exporter
                                     bpg.HealedPipe = Pipe.Create(doc, dPipe.MEPSystem.GetTypeId(), dPipe.GetTypeId(),
                                         dPipe.ReferenceLevel.Id, longest.c1.Origin, longest.c2.Origin);
 
+                                    Pipe donorPipe = (Pipe)bpg.BrokenPipes.FirstOrDefault();
+                                    bpg.HealedPipe.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM).Set(donorPipe.Diameter);
+
                                     //Add the healed pipe to the pipeList for processing
                                     pipeList.Add(bpg.HealedPipe);
                                 }
