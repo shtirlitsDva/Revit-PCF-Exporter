@@ -145,7 +145,7 @@ namespace NTR_Exporter
                     txGp.Start("Olets non breakin elems.");
 
                     //List to store ALL created NonBreakInElements
-                    List<NonBreakInElement> nbifAllList = new List<NonBreakInElement>();
+                    //List<NonBreakInElement> nbifAllList = new List<NonBreakInElement>();
 
                     foreach (IGrouping<string, Element> gp in pipelineGroups)
                     {
@@ -175,7 +175,7 @@ namespace NTR_Exporter
                         IList<NonBreakInElement> nbifList = new List<NonBreakInElement>();
 
                         foreach (IGrouping<int, Element> group in spudAdjQry) nbifList.Add(new NonBreakInElement(doc, group));
-                        nbifAllList.AddRange(nbifList);
+                        //nbifAllList.AddRange(nbifList);
 
                         //Remove the HeadPipes from the PipeList
                         List<int> pipesToRemoveIds = nbifList.Select(x => x.HeadPipe.Id.IntegerValue).ToList();
@@ -194,20 +194,19 @@ namespace NTR_Exporter
                                     g.CreatedElements.Add(Pipe.Create(doc, g.HeadPipe.MEPSystem.GetTypeId(), g.HeadPipe.GetTypeId(),
                                         g.HeadPipe.ReferenceLevel.Id, g.AllCreationPoints[i], g.AllCreationPoints[j])); //Cast to Element needed?
                                 }
-                                //Add created pipes to pipeList
-                                pipeList.UnionWith(g.CreatedElements);
 
                                 foreach (Element el in g.CreatedElements)
                                 {
-                                    using (Pipe pipe = (Pipe)el)
-                                    {
-                                        pipe.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM).Set(g.HeadPipe.Diameter);
-                                    }
+                                    el.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM).Set(g.HeadPipe.Diameter);
                                 }
+
+                                //Add created pipes to pipeList
+                                pipeList.UnionWith(g.CreatedElements);
                             }
 
                             tx1.Commit();
                         }
+
                         #endregion
 
                         //TODO: Change the splitting of elements to follow the worksheets
