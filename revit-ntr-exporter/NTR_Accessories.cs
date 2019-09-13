@@ -117,6 +117,20 @@ namespace NTR_Exporter
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "LMAX"));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "ANZRI"));
                         break;
+                    case "KAX": //Axial kompensator
+                        sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
+                        sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
+                        sbAccessories.Append(dw.DnWriter("DN", cons.Primary));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "GEW"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "CD"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "CL"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "CA"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "CT"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "A"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "L"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "D"));
+                        sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Flexjoints, "DMAX"));
+                        break;
                     default:
                         throw new Exception($"In NTR_Accessories no switch handling for element kind: {kind}");
                 }
