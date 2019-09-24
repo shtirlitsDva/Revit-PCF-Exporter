@@ -146,9 +146,27 @@ namespace NTR_Exporter
             XYZ referencePoint = pipeCons.Primary.Origin;
             AllCreationPoints.Add(referencePoint);
             AllCreationPoints.Add(pipeCons.Secondary.Origin);
-            var allCons = mu.GetALLConnectorsFromElements(refElement);
-            var curvePts = allCons.Where(x => x.OfConType(ConnectorType.Curve)).Select(x => x.Origin).ToList();
-            AllCreationPoints.AddRange(curvePts);
+
+            foreach (Element element in group)
+            {
+                Cons cons = mu.GetConnectors(element);
+                ConnectorSet conSet = cons.Primary.AllRefs;
+                foreach (Connector connector in conSet)
+                {
+                    if (connector.ConnectorType == ConnectorType.Curve)
+                    {
+                        if (connector.Domain == Domain.DomainPiping)
+                        {
+                            AllCreationPoints.Add(connector.Origin);
+                            break;
+                        }
+                    }
+                }
+            }
+            //var allCons = mu.GetALLConnectorsFromElements(refElement);
+            //var curvePts = allCons.Where(x => x.OfConType(ConnectorType.Curve)).Select(x => x.Origin).ToList();
+            //AllCreationPoints.AddRange(curvePts);
+
             AllCreationPoints = AllCreationPoints.OrderBy(x => x.DistanceTo(referencePoint)).ToList();
         }
     }
