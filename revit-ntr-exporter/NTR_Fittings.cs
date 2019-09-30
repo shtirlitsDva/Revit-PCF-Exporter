@@ -112,6 +112,8 @@ namespace NTR_Exporter
                                 sbFittings.Append(dw.WriteElementId(element, "REF")+"NOZ");
                                 sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "RIX"));
                                 sbFittings.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "RIY"));
+                                sbFittings.Append(dw.ParameterValue("TEXT",
+                                    BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS, element));
                                 sbFittings.AppendLine();
                                 break;
                             default:

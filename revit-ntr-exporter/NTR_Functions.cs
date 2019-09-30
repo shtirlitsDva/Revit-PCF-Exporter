@@ -182,6 +182,14 @@ namespace NTR_Functions
             else return $" {keyword}={string.Join("_", values)}";
         }
 
+        internal static string ParameterValue(string keyword, BuiltInParameter bip, Element element)
+        {
+            Parameter par = element.get_Parameter(bip);
+            string valueString = ToValueString(par);
+            if (valueString.IsNullOrEmpty()) return "";
+            return $" {keyword}={valueString}";
+        }
+
         /// <summary>
         /// Method is taken from here:
         /// https://spiderinnet.typepad.com/blog/2011/08/revit-parameter-api-asvaluestring-tostring-tovaluestring-and-tovaluedisplaystring.html
