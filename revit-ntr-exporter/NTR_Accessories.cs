@@ -62,7 +62,6 @@ namespace NTR_Exporter
                         sbAccessories.AppendLine();
                         continue;
                     case "FP":
-                    case "AX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
                         sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
                         sbAccessories.Append(dw.WriteElementId(element, "REF"));
@@ -91,6 +90,8 @@ namespace NTR_Exporter
                         continue;
                     case "QS":
                     case "QSVX":
+                    case "FLVXY":
+                    case "AX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MALL"));
                         sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
