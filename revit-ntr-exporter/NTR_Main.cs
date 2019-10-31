@@ -107,10 +107,12 @@ namespace NTR_Exporter
 
                 //DiameterLimit filter applied to ALL elements.
                 //Filter out EXCLuded elements - 0 means no checkmark, GUID is for PCF_ELEM_EXCL
+                //Filter by system PCF_PIPL_EXCL: c1c2c9fe-2634-42ba-89d0-5af699f54d4c
                 HashSet<Element> elements = (from element in colElements
                                              where
                                              NTR_Filter.FilterDiameterLimit(element) &&
-                                             element.get_Parameter(new Guid("CC8EC292-226C-4677-A32D-10B9736BFC1A")).AsInteger() == 0
+                                             element.get_Parameter(new Guid("CC8EC292-226C-4677-A32D-10B9736BFC1A")).AsInteger() == 0 &&
+                                             element.PipingSystemAllowed(doc)
                                              select element).ToHashSet();
 
                 //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)

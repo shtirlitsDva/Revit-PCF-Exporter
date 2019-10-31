@@ -495,4 +495,17 @@ namespace NTR_Functions
 
         }
     }
+
+    public static class Extensions
+    {
+        public static bool PipingSystemAllowed(this Element elem, Document doc)
+        {
+            Element pipingSystemType = doc.GetElement(elem.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId());
+            if (pipingSystemType == null) return false;
+            Parameter pipingExclParameter = pipingSystemType?.get_Parameter(new Guid("c1c2c9fe-2634-42ba-89d0-5af699f54d4c"));
+            if (pipingExclParameter == null) throw new Exception("PipingSystemAllowed cannot acces PCF_PIPL_EXCL! Does the parameter exist in the project?");
+            if (pipingExclParameter.AsInteger() == 0) return true;
+            else return false;
+        }
+    }
 }
