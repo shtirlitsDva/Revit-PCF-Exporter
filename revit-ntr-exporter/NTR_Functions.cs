@@ -165,7 +165,7 @@ namespace NTR_Functions
 
         internal static string ParameterValue(string keyword, string parName, Element element)
         {
-            string valueString = element.LookupParameter(parName).ToValueString();
+            string valueString = element.LookupParameter(parName)?.ToValueString();
             if (valueString.IsNullOrEmpty()) return "";
             return $" {keyword}={valueString}";
         }
