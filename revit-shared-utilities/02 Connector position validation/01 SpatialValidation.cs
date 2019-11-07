@@ -20,6 +20,8 @@ namespace Shared.Tools
 {
     class SpatialValidation
     {
+        private const int precision = 3;
+
         public static Result ValidateConnectorsSpatially(ExternalCommandData cData)
         {
             UIApplication uiApp = cData.Application;
@@ -73,8 +75,8 @@ namespace Shared.Tools
 
                     foreach (var pair in g.pairs)
                     {
-                        string s1 = PointStringMm(pair.c1.Origin);
-                        string s2 = PointStringMm(pair.c2.Origin);
+                        string s1 = PointStringMm(pair.c1.Origin, precision);
+                        string s2 = PointStringMm(pair.c2.Origin, precision);
                         if (s1 != s2) coordinatesDiffer = true;
                     }
                     if (coordinatesDiffer)
@@ -82,7 +84,7 @@ namespace Shared.Tools
                         results.Add($"{g.longestDist}\n");
                         foreach (var c in g.Connectors)
                         {
-                            string s = PointStringMm(c.Origin);
+                            string s = PointStringMm(c.Origin, precision);
                             results.Add($"{s} {c.Owner.Id.ToString()}\n");
                         }
                         results.Add("\n");
@@ -95,12 +97,12 @@ namespace Shared.Tools
             return Result.Succeeded;
         }
 
-        internal static string PointStringMm(XYZ p)
+        internal static string PointStringMm(XYZ p, int precision)
         {
             return string.Concat(
-                Math.Round(p.X.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
-                Math.Round(p.Y.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
-                Math.Round(p.Z.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")));
+                Math.Round(p.X.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Y.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Z.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")));
         }
     }
 
