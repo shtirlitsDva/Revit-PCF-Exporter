@@ -157,7 +157,7 @@ namespace NTR_Functions
 
         internal static string HangerLength(string p, Element element)
         {
-            string valueString = element.LookupParameter("HangerLength").AsValueString();
+            string valueString = element.LookupParameter("HangerLength")?.AsValueString();
             double value = double.Parse(valueString).Round() / 1000;
 
             return (" " + p + "=" + value).Replace(",", ".");
@@ -175,7 +175,7 @@ namespace NTR_Functions
             List<string> values = new List<string>();
             foreach (string name in parNames)
             {
-                string value = element.LookupParameter(name).ToValueString();
+                string value = element.LookupParameter(name)?.ToValueString();
                 if (!value.IsNullOrEmpty()) values.Add(value);
             }
             if (values.Count < 1) return "";
@@ -184,8 +184,7 @@ namespace NTR_Functions
 
         internal static string ParameterValue(string keyword, BuiltInParameter bip, Element element)
         {
-            Parameter par = element.get_Parameter(bip);
-            string valueString = ToValueString(par);
+            string valueString = element.get_Parameter(bip)?.ToValueString();
             if (valueString.IsNullOrEmpty()) return "";
             return $" {keyword}={valueString}";
         }
@@ -423,6 +422,16 @@ namespace NTR_Functions
             Element owner = refCon.Owner;
             return owner.Id.IntegerValue;
         }
+
+        public static bool PipingSystemAllowed(this Element elem, Document doc)
+        {
+            Element pipingSystemType = doc.GetElement(elem.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId());
+            if (pipingSystemType == null) return false;
+            Parameter pipingExclParameter = pipingSystemType?.get_Parameter(new Guid("c1c2c9fe-2634-42ba-89d0-5af699f54d4c"));
+            if (pipingExclParameter == null) throw new Exception("PipingSystemAllowed cannot acces PCF_PIPL_EXCL! Does the parameter exist in the project?");
+            if (pipingExclParameter.AsInteger() == 0) return true;
+            else return false;
+        }
     }
 
     public class NTR_Excel
@@ -493,19 +502,6 @@ namespace NTR_Functions
                 }
             }
 
-        }
-    }
-
-    public static class Extensions
-    {
-        public static bool PipingSystemAllowed(this Element elem, Document doc)
-        {
-            Element pipingSystemType = doc.GetElement(elem.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId());
-            if (pipingSystemType == null) return false;
-            Parameter pipingExclParameter = pipingSystemType?.get_Parameter(new Guid("c1c2c9fe-2634-42ba-89d0-5af699f54d4c"));
-            if (pipingExclParameter == null) throw new Exception("PipingSystemAllowed cannot acces PCF_PIPL_EXCL! Does the parameter exist in the project?");
-            if (pipingExclParameter.AsInteger() == 0) return true;
-            else return false;
         }
     }
 }
