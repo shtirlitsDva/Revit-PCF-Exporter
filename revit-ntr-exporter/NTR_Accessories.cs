@@ -89,6 +89,7 @@ namespace NTR_Exporter
                         sbAccessories.AppendLine();
                         continue;
                     case "QS":
+                    case "QSV":
                     case "QSVX":
                     case "FLVXY":
                     case "AX":
