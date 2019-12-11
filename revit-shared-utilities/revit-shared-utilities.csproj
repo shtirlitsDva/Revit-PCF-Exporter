@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="01 Shared code\Shared.cs" />
     <Compile Include="02 Connector position validation\01 SpatialValidation.cs" />
+    <Compile Include="03 Element coordinates\01 Element coordinates.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Tools.cs">
       <SubType>Form</SubType>
@@ -99,7 +100,12 @@
       <DependentUpon>Tools.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\revit-pcf-exporter\revit-pcf-exporter.csproj">
+      <Project>{037b382d-9bc9-4d7a-b76d-55be5964e44d}</Project>
+      <Name>revit-pcf-exporter</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AnalysisTools16.png" />
     <EmbeddedResource Include="Resources\AnalysisTools32.png" />

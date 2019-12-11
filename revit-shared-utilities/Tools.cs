@@ -53,13 +53,15 @@ namespace Shared.Tools
             //Place methods to execute in this dict
             methodDict = new Dictionary<int, Func<ExternalCommandData, Result>>
             {
-                {0, Shared.Tools.SpatialValidation.ValidateConnectorsSpatially }
+                {0, Shared.Tools.SpatialValidation.ValidateConnectorsSpatially },
+                {1, Shared.Tools.ElementCoordinates.ElementCoordinatesPCF }
             };
 
             //Place names for methods in this dict
             nameDict = new Dictionary<int, string>
             {
-                {0, "Spatial validation." }
+                {0, "Spatial validation." },
+                {1, "Coords PCF" }
             };
 
             for (int i = 0; i < methodDict.Count; i++)
