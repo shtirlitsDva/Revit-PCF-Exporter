@@ -88,7 +88,7 @@ namespace PCF_Functions
         public StringBuilder PreambleComposer()
         {
             StringBuilder sbPreamble = new StringBuilder();
-            sbPreamble.Append("ISOGEN-FILES ISOCONFIG.FLS");
+            sbPreamble.Append("ISOGEN-FILES ISOGEN.FLS");
             sbPreamble.AppendLine();
             sbPreamble.Append("UNITS-BORE " + InputVars.UNITS_BORE);
             sbPreamble.AppendLine();
