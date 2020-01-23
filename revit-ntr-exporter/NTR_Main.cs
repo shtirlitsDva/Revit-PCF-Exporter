@@ -108,6 +108,9 @@ namespace NTR_Exporter
                 //DiameterLimit filter applied to ALL elements.
                 //Filter out EXCLuded elements - 0 means no checkmark, GUID is for PCF_ELEM_EXCL
                 //Filter by system PCF_PIPL_EXCL: c1c2c9fe-2634-42ba-89d0-5af699f54d4c
+                //PROBLEM: If user exports selection which includes element in a PipingSystem which is not allowed
+                //PROBLEM: no elements will be exported
+                //SOLUTION: Turn off PipingSystemAllowed filter off for ExportSelection case.
                 HashSet<Element> elements = (from element in colElements
                                              where
                                              NTR_Filter.FilterDiameterLimit(element) &&
@@ -124,6 +127,9 @@ namespace NTR_Exporter
 
                 //Validate if configuration has all pipelines defined
                 //Else no LAST value will be written!
+                //PROBLEM: If user has pipelines which have been marked as not allowed and do not wish to define them
+                //PROBLEM: in the configuration file, this validation will throw an error
+                //SOLUTION: Exclude the names of not allowed PipingSystems from the list.
                 List<string> pipeSysAbbrs = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(doc).ToList();
                 foreach (string sa in pipeSysAbbrs)
                 {
@@ -224,6 +230,16 @@ namespace NTR_Exporter
                         outputBuilder.Append(sbFittings);
                         outputBuilder.Append(sbAccessories);
                     }
+
+                    //Include steel structure here
+                    //Requires that the Support Pipe Accessories which the structure support are filtered in the above section
+                    if (iv.IncludeSteelStructure)
+                    {
+                        StringBuilder sbSteel = new NTR_Steel(conf, doc).Export();
+
+                        outputBuilder.Append(sbSteel);
+                    }
+
                     #region Debug
                     //string ids = string.Empty;
                     //foreach (var g in nbifAllList) foreach (var e in g.CreatedElements) ids += e.Id.ToString() + "\n";

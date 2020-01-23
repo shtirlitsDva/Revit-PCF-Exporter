@@ -88,6 +88,7 @@
       <DependentUpon>NTR_Exporter_form.cs</DependentUpon>
     </Compile>
     <Compile Include="NTR_Pipes.cs" />
+    <Compile Include="NTR_Steel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <DependentUpon>Settings.settings</DependentUpon>
