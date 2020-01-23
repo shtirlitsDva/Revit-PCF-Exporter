@@ -33,6 +33,9 @@ namespace NTR_Functions
         //Current SystemAbbreviation
         public static string SysAbbr = "FVF";
         public static BuiltInParameter SysAbbrParam = BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM;
+
+        //Include items
+        public static bool IncludeSteelStructure { get; internal set; } = false;
     }
 
     public class ConfigurationData

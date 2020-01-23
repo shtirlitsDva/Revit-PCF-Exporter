@@ -69,6 +69,8 @@ namespace NTR_Exporter
             iv.DiameterLimitGreaterOrEqThan = double.Parse(mySettings.Default.textBox22DiameterLimit);
             iv.DiameterLimitLessOrEqThan = double.Parse(mySettings.Default.textBox3DiameterLessThan);
 
+            //Init include items
+            iv.IncludeSteelStructure = mySettings.Default.checkBox1Checked;
         }
 
         private void Button4_Click(object sender, EventArgs e)
@@ -96,42 +98,6 @@ namespace NTR_Exporter
                 ////excelReader.Close();
                 //comboBox1.DataSource = PCF_DATA_TABLE_NAMES;
             }
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            //CreateParameterBindings CPB = new CreateParameterBindings();
-            //CPB.CreateElementBindings(_uiapp, ref _message);
-            //CPB.CreatePipelineBindings(_uiapp, ref _message);
-        }
-
-        private void Button2_Click(object sender, EventArgs e)
-        {
-            //DeleteParameters DP = new DeleteParameters();
-            //DP.ExecuteMyCommand(_uiapp, ref _message);
-        }
-
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            //PopulateParameters PP = new PopulateParameters();
-            //PP.PopulateElementData(_uiapp, ref _message, _excelPath);
-        }
-
-        private void Button7_Click(object sender, EventArgs e)
-        {
-            //PopulateParameters PP = new PopulateParameters();
-            //PP.PopulatePipelineData(_uiapp, ref _message, _excelPath);
-        }
-
-        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //iv.ExcelSheet = (string)comboBox1.SelectedItem;
-            ////mySettings.Default.excelWorksheetSelectedName = iv.ExcelSheet;
-            //DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
-            //ParameterData.parameterNames = null;
-            //ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
-            //ParameterData.parameterNames.RemoveAt(0);
-            //BuildingCoderUtilities.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
         }
 
         private void RadioButton1_CheckedChanged(object sender, EventArgs e)
@@ -210,66 +176,6 @@ namespace NTR_Exporter
             if (result == Result.Failed) BuildingCoderUtilities.InfoMsg("NTR data export failed for some reason.");
         }
 
-        private void RadioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton3.Checked)
-            {
-            }
-        }
-
-        private void RadioButton4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton4.Checked)
-            {
-            }
-        }
-
-        private void RadioButton5_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton5.Checked)
-            {
-            }
-        }
-
-        private void RadioButton6_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton6.Checked)
-            {
-            }
-        }
-
-        private void RadioButton7_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton7.Checked)
-            {
-            }
-        }
-
-        private void RadioButton8_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton8.Checked)
-            {
-            }
-        }
-
-        private void RadioButton9_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton9.Checked)
-            {
-            }
-        }
-
-        private void RadioButton10_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton10.Checked)
-            {
-            }
-        }
-
-        private void Button8_Click(object sender, EventArgs e)
-        {
-        }
-
         private void Button9_Click(object sender, EventArgs e)
         {
             NTR_Excel excel = new NTR_Excel();
@@ -296,31 +202,14 @@ namespace NTR_Exporter
             iv.DiameterLimitLessOrEqThan = double.Parse(textBox3.Text);
         }
 
-        private void RadioButton12_CheckedChanged(object sender, EventArgs e)
-        {
-            //if (radioButton12.Checked) iv.WriteWallThickness = true;
-        }
-
-        private void RadioButton11_CheckedChanged(object sender, EventArgs e)
-        {
-            //if (radioButton12.Checked) iv.WriteWallThickness = false;
-        }
-
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            //iv.ExportToPlant3DIso = checkBox1.Checked;
-        }
-
-        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            //iv.ExportToCII = checkBox2.Checked;
+            iv.IncludeSteelStructure = checkBox1.Checked;
         }
 
         private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             iv.SysAbbr = comboBox2.SelectedItem.ToString();
         }
-
-        
     }
 }
