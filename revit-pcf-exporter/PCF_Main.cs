@@ -272,8 +272,10 @@ namespace PCF_Exporter
                                     //Create distinct pair combinations with distance from all broken connectors
                                     //https://stackoverflow.com/a/47003122/6073998
                                     List<(Connector c1, Connector c2, double dist)> pairs = brokenCons
-                                        .SelectMany((fst, i) => brokenCons.Skip(i + 1)
-                                        .Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin))))
+                                        .SelectMany
+                                            (
+                                                (fst, i) => brokenCons.Skip(i + 1).Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin)))
+                                            )
                                         .ToList();
                                     var longest = pairs.MaxBy(x => x.dist).FirstOrDefault();
                                     Pipe dPipe = (Pipe)longest.c1.Owner;
