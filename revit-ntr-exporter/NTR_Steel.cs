@@ -29,62 +29,79 @@ namespace NTR_Exporter
             var AllAnalyticalModelSticks = Shared.Filter
                 .GetElements<AnalyticalModelStick, BuiltInCategory>(doc, BuiltInCategory.INVALID);
 
-            List<AnalyticalSteelElement> ASE_OriginalList = new List<AnalyticalSteelElement>();
-            List<AnalyticalSteelElement> ASE_NewElementsList = new List<AnalyticalSteelElement>();
+            List<AnalyticalSteelElement> ASE_List = new List<AnalyticalSteelElement>();
 
             foreach (AnalyticalModelStick ams in AllAnalyticalModelSticks)
             {
                 AnalyticalSteelElement ase = new AnalyticalSteelElement(doc, ams);
-                ASE_OriginalList.Add(ase);
+                ASE_List.Add(ase);
             }
 
-            var result = ASE_OriginalList.SelectMany
+            var result = ASE_List.SelectMany
                 (
-                    (fst, i) => ASE_OriginalList.Skip(i + 1).Select(snd => (fst, snd))
+                    (fst, i) => ASE_List.Skip(i + 1).Select(snd => (fst, snd))
                 );
 
             foreach (var comb in result)
             {
-                FindIntersectionsAndCreateNewElements(comb.fst, comb.snd, ASE_NewElementsList, sb);
+                FindIntersectionsAndCreateNewElements(comb.fst, comb.snd, ASE_List);
+            }
+
+            //Write steel profile data
+            List<AnalyticalSteelElement> ASE_FilteredList = ASE_List.Where(x => x.IncludeInExport).ToList();
+            foreach (AnalyticalSteelElement ase in ASE_FilteredList)
+            {
+                sb.Append("PROF ");
+                sb.Append(dw.PointCoords("P1", ase.P1));
+                sb.Append(dw.PointCoords("P2", ase.P2));
+                //Hardcoded material until further notice
+                sb.Append("MAT=S235JR ");
+
+
+                sb.AppendLine();
             }
 
             return sb;
         }
 
         private void FindIntersectionsAndCreateNewElements
-            (AnalyticalSteelElement fst, AnalyticalSteelElement snd, List<AnalyticalSteelElement> NewElementsList, StringBuilder sb)
+            (AnalyticalSteelElement fst, AnalyticalSteelElement snd, List<AnalyticalSteelElement> ElementsList)
         {
             fst.Curve.Intersect(snd.Curve, out IntersectionResultArray ira);
             if (ira != null)
             {
-                sb.AppendLine(fst.Host.Id + " " + snd.Host.Id);
-                foreach (IntersectionResult item in ira)
+                foreach (IntersectionResult intersection in ira)
                 {
-                    //sb.AppendLine("Result " + i);
-                    //sb.AppendLine("IsReadOnly " + item.IsReadOnly.ToString());
-                    //sb.AppendLine("UVPoint " + item.UVPoint.ToString());
-                    //sb.AppendLine("XYZPoint " + item.XYZPoint.ToString());
-
                     //Detect if the point is an end point
-                    bool EqualsFstP1 = item.XYZPoint.Equalz(fst.P1, 1e-6);
-                    bool EqualsFstP2 = item.XYZPoint.Equalz(fst.P2, 1e-6);
-                    bool EqualsSndP1 = item.XYZPoint.Equalz(snd.P1, 1e-6);
-                    bool EqualsSndP2 = item.XYZPoint.Equalz(snd.P2, 1e-6);
-                    //sb.AppendLine(EqualsFstP1 + " " + EqualsFstP2 + " " + EqualsSndP1 + " " + EqualsSndP2);
+                    bool EqualsFstP1 = intersection.XYZPoint.Equalz(fst.P1, 1e-6);
+                    bool EqualsFstP2 = intersection.XYZPoint.Equalz(fst.P2, 1e-6);
+                    bool EqualsSndP1 = intersection.XYZPoint.Equalz(snd.P1, 1e-6);
+                    bool EqualsSndP2 = intersection.XYZPoint.Equalz(snd.P2, 1e-6);
 
                     EndPointsDetectionResult epdr = DetectEndPoints(EqualsFstP1, EqualsFstP2, EqualsSndP1, EqualsSndP2);
-                    sb.AppendLine(epdr.ToString());
-                    sb.AppendLine();
 
                     switch (epdr)
                     {
                         case EndPointsDetectionResult.NoEndPointsDetected:
+                            fst.IncludeInExport = false;
+                            ElementsList.Add(CreatePartASE(fst.P1, intersection.XYZPoint, fst.Host));
+                            ElementsList.Add(CreatePartASE(intersection.XYZPoint, fst.P2, fst.Host));
+                            snd.IncludeInExport = false;
+                            ElementsList.Add(CreatePartASE(snd.P1, intersection.XYZPoint, snd.Host));
+                            ElementsList.Add(CreatePartASE(intersection.XYZPoint, snd.P2, snd.Host));
                             break;
                         case EndPointsDetectionResult.FstEndPoint:
+                            fst.IncludeInExport = false;
+                            ElementsList.Add(CreatePartASE(fst.P1, intersection.XYZPoint, fst.Host));
+                            ElementsList.Add(CreatePartASE(intersection.XYZPoint, fst.P2, fst.Host));
                             break;
                         case EndPointsDetectionResult.SndEndPoint:
+                            snd.IncludeInExport = false;
+                            ElementsList.Add(CreatePartASE(snd.P1, intersection.XYZPoint, snd.Host));
+                            ElementsList.Add(CreatePartASE(intersection.XYZPoint, snd.P2, snd.Host));
                             break;
                         case EndPointsDetectionResult.BothElementsEndPoint:
+                            //Do nothing
                             break;
                         default:
                             break;
@@ -92,7 +109,17 @@ namespace NTR_Exporter
                 }
             }
         }
+        
+        internal AnalyticalSteelElement CreatePartASE(XYZ p1, XYZ p2, Element host)
+        {
+            AnalyticalSteelElement ASE = new AnalyticalSteelElement();
+            ASE.P1 = p1; ASE.P2 = p2; ASE.Host = host;
 
+            //This is not needed -> was used to find intersections
+            //ASE.Curve = Line.CreateBound(p1, p2);
+
+            return ASE;
+        }
         internal EndPointsDetectionResult DetectEndPoints(bool FstP1, bool FstP2, bool SndP1, bool SndP2)
         {
             if ((FstP1 || FstP2) && (SndP1 || SndP2)) return EndPointsDetectionResult.BothElementsEndPoint;
@@ -117,6 +144,8 @@ namespace NTR_Exporter
         public Curve Curve;
         public Element Host;
         public bool IncludeInExport = true;
+
+        public AnalyticalSteelElement() { }
 
         public AnalyticalSteelElement(Document doc, AnalyticalModelStick ams)
         {
