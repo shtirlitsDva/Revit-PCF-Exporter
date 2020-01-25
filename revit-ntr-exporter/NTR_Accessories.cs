@@ -26,6 +26,10 @@ namespace NTR_Exporter
                 if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(fat, conf.Flexjoints, "KIND");
                 if (string.IsNullOrEmpty(kind)) throw new Exception ($"{fat} is not defined in the configuration file!");
 
+                //Support for steel frames and supports that interact with steel
+                //For now TAG 4 parameter is used with string "FRAME" to denote steel frame support
+                if (InputVars.IncludeSteelStructure) if (dw.ParameterValue("", "TAG 4", element).Contains("FRAME")) continue;
+
                 //Write element kind
                 sbAccessories.Append(kind);
 

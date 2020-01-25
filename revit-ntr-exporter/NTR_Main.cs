@@ -235,9 +235,11 @@ namespace NTR_Exporter
                     //Requires that the Support Pipe Accessories which the structure support are filtered in the above section
                     if (iv.IncludeSteelStructure)
                     {
-                        StringBuilder sbSteel = new NTR_Steel(conf, doc).Export();
-
+                        StringBuilder sbSteel = new NTR_Steel(doc).ExportSteel();
                         outputBuilder.Append(sbSteel);
+
+                        StringBuilder sbBoundaryConds = new NTR_Steel(doc).ExportBoundaryConditions();
+                        outputBuilder.Append(sbBoundaryConds);
                     }
 
                     #region Debug
@@ -246,8 +248,8 @@ namespace NTR_Exporter
                     //BuildingCoderUtilities.InfoMsg(ids);
                     #endregion
 
-                    txGp.RollBack(); //Rollback the extra elements created
-                    //txGp.Commit(); //For debug purposes can be uncommented
+                    //txGp.RollBack(); //Rollback the extra elements created
+                    txGp.Commit(); //For debug purposes can be uncommented
                 }
                 #endregion
 

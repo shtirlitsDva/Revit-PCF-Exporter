@@ -13,19 +13,18 @@ namespace NTR_Exporter
 {
     internal class NTR_Steel
     {
-        private ConfigurationData conf;
         private Document doc;
 
-        public NTR_Steel(ConfigurationData conf, Document doc)
+        public NTR_Steel(Document doc)
         {
-            this.conf = conf;
             this.doc = doc;
         }
 
-        internal StringBuilder Export()
+        internal StringBuilder ExportSteel()
         {
             StringBuilder sb = new StringBuilder();
 
+            //Collect in-model steel elements' analytical stick models
             var AllAnalyticalModelSticks = Shared.Filter
                 .GetElements<AnalyticalModelStick, BuiltInCategory>(doc, BuiltInCategory.INVALID);
 
@@ -38,6 +37,56 @@ namespace NTR_Exporter
                 ASE_OriginalList.Add(ase);
             }
 
+            #region Internal supports (supports on steels frames)
+            //Create additional analytical stick elements for supports on steel frames
+            var SteelSupports = Shared.Filter.GetElements<FamilyInstance, Guid>
+                (doc, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), "FRAME"); //.Cast<Element>();
+
+            using (Transaction tx3 = new Transaction(doc))
+            {
+                tx3.Start("Dbg steel supports");
+                foreach (FamilyInstance el in SteelSupports)
+                {
+                    Transform trf = el.GetTransform();
+                    //trf = trf.Inverse;
+
+                    XYZ Origin = new XYZ();
+                    Origin = trf.OfPoint(Origin);
+
+                    //case "Top":
+                    XYZ Top = new XYZ(0, 0, 5);
+                    Top = trf.OfPoint(Top);
+                    //case "Bottom":
+                    XYZ Bottom = new XYZ(0, 0, -5);
+                    Bottom = trf.OfPoint(Bottom);
+                    //case "Front":
+                    XYZ Front = new XYZ(0, 5, 0);
+                    Front = trf.OfPoint(Front);
+                    //case "Back":
+                    XYZ Back = new XYZ(0, -5, 0);
+                    Back = trf.OfPoint(Back);
+                    //case "Right":
+                    XYZ Right = new XYZ(5, 0, 0);
+                    Right = trf.OfPoint(Right);
+                    //case "Left":
+                    XYZ Left = new XYZ(-5, 0, 0);
+                    Left = trf.OfPoint(Left);
+
+                    Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Top);
+                    Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Bottom);
+                    Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Front);
+                    Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Back);
+                    //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Right);
+                    //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Left);
+
+                }
+
+                tx3.Commit();
+            }
+            #endregion
+
+            //Analyze steel structure finding all intersections and end points
+            //And create analytical stick model with nodes at each intersection and end point
             var result = ASE_OriginalList.SelectMany
                 (
                     (fst, i) => ASE_OriginalList.Skip(i + 1).Select(snd => (fst, snd))
@@ -114,6 +163,24 @@ namespace NTR_Exporter
         {
             fst.Curve.Intersect(snd.Curve, out IntersectionResultArray ira);
             if (ira != null) foreach (IntersectionResult intersection in ira) list.Add(intersection.XYZPoint);
+        }
+
+        internal StringBuilder ExportBoundaryConditions()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            var AllBoundaryConditions = Shared.Filter
+                .GetElements<BoundaryConditions, BuiltInCategory>(doc, BuiltInCategory.INVALID);
+
+            //Hardcoded pinned support for now
+            foreach (BoundaryConditions bc in AllBoundaryConditions)
+            {
+                sb.Append("FLAX");
+                sb.Append(dw.PointCoords("PNAME", bc.Point));
+                sb.AppendLine();
+            }
+
+            return sb;
         }
     }
 
