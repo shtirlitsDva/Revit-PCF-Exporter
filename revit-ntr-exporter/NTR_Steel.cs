@@ -46,6 +46,9 @@ namespace NTR_Exporter
             //Find all intersections in the structure system
             List<XYZ> AllIntersectionPoints = new List<XYZ>();
             foreach (var comb in result) FindIntersections(comb.fst, comb.snd, AllIntersectionPoints);
+            
+            //Clean intersection points collection for duplicates
+            AllIntersectionPoints = AllIntersectionPoints.Distinct(new IEqualityComparer());
 
             //Create partial elements by finding intersection points on element.
             foreach (var ase in ASE_OriginalList) CreatePartialElements(ase, ASE_NewElementsList, AllIntersectionPoints);
@@ -88,38 +91,7 @@ namespace NTR_Exporter
         private void FindIntersections(AnalyticalSteelElement fst, AnalyticalSteelElement snd, List<XYZ> list)
         {
             fst.Curve.Intersect(snd.Curve, out IntersectionResultArray ira);
-            if (ira != null)
-            {
-                foreach (IntersectionResult intersection in ira)
-                {
-                    //Detect if the point is an end point
-                    bool EqualsFstP1 = intersection.XYZPoint.Equalz(fst.P1, 1e-6);
-                    bool EqualsFstP2 = intersection.XYZPoint.Equalz(fst.P2, 1e-6);
-                    bool EqualsSndP1 = intersection.XYZPoint.Equalz(snd.P1, 1e-6);
-                    bool EqualsSndP2 = intersection.XYZPoint.Equalz(snd.P2, 1e-6);
-
-                    EndPointsDetectionResult epdr = DetectEndPoints(EqualsFstP1, EqualsFstP2, EqualsSndP1, EqualsSndP2);
-
-                    switch (epdr)
-                    {
-                        case EndPointsDetectionResult.NoEndPointsDetected:
-                            
-                            
-                            break;
-                        case EndPointsDetectionResult.FstEndPoint:
-                            break;
-                        case EndPointsDetectionResult.SndEndPoint:
-                            break;
-                        case EndPointsDetectionResult.BothElementsEndPoint:
-                            //Do nothing
-                            break;
-                        default:
-                            break;
-                    }
-
-                    list.Add(intersection.XYZPoint);
-                }
-            }
+            if (ira != null) foreach (IntersectionResult intersection in ira) list.Add(intersection.XYZPoint);
         }
 
         internal AnalyticalSteelElement CreatePartASE(XYZ p1, XYZ p2, Element host)
