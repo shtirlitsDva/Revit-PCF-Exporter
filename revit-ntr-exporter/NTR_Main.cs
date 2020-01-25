@@ -246,9 +246,8 @@ namespace NTR_Exporter
                     //BuildingCoderUtilities.InfoMsg(ids);
                     #endregion
 
-                    //Temoporary for DEBUG purposes!!!!!
-                    //txGp.RollBack(); //Rollback the extra elements created
-                    txGp.Commit();
+                    txGp.RollBack(); //Rollback the extra elements created
+                    //txGp.Commit(); //For debug purposes can be uncommented
                 }
                 #endregion
 

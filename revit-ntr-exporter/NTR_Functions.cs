@@ -205,7 +205,7 @@ namespace NTR_Functions
             switch (p.StorageType)
             {
                 case StorageType.ElementId:
-                    ret = p.AsElementId().ToString();
+                    ret = p.AsValueString().ToString();
                     break;
                 case StorageType.Integer:
                     ret = p.AsInteger().ToString();
