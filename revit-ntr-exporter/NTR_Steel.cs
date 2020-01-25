@@ -29,27 +29,29 @@ namespace NTR_Exporter
             var AllAnalyticalModelSticks = Shared.Filter
                 .GetElements<AnalyticalModelStick, BuiltInCategory>(doc, BuiltInCategory.INVALID);
 
-            List<AnalyticalSteelElement> ASE_List = new List<AnalyticalSteelElement>();
+            List<AnalyticalSteelElement> ASE_OriginalList = new List<AnalyticalSteelElement>();
+            List<AnalyticalSteelElement> ASE_NewElementsList = new List<AnalyticalSteelElement>();
 
             foreach (AnalyticalModelStick ams in AllAnalyticalModelSticks)
             {
                 AnalyticalSteelElement ase = new AnalyticalSteelElement(doc, ams);
-                ASE_List.Add(ase);
+                ASE_OriginalList.Add(ase);
             }
 
-            var result = ASE_List.SelectMany
+            var result = ASE_OriginalList.SelectMany
                 (
-                    (fst, i) => ASE_List.Skip(i + 1).Select(snd => (fst, snd))
+                    (fst, i) => ASE_OriginalList.Skip(i + 1).Select(snd => (fst, snd))
                 );
 
-            foreach (var comb in result)
-            {
-                FindIntersectionsAndCreateNewElements(comb.fst, comb.snd, ASE_List);
-            }
+            //Find all intersections in the structure system
+            List<XYZ> AllIntersectionPoints = new List<XYZ>();
+            foreach (var comb in result) FindIntersections(comb.fst, comb.snd, AllIntersectionPoints);
 
-            //Write steel profile data
-            List<AnalyticalSteelElement> ASE_FilteredList = ASE_List.Where(x => x.IncludeInExport).ToList();
-            foreach (AnalyticalSteelElement ase in ASE_FilteredList)
+            //Create partial elements by finding intersection points on element.
+            foreach (var ase in ASE_OriginalList) CreatePartialElements(ase, ASE_NewElementsList, AllIntersectionPoints);
+
+            //Write steel data
+            foreach (AnalyticalSteelElement ase in ASE_NewElementsList)
             {
                 sb.Append("PROF ");
                 sb.Append(dw.PointCoords("P1", ase.P1));
@@ -61,11 +63,29 @@ namespace NTR_Exporter
                 sb.AppendLine();
             }
 
+            #region Debug
+
+            using (Transaction tx2 = new Transaction(doc))
+            {
+                tx2.Start("Debug placement of profiles.");
+                foreach (var ase in ASE_NewElementsList)
+                {
+                    Shared.Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", ase.P1, ase.P2);
+
+                }
+                tx2.Commit();
+            }
+
+            #endregion
             return sb;
         }
 
-        private void FindIntersectionsAndCreateNewElements
-            (AnalyticalSteelElement fst, AnalyticalSteelElement snd, List<AnalyticalSteelElement> ElementsList)
+        private void CreatePartialElements(AnalyticalSteelElement ASE, List<AnalyticalSteelElement> NewElements, List<XYZ> intersections)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FindIntersections(AnalyticalSteelElement fst, AnalyticalSteelElement snd, List<XYZ> list)
         {
             fst.Curve.Intersect(snd.Curve, out IntersectionResultArray ira);
             if (ira != null)
@@ -83,22 +103,12 @@ namespace NTR_Exporter
                     switch (epdr)
                     {
                         case EndPointsDetectionResult.NoEndPointsDetected:
-                            fst.IncludeInExport = false;
-                            ElementsList.Add(CreatePartASE(fst.P1, intersection.XYZPoint, fst.Host));
-                            ElementsList.Add(CreatePartASE(intersection.XYZPoint, fst.P2, fst.Host));
-                            snd.IncludeInExport = false;
-                            ElementsList.Add(CreatePartASE(snd.P1, intersection.XYZPoint, snd.Host));
-                            ElementsList.Add(CreatePartASE(intersection.XYZPoint, snd.P2, snd.Host));
+                            
+                            
                             break;
                         case EndPointsDetectionResult.FstEndPoint:
-                            fst.IncludeInExport = false;
-                            ElementsList.Add(CreatePartASE(fst.P1, intersection.XYZPoint, fst.Host));
-                            ElementsList.Add(CreatePartASE(intersection.XYZPoint, fst.P2, fst.Host));
                             break;
                         case EndPointsDetectionResult.SndEndPoint:
-                            snd.IncludeInExport = false;
-                            ElementsList.Add(CreatePartASE(snd.P1, intersection.XYZPoint, snd.Host));
-                            ElementsList.Add(CreatePartASE(intersection.XYZPoint, snd.P2, snd.Host));
                             break;
                         case EndPointsDetectionResult.BothElementsEndPoint:
                             //Do nothing
@@ -106,10 +116,12 @@ namespace NTR_Exporter
                         default:
                             break;
                     }
+
+                    list.Add(intersection.XYZPoint);
                 }
             }
         }
-        
+
         internal AnalyticalSteelElement CreatePartASE(XYZ p1, XYZ p2, Element host)
         {
             AnalyticalSteelElement ASE = new AnalyticalSteelElement();
@@ -120,6 +132,7 @@ namespace NTR_Exporter
 
             return ASE;
         }
+
         internal EndPointsDetectionResult DetectEndPoints(bool FstP1, bool FstP2, bool SndP1, bool SndP2)
         {
             if ((FstP1 || FstP2) && (SndP1 || SndP2)) return EndPointsDetectionResult.BothElementsEndPoint;
