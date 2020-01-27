@@ -40,48 +40,74 @@ namespace NTR_Exporter
             #region Internal supports (supports on steels frames)
             //Create additional analytical stick elements for supports on steel frames
             var SteelSupports = Shared.Filter.GetElements<FamilyInstance, Guid>
-                (doc, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), "FRAME"); //.Cast<Element>();
+                (doc, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), "FRAME");
 
-            using (Transaction tx3 = new Transaction(doc))
+            foreach (FamilyInstance fi in SteelSupports)
             {
-                tx3.Start("Dbg steel supports");
-                foreach (FamilyInstance el in SteelSupports)
+                string familyName = fi.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
+                if (familyName == "VEKS bærering modplade")
                 {
-                    Transform trf = el.GetTransform();
-                    //trf = trf.Inverse;
+                    Element elType = doc.GetElement(fi.GetTypeId());
+                    bool TopBool = elType.LookupParameter("Modpl_Top_Vis").AsInteger() == 1;
+                    bool BottomBool = elType.LookupParameter("Modpl_Bottom_Vis").AsInteger() == 1;
+                    bool LeftBool = elType.LookupParameter("Modpl_Left_Vis").AsInteger() == 1;
+                    bool RightBool = elType.LookupParameter("Modpl_Right_Vis").AsInteger() == 1;
 
+                    Transform trf = fi.GetTransform();
                     XYZ Origin = new XYZ();
                     Origin = trf.OfPoint(Origin);
 
-                    //case "Top":
-                    XYZ Top = new XYZ(0, 0, 5);
-                    Top = trf.OfPoint(Top);
-                    //case "Bottom":
-                    XYZ Bottom = new XYZ(0, 0, -5);
-                    Bottom = trf.OfPoint(Bottom);
-                    //case "Front":
-                    XYZ Front = new XYZ(0, 5, 0);
-                    Front = trf.OfPoint(Front);
-                    //case "Back":
-                    XYZ Back = new XYZ(0, -5, 0);
-                    Back = trf.OfPoint(Back);
-                    //case "Right":
-                    XYZ Right = new XYZ(5, 0, 0);
-                    Right = trf.OfPoint(Right);
-                    //case "Left":
-                    XYZ Left = new XYZ(-5, 0, 0);
-                    Left = trf.OfPoint(Left);
+                    #region Intersection preparation
+                    //Prepare common objects for intersection analysis
+                    //Create a filter that filters for structural columns and framing
+                    //As I want to select by category, I need them to be FamilyInstances
+                    IList<ElementFilter> filterList = new List<ElementFilter>
+                                        { new ElementCategoryFilter(BuiltInCategory.OST_StructuralFraming),
+                                          new ElementCategoryFilter(BuiltInCategory.OST_StructuralColumns) };
+                    LogicalOrFilter bicFilter = new LogicalOrFilter(filterList);
 
-                    Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Top);
-                    Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Bottom);
-                    Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Front);
-                    Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Back);
-                    //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Right);
-                    //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Left);
+                    LogicalAndFilter fiAndBicFilter = new LogicalAndFilter(bicFilter, new ElementClassFilter(typeof(FamilyInstance)));
 
+                    //Get the default 3D view
+                    var view3D = Shared.SharedStaging.Get3DView(doc);
+                    if (view3D == null) throw new Exception("No default 3D view named {3D} is found!.");
+
+                    var refIntersect = new ReferenceIntersector(fiAndBicFilter, FindReferenceTarget.Element, view3D);
+                    #endregion
+
+                    if (TopBool)
+                    {
+                        //case "Top":
+                        XYZ Top = trf.BasisZ;
+
+                        DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Top", Top));
+                    }
+
+                    if (BottomBool)
+                    {
+                        //case "Bottom":
+                        XYZ Bottom = trf.BasisZ * -1;
+
+                        DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Bottom", Bottom));
+                    }
+
+                    if (LeftBool)
+                    {
+                        //case "Left":
+                        XYZ Left = trf.BasisY;
+
+                        DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Left", Left));
+                    }
+
+                    if (RightBool)
+                    {
+                        //case "Right":
+                        XYZ Right = trf.BasisY * -1;
+
+                        DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Right", Right));
+                    }
                 }
-
-                tx3.Commit();
+                else { }//Implement other possibilities later
             }
             #endregion
 
@@ -100,20 +126,28 @@ namespace NTR_Exporter
             AllIntersectionPoints = AllIntersectionPoints.Distinct(new XyzComparer()).ToList();
 
             //Create partial elements by finding intersection points on element.
-            foreach (var ase in ASE_OriginalList) CreatePartialElements(ase, ASE_NewElementsList, AllIntersectionPoints);
+            foreach (var ase in ASE_OriginalList.Where(x => !x.IsInternalSupport)) CreatePartialElements(ase, ASE_NewElementsList, AllIntersectionPoints);
 
             //Write steel data
-            foreach (AnalyticalSteelElement ase in ASE_NewElementsList)
+            foreach (AnalyticalSteelElement ase in ASE_NewElementsList.Where(x => !x.IsInternalSupport))
             {
-                sb.Append("PROF ");
+                sb.Append("PROF");
                 sb.Append(dw.PointCoords("P1", ase.P1));
                 sb.Append(dw.PointCoords("P2", ase.P2));
                 //Hardcoded material until further notice
                 sb.Append(" MAT=S235JR");
                 sb.Append(dw.ParameterValue("TYP", BuiltInParameter.ELEM_TYPE_PARAM, ase.Host));
-                sb.Append(" ACHSE=Y ");
-                sb.Append(" RI='0,1,0' ");
-                sb.Append(" LAST=STEEL ");
+                sb.Append(" ACHSE=Y");
+                sb.Append(" RI='0,1,0'");
+                sb.Append(" LAST=STEEL");
+                sb.AppendLine();
+            }
+
+            foreach (AnalyticalSteelElement ase in ASE_OriginalList.Where(x => x.IsInternalSupport))
+            {
+                sb.Append("INT_SUP");
+                sb.Append(dw.PointCoords("PNAME", ase.P1));
+                sb.Append(dw.PointCoords("BASE", ase.P2));
                 sb.AppendLine();
             }
 
@@ -130,6 +164,22 @@ namespace NTR_Exporter
             //}
             #endregion
             return sb;
+        }
+
+        private void DetectAndCreateInternalSupport(List<AnalyticalSteelElement> list,
+            FamilyInstance fi, XYZ Origin, ReferenceIntersector refIntersect, (string DirName, XYZ Dir) Direction)
+        {
+            //Find the first structural framing element in that direction
+            ReferenceWithContext rwc = refIntersect.FindNearest(Origin, Direction.Dir);
+            if (rwc == null) throw new Exception($"Direction {Direction.DirName} for frame support {fi.Id} did not find any steel members! Check if elements are properly aligned.");
+            var refId = rwc.GetReference()?.ElementId;
+
+            Element foundElement = doc.GetElement(refId);
+            var ams = foundElement.GetAnalyticalModel();
+            var ir = ams.GetCurve().Project(Origin);
+
+            //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Origin + Direction.Dir * 5);
+            list.Add(new AnalyticalSteelElement(Origin, ir.XYZPoint, true));
         }
 
         private void CreatePartialElements(AnalyticalSteelElement ASE, List<AnalyticalSteelElement> NewElements, List<XYZ> intersections)
@@ -190,10 +240,16 @@ namespace NTR_Exporter
         public XYZ P2;
         public Curve Curve;
         public Element Host;
+        public bool IsInternalSupport = false;
 
         public AnalyticalSteelElement(XYZ p1, XYZ p2, Element host)
         {
             P1 = p1; P2 = p2; Host = host;
+        }
+
+        public AnalyticalSteelElement(XYZ p1, XYZ p2, bool isInternalSupport = true)
+        {
+            P1 = p1; P2 = p2; IsInternalSupport = isInternalSupport; Curve = Line.CreateBound(p1, p2);
         }
 
         public AnalyticalSteelElement(Document doc, AnalyticalModelStick ams)
