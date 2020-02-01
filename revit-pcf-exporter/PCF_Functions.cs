@@ -540,8 +540,21 @@ namespace PCF_Functions
                     schedPipeline.Definition.AddSortGroupField(sortGroupField);
                 }
 
-                curDomain = "PIPL";
-                foreach (pdef pDef in query.ToList())
+                //curDomain = "PIPL";
+                List<pdef> parList = new List<pdef>();
+                plst Plst = new plst();
+                parList.Add(Plst.PCF_PIPL_LINEID);
+                parList.Add(Plst.PCF_PIPL_NOMCLASS);
+                parList.Add(Plst.PCF_PIPL_TEMP);
+                parList.Add(Plst.PCF_PIPL_AREA);
+                parList.Add(Plst.PCF_PIPL_PROJID);
+                parList.Add(Plst.PCF_PIPL_DATE);
+                parList.Add(Plst.PCF_PIPL_DWGNAME);
+                parList.Add(Plst.PCF_PIPL_REV);
+                parList.Add(Plst.PCF_PIPL_AT01);
+                parList.Add(Plst.PCF_PIPL_AT02);
+                parList.Add(Plst.PCF_PIPL_AT03);
+                foreach (pdef pDef in parList)
                 {
                     SharedParameterElement parameter = (from SharedParameterElement param in sharedParameters
                                                         where param.GuidValue.CompareTo(pDef.Guid) == 0
