@@ -95,7 +95,7 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SharedStagingArea.cs" />
+    <Compile Include="SharedStaging.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

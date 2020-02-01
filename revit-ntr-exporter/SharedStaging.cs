@@ -14,9 +14,29 @@ using System.Text;
 
 namespace Shared
 {
-    public class SharedStagingArea
+    public class SharedStaging
     {
+        /// <summary>
+        /// Return a 3D view from the given document.
+        /// </summary>
+        public static View3D Get3DView(Document doc)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
 
+            collector.OfClass(typeof(View3D));
+
+            foreach (View3D v in collector)
+            {
+                // skip view templates here because they
+                // are invisible in project browsers:
+
+                if (v != null && !v.IsTemplate && v.Name == "{3D}")
+                {
+                    return v;
+                }
+            }
+            return null;
+        }
     }
 
     /// <summary>
