@@ -551,9 +551,9 @@ namespace PCF_Functions
                 parList.Add(Plst.PCF_PIPL_DATE);
                 parList.Add(Plst.PCF_PIPL_DWGNAME);
                 parList.Add(Plst.PCF_PIPL_REV);
-                parList.Add(Plst.PCF_PIPL_AT01);
-                parList.Add(Plst.PCF_PIPL_AT02);
-                parList.Add(Plst.PCF_PIPL_AT03);
+                parList.Add(Plst.PCF_PIPL_TEGN);
+                parList.Add(Plst.PCF_PIPL_KONTR);
+                parList.Add(Plst.PCF_PIPL_GODK);
                 foreach (pdef pDef in parList)
                 {
                     SharedParameterElement parameter = (from SharedParameterElement param in sharedParameters

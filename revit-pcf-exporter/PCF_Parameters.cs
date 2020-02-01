@@ -95,7 +95,7 @@ namespace PCF_Parameters
                 if (Elements.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == gp.Key)) continue;
                 worksheet.Cells[row, col] = gp.Key;
                 row++;
-            } 
+            }
             #endregion
         }
 
@@ -429,7 +429,7 @@ namespace PCF_Parameters
             return Result.Succeeded;
         }
 
-        
+
     }
 
     public class CreateParameterBindings
@@ -525,8 +525,7 @@ namespace PCF_Parameters
 
             //Parameter query
             var query = from p in new plst().LPAll
-                        where p.Domain == "PIPL" ||
-                              p.Name == "PCF_PIPL_EXCL"
+                        where (p.Domain == "PIPL" || p.Name == "PCF_PIPL_EXCL") && p.ExportingTo != "LDT"
                         select p;
 
             //Create parameter bindings

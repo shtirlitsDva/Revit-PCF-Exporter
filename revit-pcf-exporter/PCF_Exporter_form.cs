@@ -30,6 +30,7 @@ namespace PCF_Exporter
         private IList<string> pipeLinesAbbreviations;
 
         private string _excelPath = null;
+        private string _LDTPath = null;
 
         private IList<string> PCF_DATA_TABLE_NAMES = new List<string>();
         private DataSet DATA_SET = null;
@@ -47,6 +48,10 @@ namespace PCF_Exporter
             //Init excel path
             _excelPath = mySettings.Default.excelPath;
             textBox20.Text = _excelPath;
+
+            //Init LDT path
+            _LDTPath = mySettings.Default.LDTPath;
+            textBox11.Text = _LDTPath;
 
             //Init data table selection
             if (!string.IsNullOrEmpty(_excelPath))
@@ -437,6 +442,16 @@ namespace PCF_Exporter
             EP.ExportUndefinedElements(_doc, _excelPath);
         }
 
-        
+        private void button12_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //Get excel file
+                _LDTPath = openFileDialog1.FileName;
+                textBox11.Text = _LDTPath;
+                //Save excel file to settings
+                mySettings.Default.LDTPath = _LDTPath;
+            }
+        }
     }
 }

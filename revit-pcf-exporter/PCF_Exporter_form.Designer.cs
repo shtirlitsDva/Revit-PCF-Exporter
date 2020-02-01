@@ -111,6 +111,9 @@ namespace PCF_Exporter
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.button12 = new System.Windows.Forms.Button();
             this.Tabs.SuspendLayout();
             this.TabSetup.SuspendLayout();
             this.radioBox1.SuspendLayout();
@@ -130,6 +133,7 @@ namespace PCF_Exporter
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tabs
@@ -142,11 +146,12 @@ namespace PCF_Exporter
             this.Tabs.Location = new System.Drawing.Point(0, 0);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(383, 609);
+            this.Tabs.Size = new System.Drawing.Size(383, 598);
             this.Tabs.TabIndex = 0;
             // 
             // TabSetup
             // 
+            this.TabSetup.Controls.Add(this.groupBox11);
             this.TabSetup.Controls.Add(this.radioBox1);
             this.TabSetup.Controls.Add(this.radioBox4);
             this.TabSetup.Controls.Add(this.groupBox2);
@@ -154,7 +159,7 @@ namespace PCF_Exporter
             this.TabSetup.Location = new System.Drawing.Point(4, 22);
             this.TabSetup.Name = "TabSetup";
             this.TabSetup.Padding = new System.Windows.Forms.Padding(3);
-            this.TabSetup.Size = new System.Drawing.Size(375, 583);
+            this.TabSetup.Size = new System.Drawing.Size(375, 572);
             this.TabSetup.TabIndex = 0;
             this.TabSetup.Text = "Setup";
             this.TabSetup.UseVisualStyleBackColor = true;
@@ -931,11 +936,44 @@ namespace PCF_Exporter
             // 
             this.openFileDialog2.FileName = "openFileDialog1";
             // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.textBox11);
+            this.groupBox11.Controls.Add(this.button12);
+            this.groupBox11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox11.Location = new System.Drawing.Point(3, 473);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(369, 95);
+            this.groupBox11.TabIndex = 7;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "LDT file location (for Plant 3D Iso)";
+            // 
+            // textBox11
+            // 
+            this.textBox11.BackColor = System.Drawing.SystemColors.Window;
+            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox11.Location = new System.Drawing.Point(3, 73);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.Size = new System.Drawing.Size(363, 13);
+            this.textBox11.TabIndex = 7;
+            this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(99, 20);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(162, 46);
+            this.button12.TabIndex = 2;
+            this.button12.Text = "Select LDT file (EXCEL)";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
             // PCF_Exporter_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 609);
+            this.ClientSize = new System.Drawing.Size(383, 598);
             this.Controls.Add(this.Tabs);
             this.Name = "PCF_Exporter_form";
             this.Text = "PCF_Exporter_form";
@@ -968,6 +1006,8 @@ namespace PCF_Exporter
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1041,5 +1081,8 @@ namespace PCF_Exporter
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Button button12;
     }
 }
