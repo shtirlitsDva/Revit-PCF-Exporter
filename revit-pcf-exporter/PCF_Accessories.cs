@@ -10,6 +10,7 @@ using PCF_Taps;
 
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
+using pdw = PCF_Functions.ParameterDataWriter;
 using mp = Shared.MepUtils;
 
 namespace PCF_Accessories
@@ -67,6 +68,7 @@ namespace PCF_Accessories
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
                             sbAccessories.Append(EndWriter.WriteCP(familyInstance));
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
 
                             break;
 
@@ -84,6 +86,8 @@ namespace PCF_Accessories
                             XYZ centrePoint = primaryLine.Project(cons.Secondary.Origin).XYZPoint;
 
                             sbAccessories.Append(EndWriter.WriteCP(centrePoint));
+
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
 
                             break;
 
@@ -144,6 +148,7 @@ namespace PCF_Accessories
 
                         case "SUPPORT":
                             sbAccessories.Append(EndWriter.WriteCO(familyInstance, cons.Primary));
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
                             break;
 
                         case "INSTRUMENT-3WAY":

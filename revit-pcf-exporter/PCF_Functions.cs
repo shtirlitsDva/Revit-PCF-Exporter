@@ -666,6 +666,18 @@ namespace PCF_Functions
                 wallThkParameter.Set(data);
             }
         }
+
+        internal static string ParameterValue(string keyword, string[] parNames, Element element)
+        {
+            List<string> values = new List<string>();
+            foreach (string name in parNames)
+            {
+                string value = element.LookupParameter(name)?.ToValueString();
+                if (!value.IsNullOrEmpty()) values.Add(value);
+            }
+            if (values.Count < 1) return "";
+            else return $"    {keyword} {string.Join("_", values)}\n";
+        }
     }
 
     public class BrokenPipesGroup
