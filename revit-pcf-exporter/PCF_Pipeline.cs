@@ -44,6 +44,7 @@ namespace PCF_Pipeline
                 if (PCF_Functions.InputVars.ExportToPlant3DIso)
                 {
                     //Facilitate export to Plant 3D iso
+                    //This is where PipeSystemAbbreviation is stored
                     sbPipeline.Append("    ");
                     sbPipeline.Append("Attribute10");
                     sbPipeline.Append(" ");
