@@ -260,7 +260,7 @@ namespace PCF_Functions
         }
     }
 
-    public class EndWriter
+    public static class EndWriter
     {
         internal static string PointStringMm(XYZ p)
         {

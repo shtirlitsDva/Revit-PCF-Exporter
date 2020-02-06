@@ -48,16 +48,12 @@ namespace PCF_Pipeline
                 switch (elem)
                 {
                     case Pipe pipe:
-                        {
-                            var consPipe = new Cons(elem);
-                            cons.Add(consPipe.Primary);
-                            cons.Add(consPipe.Secondary);
-                        }
+                        var consPipe = new Cons(elem);
+                        cons.Add(consPipe.Primary);
+                        cons.Add(consPipe.Secondary);
                         break;
                     case FamilyInstance fi:
-                        {
-                            cons = MepUtils.GetALLConnectorsFromElements(elem);
-                        }
+                        cons = MepUtils.GetALLConnectorsFromElements(elem);
                         break;
                     default:
                         continue;
@@ -65,33 +61,70 @@ namespace PCF_Pipeline
 
                 foreach (Connector con in cons)
                 {
+                    //This if should also filter out free ends...
                     if (con.IsConnected)
                     {
                         var allRefsNotFiltered = MepUtils.GetAllConnectorsFromConnectorSet(con.AllRefs);
                         var correspondingCon = allRefsNotFiltered
                             .Where(x => x.Domain == Domain.DomainPiping)
                             .Where(x => x.Owner.Id.IntegerValue != elem.Id.IntegerValue).FirstOrDefault();
-                        
+
                         //CASE: Free end -> Do nothing yet, for simplicity
-                        if (correspondingCon != null) continue;
+                        //This also catches empty cons on multicons accessories
+                        //Example: pressure take outs on filters.
+                        if (correspondingCon == null) continue;
 
                         //CASE: If selection is exported, continuation for elements not in selection
                         //Even if same pipeline
                         if (iv.ExportSelection)
                         {
-                            if (all.Any(x => !(x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue)))
+                            if (!all.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue))
                             {
                                 //CASE: Con belongs to MechanicalEquipment
+                                if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
+                                {
+                                    sb.AppendLine("END-CONNECTION-EQUIPMENT");
+                                    sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                                    sb.Append(PCF_Functions.ParameterDataWriter
+                                        .ParameterValue("CONNECTION-REFERENCE", new[] { "TAG 1", "TAG 2" }, correspondingCon.Owner));
 
+                                    continue;
+                                }
+                                //CASE: Any other component
+                                else
+                                {
+                                    sb.AppendLine("END-CONNECTION-PIPELINE");
+                                    sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                                    sb.AppendLine("    PIPELINE-REFERENCE " + correspondingCon.MEPSystemAbbreviation(doc));
+
+                                    continue;
+                                }
                             }
+                            //CASE: None of the above hit -> continue with loop execution
+                            //To prevent from falling through to non selection cases.
+                            continue;
                         }
                         
+                        //CASE: Con belongs to MechanicalEquipment
+                        else if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
+                        {
+                            sb.AppendLine("END-CONNECTION-EQUIPMENT");
+                            sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                            sb.Append(PCF_Functions.ParameterDataWriter
+                                .ParameterValue("CONNECTION-REFERENCE", new[] { "TAG 1", "TAG 2" }, correspondingCon.Owner));
+
+                            continue;
+                        }
                         //CASE: If corrCon belongs to different Pipeline -> unconditional end
+                        //MechanicalEquipment cons should belong to the same Piping System, else...
                         else if (correspondingCon.MEPSystemAbbreviation(doc) != key)
                         {
+                            sb.AppendLine("END-CONNECTION-PIPELINE");
+                            sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                            sb.AppendLine("    PIPELINE-REFERENCE " + correspondingCon.MEPSystemAbbreviation(doc));
 
+                            continue;
                         }
-
                     }
                 }
             }

@@ -110,12 +110,12 @@ namespace PCF_Exporter
                 {
                     //DiameterLimit filter applied to ALL elements.
                     var filtering = from element in colElements where FilterDiameterLimit.FilterDL(element) select element;
-                    
+
                     //Filter out EXCLUDED elements -> 0 means no checkmark
                     filtering = from element in filtering
-                                     where element.get_Parameter(new plst().PCF_ELEM_EXCL.Guid).AsInteger() == 0
-                                     select element;
-                    
+                                where element.get_Parameter(new plst().PCF_ELEM_EXCL.Guid).AsInteger() == 0
+                                select element;
+
                     //Remove instrument pipes
                     filtering = filtering.ExceptWhere(x => x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
                                                       .AsString() == "INSTR");
@@ -124,12 +124,18 @@ namespace PCF_Exporter
                     {
                         filtering = filtering.ExceptWhere(x => x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == InputVars.PCF_ELEM_SPEC_FILTER);
                     }
-                    
-                    //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
+
+                    //If exporting to ISO, remove some not needed elements
                     if (InputVars.ExportToPlant3DIso)
                     {
+                        //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
                         filtering = filtering
                             .Where(x => !(x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD"));
+
+                        //Also remove anchor symbols -> not needed for ISO
+                        filtering = filtering.ExceptWhere(x => x
+                            .get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
+                            .AsValueString() == "Support Symbolic: ANC");
                     }
 
                     //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
@@ -342,13 +348,14 @@ namespace PCF_Exporter
 
 
                         StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
-                        StringBuilder sbEndsAndConnections = new PCF_Pipeline.EndsAndConnections()
+                        StringBuilder sbEndsAndConnections = PCF_Pipeline.EndsAndConnections
                             .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, doc);
                         StringBuilder sbPipes = new PCF_Pipes.PCF_Pipes_Export().Export(gp.Key, pipeList, doc);
                         StringBuilder sbFittings = new PCF_Fittings.PCF_Fittings_Export().Export(gp.Key, fittingList, doc);
                         StringBuilder sbAccessories = new PCF_Accessories.PCF_Accessories_Export().Export(gp.Key, accessoryList, doc);
 
-                        sbCollect.Append(sbPipeline); sbCollect.Append(sbPipes); sbCollect.Append(sbFittings); sbCollect.Append(sbAccessories);
+                        sbCollect.Append(sbPipeline); sbCollect.Append(sbEndsAndConnections);
+                        sbCollect.Append(sbPipes); sbCollect.Append(sbFittings); sbCollect.Append(sbAccessories);
                     }
                     #endregion 
 
