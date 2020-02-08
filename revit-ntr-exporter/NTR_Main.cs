@@ -219,6 +219,7 @@ namespace NTR_Exporter
                                 Guid tag4guid = new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee");
                                 var SteelSupports = accessoryList.Where(
                                             x => x.get_Parameter(tag4guid).AsString() == "FRAME");
+
                                 //Also modify accessoryList to remove the same said supports
                                 accessoryList = accessoryList.ExceptWhere(
                                     x => x.get_Parameter(tag4guid).AsString() == "FRAME").ToHashSet();
@@ -246,12 +247,22 @@ namespace NTR_Exporter
                                         else if (extraNodeCount == 1) continue;
 
                                         Cons supportCons = new Cons((Element)fi);
-                                        
-                                        Connector FirstSideConStart = null;
-                                        if (supportCons.Primary.IsConnected) FirstSideConStart
-                                                = supportCons.Primary.GetRefConnnector(fi);
-                                        else throw new Exception($"Primary connector of Frame Support" +
-                                            $"{fi.Id.IntegerValue} is not connected!");
+
+                                        //Getting the corresponding connectors with AllRefs method cannot be used
+                                        //Because if two supports reside on same pipe
+                                        //Subsequent iterations will get the original pipe, which will make overlapping segments
+                                        //So connectors must be obtained by matching geometry
+                                        //And it must be done separately at each iteration!
+
+                                        var allConnectors = MepUtils.GetALLConnectorsFromElements(pipeList)
+                                            .Where(c => c.ConnectorType == ConnectorType.End).ToHashSet();
+
+                                        var matchedPipeConnectors = allConnectors
+                                            .Where(x => supportCons.Primary.Equalz(x, 1.0.MmToFt()))
+                                            .ExceptWhere(x => x.Owner.Id.IntegerValue == fi.Id.IntegerValue);
+
+                                        //Should be a null check here -> to tired to figure it out
+                                        Connector FirstSideConStart = matchedPipeConnectors.First();
 
                                         //Assume that supports will always be placed on pipes
                                         Connector FirstSideConEnd = 
@@ -259,11 +270,7 @@ namespace NTR_Exporter
                                              where c.Id != FirstSideConStart.Id && (int)c.ConnectorType == 1
                                              select c).FirstOrDefault();
 
-                                        Connector SecondSideConStart = null;
-                                        if (supportCons.Secondary.IsConnected) SecondSideConStart
-                                                = supportCons.Secondary.GetRefConnnector(fi);
-                                        else throw new Exception($"Secondary connector of Frame Support" +
-                                            $"{fi.Id.IntegerValue} is not connected!");
+                                        Connector SecondSideConStart = matchedPipeConnectors.Last();
 
                                         //Assume that supports will always be placed on pipes
                                         Connector SecondSideConEnd =
@@ -281,17 +288,17 @@ namespace NTR_Exporter
                                         if (extraNodeCount == 2)
                                         {
                                             creationPoints.Add(FirstSideConEnd.Origin);
-                                            creationPoints.Add(FirstSideLine.Evaluate(1.5.MmToFt(), false));
-                                            creationPoints.Add(SecondSideLine.Evaluate(1.5.MmToFt(), false));
+                                            creationPoints.Add(FirstSideLine.Evaluate(2.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(2.5.MmToFt(), false));
                                             creationPoints.Add(SecondSideConEnd.Origin);
                                         }
 
                                         else if (extraNodeCount == 3)
                                         {
                                             creationPoints.Add(FirstSideConEnd.Origin);
-                                            creationPoints.Add(FirstSideLine.Evaluate(3.0.MmToFt(), false));
+                                            creationPoints.Add(FirstSideLine.Evaluate(5.0.MmToFt(), false));
                                             creationPoints.Add(FirstSideConStart.Origin);
-                                            creationPoints.Add(SecondSideLine.Evaluate(3.0.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(5.0.MmToFt(), false));
                                             creationPoints.Add(SecondSideConEnd.Origin);
                                             //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", FirstSideConStart.Origin, FirstSidePoint);
                                             //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", SecondSideConStart.Origin, SecondSidePoint);
@@ -300,10 +307,10 @@ namespace NTR_Exporter
                                         else if (extraNodeCount == 4)
                                         {
                                             creationPoints.Add(FirstSideConEnd.Origin);
-                                            creationPoints.Add(FirstSideLine.Evaluate(4.5.MmToFt(), false));
-                                            creationPoints.Add(FirstSideLine.Evaluate(1.5.MmToFt(), false));
-                                            creationPoints.Add(SecondSideLine.Evaluate(1.5.MmToFt(), false));
-                                            creationPoints.Add(SecondSideLine.Evaluate(4.5.MmToFt(), false));
+                                            creationPoints.Add(FirstSideLine.Evaluate(7.5.MmToFt(), false));
+                                            creationPoints.Add(FirstSideLine.Evaluate(2.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(2.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(7.5.MmToFt(), false));
                                             creationPoints.Add(SecondSideConEnd.Origin);
                                         }
 
@@ -332,6 +339,9 @@ namespace NTR_Exporter
                                         pipeList.UnionWith(createdPipes);
                                     }
                                     else { }//Implement other possibilities later
+                                    
+                                    //This, I think, is needed to be able to interact with temporary pipes
+                                    doc.Regenerate();
                                 }
                             }
 
