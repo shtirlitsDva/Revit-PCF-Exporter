@@ -200,7 +200,7 @@ namespace NTR_Exporter
                                 {
                                     int j = i + 1;
                                     g.CreatedElements.Add(Pipe.Create(doc, g.HeadPipe.MEPSystem.GetTypeId(), g.HeadPipe.GetTypeId(),
-                                        g.HeadPipe.ReferenceLevel.Id, g.AllCreationPoints[i], g.AllCreationPoints[j])); //Cast to Element needed?
+                                        g.HeadPipe.ReferenceLevel.Id, g.AllCreationPoints[i], g.AllCreationPoints[j]));
                                 }
 
                                 foreach (Element el in g.CreatedElements)
@@ -210,6 +210,129 @@ namespace NTR_Exporter
 
                                 //Add created pipes to pipeList
                                 pipeList.UnionWith(g.CreatedElements);
+                            }
+
+                            //Additional nodes need to be created for internal supports
+                            //Internal supports need a separate master node for each support
+                            if (iv.IncludeSteelStructure)
+                            {
+                                Guid tag4guid = new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee");
+                                var SteelSupports = accessoryList.Where(
+                                            x => x.get_Parameter(tag4guid).AsString() == "FRAME");
+                                //Also modify accessoryList to remove the same said supports
+                                accessoryList = accessoryList.ExceptWhere(
+                                    x => x.get_Parameter(tag4guid).AsString() == "FRAME").ToHashSet();
+
+                                foreach (FamilyInstance fi in SteelSupports)
+                                {
+                                    string familyName = fi.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
+                                    //Currently only the following family is implemented
+                                    if (familyName == "VEKS bærering modplade")
+                                    {
+                                        Element elType = doc.GetElement(fi.GetTypeId());
+                                        bool TopBool = elType.LookupParameter("Modpl_Top_Vis").AsInteger() == 1;
+                                        bool BottomBool = elType.LookupParameter("Modpl_Bottom_Vis").AsInteger() == 1;
+                                        bool LeftBool = elType.LookupParameter("Modpl_Left_Vis").AsInteger() == 1;
+                                        bool RightBool = elType.LookupParameter("Modpl_Right_Vis").AsInteger() == 1;
+
+                                        //Count how many extra nodes are needed
+                                        int extraNodeCount = 0;
+                                        if (TopBool) extraNodeCount++;
+                                        if (BottomBool) extraNodeCount++;
+                                        if (LeftBool) extraNodeCount++;
+                                        if (RightBool) extraNodeCount++;
+
+                                        if (extraNodeCount == 0) continue;
+                                        else if (extraNodeCount == 1) continue;
+
+                                        Cons supportCons = new Cons((Element)fi);
+                                        
+                                        Connector FirstSideConStart = null;
+                                        if (supportCons.Primary.IsConnected) FirstSideConStart
+                                                = supportCons.Primary.GetRefConnnector(fi);
+                                        else throw new Exception($"Primary connector of Frame Support" +
+                                            $"{fi.Id.IntegerValue} is not connected!");
+
+                                        //Assume that supports will always be placed on pipes
+                                        Connector FirstSideConEnd = 
+                                            (from Connector c in FirstSideConStart.ConnectorManager.Connectors
+                                             where c.Id != FirstSideConStart.Id && (int)c.ConnectorType == 1
+                                             select c).FirstOrDefault();
+
+                                        Connector SecondSideConStart = null;
+                                        if (supportCons.Secondary.IsConnected) SecondSideConStart
+                                                = supportCons.Secondary.GetRefConnnector(fi);
+                                        else throw new Exception($"Secondary connector of Frame Support" +
+                                            $"{fi.Id.IntegerValue} is not connected!");
+
+                                        //Assume that supports will always be placed on pipes
+                                        Connector SecondSideConEnd =
+                                            (from Connector c in SecondSideConStart.ConnectorManager.Connectors
+                                             where c.Id != SecondSideConStart.Id && (int)c.ConnectorType == 1
+                                             select c).FirstOrDefault();
+
+                                        //Create help lines to help with the geometry analysis
+                                        //The point is to get a point along the line at 5 mm distance from start
+                                        Line FirstSideLine = Line.CreateBound(FirstSideConStart.Origin, FirstSideConEnd.Origin);
+                                        Line SecondSideLine = Line.CreateBound(SecondSideConStart.Origin, SecondSideConEnd.Origin);
+
+                                        List<XYZ> creationPoints = new List<XYZ>(extraNodeCount + 2);
+
+                                        if (extraNodeCount == 2)
+                                        {
+                                            creationPoints.Add(FirstSideConEnd.Origin);
+                                            creationPoints.Add(FirstSideLine.Evaluate(1.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(1.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideConEnd.Origin);
+                                        }
+
+                                        else if (extraNodeCount == 3)
+                                        {
+                                            creationPoints.Add(FirstSideConEnd.Origin);
+                                            creationPoints.Add(FirstSideLine.Evaluate(3.0.MmToFt(), false));
+                                            creationPoints.Add(FirstSideConStart.Origin);
+                                            creationPoints.Add(SecondSideLine.Evaluate(3.0.MmToFt(), false));
+                                            creationPoints.Add(SecondSideConEnd.Origin);
+                                            //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", FirstSideConStart.Origin, FirstSidePoint);
+                                            //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", SecondSideConStart.Origin, SecondSidePoint);
+                                        }
+
+                                        else if (extraNodeCount == 4)
+                                        {
+                                            creationPoints.Add(FirstSideConEnd.Origin);
+                                            creationPoints.Add(FirstSideLine.Evaluate(4.5.MmToFt(), false));
+                                            creationPoints.Add(FirstSideLine.Evaluate(1.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(1.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(4.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideConEnd.Origin);
+                                        }
+
+                                        //Remove the original pipes from pipeList
+                                        Pipe fPipe = (Pipe)FirstSideConStart.Owner;
+                                        Pipe sPipe = (Pipe)SecondSideConStart.Owner;
+                                        pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == fPipe.Id.IntegerValue)
+                                                           .ExceptWhere(x => x.Id.IntegerValue == sPipe.Id.IntegerValue)
+                                                           .ToHashSet();
+
+                                        //Create extra pipes
+                                        HashSet<Element> createdPipes = new HashSet<Element>();
+                                        for (int i = 0; i < creationPoints.Count - 1; i++)
+                                        {
+                                            int j = i + 1;
+                                            createdPipes.Add(Pipe.Create(doc, fPipe.MEPSystem.GetTypeId(), fPipe.GetTypeId(),
+                                                fPipe.ReferenceLevel.Id, creationPoints[i], creationPoints[j]));
+                                        }
+
+                                        foreach (Element el in createdPipes)
+                                        {
+                                            el.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM).Set(fPipe.Diameter);
+                                        }
+
+                                        //Add created pipes to pipeList
+                                        pipeList.UnionWith(createdPipes);
+                                    }
+                                    else { }//Implement other possibilities later
+                                }
                             }
 
                             tx1.Commit();

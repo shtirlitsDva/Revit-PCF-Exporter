@@ -39,6 +39,12 @@ namespace NTR_Exporter
 
             #region Internal supports (supports on steels frames)
             //Create additional analytical stick elements for supports on steel frames
+            //The GUID is for TAG 4
+            //Possible non defined behaviour:
+            //This function gets ALL supports in model
+            //While nodes are created only for the current pipeLine
+            //So right now this only works either for the whole model
+            //Or only for a specific pipeline where the model has been extracted to separate project
             var SteelSupports = Shared.Filter.GetElements<FamilyInstance, Guid>
                 (doc, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), "FRAME");
 

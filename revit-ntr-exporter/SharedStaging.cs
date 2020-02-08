@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Shared
 {
-    public class SharedStaging
+    public static class SharedStaging
     {
         /// <summary>
         /// Return a 3D view from the given document.
@@ -36,6 +36,27 @@ namespace Shared
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Remember to check for con.IsConnected!
+        /// </summary>
+        /// <param name="con">Connector for which to get the correspoinding ref con.</param>
+        /// <param name="elem">The host element of the original connector.</param>
+        /// <returns>The corresponding reference connector.</returns>
+        public static Connector GetRefConnnector(this Connector con, Element elem)
+        {
+            var allRefsNotFiltered = MepUtils.GetAllConnectorsFromConnectorSet(con.AllRefs);
+            var correspondingCon = allRefsNotFiltered
+                .Where(x => x.Domain == Domain.DomainPiping)
+                .Where(x => x.Owner.Id.IntegerValue != elem.Id.IntegerValue).FirstOrDefault();
+            return correspondingCon;
+        }
+
+        public static string GetSystemAbbreviation(this Element elem)
+        {
+            Parameter abbreviationParameter = elem.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM);
+            return abbreviationParameter.AsString();
         }
     }
 
