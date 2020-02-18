@@ -132,10 +132,11 @@ namespace PCF_Exporter
                         filtering = filtering
                             .Where(x => !(x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD"));
 
-                        //Also remove anchor symbols -> not needed for ISO
-                        filtering = filtering.ExceptWhere(x => x
-                            .get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
-                            .AsValueString() == "Support Symbolic: ANC");
+                        ////Also remove anchor symbols -> not needed for ISO
+                        ////Currently not removed -> used for floor symbols
+                        //filtering = filtering.ExceptWhere(x => x
+                        //    .get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
+                        //    .AsValueString() == "Support Symbolic: ANC");
                     }
 
                     //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)

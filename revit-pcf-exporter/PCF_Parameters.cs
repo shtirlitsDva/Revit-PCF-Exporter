@@ -249,6 +249,10 @@ namespace PCF_Parameters
                 int pNumber = 0, fNumber = 0, aNumber = 0;
                 foreach (Element element in collector)
                 {
+                    //Filter out elements in ARGD (Rigids) system type
+                    Cons cons = new Cons(element);
+                    if (cons.Primary.MEPSystemAbbreviation(doc) == "ARGD") continue;
+
                     //reporting
                     if (string.Equals(element.Category.Name.ToString(), "Pipes")) pNumber++;
                     else if (string.Equals(element.Category.Name.ToString(), "Pipe Fittings")) fNumber++;
