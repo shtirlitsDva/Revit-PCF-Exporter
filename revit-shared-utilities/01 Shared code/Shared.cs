@@ -182,6 +182,28 @@ namespace Shared
                     .FirstOrDefault();
         }
 
+        /// <summary>
+        /// Return a 3D view from the given document.
+        /// </summary>
+        public static View3D Get3DView(Document doc)
+        {
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+
+            collector.OfClass(typeof(View3D));
+
+            foreach (View3D v in collector)
+            {
+                // skip view templates here because they
+                // are invisible in project browsers:
+
+                if (v != null && !v.IsTemplate && v.Name == "{3D}")
+                {
+                    return v;
+                }
+            }
+            return null;
+        }
+
         public static LogicalOrFilter FamSymbolsAndPipeTypes()
         {
             BuiltInCategory[] bics =
@@ -485,6 +507,24 @@ namespace Shared
         public int GetHashCode(Connector x) => MepUtils.HashStringForConnectorXYZ(x.Origin).GetHashCode();
     }
 
+    /// <summary>
+    /// Comparer for XYZ points based on their geometric location within a set tolerance.
+    /// Tolerance must be in feet.
+    /// </summary>
+    public class XyzComparer : IEqualityComparer<XYZ>
+    {
+        double Tol = 1e-6.MmToFt();
+
+        public XyzComparer() { }
+
+        public XyzComparer(double tol) => Tol = tol;
+
+        public bool Equals(XYZ x, XYZ y) => null != x && null != y && x.Equalz(y, Tol);
+
+        public int GetHashCode(XYZ x) => Tuple.Create(
+            Math.Round(x.X, 6), Math.Round(x.Y, 6), Math.Round(x.Z, 6)).GetHashCode();
+    }
+
     public class Cons
     {
         public Connector Primary { get; } = null;
@@ -752,16 +792,87 @@ namespace Shared
         
         public static string MEPSystemAbbreviation(this Connector con, Document doc)
         {
-            MEPSystem ps = con.MEPSystem;
-            PipingSystemType pst = (PipingSystemType)doc.GetElement(ps.GetTypeId());
-            return pst.Abbreviation;
+            if (con.MEPSystem != null)
+            {
+                MEPSystem ps = con.MEPSystem;
+                PipingSystemType pst = (PipingSystemType)doc.GetElement(ps.GetTypeId());
+                return pst.Abbreviation;
+            }
+            else throw new Exception($"A connector at element {con.Owner.Id.IntegerValue} has MEPSystem = null!");
         }
 
-        public static string ComponentClass1(this Element e)
+        public static string MEPSystemAbbreviation(this Element elem)
         {
-            Parameter par = e.get_Parameter(new Guid("a7f72797-135b-4a1c-8969-e2e3fc76ff14")); //Component Class 1
+            Parameter abbreviationParameter = elem.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM);
+            return abbreviationParameter.AsString();
+        }
+
+        /// <summary>
+        /// Returns, for fittings only, the PartType of the element in question.
+        /// </summary>
+        /// <param name="e">Element to get the PartType property.</param>
+        /// <returns>The PartType of the passed element.</returns>
+        public static PartType MechFittingPartType(this Element e)
+        {
+            if (e.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeFitting)
+            {
+                var mf = ((FamilyInstance)e).MEPModel as MechanicalFitting;
+                return mf.PartType;
+            }
+            else return PartType.Undefined;
+        }
+
+        public static string ComponentClass1(this Element e, Document doc)
+        {
+            Element elType = doc.GetElement(e.GetTypeId());
+            Parameter par = elType.get_Parameter(new Guid("a7f72797-135b-4a1c-8969-e2e3fc76ff14")); //Component Class 1
             if (par == null) return "";
             return par.AsString();
+        }
+
+        /// <summary>
+        /// Remember to check for con.IsConnected!
+        /// </summary>
+        /// <param name="con">Connector for which to get the correspoinding ref con.</param>
+        /// <param name="elem">The host element of the original connector.</param>
+        /// <returns>The corresponding reference connector.</returns>
+        public static Connector GetRefConnnector(this Connector con, Element elem)
+        {
+            var allRefsNotFiltered = MepUtils.GetAllConnectorsFromConnectorSet(con.AllRefs);
+            var correspondingCon = allRefsNotFiltered
+                .Where(x => x.Domain == Domain.DomainPiping)
+                .Where(x => x.Owner.Id.IntegerValue != elem.Id.IntegerValue).FirstOrDefault();
+            return correspondingCon;
+        }
+
+        /// <summary>
+        /// Method is taken from here:
+        /// https://spiderinnet.typepad.com/blog/2011/08/revit-parameter-api-asvaluestring-tostring-tovaluestring-and-tovaluedisplaystring.html
+        /// </summary>
+        /// <param name="p">Revit parameter</param>
+        /// <returns>Stringified contents of the parameter</returns>
+        internal static string ToValueString(this Autodesk.Revit.DB.Parameter p)
+        {
+            string ret = string.Empty;
+
+            switch (p.StorageType)
+            {
+                case StorageType.ElementId:
+                    ret = p.AsElementId().ToString();
+                    break;
+                case StorageType.Integer:
+                    ret = p.AsInteger().ToString();
+                    break;
+                case StorageType.String:
+                    ret = p.AsString();
+                    break;
+                case StorageType.Double:
+                    ret = p.AsValueString();
+                    break;
+                default:
+                    break;
+            }
+            return ret;
         }
     }
 
