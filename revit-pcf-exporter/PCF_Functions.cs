@@ -270,6 +270,16 @@ namespace PCF_Functions
                 Math.Round(p.Z.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")));
         }
 
+        public static StringBuilder WriteEP(XYZ endPoint)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            sbEndWriter.Append("    END-POINT ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(endPoint));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(endPoint));
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
+
         public static StringBuilder WriteEP1(Element element, Connector connector)
         {
             StringBuilder sbEndWriter = new StringBuilder();

@@ -222,6 +222,9 @@ namespace PCF_Parameters
             string filename = path;
             StringBuilder sbFeedback = new StringBuilder();
 
+            //Failure feedback
+            Element elementRefForFeedback = null;
+
             FilteredElementCollector collector = Shared.Filter.GetElementsWithConnectors(doc);
 
             //prepare input variables which are initialized when looping the elements
@@ -249,6 +252,9 @@ namespace PCF_Parameters
                 int pNumber = 0, fNumber = 0, aNumber = 0;
                 foreach (Element element in collector)
                 {
+                    //Feedback
+                    elementRefForFeedback = element;
+
                     //Filter out elements in ARGD (Rigids) system type
                     Cons cons = new Cons(element);
                     if (cons.Primary.MEPSystemAbbreviation(doc) == "ARGD") continue;
@@ -314,7 +320,8 @@ namespace PCF_Parameters
             catch (Exception ex)
             {
                 msg = ex.Message;
-                BuildingCoderUtilities.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
+                BuildingCoderUtilities.ErrorMsg($"Population of parameters failed with the following exception: \n" + msg +
+                                                $"\n For element {elementRefForFeedback.Id.IntegerValue}.");
                 trans.RollBack();
                 return Result.Failed;
             }

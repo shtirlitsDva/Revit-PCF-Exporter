@@ -139,10 +139,10 @@ namespace PCF_Accessories
                             //Create an artificial point
                             if (endPointAnalyzed == null)
                             {
-                                endPointAnalyzed = cons.Primary.Origin + reverseConnectorVector * .3;
+                                endPointAnalyzed = cons.Primary.Origin + reverseConnectorVector * .5;
                             }
 
-                            sbAccessories.Append(EndWriter.WriteCO(endPointAnalyzed));
+                            sbAccessories.Append(EndWriter.WriteEP(endPointAnalyzed));
 
                             break;
 

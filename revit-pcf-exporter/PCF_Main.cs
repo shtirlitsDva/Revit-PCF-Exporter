@@ -24,6 +24,7 @@ namespace PCF_Exporter
             // UIApplication uiApp = commandData.Application;
             //Test comment
             Document doc = uiApp.ActiveUIDocument.Document;
+            UIDocument uidoc = uiApp.ActiveUIDocument;
 
             try
             {
@@ -164,6 +165,7 @@ namespace PCF_Exporter
                 {
                     if (string.IsNullOrEmpty(e.get_Parameter(new plst().PCF_MAT_DESCR.Guid).AsString()))
                     {
+                        uidoc.Selection.SetElementIds(new List<ElementId>(1) { e.Id });
                         BuildingCoderUtilities.ErrorMsg("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
                         throw new Exception("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
                     }
@@ -267,7 +269,7 @@ namespace PCF_Exporter
                                 //Remove the broken pipes from the pipeList
                                 //If there's only one broken pipe, then there's no need to do anything
                                 //If there's no broken pipes, then there's no need to do anything either
-                                if (bpg.BrokenPipes.Count != 0 || bpg.BrokenPipes.Count != 1)
+                                if (bpg.BrokenPipes.Count != 0 && bpg.BrokenPipes.Count != 1)
                                 {
                                     foreach (Element pipe in bpg.BrokenPipes)
                                     {

@@ -140,12 +140,24 @@ namespace PCF_Fittings
                         XYZ endPointOriginOletSecondary = cons.Secondary.Origin;
 
                         //get reference elements
+                        Pipe refPipe = null;
                         var refCons = mp.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
 
                         Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
-                        if (refCon == null) throw new Exception("refCon Owner cannot find a Pipe for element!");
-                        Pipe refPipe = (Pipe)refCon.Owner;
+                        if (refCon == null)
+                        {
+                            //Find the target pipe
+                            var filter = new ElementClassFilter(typeof(Pipe));
+                            var view3D = Shared.SharedStagingArea.Get3DView(doc);
+                            var refIntersect = new ReferenceIntersector(filter, FindReferenceTarget.Element, view3D);
+                            ReferenceWithContext rwc = refIntersect.FindNearest(cons.Primary.Origin, cons.Primary.CoordinateSystem.BasisZ);
+                            var refId = rwc.GetReference().ElementId;
+                            refPipe = (Pipe)doc.GetElement(refId);
 
+                            if (refPipe == null) throw new Exception($"Olet {element.Id.IntegerValue} cannot find a reference Pipe!");
+                        }
+                        else { refPipe = (Pipe)refCon.Owner; }
+                        
                         Cons refPipeCons = mp.GetConnectors(refPipe);
 
                         //Following code is ported from my python solution in Dynamo.
