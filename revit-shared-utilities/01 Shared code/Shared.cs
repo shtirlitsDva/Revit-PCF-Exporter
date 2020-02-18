@@ -851,7 +851,7 @@ namespace Shared
         /// </summary>
         /// <param name="p">Revit parameter</param>
         /// <returns>Stringified contents of the parameter</returns>
-        internal static string ToValueString(this Autodesk.Revit.DB.Parameter p)
+        public static string ToValueString(this Autodesk.Revit.DB.Parameter p)
         {
             string ret = string.Empty;
 

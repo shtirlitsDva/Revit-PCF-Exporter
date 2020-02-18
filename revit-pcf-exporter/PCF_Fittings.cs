@@ -148,7 +148,7 @@ namespace PCF_Fittings
                         {
                             //Find the target pipe
                             var filter = new ElementClassFilter(typeof(Pipe));
-                            var view3D = Shared.SharedStagingArea.Get3DView(doc);
+                            var view3D = Shared.Filter.Get3DView(doc);
                             var refIntersect = new ReferenceIntersector(filter, FindReferenceTarget.Element, view3D);
                             ReferenceWithContext rwc = refIntersect.FindNearest(cons.Primary.Origin, cons.Primary.CoordinateSystem.BasisZ);
                             var refId = rwc.GetReference().ElementId;
