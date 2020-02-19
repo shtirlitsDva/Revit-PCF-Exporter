@@ -33,11 +33,11 @@ namespace PCF_Output
             string filename = _outputDir + "\\" + docName + "_" + dateAndTime + scope + ".pcf";
             //string filename = _outputDir+"\\" + docName + ".pcf";
 
-            //Clear the output file
-            System.IO.File.WriteAllBytes(filename, new byte[0]);
+            ////Clear the output file
+            //System.IO.File.WriteAllBytes(filename, new byte[0]);
 
             // Write to output file
-            using (StreamWriter w = File.AppendText(filename))
+            using (StreamWriter w = new StreamWriter(filename, false, Encoding.UTF8))
             {
                 w.Write(_collect);
                 w.Close();
