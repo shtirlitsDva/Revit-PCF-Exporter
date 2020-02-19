@@ -239,6 +239,9 @@ namespace PCF_Exporter
 
                         List<Element> supportsList = accessoryList.Where(x => x.ComponentClass1(doc) == "Pipe Support").ToList();
 
+                        //To hold the pipes wich has been discarded, but still can be accessed by AllRefs from Cons
+                        HashSet<Element> discardedPipes = new HashSet<Element>();
+
                         while (supportsList.Count > 0)
                         {
                             //Get an element to start traversing
@@ -274,6 +277,7 @@ namespace PCF_Exporter
                                     foreach (Element pipe in bpg.BrokenPipes)
                                     {
                                         pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
+                                        discardedPipes.Add(pipe);
                                     }
 
                                     //Using the new IEqualityComparer for Connectors to get distinct connectors in the collection
@@ -352,7 +356,7 @@ namespace PCF_Exporter
 
                         StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
                         StringBuilder sbEndsAndConnections = PCF_Pipeline.EndsAndConnections
-                            .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, doc);
+                            .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, discardedPipes, doc);
                         StringBuilder sbPipes = new PCF_Pipes.PCF_Pipes_Export().Export(gp.Key, pipeList, doc);
                         StringBuilder sbFittings = new PCF_Fittings.PCF_Fittings_Export().Export(gp.Key, fittingList, doc);
                         StringBuilder sbAccessories = new PCF_Accessories.PCF_Accessories_Export().Export(gp.Key, accessoryList, doc);

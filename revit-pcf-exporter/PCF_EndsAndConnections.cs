@@ -25,13 +25,14 @@ namespace PCF_Pipeline
     public static class EndsAndConnections
     {
         public static StringBuilder DetectAndWriteEndsAndConnections(
-            string key, HashSet<Element> pipes, HashSet<Element> fittings, HashSet<Element> accessories, Document doc)
+            string key, HashSet<Element> pipes, HashSet<Element> fittings, HashSet<Element> accessories, HashSet<Element> discardedPipes, Document doc)
         {
             StringBuilder sb = new StringBuilder();
 
             HashSet<Element> all = new HashSet<Element>(pipes);
             all.UnionWith(fittings);
             all.UnionWith(accessories);
+            all.UnionWith(discardedPipes);
 
             //Iterate over all elements and check their connected counterparts
             //If they satisfy certain conditions -> write end continuation property
@@ -78,7 +79,10 @@ namespace PCF_Pipeline
                         //Even if same pipeline
                         if (iv.ExportSelection)
                         {
-                            if (!all.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue))
+                            bool inElementsList = !all.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
+                            //bool inDiscardedPipes = !discardedPipes.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
+
+                            if (inElementsList)// && inDiscardedPipes)
                             {
                                 //CASE: Con belongs to MechanicalEquipment
                                 if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
