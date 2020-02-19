@@ -790,7 +790,7 @@ namespace Shared
 
         public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
         
-        public static string MEPSystemAbbreviation(this Connector con, Document doc)
+        public static string MEPSystemAbbreviation(this Connector con, Document doc, bool ignoreMepSystemNull = false)
         {
             if (con.MEPSystem != null)
             {
@@ -798,6 +798,7 @@ namespace Shared
                 PipingSystemType pst = (PipingSystemType)doc.GetElement(ps.GetTypeId());
                 return pst.Abbreviation;
             }
+            else if (ignoreMepSystemNull) return "";
             else throw new Exception($"A connector at element {con.Owner.Id.IntegerValue} has MEPSystem = null!");
         }
 

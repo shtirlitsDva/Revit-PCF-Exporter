@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Windows.Input;
 using System.Runtime.Serialization.Json;
 using dbg = Shared.Dbg;
 using fi = Shared.Filter;
@@ -24,6 +25,11 @@ namespace Shared.Tools
 
         public static Result ValidateConnectorsSpatially(ExternalCommandData cData)
         {
+            bool ctrl = false;
+            //bool shft = false;
+            if ((int)Keyboard.Modifiers == 2) ctrl = true;
+            //if ((int)Keyboard.Modifiers == 4) shft = true;
+
             UIApplication uiApp = cData.Application;
             Document doc = cData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = uiApp.ActiveUIDocument;
@@ -31,6 +37,7 @@ namespace Shared.Tools
             //Gather all connectors from the document
             //Filter also out all "Curve" connectors, which are olet ends at pipe cntr.
             HashSet<Connector> AllCons = mp.GetALLConnectorsInDocument(doc).ExceptWhere(c => c.ConnectorType == ConnectorType.Curve).ToHashSet();
+            if (ctrl) AllCons = AllCons.ExceptWhere(c => c.MEPSystemAbbreviation(doc, true) == "ARGD").ToHashSet();
 
             //Create collection with distinct connectors with a set tolerance
             double Tol = 3.0.MmToFt();
