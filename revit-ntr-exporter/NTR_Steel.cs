@@ -75,7 +75,7 @@ namespace NTR_Exporter
                     LogicalAndFilter fiAndBicFilter = new LogicalAndFilter(bicFilter, new ElementClassFilter(typeof(FamilyInstance)));
 
                     //Get the default 3D view
-                    var view3D = Shared.SharedStaging.Get3DView(doc);
+                    var view3D = Shared.Filter.Get3DView(doc);
                     if (view3D == null) throw new Exception("No default 3D view named {3D} is found!.");
 
                     var refIntersect = new ReferenceIntersector(fiAndBicFilter, FindReferenceTarget.Element, view3D);

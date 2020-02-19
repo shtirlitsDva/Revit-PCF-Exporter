@@ -822,7 +822,7 @@ namespace PCF_Functions
                 Element elementToConsider = refCon.Owner;
 
                 //Determine if the element is a support
-                bool isSupport = elementToConsider.ComponentClass1() == "Pipe Support";
+                bool isSupport = elementToConsider.ComponentClass1(doc) == "Pipe Support";
 
                 //Continuation 1a
                 string elementSysAbr = elementToConsider.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
