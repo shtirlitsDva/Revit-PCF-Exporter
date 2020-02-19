@@ -50,7 +50,11 @@ namespace PCF_Fittings
                         sbFittings.Append(EndWriter.WriteCP(familyInstance));
 
                         sbFittings.Append("    ANGLE ");
-                        sbFittings.Append((Conversion.RadianToDegree(element.LookupParameter("Angle").AsDouble()) * 100).ToString("0"));
+
+                        Parameter par = element.LookupParameter("Angle");
+                        if (par == null) par = element.LookupParameter("angle");
+                        if (par == null) throw new Exception($"Angle parameter on elbow {element.Id.IntegerValue} does not exist or is named differently!");
+                        sbFittings.Append((Conversion.RadianToDegree(par.AsDouble()) * 100).ToString("0"));
                         sbFittings.AppendLine();
 
                         break;
@@ -78,6 +82,9 @@ namespace PCF_Fittings
                     case ("REDUCER-ECCENTRIC"):
                         goto case ("REDUCER-CONCENTRIC");
 
+                    case ("COUPLING"):
+                        goto case ("REDUCER-CONCENTRIC");
+
                     case ("FLANGE"):
                         //Process endpoints of the component
                         //Secondary goes first because it is the weld neck point and the primary second because it is the flanged end
@@ -97,7 +104,7 @@ namespace PCF_Fittings
                         //Analyses the geometry to obtain a point opposite the main connector.
                         //Extraction of the direction of the connector and reversing it
                         XYZ reverseConnectorVector = -cons.Primary.CoordinateSystem.BasisZ;
-                        Line detectorLine = Line.CreateBound(endPointOriginFlangeBlind, reverseConnectorVector * 10);
+                        Line detectorLine = Line.CreateBound(endPointOriginFlangeBlind, endPointOriginFlangeBlind + reverseConnectorVector * 10);
                         //Begin geometry analysis
                         GeometryElement geometryElement = familyInstance.get_Geometry(options);
 

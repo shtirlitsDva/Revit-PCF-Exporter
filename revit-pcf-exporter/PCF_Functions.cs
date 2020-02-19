@@ -790,9 +790,16 @@ namespace PCF_Functions
             Connector start = null;
             //Initialize first loop
             start = firstSideCon;
+            //Loop guard
+            int i = 0;
 
             while (Continue)
             {
+                //Loop guard, if too many iterations something is wrong
+                i++;
+                if (i > 10000) throw new Exception("Traverse loop in BrokenPipes has reached 10000 iterations -> something is wrong! \n" +
+                                                   "Do you really have 10000 pipe pieces?");
+
                 //Using a seed connector, "start", get the next element
                 //If "start" does not yield a connector to continue on -> stop this side
                 //Determine if next element is eligible for continue
@@ -816,7 +823,7 @@ namespace PCF_Functions
                         //Dead end -> first side done -> continue second side
                         firstSideDone = true; start = secondSideCon; continue;
                     }
-                    else break; //Dead end -> both sides done -> end traversal loop
+                    else { Continue = false; break; } //Dead end -> both sides done -> end traversal loop
                 }
 
                 Element elementToConsider = refCon.Owner;
@@ -833,7 +840,7 @@ namespace PCF_Functions
                         //Dead end -> first side done -> continue second side
                         firstSideDone = true; start = secondSideCon; continue;
                     }
-                    else break; //Dead end -> both sides done -> end traversal
+                    else { Continue = false; break; } //Dead end -> both sides done -> end traversal
                 }
 
                 //Continuation 1b
@@ -845,7 +852,7 @@ namespace PCF_Functions
                         //Dead end -> first side done -> continue second side
                         firstSideDone = true; start = secondSideCon; continue;
                     }
-                    else break; //Dead end -> both sides done -> end traversal
+                    else { Continue = false; break; } //Dead end -> both sides done -> end traversal
                 }
 
                 switch (elementToConsider)
@@ -866,7 +873,7 @@ namespace PCF_Functions
                                 //Dead end -> first side done -> continue second side
                                 firstSideDone = true; start = secondSideCon; continue;
                             }
-                            else break; //Dead end -> both sides done -> end traversal
+                            else { Continue = false; break; } //Dead end -> both sides done -> end traversal
                         }
                         //Break condition 2: Element is a PipeAccessory and NOT a support
                         if (elementToConsider.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
@@ -877,7 +884,7 @@ namespace PCF_Functions
                                 //Dead end -> first side done -> continue second side
                                 firstSideDone = true; start = secondSideCon; continue;
                             }
-                            else break; //Dead end -> both sides done -> end traversal
+                            else { Continue = false; break; } //Dead end -> both sides done -> end traversal
                         }
                         //If execution reaches this part, then the element is a support and is eligible for consideration
                         SupportsOnPipe.Add(elementToConsider);

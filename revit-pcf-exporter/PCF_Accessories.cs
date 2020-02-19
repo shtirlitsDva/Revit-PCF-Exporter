@@ -60,7 +60,7 @@ namespace PCF_Accessories
                             //Process endpoints of the component
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
-                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
                             break;
 
                         case ("INSTRUMENT"):
@@ -68,7 +68,7 @@ namespace PCF_Accessories
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
                             sbAccessories.Append(EndWriter.WriteCP(familyInstance));
-                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
 
                             break;
 
@@ -82,12 +82,12 @@ namespace PCF_Accessories
 
                             //The centre point is obtained by creating an bound line from primary connector and projecting the secondary point on the line.
                             XYZ reverseConnectorVector = -cons.Primary.CoordinateSystem.BasisZ;
-                            Line primaryLine = Line.CreateBound(cons.Primary.Origin, reverseConnectorVector * 10);
+                            Line primaryLine = Line.CreateBound(cons.Primary.Origin, cons.Primary.Origin + reverseConnectorVector * 10);
                             XYZ centrePoint = primaryLine.Project(cons.Secondary.Origin).XYZPoint;
 
                             sbAccessories.Append(EndWriter.WriteCP(centrePoint));
 
-                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
 
                             break;
 
@@ -139,16 +139,16 @@ namespace PCF_Accessories
                             //Create an artificial point
                             if (endPointAnalyzed == null)
                             {
-                                endPointAnalyzed = cons.Primary.Origin + reverseConnectorVector * 10;
+                                endPointAnalyzed = cons.Primary.Origin + reverseConnectorVector * 2;
                             }
 
                             sbAccessories.Append(EndWriter.WriteEP(endPointAnalyzed));
-                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
                             break;
 
                         case "SUPPORT":
                             sbAccessories.Append(EndWriter.WriteCO(familyInstance, cons.Primary));
-                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
                             break;
 
                         case "FLOOR-SYMBOL":

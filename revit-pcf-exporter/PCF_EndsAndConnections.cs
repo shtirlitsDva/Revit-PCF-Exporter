@@ -32,6 +32,7 @@ namespace PCF_Pipeline
             HashSet<Element> all = new HashSet<Element>(pipes);
             all.UnionWith(fittings);
             all.UnionWith(accessories);
+            all.UnionWith(discardedPipes);
 
             //Iterate over all elements and check their connected counterparts
             //If they satisfy certain conditions -> write end continuation property
@@ -79,9 +80,9 @@ namespace PCF_Pipeline
                         if (iv.ExportSelection)
                         {
                             bool inElementsList = !all.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
-                            bool inDiscardedPipes = !discardedPipes.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
+                            //bool inDiscardedPipes = !discardedPipes.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
 
-                            if (inElementsList && inDiscardedPipes)
+                            if (inElementsList)// && inDiscardedPipes)
                             {
                                 //CASE: Con belongs to MechanicalEquipment
                                 if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
