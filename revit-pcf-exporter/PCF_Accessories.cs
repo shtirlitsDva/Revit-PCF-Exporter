@@ -60,7 +60,7 @@ namespace PCF_Accessories
                             //Process endpoints of the component
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
-
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
                             break;
 
                         case ("INSTRUMENT"):
@@ -143,7 +143,7 @@ namespace PCF_Accessories
                             }
 
                             sbAccessories.Append(EndWriter.WriteEP(endPointAnalyzed));
-
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2" }, element));
                             break;
 
                         case "SUPPORT":
