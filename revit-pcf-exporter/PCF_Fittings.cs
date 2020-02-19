@@ -97,7 +97,7 @@ namespace PCF_Fittings
                         //Analyses the geometry to obtain a point opposite the main connector.
                         //Extraction of the direction of the connector and reversing it
                         XYZ reverseConnectorVector = -cons.Primary.CoordinateSystem.BasisZ;
-                        Line detectorLine = Line.CreateUnbound(endPointOriginFlangeBlind, reverseConnectorVector);
+                        Line detectorLine = Line.CreateBound(endPointOriginFlangeBlind, reverseConnectorVector * 10);
                         //Begin geometry analysis
                         GeometryElement geometryElement = familyInstance.get_Geometry(options);
 
@@ -157,7 +157,7 @@ namespace PCF_Fittings
                             if (refPipe == null) throw new Exception($"Olet {element.Id.IntegerValue} cannot find a reference Pipe!");
                         }
                         else { refPipe = (Pipe)refCon.Owner; }
-                        
+
                         Cons refPipeCons = mp.GetConnectors(refPipe);
 
                         //Following code is ported from my python solution in Dynamo.

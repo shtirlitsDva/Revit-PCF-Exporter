@@ -80,9 +80,9 @@ namespace PCF_Accessories
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
 
-                            //The centre point is obtained by creating an unbound line from primary connector and projecting the secondary point on the line.
+                            //The centre point is obtained by creating an bound line from primary connector and projecting the secondary point on the line.
                             XYZ reverseConnectorVector = -cons.Primary.CoordinateSystem.BasisZ;
-                            Line primaryLine = Line.CreateUnbound(cons.Primary.Origin, reverseConnectorVector);
+                            Line primaryLine = Line.CreateBound(cons.Primary.Origin, reverseConnectorVector * 10);
                             XYZ centrePoint = primaryLine.Project(cons.Secondary.Origin).XYZPoint;
 
                             sbAccessories.Append(EndWriter.WriteCP(centrePoint));
