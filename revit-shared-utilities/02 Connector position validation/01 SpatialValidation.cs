@@ -21,7 +21,7 @@ namespace Shared.Tools
 {
     class SpatialValidation
     {
-        private const int precision = 3;
+        private const int precision = 1;
 
         public static Result ValidateConnectorsSpatially(ExternalCommandData cData)
         {
@@ -37,7 +37,8 @@ namespace Shared.Tools
             //Gather all connectors from the document
             //Filter also out all "Curve" connectors, which are olet ends at pipe cntr.
             HashSet<Connector> AllCons = mp.GetALLConnectorsInDocument(doc).ExceptWhere(c => c.ConnectorType == ConnectorType.Curve).ToHashSet();
-            if (ctrl) AllCons = AllCons.ExceptWhere(c => c.MEPSystemAbbreviation(doc, true) == "ARGD").ToHashSet();
+            //if (ctrl)
+            AllCons = AllCons.ExceptWhere(c => c.MEPSystemAbbreviation(doc, true) == "ARGD").ToHashSet();
 
             //Create collection with distinct connectors with a set tolerance
             double Tol = 3.0.MmToFt();
