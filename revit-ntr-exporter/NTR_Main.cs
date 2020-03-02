@@ -126,7 +126,7 @@ namespace NTR_Exporter
                                            x.MEPSystemAbbreviation() == "ARGD").ToHashSet();
 
                 //Combine the newly found ARGD elements back to main collection
-                elements = elements.Union(argdElemsOutsideDiaLimit).ToHashSet();
+                elements.UnionWith(argdElemsOutsideDiaLimit);
 
                 //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
                 pipelineGroups = from e in elements
