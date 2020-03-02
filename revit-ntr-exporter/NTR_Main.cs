@@ -118,6 +118,16 @@ namespace NTR_Exporter
                                              element.PipingSystemAllowed(doc)
                                              select element).ToHashSet();
 
+                //Add the elements from ARGD (Rigids) piping system back to working set
+                //Which were filtered out by DiameterLimit, but still respecting PCF_ELEM_EXCL
+                HashSet<Element> argdElemsOutsideDiaLimit =
+                    colElements.Where(x => !NTR_Filter.FilterDiameterLimit(x) &&
+                                           x.get_Parameter(new Guid("CC8EC292-226C-4677-A32D-10B9736BFC1A")).AsInteger() == 0 &&
+                                           x.MEPSystemAbbreviation() == "ARGD").ToHashSet();
+
+                //Combine the newly found ARGD elements back to main collection
+                elements.Union(argdElemsOutsideDiaLimit);
+
                 //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
                 pipelineGroups = from e in elements
                                  group e by e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
