@@ -97,6 +97,8 @@ namespace NTR_Exporter
                     case "QSVX":
                     case "FLVXY":
                     case "AX":
+                    case "FLAX":
+                    case "QSAX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MALL"));
                         sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
