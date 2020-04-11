@@ -41,15 +41,15 @@ namespace PCF_Pipeline
                 sbPipeline.Append(key);
                 sbPipeline.AppendLine();
 
-                if (PCF_Functions.InputVars.ExportToPlant3DIso)
+                if (PCF_Functions.InputVars.ExportToIsogen)
                 {
-                    //Facilitate export to Plant 3D iso
-                    //This is where PipeSystemAbbreviation is stored
-                    sbPipeline.Append("    ");
-                    sbPipeline.Append("Attribute10");
-                    sbPipeline.Append(" ");
-                    sbPipeline.Append(key);
-                    sbPipeline.AppendLine();
+                    ////Facilitate export to Isogen
+                    ////This is where PipeSystemAbbreviation is stored
+                    //sbPipeline.Append("    ");
+                    //sbPipeline.Append("Attribute10");
+                    //sbPipeline.Append(" ");
+                    //sbPipeline.Append(key);
+                    //sbPipeline.AppendLine();
 
                     string LDTPath = mySettings.Default.LDTPath;
                     if (!string.IsNullOrEmpty(LDTPath) && File.Exists(LDTPath))

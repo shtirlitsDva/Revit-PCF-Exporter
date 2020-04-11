@@ -75,8 +75,8 @@ namespace PCF_Functions
 
         //Pipeline parameters
         public readonly pdef PCF_PIPL_LINEID = new pdef("PCF_LINEID", "PIPL", "U", pd.Text, new Guid("A12D0564-A8D9-451A-9800-5704EB1E7B75"), "LINE-ID");
-        public readonly pdef PCF_PIPL_AREA = new pdef("PCF_AREA", "PIPL", "U", pd.Text, new Guid("DE15EB1B-CFD1-418B-80F2-D24D321130BC"), "Attribute1");
-        public readonly pdef PCF_PIPL_DATE = new pdef("PCF_DATE", "PIPL", "U", pd.Text, new Guid("6F6D1903-CC39-4353-85ED-0AA5AEF1C815"), "Attribute3");
+        public readonly pdef PCF_PIPL_AREA = new pdef("PCF_AREA", "PIPL", "U", pd.Text, new Guid("DE15EB1B-CFD1-418B-80F2-D24D321130BC"), "AREA");
+        public readonly pdef PCF_PIPL_DATE = new pdef("PCF_DATE", "PIPL", "U", pd.Text, new Guid("6F6D1903-CC39-4353-85ED-0AA5AEF1C815"), "DATE-DMY");
         //public readonly pdef PCF_PIPL_GRAV = new pdef("PCF_PIPL_GRAV", "PIPL", "U", pd.Text, new Guid("a32c0713-a6a5-4e6c-9a6b-d96e82159611"), "SPECIFIC-GRAVITY");
         //public readonly pdef PCF_PIPL_INSUL = new pdef("PCF_PIPL_INSUL", "PIPL", "U", pd.Text, new Guid("d0c429fe-71db-4adc-b54a-58ae2fb4e127"), "INSULATION-SPEC");
         //public readonly pdef PCF_PIPL_JACKET = new pdef("PCF_PIPL_JACKET", "PIPL", "U", pd.Text, new Guid("a810b6b8-17da-4191-b408-e046c758b289"), "JACKET-SPEC");
@@ -85,13 +85,13 @@ namespace PCF_Functions
         //public readonly pdef PCF_PIPL_MISC3 = new pdef("PCF_PIPL_MISC3", "PIPL", "U", pd.Text, new Guid("680bac72-0a1c-44a9-806d-991401f71912"), "MISC-SPEC3");
         //public readonly pdef PCF_PIPL_MISC4 = new pdef("PCF_PIPL_MISC4", "PIPL", "U", pd.Text, new Guid("6f904559-568b-4eff-a016-9c81e3a6c3ab"), "MISC-SPEC4");
         //public readonly pdef PCF_PIPL_MISC5 = new pdef("PCF_PIPL_MISC5", "PIPL", "U", pd.Text, new Guid("c375351b-b585-4fb1-92f7-abcdc10fd53a"), "MISC-SPEC5");
-        public readonly pdef PCF_PIPL_NOMCLASS = new pdef("PCF_NOMCLASS", "PIPL", "U", pd.Text, new Guid("A5CB2A32-19E2-4536-838C-BE5253A5D301"), "Attribute59");
+        public readonly pdef PCF_PIPL_NOMCLASS = new pdef("PCF_NOMCLASS", "PIPL", "U", pd.Text, new Guid("A5CB2A32-19E2-4536-838C-BE5253A5D301"), "NOMINAL-CLASS");
         //public readonly pdef PCF_PIPL_PAINT = new pdef("PCF_PIPL_PAINT", "PIPL", "U", pd.Text, new Guid("e440ed45-ce29-4b42-9a48-238b62b7522e"), "PAINTING-SPEC");
         //public readonly pdef PCF_PIPL_PREFIX = new pdef("PCF_PIPL_PREFIX", "PIPL", "U", pd.Text, new Guid("c7136bbc-4b0d-47c6-95d1-8623ad015e8f"), "SPOOL-PREFIX");
-        public readonly pdef PCF_PIPL_PROJID = new pdef("PCF_PROJID", "PIPL", "U", pd.Text, new Guid("EBFC0D5E-170B-41E7-B8B3-CF68D8402773"), "Attribute2");
-        public readonly pdef PCF_PIPL_REV = new pdef("PCF_REV", "PIPL", "U", pd.Text, new Guid("17DA8F27-5B5F-4C18-BA13-30CDD07E60DC"), "Attribute6");
+        public readonly pdef PCF_PIPL_PROJID = new pdef("PCF_PROJID", "PIPL", "U", pd.Text, new Guid("EBFC0D5E-170B-41E7-B8B3-CF68D8402773"), "PROJECT-IDENTIFIER");
+        public readonly pdef PCF_PIPL_REV = new pdef("PCF_REV", "PIPL", "U", pd.Text, new Guid("17DA8F27-5B5F-4C18-BA13-30CDD07E60DC"), "REVISION");
         public readonly pdef PCF_PIPL_SPEC = new pdef("PCF_PIPL_SPEC", "PIPL", "U", pd.Text, new Guid("7b0c932b-2ebe-495f-9d2e-effc350e8a59"), "PIPING-SPEC");
-        public readonly pdef PCF_PIPL_TEMP = new pdef("PCF_TEMP", "PIPL", "U", pd.Text, new Guid("4CF40C73-7631-40B3-BA98-03994F3E0FD0"), "Attribute60");
+        public readonly pdef PCF_PIPL_TEMP = new pdef("PCF_TEMP", "PIPL", "U", pd.Text, new Guid("4CF40C73-7631-40B3-BA98-03994F3E0FD0"), "PIPELINE-TEMP");
         //public readonly pdef PCF_PIPL_TRACING = new pdef("PCF_PIPL_TRACING", "PIPL", "U", pd.Text, new Guid("9d463d11-c9e8-4160-ac55-578795d11b1d"), "TRACING-SPEC");
         //public readonly pdef PCF_PIPL_TYPE = new pdef("PCF_PIPL_TYPE", "PIPL", "U", pd.Text, new Guid("af00ee7d-cfc0-4e1c-a2cf-1626e4bb7eb0"), "PIPELINE-TYPE");
         public readonly pdef PCF_PIPL_DWGNAME = new pdef("PCF_DWGNAME","PIPL","U",pd.Text, new Guid("DBD769B8-2535-481A-A602-BC0B8D8C7A16"), "Attribute5");
@@ -307,6 +307,6 @@ namespace PCF_Functions
         public const ParameterType YesNo = ParameterType.YesNo;
         #endregion
 
-        public static IList<string> parameterNames = new List<string>();
+        //public static IList<string> parameterNames = new List<string>();
     }
 }

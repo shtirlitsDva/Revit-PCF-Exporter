@@ -26,7 +26,7 @@ namespace PCF_Pipes
                 sbPipes.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
 
                 //Write Plant3DIso entries if turned on
-                if (InputVars.ExportToPlant3DIso) sbPipes.Append(Composer.Plant3DIsoWriter(element, doc));
+                if (InputVars.ExportToIsogen) sbPipes.Append(Composer.Plant3DIsoWriter(element, doc));
 
                 Pipe pipe = (Pipe)element;
                 //Get connector set for the pipes

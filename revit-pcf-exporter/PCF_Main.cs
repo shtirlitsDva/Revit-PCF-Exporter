@@ -127,7 +127,7 @@ namespace PCF_Exporter
                     }
 
                     //If exporting to ISO, remove some not needed elements
-                    if (InputVars.ExportToPlant3DIso)
+                    if (InputVars.ExportToIsogen)
                     {
                         //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
                         filtering = filtering
@@ -223,6 +223,11 @@ namespace PCF_Exporter
                         HashSet<Element> accessoryList = (from element in gp
                                                           where element.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
                                                           select element).ToHashSet();
+
+                        StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
+                        StringBuilder sbEndsAndConnections = PCF_Pipeline.EndsAndConnections
+                            .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, doc);
+
                         #region BrokenPipes
 
                         //Here be code to handle break in accessories that act as supports
@@ -238,9 +243,6 @@ namespace PCF_Exporter
                         List<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
 
                         List<Element> supportsList = accessoryList.Where(x => x.ComponentClass1(doc) == "Pipe Support").ToList();
-
-                        //To hold the pipes wich has been discarded, but still can be accessed by AllRefs from Cons
-                        HashSet<Element> discardedPipes = new HashSet<Element>();
 
                         while (supportsList.Count > 0)
                         {
@@ -277,7 +279,6 @@ namespace PCF_Exporter
                                     foreach (Element pipe in bpg.BrokenPipes)
                                     {
                                         pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
-                                        discardedPipes.Add(pipe);
                                     }
 
                                     //Using the new IEqualityComparer for Connectors to get distinct connectors in the collection
@@ -353,10 +354,6 @@ namespace PCF_Exporter
 
                         #endregion
 
-
-                        StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
-                        StringBuilder sbEndsAndConnections = PCF_Pipeline.EndsAndConnections
-                            .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, discardedPipes, doc);
                         StringBuilder sbPipes = new PCF_Pipes.PCF_Pipes_Export().Export(gp.Key, pipeList, doc);
                         StringBuilder sbFittings = new PCF_Fittings.PCF_Fittings_Export().Export(gp.Key, fittingList, doc);
                         StringBuilder sbAccessories = new PCF_Accessories.PCF_Accessories_Export().Export(gp.Key, accessoryList, doc);

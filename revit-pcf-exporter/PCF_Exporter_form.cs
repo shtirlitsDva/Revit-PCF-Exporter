@@ -32,9 +32,11 @@ namespace PCF_Exporter
         private string _excelPath = null;
         private string _LDTPath = null;
 
-        private IList<string> PCF_DATA_TABLE_NAMES = new List<string>();
-        private DataSet DATA_SET = null;
-        public static DataTable DATA_TABLE = null;
+        private DataSet dataSetElements = null;
+        public static DataTable dataTableElements = null;
+
+        private DataSet dataSetPipelines = null;
+        public static DataTable dataTablePipelines = null;
 
         public PCF_Exporter_form(ExternalCommandData cData, string message)
         {
@@ -48,39 +50,19 @@ namespace PCF_Exporter
             //Init excel path
             _excelPath = mySettings.Default.excelPath;
             textBox20.Text = _excelPath;
+            if (!string.IsNullOrEmpty(_excelPath) && File.Exists(_excelPath))
+            {
+                dataSetElements = dh.ImportExcelToDataSet(_excelPath, "YES");
+                dataTableElements = dh.ReadDataTable(dataSetElements.Tables, "Elements");
+            }
 
             //Init LDT path
             _LDTPath = mySettings.Default.LDTPath;
-            textBox11.Text = _LDTPath;
-
-            //Init data table selection
-            if (!string.IsNullOrEmpty(_excelPath))
+            textBox7.Text = _LDTPath;
+            if (!string.IsNullOrEmpty(_LDTPath) && File.Exists(_LDTPath))
             {
-                if (File.Exists(_excelPath))
-                {
-                    comboBox1.SelectedIndexChanged -= comboBox1_SelectedIndexChanged;
-
-                    DATA_SET = dh.ImportExcelToDataSet(_excelPath, "YES");
-
-                    DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
-
-                    PCF_DATA_TABLE_NAMES.Clear();
-
-                    foreach (DataTable dt in PCF_DATA_TABLES)
-                    {
-                        PCF_DATA_TABLE_NAMES.Add(dt.TableName);
-                    }
-                    //excelReader.Close();
-                    comboBox1.DataSource = PCF_DATA_TABLE_NAMES;
-
-                    comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-
-                    iv.ExcelSheet = (string)comboBox1.SelectedItem;
-                    DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
-                    ParameterData.parameterNames = null;
-                    ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
-                    ParameterData.parameterNames.RemoveAt(0);
-                }
+                dataSetPipelines = dh.ImportExcelToDataSet(_excelPath, "YES");
+                dataTablePipelines = dh.ReadDataTable(dataSetPipelines.Tables, "Pipelines");
             }
 
             //Init Scope
@@ -136,7 +118,7 @@ namespace PCF_Exporter
             iv.WriteWallThickness = mySettings.Default.radioButton12WallThkTrue;
 
             //Init export to section
-            iv.ExportToPlant3DIso = mySettings.Default.checkBox1Checked;
+            iv.ExportToIsogen = mySettings.Default.checkBox1Checked;
             iv.ExportToCII = mySettings.Default.checkBox2Checked;
 
             //Init write mode section
@@ -153,18 +135,25 @@ namespace PCF_Exporter
                 //Save excel file to settings
                 mySettings.Default.excelPath = _excelPath;
 
-                DATA_SET = dh.ImportExcelToDataSet(_excelPath, "YES");
+                dataSetElements = dh.ImportExcelToDataSet(_excelPath, "YES");
 
-                DataTableCollection PCF_DATA_TABLES = DATA_SET.Tables;
+                dataTableElements = dh.ReadDataTable(dataSetElements.Tables, "Elements");
+            }
+        }
 
-                PCF_DATA_TABLE_NAMES.Clear();
+        private void button13_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                //Get excel file
+                _LDTPath = openFileDialog2.FileName;
+                textBox7.Text = _LDTPath;
+                //Save excel file to settings
+                mySettings.Default.LDTPath = _LDTPath;
 
-                foreach (DataTable dt in PCF_DATA_TABLES)
-                {
-                    PCF_DATA_TABLE_NAMES.Add(dt.TableName);
-                }
-                //excelReader.Close();
-                comboBox1.DataSource = PCF_DATA_TABLE_NAMES;
+                dataSetPipelines = dh.ImportExcelToDataSet(_LDTPath, "YES");
+
+                dataTablePipelines = dh.ReadDataTable(dataSetPipelines.Tables, "Pipelines");
             }
         }
 
@@ -184,24 +173,13 @@ namespace PCF_Exporter
         private void button3_Click(object sender, EventArgs e)
         {
             PopulateParameters PP = new PopulateParameters();
-            PP.PopulateElementData(_uiapp, ref _message, _excelPath);
+            PP.PopulateElementData(_uiapp, ref _message, dataTableElements);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             PopulateParameters PP = new PopulateParameters();
             PP.PopulatePipelineData(_uiapp, ref _message, _excelPath);
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            iv.ExcelSheet = (string)comboBox1.SelectedItem;
-            //mySettings.Default.excelWorksheetSelectedName = iv.ExcelSheet;
-            DATA_TABLE = DATA_SET.Tables[iv.ExcelSheet];
-            ParameterData.parameterNames = null;
-            ParameterData.parameterNames = (from dc in DATA_TABLE.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
-            ParameterData.parameterNames.RemoveAt(0);
-            BuildingCoderUtilities.InfoMsg("Following parameters will be initialized:\n" + string.Join("\n", ParameterData.parameterNames.ToArray()));
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -413,7 +391,7 @@ namespace PCF_Exporter
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            iv.ExportToPlant3DIso = checkBox1.Checked;
+            iv.ExportToIsogen = checkBox1.Checked;
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)

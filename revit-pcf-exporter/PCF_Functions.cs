@@ -28,7 +28,8 @@ namespace PCF_Functions
         //Used for "global variables".
         //File I/O
         public static string OutputDirectoryFilePath;
-        public static string ExcelSheet = "COMP";
+        public static string ExcelSheetElements = "Elements";
+        public static string ExcelSheetPipelines = "Pipelines";
 
         //Execution control
         public static bool ExportAllOneFile = true;
@@ -36,7 +37,7 @@ namespace PCF_Functions
         public static bool ExportSpecificPipeLine = false;
         public static bool ExportSelection = false;
         public static bool WriteWallThickness = false;
-        public static bool ExportToPlant3DIso = false;
+        public static bool ExportToIsogen = false;
         public static bool ExportToCII = false;
         public static bool Overwrite = true;
 

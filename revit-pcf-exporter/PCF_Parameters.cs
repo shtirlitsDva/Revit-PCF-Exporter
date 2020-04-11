@@ -16,7 +16,6 @@ using PCF_Functions;
 using Shared;
 using Shared.BuildingCoder;
 using PCF_Exporter;
-using pd = PCF_Functions.ParameterData;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
 using iv = PCF_Functions.InputVars;
@@ -210,16 +209,18 @@ namespace PCF_Parameters
 
     public class PopulateParameters
     {
-        internal Result PopulateElementData(UIApplication uiApp, ref string msg, string path)
+        internal Result PopulateElementData(UIApplication uiApp, ref string msg, DataTable dataTable)
         {
+            List<string> ParameterNames = (from dc in dataTable.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
+            ParameterNames.RemoveAt(0);
             //Test to see if the list of parameter names is defined at all, if not -- break.
-            if (pd.parameterNames.IsNullOrEmpty())
+            if (ParameterNames.IsNullOrEmpty())
             {
                 BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;
             };
             Document doc = uiApp.ActiveUIDocument.Document;
-            string filename = path;
+            //string filename = path;
             StringBuilder sbFeedback = new StringBuilder();
 
             //Failure feedback
@@ -231,7 +232,7 @@ namespace PCF_Parameters
             string eFamilyType = null; string columnName = null;
 
             //query is using the variables in the loop to query the dataset
-            EnumerableRowCollection<string> query = from value in PCF_Exporter_form.DATA_TABLE.AsEnumerable()
+            EnumerableRowCollection<string> query = from value in dataTable.AsEnumerable()
                                                     where value.Field<string>(0) == eFamilyType
                                                     select value.Field<string>(columnName);
 
@@ -242,88 +243,92 @@ namespace PCF_Parameters
             //Debugging
             //StringBuilder sbParameters = new StringBuilder();
 
-            Transaction trans = new Transaction(doc, "Initialize PCF parameters");
-            trans.Start();
-
-            //Loop all elements pipes and fittings and accessories, setting parameters as defined in the dataset
-            try
+            using (Transaction trans = new Transaction(doc, "Initialize PCF parameters"))
             {
-                //Reporting the number of different elements initialized
-                int pNumber = 0, fNumber = 0, aNumber = 0;
-                foreach (Element element in collector)
+                trans.Start();
+
+                //Loop all elements pipes and fittings and accessories, setting parameters as defined in the dataset
+                try
                 {
-                    //Feedback
-                    elementRefForFeedback = element;
-
-                    //Filter out elements in ARGD (Rigids) system type
-                    Cons cons = new Cons(element);
-                    if (cons.Primary.MEPSystemAbbreviation(doc) == "ARGD") continue;
-
-                    //reporting
-                    if (string.Equals(element.Category.Name.ToString(), "Pipes")) pNumber++;
-                    else if (string.Equals(element.Category.Name.ToString(), "Pipe Fittings")) fNumber++;
-                    else if (string.Equals(element.Category.Name.ToString(), "Pipe Accessories")) aNumber++;
-
-                    eFamilyType = element.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
-                    foreach (string parameterName in pd.parameterNames) // <-- pd.parameterNames must be correctly initialized by FormCaller!!!
+                    //Reporting the number of different elements initialized
+                    int pNumber = 0, fNumber = 0, aNumber = 0;
+                    foreach (Element element in collector)
                     {
-                        columnName = parameterName; //This is needed to execute query correctly by deferred execution
-                        string parameterValue = query.FirstOrDefault();
-                        if (string.IsNullOrEmpty(parameterValue)) continue;
-                        Guid parGuid = (from d in pQuery where d.Name == parameterName select d.Guid).First();
-                        //Check if parGuid returns a match
-                        if (parGuid == null)
+                        //Feedback
+                        elementRefForFeedback = element;
+
+                        //Filter out elements in ARGD (Rigids) system type
+                        Cons cons = new Cons(element);
+                        if (cons.Primary.MEPSystemAbbreviation(doc) == "ARGD") continue;
+
+                        //reporting
+                        if (string.Equals(element.Category.Name.ToString(), "Pipes")) pNumber++;
+                        else if (string.Equals(element.Category.Name.ToString(), "Pipe Fittings")) fNumber++;
+                        else if (string.Equals(element.Category.Name.ToString(), "Pipe Accessories")) aNumber++;
+
+                        eFamilyType = element.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
+                        foreach (string parameterName in ParameterNames) // <-- ParameterNames must be correctly initialized!!!
                         {
-                            BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select ELEMENT parameters.");
-                            return Result.Failed;
+                            columnName = parameterName; //This is needed to execute query correctly by deferred execution
+                            string parameterValue = query.FirstOrDefault();
+                            if (string.IsNullOrEmpty(parameterValue)) continue;
+                            Guid parGuid = (from d in pQuery where d.Name == parameterName select d.Guid).First();
+                            //Check if parGuid returns a match
+                            if (parGuid == null)
+                            {
+                                BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select ELEMENT parameters.");
+                                return Result.Failed;
+                            }
+
+                            //Writing the parameter data
+                            //Implementing Overwrite or Append here
+                            if (iv.Overwrite) element.get_Parameter(parGuid).Set(parameterValue);
+                            else
+                            {
+                                Parameter par = element.get_Parameter(parGuid);
+                                if (string.IsNullOrEmpty(par.ToValueString())) par.Set(parameterValue);
+                                else continue;
+                            }
                         }
 
-                        //Writing the parameter data
-                        //Implementing Overwrite or Append here
-                        if (iv.Overwrite) element.get_Parameter(parGuid).Set(parameterValue);
-                        else
-                        {
-                            Parameter par = element.get_Parameter(parGuid);
-                            if (string.IsNullOrEmpty(par.ToValueString())) par.Set(parameterValue);
-                            else continue;
-                        }
+                        //sbParameters.Append(eFamilyType);
+                        //sbParameters.AppendLine();
                     }
 
                     //sbParameters.Append(eFamilyType);
                     //sbParameters.AppendLine();
+
+                    
+                    sbFeedback.Append(pNumber + " Pipes initialized.\n" + fNumber + " Pipe fittings initialized.\n" + aNumber + " Pipe accessories initialized.");
+                    BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
+                    //excelReader.Close();
+
+                    //// Debugging
+                    //// Clear the output file
+                    //File.WriteAllBytes(InputVars.OutputDirectoryFilePath + "Parameters.pcf", new byte[0]);
+
+                    //// Write to output file
+                    //using (StreamWriter w = File.AppendText(InputVars.OutputDirectoryFilePath + "Parameters.pcf"))
+                    //{
+                    //    w.Write(sbParameters);
+                    //    w.Close();
+                    //}
+                }
+                catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+                {
+                    return Result.Cancelled;
                 }
 
-                //sbParameters.Append(eFamilyType);
-                //sbParameters.AppendLine();
+                catch (Exception ex)
+                {
+                    msg = ex.Message;
+                    BuildingCoderUtilities.ErrorMsg($"Population of parameters failed with the following exception: \n" + msg +
+                                                    $"\n For element {elementRefForFeedback.Id.IntegerValue}.");
+                    trans.RollBack();
+                    return Result.Failed;
+                }
 
                 trans.Commit();
-                sbFeedback.Append(pNumber + " Pipes initialized.\n" + fNumber + " Pipe fittings initialized.\n" + aNumber + " Pipe accessories initialized.");
-                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
-                //excelReader.Close();
-
-                //// Debugging
-                //// Clear the output file
-                //File.WriteAllBytes(InputVars.OutputDirectoryFilePath + "Parameters.pcf", new byte[0]);
-
-                //// Write to output file
-                //using (StreamWriter w = File.AppendText(InputVars.OutputDirectoryFilePath + "Parameters.pcf"))
-                //{
-                //    w.Write(sbParameters);
-                //    w.Close();
-                //}
-            }
-            catch (Autodesk.Revit.Exceptions.OperationCanceledException)
-            {
-                return Result.Cancelled;
-            }
-
-            catch (Exception ex)
-            {
-                msg = ex.Message;
-                BuildingCoderUtilities.ErrorMsg($"Population of parameters failed with the following exception: \n" + msg +
-                                                $"\n For element {elementRefForFeedback.Id.IntegerValue}.");
-                trans.RollBack();
-                return Result.Failed;
             }
 
             return Result.Succeeded;
@@ -362,7 +367,7 @@ namespace PCF_Parameters
             string eFamilyType = null; string columnName = null;
 
             //query is using the variables in the loop to query the dataset
-            EnumerableRowCollection<string> query = from value in PCF_Exporter_form.DATA_TABLE.AsEnumerable()
+            EnumerableRowCollection<string> query = from value in PCF_Exporter_form.dataTableElements.AsEnumerable()
                                                     where value.Field<string>(0) == eFamilyType
                                                     select value.Field<string>(columnName);
 

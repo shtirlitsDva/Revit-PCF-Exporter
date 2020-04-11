@@ -44,7 +44,7 @@ namespace PCF_Accessories
                     sbAccessories.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
 
                     //Write Plant3DIso entries if turned on
-                    if (InputVars.ExportToPlant3DIso) sbAccessories.Append(Composer.Plant3DIsoWriter(element, doc));
+                    if (InputVars.ExportToIsogen) sbAccessories.Append(Composer.Plant3DIsoWriter(element, doc));
 
                     //Cast the elements gathered by the collector to FamilyInstances
                     FamilyInstance familyInstance = (FamilyInstance)element;
