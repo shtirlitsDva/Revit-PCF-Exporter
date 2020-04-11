@@ -108,12 +108,25 @@ namespace NTR_Exporter
                 //DiameterLimit filter applied to ALL elements.
                 //Filter out EXCLuded elements - 0 means no checkmark, GUID is for PCF_ELEM_EXCL
                 //Filter by system PCF_PIPL_EXCL: c1c2c9fe-2634-42ba-89d0-5af699f54d4c
+                //PROBLEM: If user exports selection which includes element in a PipingSystem which is not allowed
+                //PROBLEM: no elements will be exported
+                //SOLUTION: Turn off PipingSystemAllowed filter off for ExportSelection case.
                 HashSet<Element> elements = (from element in colElements
                                              where
                                              NTR_Filter.FilterDiameterLimit(element) &&
                                              element.get_Parameter(new Guid("CC8EC292-226C-4677-A32D-10B9736BFC1A")).AsInteger() == 0 &&
                                              element.PipingSystemAllowed(doc)
                                              select element).ToHashSet();
+
+                //Add the elements from ARGD (Rigids) piping system back to working set
+                //Which were filtered out by DiameterLimit, but still respecting PCF_ELEM_EXCL
+                HashSet<Element> argdElemsOutsideDiaLimit =
+                    colElements.Where(x => !NTR_Filter.FilterDiameterLimit(x) &&
+                                           x.get_Parameter(new Guid("CC8EC292-226C-4677-A32D-10B9736BFC1A")).AsInteger() == 0 &&
+                                           x.MEPSystemAbbreviation() == "ARGD").ToHashSet();
+
+                //Combine the newly found ARGD elements back to main collection
+                elements.UnionWith(argdElemsOutsideDiaLimit);
 
                 //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
                 pipelineGroups = from e in elements
@@ -124,6 +137,9 @@ namespace NTR_Exporter
 
                 //Validate if configuration has all pipelines defined
                 //Else no LAST value will be written!
+                //PROBLEM: If user has pipelines which have been marked as not allowed and do not wish to define them
+                //PROBLEM: in the configuration file, this validation will throw an error
+                //SOLUTION: Exclude the names of not allowed PipingSystems from the list.
                 List<string> pipeSysAbbrs = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(doc).ToList();
                 foreach (string sa in pipeSysAbbrs)
                 {
@@ -194,7 +210,7 @@ namespace NTR_Exporter
                                 {
                                     int j = i + 1;
                                     g.CreatedElements.Add(Pipe.Create(doc, g.HeadPipe.MEPSystem.GetTypeId(), g.HeadPipe.GetTypeId(),
-                                        g.HeadPipe.ReferenceLevel.Id, g.AllCreationPoints[i], g.AllCreationPoints[j])); //Cast to Element needed?
+                                        g.HeadPipe.ReferenceLevel.Id, g.AllCreationPoints[i], g.AllCreationPoints[j]));
                                 }
 
                                 foreach (Element el in g.CreatedElements)
@@ -204,6 +220,139 @@ namespace NTR_Exporter
 
                                 //Add created pipes to pipeList
                                 pipeList.UnionWith(g.CreatedElements);
+                            }
+
+                            //Additional nodes need to be created for internal supports
+                            //Internal supports need a separate master node for each support
+                            if (iv.IncludeSteelStructure)
+                            {
+                                Guid tag4guid = new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee");
+                                var SteelSupports = accessoryList.Where(
+                                            x => x.get_Parameter(tag4guid).AsString() == "FRAME");
+
+                                //Also modify accessoryList to remove the same said supports
+                                accessoryList = accessoryList.ExceptWhere(
+                                    x => x.get_Parameter(tag4guid).AsString() == "FRAME").ToHashSet();
+
+                                foreach (FamilyInstance fi in SteelSupports)
+                                {
+                                    string familyName = fi.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
+                                    //Currently only the following family is implemented
+                                    if (familyName == "VEKS bærering modplade")
+                                    {
+                                        Element elType = doc.GetElement(fi.GetTypeId());
+                                        bool TopBool = elType.LookupParameter("Modpl_Top_Vis").AsInteger() == 1;
+                                        bool BottomBool = elType.LookupParameter("Modpl_Bottom_Vis").AsInteger() == 1;
+                                        bool LeftBool = elType.LookupParameter("Modpl_Left_Vis").AsInteger() == 1;
+                                        bool RightBool = elType.LookupParameter("Modpl_Right_Vis").AsInteger() == 1;
+
+                                        //Count how many extra nodes are needed
+                                        int extraNodeCount = 0;
+                                        if (TopBool) extraNodeCount++;
+                                        if (BottomBool) extraNodeCount++;
+                                        if (LeftBool) extraNodeCount++;
+                                        if (RightBool) extraNodeCount++;
+
+                                        if (extraNodeCount == 0) continue;
+                                        else if (extraNodeCount == 1) continue;
+
+                                        Cons supportCons = new Cons((Element)fi);
+
+                                        //Getting the corresponding connectors with AllRefs method cannot be used
+                                        //Because if two supports reside on same pipe
+                                        //Subsequent iterations will get the original pipe, which will make overlapping segments
+                                        //So connectors must be obtained by matching geometry
+                                        //And it must be done separately at each iteration!
+
+                                        var allConnectors = MepUtils.GetALLConnectorsFromElements(pipeList)
+                                            .Where(c => c.ConnectorType == ConnectorType.End).ToHashSet();
+
+                                        var matchedPipeConnectors = allConnectors
+                                            .Where(x => supportCons.Primary.Equalz(x, 1.0.MmToFt()))
+                                            .ExceptWhere(x => x.Owner.Id.IntegerValue == fi.Id.IntegerValue);
+
+                                        //Should be a null check here -> to tired to figure it out
+                                        Connector FirstSideConStart = matchedPipeConnectors.First();
+
+                                        //Assume that supports will always be placed on pipes
+                                        Connector FirstSideConEnd = 
+                                            (from Connector c in FirstSideConStart.ConnectorManager.Connectors
+                                             where c.Id != FirstSideConStart.Id && (int)c.ConnectorType == 1
+                                             select c).FirstOrDefault();
+
+                                        Connector SecondSideConStart = matchedPipeConnectors.Last();
+
+                                        //Assume that supports will always be placed on pipes
+                                        Connector SecondSideConEnd =
+                                            (from Connector c in SecondSideConStart.ConnectorManager.Connectors
+                                             where c.Id != SecondSideConStart.Id && (int)c.ConnectorType == 1
+                                             select c).FirstOrDefault();
+
+                                        //Create help lines to help with the geometry analysis
+                                        //The point is to get a point along the line at 5 mm distance from start
+                                        Line FirstSideLine = Line.CreateBound(FirstSideConStart.Origin, FirstSideConEnd.Origin);
+                                        Line SecondSideLine = Line.CreateBound(SecondSideConStart.Origin, SecondSideConEnd.Origin);
+
+                                        List<XYZ> creationPoints = new List<XYZ>(extraNodeCount + 2);
+
+                                        if (extraNodeCount == 2)
+                                        {
+                                            creationPoints.Add(FirstSideConEnd.Origin);
+                                            creationPoints.Add(FirstSideLine.Evaluate(2.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(2.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideConEnd.Origin);
+                                        }
+
+                                        else if (extraNodeCount == 3)
+                                        {
+                                            creationPoints.Add(FirstSideConEnd.Origin);
+                                            creationPoints.Add(FirstSideLine.Evaluate(5.0.MmToFt(), false));
+                                            creationPoints.Add(FirstSideConStart.Origin);
+                                            creationPoints.Add(SecondSideLine.Evaluate(5.0.MmToFt(), false));
+                                            creationPoints.Add(SecondSideConEnd.Origin);
+                                            //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", FirstSideConStart.Origin, FirstSidePoint);
+                                            //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", SecondSideConStart.Origin, SecondSidePoint);
+                                        }
+
+                                        else if (extraNodeCount == 4)
+                                        {
+                                            creationPoints.Add(FirstSideConEnd.Origin);
+                                            creationPoints.Add(FirstSideLine.Evaluate(7.5.MmToFt(), false));
+                                            creationPoints.Add(FirstSideLine.Evaluate(2.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(2.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideLine.Evaluate(7.5.MmToFt(), false));
+                                            creationPoints.Add(SecondSideConEnd.Origin);
+                                        }
+
+                                        //Remove the original pipes from pipeList
+                                        Pipe fPipe = (Pipe)FirstSideConStart.Owner;
+                                        Pipe sPipe = (Pipe)SecondSideConStart.Owner;
+                                        pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == fPipe.Id.IntegerValue)
+                                                           .ExceptWhere(x => x.Id.IntegerValue == sPipe.Id.IntegerValue)
+                                                           .ToHashSet();
+
+                                        //Create extra pipes
+                                        HashSet<Element> createdPipes = new HashSet<Element>();
+                                        for (int i = 0; i < creationPoints.Count - 1; i++)
+                                        {
+                                            int j = i + 1;
+                                            createdPipes.Add(Pipe.Create(doc, fPipe.MEPSystem.GetTypeId(), fPipe.GetTypeId(),
+                                                fPipe.ReferenceLevel.Id, creationPoints[i], creationPoints[j]));
+                                        }
+
+                                        foreach (Element el in createdPipes)
+                                        {
+                                            el.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM).Set(fPipe.Diameter);
+                                        }
+
+                                        //Add created pipes to pipeList
+                                        pipeList.UnionWith(createdPipes);
+                                    }
+                                    else { }//Implement other possibilities later
+                                    
+                                    //This, I think, is needed to be able to interact with temporary pipes
+                                    doc.Regenerate();
+                                }
                             }
 
                             tx1.Commit();
@@ -224,6 +373,18 @@ namespace NTR_Exporter
                         outputBuilder.Append(sbFittings);
                         outputBuilder.Append(sbAccessories);
                     }
+
+                    //Include steel structure here
+                    //Requires that the Support Pipe Accessories which the structure support are filtered in the above section
+                    if (iv.IncludeSteelStructure)
+                    {
+                        StringBuilder sbSteel = new NTR_Steel(doc).ExportSteel();
+                        outputBuilder.Append(sbSteel);
+
+                        StringBuilder sbBoundaryConds = new NTR_Steel(doc).ExportBoundaryConditions();
+                        outputBuilder.Append(sbBoundaryConds);
+                    }
+
                     #region Debug
                     //string ids = string.Empty;
                     //foreach (var g in nbifAllList) foreach (var e in g.CreatedElements) ids += e.Id.ToString() + "\n";
@@ -231,6 +392,7 @@ namespace NTR_Exporter
                     #endregion
 
                     txGp.RollBack(); //Rollback the extra elements created
+                    //txGp.Commit(); //For debug purposes can be uncommented
                 }
                 #endregion
 

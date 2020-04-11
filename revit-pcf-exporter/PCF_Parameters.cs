@@ -95,7 +95,7 @@ namespace PCF_Parameters
                 if (Elements.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == gp.Key)) continue;
                 worksheet.Cells[row, col] = gp.Key;
                 row++;
-            } 
+            }
             #endregion
         }
 
@@ -222,6 +222,9 @@ namespace PCF_Parameters
             string filename = path;
             StringBuilder sbFeedback = new StringBuilder();
 
+            //Failure feedback
+            Element elementRefForFeedback = null;
+
             FilteredElementCollector collector = Shared.Filter.GetElementsWithConnectors(doc);
 
             //prepare input variables which are initialized when looping the elements
@@ -249,6 +252,13 @@ namespace PCF_Parameters
                 int pNumber = 0, fNumber = 0, aNumber = 0;
                 foreach (Element element in collector)
                 {
+                    //Feedback
+                    elementRefForFeedback = element;
+
+                    //Filter out elements in ARGD (Rigids) system type
+                    Cons cons = new Cons(element);
+                    if (cons.Primary.MEPSystemAbbreviation(doc) == "ARGD") continue;
+
                     //reporting
                     if (string.Equals(element.Category.Name.ToString(), "Pipes")) pNumber++;
                     else if (string.Equals(element.Category.Name.ToString(), "Pipe Fittings")) fNumber++;
@@ -310,7 +320,8 @@ namespace PCF_Parameters
             catch (Exception ex)
             {
                 msg = ex.Message;
-                BuildingCoderUtilities.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
+                BuildingCoderUtilities.ErrorMsg($"Population of parameters failed with the following exception: \n" + msg +
+                                                $"\n For element {elementRefForFeedback.Id.IntegerValue}.");
                 trans.RollBack();
                 return Result.Failed;
             }
@@ -429,7 +440,7 @@ namespace PCF_Parameters
             return Result.Succeeded;
         }
 
-        
+
     }
 
     public class CreateParameterBindings
@@ -525,8 +536,7 @@ namespace PCF_Parameters
 
             //Parameter query
             var query = from p in new plst().LPAll
-                        where p.Domain == "PIPL" ||
-                              p.Name == "PCF_PIPL_EXCL"
+                        where (p.Domain == "PIPL" || p.Name == "PCF_PIPL_EXCL") && p.ExportingTo != "LDT"
                         select p;
 
             //Create parameter bindings

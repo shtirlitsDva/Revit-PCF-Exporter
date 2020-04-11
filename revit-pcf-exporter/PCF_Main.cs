@@ -24,6 +24,7 @@ namespace PCF_Exporter
             // UIApplication uiApp = commandData.Application;
             //Test comment
             Document doc = uiApp.ActiveUIDocument.Document;
+            UIDocument uidoc = uiApp.ActiveUIDocument;
 
             try
             {
@@ -110,12 +111,12 @@ namespace PCF_Exporter
                 {
                     //DiameterLimit filter applied to ALL elements.
                     var filtering = from element in colElements where FilterDiameterLimit.FilterDL(element) select element;
-                    
+
                     //Filter out EXCLUDED elements -> 0 means no checkmark
                     filtering = from element in filtering
-                                     where element.get_Parameter(new plst().PCF_ELEM_EXCL.Guid).AsInteger() == 0
-                                     select element;
-                    
+                                where element.get_Parameter(new plst().PCF_ELEM_EXCL.Guid).AsInteger() == 0
+                                select element;
+
                     //Remove instrument pipes
                     filtering = filtering.ExceptWhere(x => x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
                                                       .AsString() == "INSTR");
@@ -124,12 +125,19 @@ namespace PCF_Exporter
                     {
                         filtering = filtering.ExceptWhere(x => x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == InputVars.PCF_ELEM_SPEC_FILTER);
                     }
-                    
-                    //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
+
+                    //If exporting to ISO, remove some not needed elements
                     if (InputVars.ExportToPlant3DIso)
                     {
+                        //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
                         filtering = filtering
                             .Where(x => !(x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD"));
+
+                        ////Also remove anchor symbols -> not needed for ISO
+                        ////Currently not removed -> used for floor symbols
+                        //filtering = filtering.ExceptWhere(x => x
+                        //    .get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
+                        //    .AsValueString() == "Support Symbolic: ANC");
                     }
 
                     //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
@@ -157,6 +165,7 @@ namespace PCF_Exporter
                 {
                     if (string.IsNullOrEmpty(e.get_Parameter(new plst().PCF_MAT_DESCR.Guid).AsString()))
                     {
+                        uidoc.Selection.SetElementIds(new List<ElementId>(1) { e.Id });
                         BuildingCoderUtilities.ErrorMsg("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
                         throw new Exception("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
                     }
@@ -228,7 +237,10 @@ namespace PCF_Exporter
 
                         List<BrokenPipesGroup> bpgList = new List<BrokenPipesGroup>();
 
-                        List<Element> supportsList = accessoryList.Where(x => x.ComponentClass1() == "Pipe Support").ToList();
+                        List<Element> supportsList = accessoryList.Where(x => x.ComponentClass1(doc) == "Pipe Support").ToList();
+
+                        //To hold the pipes wich has been discarded, but still can be accessed by AllRefs from Cons
+                        HashSet<Element> discardedPipes = new HashSet<Element>();
 
                         while (supportsList.Count > 0)
                         {
@@ -260,11 +272,12 @@ namespace PCF_Exporter
                                 //Remove the broken pipes from the pipeList
                                 //If there's only one broken pipe, then there's no need to do anything
                                 //If there's no broken pipes, then there's no need to do anything either
-                                if (bpg.BrokenPipes.Count != 0 || bpg.BrokenPipes.Count != 1)
+                                if (bpg.BrokenPipes.Count != 0 && bpg.BrokenPipes.Count != 1)
                                 {
                                     foreach (Element pipe in bpg.BrokenPipes)
                                     {
                                         pipeList = pipeList.ExceptWhere(x => x.Id.IntegerValue == pipe.Id.IntegerValue).ToHashSet();
+                                        discardedPipes.Add(pipe);
                                     }
 
                                     //Using the new IEqualityComparer for Connectors to get distinct connectors in the collection
@@ -272,8 +285,10 @@ namespace PCF_Exporter
                                     //Create distinct pair combinations with distance from all broken connectors
                                     //https://stackoverflow.com/a/47003122/6073998
                                     List<(Connector c1, Connector c2, double dist)> pairs = brokenCons
-                                        .SelectMany((fst, i) => brokenCons.Skip(i + 1)
-                                        .Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin))))
+                                        .SelectMany
+                                            (
+                                                (fst, i) => brokenCons.Skip(i + 1).Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin)))
+                                            )
                                         .ToList();
                                     var longest = pairs.MaxBy(x => x.dist).FirstOrDefault();
                                     Pipe dPipe = (Pipe)longest.c1.Owner;
@@ -340,11 +355,14 @@ namespace PCF_Exporter
 
 
                         StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
+                        StringBuilder sbEndsAndConnections = PCF_Pipeline.EndsAndConnections
+                            .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, discardedPipes, doc);
                         StringBuilder sbPipes = new PCF_Pipes.PCF_Pipes_Export().Export(gp.Key, pipeList, doc);
                         StringBuilder sbFittings = new PCF_Fittings.PCF_Fittings_Export().Export(gp.Key, fittingList, doc);
                         StringBuilder sbAccessories = new PCF_Accessories.PCF_Accessories_Export().Export(gp.Key, accessoryList, doc);
 
-                        sbCollect.Append(sbPipeline); sbCollect.Append(sbPipes); sbCollect.Append(sbFittings); sbCollect.Append(sbAccessories);
+                        sbCollect.Append(sbPipeline); sbCollect.Append(sbEndsAndConnections);
+                        sbCollect.Append(sbPipes); sbCollect.Append(sbFittings); sbCollect.Append(sbAccessories);
                     }
                     #endregion 
 

@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.IO;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Shared.BuildingCoder;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
+using mySettings = PCF_Functions.Properties.Settings;
 
 namespace PCF_Pipeline
 {
     public class PCF_Pipeline_Export
     {
+        plst Plst = new plst();
+
         public StringBuilder Export(string key, Document doc)
         {
             StringBuilder sbPipeline = new StringBuilder();
@@ -24,25 +27,60 @@ namespace PCF_Pipeline
                 //Get the elements
                 collector.OfClass(typeof (PipingSystemType));
                 //Select correct systemType
-                PipingSystemType sQuery = (from PipingSystemType st in collector
+                PipingSystemType pipingSystemType = (from PipingSystemType st in collector
                     where string.Equals(st.Abbreviation, key)
                     select st).FirstOrDefault();
             
-                IEnumerable<pdef> query = from p in new plst().LPAll
-                    where string.Equals(p.Domain, "PIPL") && !string.Equals(p.ExportingTo, "CII")
+                IEnumerable<pdef> query = from p in Plst.LPAll
+                    where string.Equals(p.Domain, "PIPL") &&
+                    !string.Equals(p.ExportingTo, "CII") &&
+                    !string.Equals(p.ExportingTo, "LDT")
                     select p;
 
                 sbPipeline.Append("PIPELINE-REFERENCE ");
                 sbPipeline.Append(key);
                 sbPipeline.AppendLine();
 
+                if (PCF_Functions.InputVars.ExportToPlant3DIso)
+                {
+                    //Facilitate export to Plant 3D iso
+                    //This is where PipeSystemAbbreviation is stored
+                    sbPipeline.Append("    ");
+                    sbPipeline.Append("Attribute10");
+                    sbPipeline.Append(" ");
+                    sbPipeline.Append(key);
+                    sbPipeline.AppendLine();
+
+                    string LDTPath = mySettings.Default.LDTPath;
+                    if (!string.IsNullOrEmpty(LDTPath) && File.Exists(LDTPath))
+                    {
+                        var dataSet = Shared.DataHandler.ImportExcelToDataSet(LDTPath, "YES");
+                        var data = Shared.DataHandler.ReadDataTable(dataSet.Tables, "Pipelines");
+                        var lineId = pipingSystemType.get_Parameter(Plst.PCF_PIPL_LINEID.Guid).AsString();
+
+                        var LdtPars = Plst.LPAll.Where(x => x.ExportingTo == "LDT");
+                        foreach (pdef par in LdtPars)
+                        {
+                            var value = Shared.DataHandler.ReadParameterFromDataTable(lineId, data, par.Name);
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                sbPipeline.Append("    ");
+                                sbPipeline.Append(par.Keyword);
+                                sbPipeline.Append(" ");
+                                sbPipeline.Append(value);
+                                sbPipeline.AppendLine();
+                            }
+                        }
+                    }
+                }
+
                 foreach (pdef p in query)
                 {
-                    if (string.IsNullOrEmpty(sQuery.get_Parameter(p.Guid).AsString())) continue;
+                    if (string.IsNullOrEmpty(pipingSystemType.get_Parameter(p.Guid).AsString())) continue;
                     sbPipeline.Append("    ");
                     sbPipeline.Append(p.Keyword);
                     sbPipeline.Append(" ");
-                    sbPipeline.Append(sQuery.get_Parameter(p.Guid).AsString());
+                    sbPipeline.Append(pipingSystemType.get_Parameter(p.Guid).AsString());
                     sbPipeline.AppendLine();
                 }
             }

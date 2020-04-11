@@ -260,7 +260,7 @@ namespace PCF_Functions
         }
     }
 
-    public class EndWriter
+    public static class EndWriter
     {
         internal static string PointStringMm(XYZ p)
         {
@@ -268,6 +268,16 @@ namespace PCF_Functions
                 Math.Round(p.X.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
                 Math.Round(p.Y.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
                 Math.Round(p.Z.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")));
+        }
+
+        public static StringBuilder WriteEP(XYZ endPoint)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            sbEndWriter.Append("    END-POINT ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(endPoint));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(endPoint));
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
         }
 
         public static StringBuilder WriteEP1(Element element, Connector connector)
@@ -416,6 +426,17 @@ namespace PCF_Functions
             return sbEndWriter;
         }
 
+        public static StringBuilder WriteCO(FamilyInstance familyInstance)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            XYZ elementLocation = ((LocationPoint)familyInstance.Location).Point;
+            sbEndWriter.Append("    CO-ORDS ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(elementLocation));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(elementLocation));
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
+
     }
 
     public class ScheduleCreator
@@ -540,8 +561,21 @@ namespace PCF_Functions
                     schedPipeline.Definition.AddSortGroupField(sortGroupField);
                 }
 
-                curDomain = "PIPL";
-                foreach (pdef pDef in query.ToList())
+                //curDomain = "PIPL";
+                List<pdef> parList = new List<pdef>();
+                plst Plst = new plst();
+                parList.Add(Plst.PCF_PIPL_LINEID);
+                parList.Add(Plst.PCF_PIPL_NOMCLASS);
+                parList.Add(Plst.PCF_PIPL_TEMP);
+                parList.Add(Plst.PCF_PIPL_AREA);
+                parList.Add(Plst.PCF_PIPL_PROJID);
+                parList.Add(Plst.PCF_PIPL_DATE);
+                parList.Add(Plst.PCF_PIPL_DWGNAME);
+                parList.Add(Plst.PCF_PIPL_REV);
+                parList.Add(Plst.PCF_PIPL_TEGN);
+                parList.Add(Plst.PCF_PIPL_KONTR);
+                parList.Add(Plst.PCF_PIPL_GODK);
+                foreach (pdef pDef in parList)
                 {
                     SharedParameterElement parameter = (from SharedParameterElement param in sharedParameters
                                                         where param.GuidValue.CompareTo(pDef.Guid) == 0
@@ -653,6 +687,18 @@ namespace PCF_Functions
                 wallThkParameter.Set(data);
             }
         }
+
+        internal static string ParameterValue(string keyword, string[] parNames, Element element)
+        {
+            List<string> values = new List<string>();
+            foreach (string name in parNames)
+            {
+                string value = element.LookupParameter(name)?.ToValueString();
+                if (!value.IsNullOrEmpty()) values.Add(value);
+            }
+            if (values.Count < 1) return "";
+            else return $"    {keyword} {string.Join("_", values)}\n";
+        }
     }
 
     public class BrokenPipesGroup
@@ -744,9 +790,16 @@ namespace PCF_Functions
             Connector start = null;
             //Initialize first loop
             start = firstSideCon;
+            //Loop guard
+            int i = 0;
 
             while (Continue)
             {
+                //Loop guard, if too many iterations something is wrong
+                i++;
+                if (i > 10000) throw new Exception("Traverse loop in BrokenPipes has reached 10000 iterations -> something is wrong! \n" +
+                                                   "Do you really have 10000 pipe pieces?");
+
                 //Using a seed connector, "start", get the next element
                 //If "start" does not yield a connector to continue on -> stop this side
                 //Determine if next element is eligible for continue
@@ -770,13 +823,13 @@ namespace PCF_Functions
                         //Dead end -> first side done -> continue second side
                         firstSideDone = true; start = secondSideCon; continue;
                     }
-                    else break; //Dead end -> both sides done -> end traversal loop
+                    else { Continue = false; break; } //Dead end -> both sides done -> end traversal loop
                 }
 
                 Element elementToConsider = refCon.Owner;
 
                 //Determine if the element is a support
-                bool isSupport = elementToConsider.ComponentClass1() == "Pipe Support";
+                bool isSupport = elementToConsider.ComponentClass1(doc) == "Pipe Support";
 
                 //Continuation 1a
                 string elementSysAbr = elementToConsider.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
@@ -787,7 +840,7 @@ namespace PCF_Functions
                         //Dead end -> first side done -> continue second side
                         firstSideDone = true; start = secondSideCon; continue;
                     }
-                    else break; //Dead end -> both sides done -> end traversal
+                    else { Continue = false; break; } //Dead end -> both sides done -> end traversal
                 }
 
                 //Continuation 1b
@@ -799,7 +852,7 @@ namespace PCF_Functions
                         //Dead end -> first side done -> continue second side
                         firstSideDone = true; start = secondSideCon; continue;
                     }
-                    else break; //Dead end -> both sides done -> end traversal
+                    else { Continue = false; break; } //Dead end -> both sides done -> end traversal
                 }
 
                 switch (elementToConsider)
@@ -820,7 +873,7 @@ namespace PCF_Functions
                                 //Dead end -> first side done -> continue second side
                                 firstSideDone = true; start = secondSideCon; continue;
                             }
-                            else break; //Dead end -> both sides done -> end traversal
+                            else { Continue = false; break; } //Dead end -> both sides done -> end traversal
                         }
                         //Break condition 2: Element is a PipeAccessory and NOT a support
                         if (elementToConsider.Category.Id.IntegerValue == (int)BuiltInCategory.OST_PipeAccessory
@@ -831,7 +884,7 @@ namespace PCF_Functions
                                 //Dead end -> first side done -> continue second side
                                 firstSideDone = true; start = secondSideCon; continue;
                             }
-                            else break; //Dead end -> both sides done -> end traversal
+                            else { Continue = false; break; } //Dead end -> both sides done -> end traversal
                         }
                         //If execution reaches this part, then the element is a support and is eligible for consideration
                         SupportsOnPipe.Add(elementToConsider);

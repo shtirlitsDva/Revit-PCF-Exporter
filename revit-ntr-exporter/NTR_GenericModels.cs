@@ -10,6 +10,7 @@ using Shared;
 
 namespace NTR_Exporter
 {
+    //DEPRECATE
     class NTR_GenericModels
     {
         public static StringBuilder ExportHangers(ConfigurationData conf, Document doc)

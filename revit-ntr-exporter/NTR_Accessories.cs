@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +25,10 @@ namespace NTR_Exporter
                 if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(fat, conf.Supports, "KIND");
                 if (string.IsNullOrEmpty(kind)) kind = dw.ReadElementTypeFromDataTable(fat, conf.Flexjoints, "KIND");
                 if (string.IsNullOrEmpty(kind)) throw new Exception ($"{fat} is not defined in the configuration file!");
+
+                //Support for steel frames and supports that interact with steel
+                //For now TAG 4 parameter is used with string "FRAME" to denote steel frame support
+                if (InputVars.IncludeSteelStructure) if (dw.ParameterValue("", "TAG 4", element).Contains("FRAME")) continue;
 
                 //Write element kind
                 sbAccessories.Append(kind);
@@ -93,6 +97,8 @@ namespace NTR_Exporter
                     case "QSVX":
                     case "FLVXY":
                     case "AX":
+                    case "FLAX":
+                    case "QSAX":
                         sbAccessories.Append(dw.PointCoords("PNAME", element));
                         sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Supports, "MALL"));
                         sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));

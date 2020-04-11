@@ -68,5 +68,8 @@
     <Setting Name="TextBoxFilterPCF_ELEM_SPEC" Type="System.String" Scope="User">
       <Value Profile="(Default)">EXISTING</Value>
     </Setting>
+    <Setting Name="LDTPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
