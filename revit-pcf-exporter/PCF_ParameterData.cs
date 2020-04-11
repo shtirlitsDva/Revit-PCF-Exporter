@@ -74,7 +74,7 @@ namespace PCF_Functions
         public readonly pdef PCF_MAT_ID = new pdef("PCF_MAT_ID", "ELEM", "P", pd.Integer, new Guid("fc5d3b19-af5b-47f6-a269-149b701c9364"), "MATERIAL-IDENTIFIER");
 
         //Pipeline parameters
-        public readonly pdef PCF_PIPL_LINEID = new pdef("PCF_LINEID", "PIPL", "U", pd.Text, new Guid("A12D0564-A8D9-451A-9800-5704EB1E7B75"), "Attribute4");
+        public readonly pdef PCF_PIPL_LINEID = new pdef("PCF_LINEID", "PIPL", "U", pd.Text, new Guid("A12D0564-A8D9-451A-9800-5704EB1E7B75"), "LINE-ID");
         public readonly pdef PCF_PIPL_AREA = new pdef("PCF_AREA", "PIPL", "U", pd.Text, new Guid("DE15EB1B-CFD1-418B-80F2-D24D321130BC"), "Attribute1");
         public readonly pdef PCF_PIPL_DATE = new pdef("PCF_DATE", "PIPL", "U", pd.Text, new Guid("6F6D1903-CC39-4353-85ED-0AA5AEF1C815"), "Attribute3");
         //public readonly pdef PCF_PIPL_GRAV = new pdef("PCF_PIPL_GRAV", "PIPL", "U", pd.Text, new Guid("a32c0713-a6a5-4e6c-9a6b-d96e82159611"), "SPECIFIC-GRAVITY");
