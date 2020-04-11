@@ -65,8 +65,11 @@ namespace PCF_Exporter
                 dataTablePipelines = dh.ReadDataTable(dataSetPipelines.Tables, "Pipelines");
             }
 
-            //Init Scope
+            //Init PROJECT-IDENTIFIER
+            //textBox11.Text = mySettings.Default.TextBox11PROJECTIDENTIFIER;
+            iv.PCF_PROJECT_IDENTIFIER = mySettings.Default.TextBox11PROJECTIDENTIFIER;
 
+            //Init Scope
             //Gather all physical piping systems and collect distinct abbreviations
             pipeLinesAbbreviations = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
 
@@ -179,7 +182,7 @@ namespace PCF_Exporter
         private void button7_Click(object sender, EventArgs e)
         {
             PopulateParameters PP = new PopulateParameters();
-            PP.PopulatePipelineData(_uiapp, ref _message, _excelPath);
+            PP.PopulatePipelineData(_uiapp, ref _message, dataTablePipelines);
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -430,6 +433,11 @@ namespace PCF_Exporter
                 //Save excel file to settings
                 mySettings.Default.LDTPath = _LDTPath;
             }
+        }
+
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+            iv.PCF_PROJECT_IDENTIFIER = textBox11.Text;
         }
     }
 }

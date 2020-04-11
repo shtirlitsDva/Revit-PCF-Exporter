@@ -31,6 +31,9 @@ namespace PCF_Functions
         public static string ExcelSheetElements = "Elements";
         public static string ExcelSheetPipelines = "Pipelines";
 
+        //PCF PROJECT-IDENTIFIER value setting
+        public static string PCF_PROJECT_IDENTIFIER = "";
+
         //Execution control
         public static bool ExportAllOneFile = true;
         public static bool ExportAllSepFiles = false;

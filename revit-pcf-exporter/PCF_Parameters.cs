@@ -335,16 +335,17 @@ namespace PCF_Parameters
 
         }
 
-        internal Result PopulatePipelineData(UIApplication uiApp, ref string msg, string path)
+        internal Result PopulatePipelineData(UIApplication uiApp, ref string msg, DataTable dataTable)
         {
+            List<string> ParameterNames = (from dc in dataTable.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
+            ParameterNames.RemoveAt(0);
             //Test to see if the list of parameter names is defined at all, if not -- break.
-            if (pd.parameterNames.IsNullOrEmpty())
+            if (ParameterNames.IsNullOrEmpty())
             {
                 BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;
             };
             Document doc = uiApp.ActiveUIDocument.Document;
-            string filename = path;
             StringBuilder sbFeedback = new StringBuilder();
 
             //Get the systems of things and get the SystemTypes
@@ -379,68 +380,71 @@ namespace PCF_Parameters
             //Debugging
             //StringBuilder sbParameters = new StringBuilder();
 
-            Transaction trans = new Transaction(doc, "Initialize PCF parameters");
-            trans.Start();
-
-            //Loop all elements pipes and fittings and accessories, setting parameters as defined in the dataset
-            try
+            using (Transaction trans = new Transaction(doc, "Initialize PCF parameters"))
             {
-                //Reporting the number of different elements initialized
-                int sNumber = 0;
-                foreach (Element element in sQuery)
-                {
-                    //reporting
-                    sNumber++;
+                trans.Start();
 
-                    eFamilyType = "Piping System: " + element.Name;
-                    foreach (string parameterName in pd.parameterNames) // <-- pd.parameterNames must be correctly initialized by FormCaller!!!
+                //Loop all elements pipes and fittings and accessories, setting parameters as defined in the dataset
+                try
+                {
+                    //Reporting the number of different elements initialized
+                    int sNumber = 0;
+                    foreach (Element element in sQuery)
                     {
-                        columnName = parameterName; //This is needed to execute query correctly by deferred execution
-                        string parameterValue = query.FirstOrDefault();
-                        if (string.IsNullOrEmpty(parameterValue)) continue;
-                        Guid parGuid = (from d in pQuery.ToList() where d.Name == parameterName select d.Guid).First();
-                        //Check if parGuid returns a match
-                        if (parGuid == null)
+                        //reporting
+                        sNumber++;
+
+                        eFamilyType = "Piping System: " + element.Name;
+                        foreach (string parameterName in pd.parameterNames) // <-- pd.parameterNames must be correctly initialized by FormCaller!!!
                         {
-                            BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select PIPELINE parameters.");
-                            return Result.Failed;
+                            columnName = parameterName; //This is needed to execute query correctly by deferred execution
+                            string parameterValue = query.FirstOrDefault();
+                            if (string.IsNullOrEmpty(parameterValue)) continue;
+                            Guid parGuid = (from d in pQuery.ToList() where d.Name == parameterName select d.Guid).First();
+                            //Check if parGuid returns a match
+                            if (parGuid == null)
+                            {
+                                BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select PIPELINE parameters.");
+                                return Result.Failed;
+                            }
+                            element.get_Parameter(parGuid).Set(parameterValue);
                         }
-                        element.get_Parameter(parGuid).Set(parameterValue);
+
+                        //sbParameters.Append(eFamilyType);
+                        //sbParameters.AppendLine();
                     }
 
                     //sbParameters.Append(eFamilyType);
                     //sbParameters.AppendLine();
+                    //}
+                    
+                    sbFeedback.Append(sNumber + " Pipe Systems (Pipelines) initialized.\n");
+                    BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
+                    //excelReader.Close();
+
+                    //// Debugging
+                    //// Clear the output file
+                    //File.WriteAllBytes(InputVars.OutputDirectoryFilePath + "Parameters.pcf", new byte[0]);
+
+                    //// Write to output file
+                    //using (StreamWriter w = File.AppendText(InputVars.OutputDirectoryFilePath + "Parameters.pcf"))
+                    //{
+                    //    w.Write(sbParameters);
+                    //    w.Close();
+                    //}
                 }
-
-                //sbParameters.Append(eFamilyType);
-                //sbParameters.AppendLine();
-                //}
+                catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+                {
+                    return Result.Cancelled;
+                }
+                catch (Exception ex)
+                {
+                    msg = ex.Message;
+                    BuildingCoderUtilities.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
+                    trans.RollBack();
+                    return Result.Failed;
+                }
                 trans.Commit();
-                sbFeedback.Append(sNumber + " Pipe Systems (Pipelines) initialized.\n");
-                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
-                //excelReader.Close();
-
-                //// Debugging
-                //// Clear the output file
-                //File.WriteAllBytes(InputVars.OutputDirectoryFilePath + "Parameters.pcf", new byte[0]);
-
-                //// Write to output file
-                //using (StreamWriter w = File.AppendText(InputVars.OutputDirectoryFilePath + "Parameters.pcf"))
-                //{
-                //    w.Write(sbParameters);
-                //    w.Close();
-                //}
-            }
-            catch (Autodesk.Revit.Exceptions.OperationCanceledException)
-            {
-                return Result.Cancelled;
-            }
-            catch (Exception ex)
-            {
-                msg = ex.Message;
-                BuildingCoderUtilities.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
-                trans.RollBack();
-                return Result.Failed;
             }
             return Result.Succeeded;
         }
