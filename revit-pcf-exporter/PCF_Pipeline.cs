@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Data;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Shared.BuildingCoder;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
 using mySettings = PCF_Functions.Properties.Settings;
+using iv = PCF_Functions.InputVars;
 
 namespace PCF_Pipeline
 {
@@ -25,17 +27,17 @@ namespace PCF_Pipeline
                 //Instantiate collector
                 FilteredElementCollector collector = new FilteredElementCollector(doc);
                 //Get the elements
-                collector.OfClass(typeof (PipingSystemType));
+                collector.OfClass(typeof(PipingSystemType));
                 //Select correct systemType
                 PipingSystemType pipingSystemType = (from PipingSystemType st in collector
-                    where string.Equals(st.Abbreviation, key)
-                    select st).FirstOrDefault();
-            
+                                                     where string.Equals(st.Abbreviation, key)
+                                                     select st).FirstOrDefault();
+
                 IEnumerable<pdef> query = from p in Plst.LPAll
-                    where string.Equals(p.Domain, "PIPL") &&
-                    !string.Equals(p.ExportingTo, "CII") &&
-                    !string.Equals(p.ExportingTo, "LDT")
-                    select p;
+                                          where string.Equals(p.Domain, "PIPL") &&
+                                          !string.Equals(p.ExportingTo, "CII") &&
+                                          !string.Equals(p.ExportingTo, "LDT")
+                                          select p;
 
                 sbPipeline.Append("PIPELINE-REFERENCE ");
                 sbPipeline.Append(key);
@@ -56,12 +58,23 @@ namespace PCF_Pipeline
                     {
                         var dataSet = Shared.DataHandler.ImportExcelToDataSet(LDTPath, "YES");
                         var data = Shared.DataHandler.ReadDataTable(dataSet.Tables, "Pipelines");
-                        var lineId = pipingSystemType.get_Parameter(Plst.PCF_PIPL_LINEID.Guid).AsString();
+
+                        string sysAbbr = pipingSystemType.get_Parameter(BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM).AsString();
+                        string parName = "";
+
+                        EnumerableRowCollection<string> ldtQuery = from value in data.AsEnumerable()
+                                                                   where value.Field<string>(0) == iv.PCF_PROJECT_IDENTIFIER &&
+                                                                         value.Field<string>(1) == sysAbbr
+                                                                   select value.Field<string>(parName);
+
+                        //var lineId = pipingSystemType.get_Parameter(Plst.PCF_PIPL_LINEID.Guid).AsString();
 
                         var LdtPars = Plst.LPAll.Where(x => x.ExportingTo == "LDT");
                         foreach (pdef par in LdtPars)
                         {
-                            var value = Shared.DataHandler.ReadParameterFromDataTable(lineId, data, par.Name);
+                            parName = par.Name;
+                            string value = ldtQuery.FirstOrDefault();
+
                             if (!string.IsNullOrEmpty(value))
                             {
                                 sbPipeline.Append("    ");

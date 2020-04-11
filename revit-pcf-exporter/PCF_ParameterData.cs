@@ -36,7 +36,7 @@ namespace PCF_Functions
         public ParameterType Type { get; }
         public Guid Guid { get; }
         public string Keyword { get; } //The keyword as defined in the PCF reference guide.
-        public string ExportingTo { get; } = null; //Currently used with CII export to distinguish CII parameters from other PIPL parameters.
+        public string ExportingTo { get; } = null; //CII export to CII, LDT export to ISOGEN
     }
 
     public class ParameterList
@@ -94,9 +94,9 @@ namespace PCF_Functions
         public readonly pdef PCF_PIPL_TEMP = new pdef("PCF_TEMP", "PIPL", "U", pd.Text, new Guid("4CF40C73-7631-40B3-BA98-03994F3E0FD0"), "PIPELINE-TEMP");
         //public readonly pdef PCF_PIPL_TRACING = new pdef("PCF_PIPL_TRACING", "PIPL", "U", pd.Text, new Guid("9d463d11-c9e8-4160-ac55-578795d11b1d"), "TRACING-SPEC");
         //public readonly pdef PCF_PIPL_TYPE = new pdef("PCF_PIPL_TYPE", "PIPL", "U", pd.Text, new Guid("af00ee7d-cfc0-4e1c-a2cf-1626e4bb7eb0"), "PIPELINE-TYPE");
-        public readonly pdef PCF_PIPL_DWGNAME = new pdef("PCF_DWGNAME","PIPL","U",pd.Text, new Guid("DBD769B8-2535-481A-A602-BC0B8D8C7A16"), "Attribute5");
-        public readonly pdef PCF_PIPL_NDTMSG = new pdef("PCF_NDTMSG", "PIPL", "U", pd.Text, new Guid("C910ACC3-953B-4059-8CB8-4F40905BD837"), "Attribute61", "LDT");
-        public readonly pdef PCF_PIPL_CUTOFF = new pdef("PCF_CUTOFF", "PIPL", "U", pd.Text, new Guid("22F17C99-727D-404D-AACD-151A9AEA6728"), "Attribute62", "LDT");
+        public readonly pdef PCF_PIPL_DWGNAME = new pdef("PCF_DWGNAME","PIPL","U",pd.Text, new Guid("DBD769B8-2535-481A-A602-BC0B8D8C7A16"), "Attribute4");
+        public readonly pdef PCF_PIPL_NDTMSG = new pdef("PCF_NDTMSG", "PIPL", "U", pd.Text, new Guid("C910ACC3-953B-4059-8CB8-4F40905BD837"), "Attribute5", "LDT");
+        public readonly pdef PCF_PIPL_CUTOFF = new pdef("PCF_CUTOFF", "PIPL", "U", pd.Text, new Guid("22F17C99-727D-404D-AACD-151A9AEA6728"), "Attribute6", "LDT");
         public readonly pdef PCF_PIPL_TEGN = new pdef("PCF_TEGN", "PIPL", "U", pd.Text, new Guid("718A6AF7-8068-40C0-94FD-B2D387DBBE87"), "Attribute7");
         public readonly pdef PCF_PIPL_KONTR = new pdef("PCF_KONTR", "PIPL", "U", pd.Text, new Guid("DCD496AC-ACFD-4492-A7D9-EBC562559E2A"), "Attribute8");
         public readonly pdef PCF_PIPL_GODK = new pdef("PCF_GODK", "PIPL", "U", pd.Text, new Guid("A0A067D4-49BB-4E4B-91FB-F30F9E189005"), "Attribute9");

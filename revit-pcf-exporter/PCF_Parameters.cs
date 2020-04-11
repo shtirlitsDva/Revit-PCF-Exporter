@@ -298,7 +298,7 @@ namespace PCF_Parameters
                     //sbParameters.Append(eFamilyType);
                     //sbParameters.AppendLine();
 
-                    
+
                     sbFeedback.Append(pNumber + " Pipes initialized.\n" + fNumber + " Pipe fittings initialized.\n" + aNumber + " Pipe accessories initialized.");
                     BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
                     //excelReader.Close();
@@ -339,6 +339,7 @@ namespace PCF_Parameters
         {
             List<string> ParameterNames = (from dc in dataTable.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
             ParameterNames.RemoveAt(0);
+            ParameterNames.RemoveAt(0);
             //Test to see if the list of parameter names is defined at all, if not -- break.
             if (ParameterNames.IsNullOrEmpty())
             {
@@ -365,16 +366,18 @@ namespace PCF_Parameters
                                     select stGroup.First()).ToList();
 
             //prepare input variables which are initialized when looping the elements
-            string eFamilyType = null; string columnName = null;
+            string sysAbbr = null; string columnName = null;
 
             //query is using the variables in the loop to query the dataset
-            EnumerableRowCollection<string> query = from value in PCF_Exporter_form.dataTableElements.AsEnumerable()
-                                                    where value.Field<string>(0) == eFamilyType
+            EnumerableRowCollection<string> query = from value in dataTable.AsEnumerable()
+                                                    where value.Field<string>(0) == iv.PCF_PROJECT_IDENTIFIER &&
+                                                          value.Field<string>(1) == sysAbbr
                                                     select value.Field<string>(columnName);
 
             //Get a query for pipeline parameters
             var pQuery = from p in new plst().LPAll
-                         where p.Domain == "PIPL"
+                         where p.Domain == "PIPL" &&
+                               p.ExportingTo != "LDT" //<- LDT parameters are read directly from EXCEL to PCF file.
                          select p;
 
             //Debugging
@@ -389,25 +392,21 @@ namespace PCF_Parameters
                 {
                     //Reporting the number of different elements initialized
                     int sNumber = 0;
-                    foreach (Element element in sQuery)
+                    foreach (Element pipeSystemType in sQuery)
                     {
                         //reporting
                         sNumber++;
 
-                        eFamilyType = "Piping System: " + element.Name;
-                        foreach (string parameterName in pd.parameterNames) // <-- pd.parameterNames must be correctly initialized by FormCaller!!!
+                        sysAbbr = pipeSystemType.get_Parameter(BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM).AsString();
+                        foreach (string parameterName in ParameterNames) // <-- ParameterNames must be correctly initialized!!!
                         {
                             columnName = parameterName; //This is needed to execute query correctly by deferred execution
                             string parameterValue = query.FirstOrDefault();
                             if (string.IsNullOrEmpty(parameterValue)) continue;
-                            Guid parGuid = (from d in pQuery.ToList() where d.Name == parameterName select d.Guid).First();
+                            Guid parGuid = (from d in pQuery.ToList() where d.Name == parameterName select d.Guid).FirstOrDefault();
                             //Check if parGuid returns a match
-                            if (parGuid == null)
-                            {
-                                BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select PIPELINE parameters.");
-                                return Result.Failed;
-                            }
-                            element.get_Parameter(parGuid).Set(parameterValue);
+                            if (parGuid == null) continue;
+                            pipeSystemType.get_Parameter(parGuid).Set(parameterValue);
                         }
 
                         //sbParameters.Append(eFamilyType);
@@ -417,7 +416,7 @@ namespace PCF_Parameters
                     //sbParameters.Append(eFamilyType);
                     //sbParameters.AppendLine();
                     //}
-                    
+
                     sbFeedback.Append(sNumber + " Pipe Systems (Pipelines) initialized.\n");
                     BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
                     //excelReader.Close();
