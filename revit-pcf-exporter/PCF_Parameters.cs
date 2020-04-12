@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using MoreLinq;
+using static MoreLinq.Extensions.DistinctByExtension;
 using System.Text;
 using System.Data;
 using System.Reflection;
@@ -34,9 +34,9 @@ namespace PCF_Parameters
             #region Pipelines
             //Collect all pipelines
             FilteredElementCollector colPL = new FilteredElementCollector(doc);
-            var systems = colPL.OfCategory(BuiltInCategory.OST_PipingSystem).ToHashSet();
-            var names = systems.DistinctBy(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString())
-                               .Select(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString()).ToHashSet();
+            var systems = new HashSet<Element>(colPL.OfCategory(BuiltInCategory.OST_PipingSystem));
+            var names = new HashSet<string>(systems.DistinctBy(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString())
+                               .Select(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString()));
 
             //Instantiate excel
             xel.Application excel = new xel.Application();

@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NTR_Exporter</RootNamespace>
     <AssemblyName>Revit-NTR-Exporter</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,8 +40,8 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mg.revit-shared-utilities, Version=2020.2.3.15835, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mg.revit-shared-utilities.2020.2.3.15835\lib\net47\mg.revit-shared-utilities.dll</HintPath>
+    <Reference Include="mg.revit-shared-utilities, Version=2021.1.1.34509, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mg.revit-shared-utilities.2021.1.1.34509\lib\net48\mg.revit-shared-utilities.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -66,11 +66,11 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\Revit2020 SDK\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Programs\ADSK21\Revit 2021\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\Revit2020 SDK\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\Programs\ADSK21\Revit 2021\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
