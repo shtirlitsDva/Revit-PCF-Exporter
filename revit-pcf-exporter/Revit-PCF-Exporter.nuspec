@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/shtirlitsDva/Revit-PCF-Exporter</projectUrl>
+    <description>$description$</description>
+    <releaseNotes>Update to 2021 and .NET 4.8</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>Revit PCF</tags>
+  </metadata>
+</package>
