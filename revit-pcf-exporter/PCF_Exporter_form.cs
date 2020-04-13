@@ -47,22 +47,36 @@ namespace PCF_Exporter
             _doc = _uidoc.Document;
             _message = message;
 
-            //Init excel path
-            _excelPath = mySettings.Default.excelPath;
-            textBox20.Text = _excelPath;
-            if (!string.IsNullOrEmpty(_excelPath) && File.Exists(_excelPath))
+            try
             {
-                dataSetElements = dh.ImportExcelToDataSet(_excelPath, "YES");
-                dataTableElements = dh.ReadDataTable(dataSetElements.Tables, "Elements");
+                //Init excel path
+                _excelPath = mySettings.Default.excelPath;
+                textBox20.Text = _excelPath;
+                if (!string.IsNullOrEmpty(_excelPath) && File.Exists(_excelPath))
+                {
+                    dataSetElements = dh.ImportExcelToDataSet(_excelPath, "YES");
+                    dataTableElements = dh.ReadDataTable(dataSetElements.Tables, "Elements");
+                }
+            }
+            catch (Exception)
+            {
+
             }
 
-            //Init LDT path
-            _LDTPath = mySettings.Default.LDTPath;
-            textBox7.Text = _LDTPath;
-            if (!string.IsNullOrEmpty(_LDTPath) && File.Exists(_LDTPath))
+            try
             {
-                dataSetPipelines = dh.ImportExcelToDataSet(_excelPath, "YES");
-                dataTablePipelines = dh.ReadDataTable(dataSetPipelines.Tables, "Pipelines");
+                //Init LDT path
+                _LDTPath = mySettings.Default.LDTPath;
+                textBox7.Text = _LDTPath;
+                if (!string.IsNullOrEmpty(_LDTPath) && File.Exists(_LDTPath))
+                {
+                    dataSetPipelines = dh.ImportExcelToDataSet(_excelPath, "YES");
+                    dataTablePipelines = dh.ReadDataTable(dataSetPipelines.Tables, "Pipelines");
+                }
+            }
+            catch (Exception)
+            {
+
             }
 
             //Init PROJECT-IDENTIFIER
@@ -176,12 +190,22 @@ namespace PCF_Exporter
         private void button3_Click(object sender, EventArgs e)
         {
             PopulateParameters PP = new PopulateParameters();
+            if (dataTableElements == null)
+            {
+                Shared.BuildingCoder.BuildingCoderUtilities.ErrorMsg("dataTableElements is null!");
+                return;
+            }
             PP.PopulateElementData(_uiapp, ref _message, dataTableElements);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             PopulateParameters PP = new PopulateParameters();
+            if (dataTablePipelines == null)
+            {
+                Shared.BuildingCoder.BuildingCoderUtilities.ErrorMsg("dataTablePipelines is null!");
+                return;
+            }
             PP.PopulatePipelineData(_uiapp, ref _message, dataTablePipelines);
         }
 
