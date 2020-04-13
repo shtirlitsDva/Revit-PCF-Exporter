@@ -142,7 +142,7 @@ namespace PCF_Accessories
                                 endPointAnalyzed = cons.Primary.Origin + reverseConnectorVector * 2;
                             }
 
-                            sbAccessories.Append(EndWriter.WriteEP(endPointAnalyzed));
+                            sbAccessories.Append(EndWriter.WriteCO(endPointAnalyzed));
                             sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
                             break;
 
