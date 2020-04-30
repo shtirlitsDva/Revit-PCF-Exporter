@@ -107,7 +107,7 @@ namespace PCF_Pipeline
                             //To prevent from falling through to non selection cases.
                             continue;
                         }
-                        
+
                         //CASE: Con belongs to MechanicalEquipment
                         else if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
                         {
@@ -127,6 +127,17 @@ namespace PCF_Pipeline
                             sb.AppendLine("    PIPELINE-REFERENCE " + correspondingCon.MEPSystemAbbreviation(doc));
 
                             continue;
+                        }
+                        //CASE: If corrCon belongs to EXISTING component
+                        //Write PIPELINE-REFERENCE -> EXISTING
+                        Element hostElement = correspondingCon.Owner;
+                        //GUID is for PCF_ELEM_SPEC
+                        Parameter existingParameter = hostElement.get_Parameter(new Guid("90be8246-25f7-487d-b352-554f810fcaa7"));
+                        if (existingParameter.AsString() == "EXISTING")
+                        {
+                            sb.AppendLine("END-CONNECTION-PIPELINE");
+                            sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                            sb.AppendLine("    PIPELINE-REFERENCE EKSISTERENDE");
                         }
                     }
                 }
