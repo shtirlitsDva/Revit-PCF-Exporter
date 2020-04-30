@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using Autodesk.Revit.DB;
 using iv = PCF_Functions.InputVars;
+using mySettings = PCF_Functions.Properties.Settings;
 
 namespace PCF_Output
 {
@@ -37,10 +38,22 @@ namespace PCF_Output
             //System.IO.File.WriteAllBytes(filename, new byte[0]);
 
             // Write to output file
-            using (StreamWriter w = new StreamWriter(filename, false, Encoding.UTF8))
+
+            if (mySettings.Default.radioButton17UTF8_BOM)
             {
-                w.Write(_collect);
-                w.Close();
+                using (StreamWriter w = new StreamWriter(filename, false, Encoding.UTF8))
+                {
+                    w.Write(_collect);
+                    w.Close();
+                }
+            }
+            else
+            {
+                using (StreamWriter w = new StreamWriter(filename, false, Encoding.Default))
+                {
+                    w.Write(_collect);
+                    w.Close();
+                }
             }
         }
     }

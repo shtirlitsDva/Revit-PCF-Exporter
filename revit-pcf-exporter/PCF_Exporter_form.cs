@@ -140,6 +140,10 @@ namespace PCF_Exporter
 
             //Init write mode section
             iv.Overwrite = mySettings.Default.radioButton15Overwrite;
+
+            //Init Output Encoding section
+            radioButton18.Checked = mySettings.Default.radioButton18ANSIEncoding;
+            radioButton17.Checked = mySettings.Default.radioButton17UTF8_BOM;
         }
 
         private void button4_Click(object sender, EventArgs e)

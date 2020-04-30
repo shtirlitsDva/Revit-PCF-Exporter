@@ -310,5 +310,29 @@ namespace PCF_Functions.Properties {
                 this["TextBox11PROJECTIDENTIFIER"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool radioButton18ANSIEncoding {
+            get {
+                return ((bool)(this["radioButton18ANSIEncoding"]));
+            }
+            set {
+                this["radioButton18ANSIEncoding"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool radioButton17UTF8_BOM {
+            get {
+                return ((bool)(this["radioButton17UTF8_BOM"]));
+            }
+            set {
+                this["radioButton17UTF8_BOM"] = value;
+            }
+        }
     }
 }
