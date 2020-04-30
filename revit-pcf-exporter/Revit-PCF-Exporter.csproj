@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="PCF_Pipeline_Filename.cs" />
     <Compile Include="PCF_EndsAndConnections.cs" />
     <Compile Include="PCF_ParameterData.cs" />
     <Compile Include="PCF_Exporter_form.cs">

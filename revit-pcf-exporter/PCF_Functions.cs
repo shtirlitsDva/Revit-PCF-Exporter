@@ -28,6 +28,7 @@ namespace PCF_Functions
         //Used for "global variables".
         //File I/O
         public static string OutputDirectoryFilePath;
+        public static string FullFileName;
         public static string ExcelSheetElements = "Elements";
         public static string ExcelSheetPipelines = "Pipelines";
 

@@ -226,9 +226,10 @@ namespace PCF_Exporter
                                                           select element).ToHashSet();
 
                         StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
+                        StringBuilder sbFilename = PCF_Pipeline.Filename.BuildAndWriteFilename(doc);
                         StringBuilder sbEndsAndConnections = PCF_Pipeline.EndsAndConnections
                             .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, doc);
-
+                        
                         #region BrokenPipes
 
                         //Here be code to handle break in accessories that act as supports
@@ -359,7 +360,7 @@ namespace PCF_Exporter
                         StringBuilder sbFittings = new PCF_Fittings.PCF_Fittings_Export().Export(gp.Key, fittingList, doc);
                         StringBuilder sbAccessories = new PCF_Accessories.PCF_Accessories_Export().Export(gp.Key, accessoryList, doc);
 
-                        sbCollect.Append(sbPipeline); sbCollect.Append(sbEndsAndConnections);
+                        sbCollect.Append(sbPipeline); sbCollect.Append(sbFilename); sbCollect.Append(sbEndsAndConnections);
                         sbCollect.Append(sbPipes); sbCollect.Append(sbFittings); sbCollect.Append(sbAccessories);
                     }
                     #endregion 
@@ -375,7 +376,7 @@ namespace PCF_Exporter
                 #region Output
                 // Output the processed data
                 PCF_Output.Output output = new PCF_Output.Output();
-                output.OutputWriter(doc, sbCollect, InputVars.OutputDirectoryFilePath);
+                output.OutputWriter(sbCollect);
                 #endregion
 
             }
