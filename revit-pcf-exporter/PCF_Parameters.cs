@@ -29,14 +29,7 @@ namespace PCF_Parameters
             //Read existing values
             DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
             DataTable Elements = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Elements");
-            DataTable Pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
-
-            #region Pipelines
-            //Collect all pipelines
-            FilteredElementCollector colPL = new FilteredElementCollector(doc);
-            var systems = new HashSet<Element>(colPL.OfCategory(BuiltInCategory.OST_PipingSystem));
-            var names = new HashSet<string>(systems.DistinctBy(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString())
-                               .Select(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString()));
+            //DataTable Pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
 
             //Instantiate excel
             xel.Application excel = new xel.Application();
@@ -45,26 +38,32 @@ namespace PCF_Parameters
             xel.Workbook workbook = excel.Workbooks.Add(Missing.Value);
             xel.Worksheet worksheet;
 
-            //Process pipelines
-            worksheet = excel.ActiveSheet as xel.Worksheet;
-            worksheet.Name = "MISSING_PIPELINES";
-            worksheet.Columns.ColumnWidth = 20;
+            #region Pipelines
+            ////Collect all pipelines
+            //FilteredElementCollector colPL = new FilteredElementCollector(doc);
+            //var systems = new HashSet<Element>(colPL.OfCategory(BuiltInCategory.OST_PipingSystem));
+            //var names = new HashSet<string>(systems.DistinctBy(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString())
+            //                   .Select(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString()));
 
-            //Compare values and write those who are not in configuration workbook
-            int row = 1;
-            int col = 1;
-            foreach (string name in names)
-            {
-                //See if record already is defined
-                if (Pipelines.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == name)) continue;
-                worksheet.Cells[row, col] = name;
-                row++;
-            }
+            ////Process pipelines
+            //worksheet = excel.ActiveSheet as xel.Worksheet;
+            //worksheet.Name = "MISSING_PIPELINES";
+            //worksheet.Columns.ColumnWidth = 20;
+
+            ////Compare values and write those who are not in configuration workbook
+            //int row = 1;
+            //int col = 1;
+            //foreach (string name in names)
+            //{
+            //    //See if record already is defined
+            //    if (Pipelines.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == name)) continue;
+            //    worksheet.Cells[row, col] = name;
+            //    row++;
+            //}
             #endregion
 
             #region Elements
             //Process elements
-            excel.Sheets.Add(Missing.Value, Missing.Value, Missing.Value, Missing.Value);
             worksheet = excel.ActiveSheet as xel.Worksheet;
             worksheet.Name = "MISSING_ELEMENTS";
             worksheet.Columns.ColumnWidth = 20;
@@ -86,8 +85,8 @@ namespace PCF_Parameters
                 .AsValueString();
 
             //Compare values and write those who are not in configuration workbook
-            row = 1;
-            col = 1;
+            int row = 1;
+            int col = 1;
             foreach (IGrouping<string, Element> gp in elementGroups)
             {
                 //See if record already is defined

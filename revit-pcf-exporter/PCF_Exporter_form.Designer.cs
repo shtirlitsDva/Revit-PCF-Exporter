@@ -50,6 +50,8 @@ namespace PCF_Exporter
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.radioBox4 = new Shared.RadioBox();
+            this.radioButton16 = new System.Windows.Forms.RadioButton();
+            this.radioButton15 = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button11 = new System.Windows.Forms.Button();
             this.textBox7 = new System.Windows.Forms.TextBox();
@@ -59,25 +61,45 @@ namespace PCF_Exporter
             this.button4 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.radioBox5 = new Shared.RadioBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.radioBox3 = new Shared.RadioBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.radioBox2 = new Shared.RadioBox();
+            this.radioButton12 = new System.Windows.Forms.RadioButton();
+            this.radioButton11 = new System.Windows.Forms.RadioButton();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.groupBox6 = new Shared.RadioBox();
             this.groupBox10 = new Shared.RadioBox();
+            this.radioButton10 = new System.Windows.Forms.RadioButton();
+            this.radioButton9 = new System.Windows.Forms.RadioButton();
             this.groupBox9 = new Shared.RadioBox();
+            this.radioButton7 = new System.Windows.Forms.RadioButton();
+            this.radioButton8 = new System.Windows.Forms.RadioButton();
             this.groupBox8 = new Shared.RadioBox();
+            this.radioButton5 = new System.Windows.Forms.RadioButton();
+            this.radioButton6 = new System.Windows.Forms.RadioButton();
             this.groupBox7 = new Shared.RadioBox();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new Shared.RadioBox();
+            this.radioButton14 = new System.Windows.Forms.RadioButton();
+            this.radioButton13 = new System.Windows.Forms.RadioButton();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox22 = new System.Windows.Forms.TextBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.textBox24 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox21 = new System.Windows.Forms.TextBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -86,39 +108,18 @@ namespace PCF_Exporter
             this.button6 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.radioBox5 = new Shared.RadioBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.radioButton16 = new System.Windows.Forms.RadioButton();
-            this.radioButton15 = new System.Windows.Forms.RadioButton();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.radioButton12 = new System.Windows.Forms.RadioButton();
-            this.radioButton11 = new System.Windows.Forms.RadioButton();
-            this.radioButton10 = new System.Windows.Forms.RadioButton();
-            this.radioButton9 = new System.Windows.Forms.RadioButton();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
-            this.radioButton8 = new System.Windows.Forms.RadioButton();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton14 = new System.Windows.Forms.RadioButton();
-            this.radioButton13 = new System.Windows.Forms.RadioButton();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox22 = new System.Windows.Forms.TextBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.Tabs.SuspendLayout();
             this.TabSetup.SuspendLayout();
             this.radioBox1.SuspendLayout();
             this.radioBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.radioBox5.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.radioBox3.SuspendLayout();
@@ -133,7 +134,6 @@ namespace PCF_Exporter
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.radioBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // Tabs
@@ -208,6 +208,31 @@ namespace PCF_Exporter
             this.radioBox4.TabStop = false;
             this.radioBox4.Text = "Write mode";
             // 
+            // radioButton16
+            // 
+            this.radioButton16.AutoSize = true;
+            this.radioButton16.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton16Append;
+            this.radioButton16.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton16Append", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton16.Location = new System.Drawing.Point(251, 19);
+            this.radioButton16.Name = "radioButton16";
+            this.radioButton16.Size = new System.Drawing.Size(62, 17);
+            this.radioButton16.TabIndex = 1;
+            this.radioButton16.Text = "Append";
+            this.radioButton16.UseVisualStyleBackColor = true;
+            // 
+            // radioButton15
+            // 
+            this.radioButton15.AutoSize = true;
+            this.radioButton15.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton15Overwrite;
+            this.radioButton15.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton15Overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton15.Location = new System.Drawing.Point(143, 19);
+            this.radioButton15.Name = "radioButton15";
+            this.radioButton15.Size = new System.Drawing.Size(70, 17);
+            this.radioButton15.TabIndex = 0;
+            this.radioButton15.TabStop = true;
+            this.radioButton15.Text = "Overwrite";
+            this.radioButton15.UseVisualStyleBackColor = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.button11);
@@ -263,7 +288,7 @@ namespace PCF_Exporter
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(162, 46);
             this.button10.TabIndex = 8;
-            this.button10.Text = "MUST BE UPDATED: Export undefined ELEMENTS";
+            this.button10.Text = "Export undefined ELEMENTS";
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
@@ -308,6 +333,28 @@ namespace PCF_Exporter
             this.button3.Text = "Populate PCF parameters ELEMENT";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // radioBox5
+            // 
+            this.radioBox5.Controls.Add(this.textBox11);
+            this.radioBox5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.radioBox5.Location = new System.Drawing.Point(3, 135);
+            this.radioBox5.Name = "radioBox5";
+            this.radioBox5.Size = new System.Drawing.Size(369, 60);
+            this.radioBox5.TabIndex = 7;
+            this.radioBox5.TabStop = false;
+            this.radioBox5.Text = "PROJECT-IDENTIFIER";
+            // 
+            // textBox11
+            // 
+            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "TextBox11PROJECTIDENTIFIER", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox11.Location = new System.Drawing.Point(6, 23);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(357, 20);
+            this.textBox11.TabIndex = 11;
+            this.textBox11.Text = global::PCF_Functions.Properties.Settings.Default.TextBox11PROJECTIDENTIFIER;
+            this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
             // 
             // groupBox1
             // 
@@ -367,6 +414,32 @@ namespace PCF_Exporter
             this.radioBox3.TabStop = false;
             this.radioBox3.Text = "Export to";
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = global::PCF_Functions.Properties.Settings.Default.checkBox2Checked;
+            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "checkBox2Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox2.Location = new System.Drawing.Point(251, 20);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(68, 17);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Caesar II";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = global::PCF_Functions.Properties.Settings.Default.checkBox1Checked;
+            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "checkBox1Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox1.Location = new System.Drawing.Point(143, 20);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(58, 17);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Isogen";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // radioBox2
             // 
             this.radioBox2.Controls.Add(this.radioButton12);
@@ -379,6 +452,33 @@ namespace PCF_Exporter
             this.radioBox2.TabIndex = 2;
             this.radioBox2.TabStop = false;
             this.radioBox2.Text = "Write wall thickness";
+            // 
+            // radioButton12
+            // 
+            this.radioButton12.AutoSize = true;
+            this.radioButton12.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton12WallThkTrue;
+            this.radioButton12.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton12WallThkTrue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton12.Location = new System.Drawing.Point(143, 68);
+            this.radioButton12.Name = "radioButton12";
+            this.radioButton12.Size = new System.Drawing.Size(47, 17);
+            this.radioButton12.TabIndex = 2;
+            this.radioButton12.Text = "True";
+            this.radioButton12.UseVisualStyleBackColor = true;
+            this.radioButton12.CheckedChanged += new System.EventHandler(this.radioButton12_CheckedChanged);
+            // 
+            // radioButton11
+            // 
+            this.radioButton11.AutoSize = true;
+            this.radioButton11.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton11WallThkFalse;
+            this.radioButton11.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton11WallThkFalse", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton11.Location = new System.Drawing.Point(251, 68);
+            this.radioButton11.Name = "radioButton11";
+            this.radioButton11.Size = new System.Drawing.Size(50, 17);
+            this.radioButton11.TabIndex = 1;
+            this.radioButton11.TabStop = true;
+            this.radioButton11.Text = "False";
+            this.radioButton11.UseVisualStyleBackColor = true;
+            this.radioButton11.CheckedChanged += new System.EventHandler(this.radioButton11_CheckedChanged);
             // 
             // textBox8
             // 
@@ -418,6 +518,33 @@ namespace PCF_Exporter
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "UNITS-WEIGHT-LENGTH";
             // 
+            // radioButton10
+            // 
+            this.radioButton10.AutoSize = true;
+            this.radioButton10.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton10WeightLengthF;
+            this.radioButton10.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton10WeightLengthF", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton10.Location = new System.Drawing.Point(248, 17);
+            this.radioButton10.Name = "radioButton10";
+            this.radioButton10.Size = new System.Drawing.Size(52, 17);
+            this.radioButton10.TabIndex = 0;
+            this.radioButton10.Text = "FEET";
+            this.radioButton10.UseVisualStyleBackColor = true;
+            this.radioButton10.CheckedChanged += new System.EventHandler(this.radioButton10_CheckedChanged);
+            // 
+            // radioButton9
+            // 
+            this.radioButton9.AutoSize = true;
+            this.radioButton9.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton9WeightLengthM;
+            this.radioButton9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton9WeightLengthM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton9.Location = new System.Drawing.Point(140, 17);
+            this.radioButton9.Name = "radioButton9";
+            this.radioButton9.Size = new System.Drawing.Size(63, 17);
+            this.radioButton9.TabIndex = 0;
+            this.radioButton9.TabStop = true;
+            this.radioButton9.Text = "METER";
+            this.radioButton9.UseVisualStyleBackColor = true;
+            this.radioButton9.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
+            // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.radioButton7);
@@ -429,6 +556,33 @@ namespace PCF_Exporter
             this.groupBox9.TabIndex = 2;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "UNITS-WEIGHT";
+            // 
+            // radioButton7
+            // 
+            this.radioButton7.AutoSize = true;
+            this.radioButton7.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton7WeightKgs;
+            this.radioButton7.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton7WeightKgs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton7.Location = new System.Drawing.Point(140, 17);
+            this.radioButton7.Name = "radioButton7";
+            this.radioButton7.Size = new System.Drawing.Size(47, 17);
+            this.radioButton7.TabIndex = 0;
+            this.radioButton7.TabStop = true;
+            this.radioButton7.Text = "KGS";
+            this.radioButton7.UseVisualStyleBackColor = true;
+            this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
+            // 
+            // radioButton8
+            // 
+            this.radioButton8.AutoSize = true;
+            this.radioButton8.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton8WeightLbs;
+            this.radioButton8.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton8WeightLbs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton8.Location = new System.Drawing.Point(248, 17);
+            this.radioButton8.Name = "radioButton8";
+            this.radioButton8.Size = new System.Drawing.Size(45, 17);
+            this.radioButton8.TabIndex = 0;
+            this.radioButton8.Text = "LBS";
+            this.radioButton8.UseVisualStyleBackColor = true;
+            this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
             // 
             // groupBox8
             // 
@@ -442,6 +596,33 @@ namespace PCF_Exporter
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "UNITS-CO-ORDS";
             // 
+            // radioButton5
+            // 
+            this.radioButton5.AutoSize = true;
+            this.radioButton5.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton5CoordsMm;
+            this.radioButton5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton5CoordsMm", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton5.Location = new System.Drawing.Point(140, 17);
+            this.radioButton5.Name = "radioButton5";
+            this.radioButton5.Size = new System.Drawing.Size(43, 17);
+            this.radioButton5.TabIndex = 0;
+            this.radioButton5.TabStop = true;
+            this.radioButton5.Text = "MM";
+            this.radioButton5.UseVisualStyleBackColor = true;
+            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
+            // 
+            // radioButton6
+            // 
+            this.radioButton6.AutoSize = true;
+            this.radioButton6.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton6CoordsInch;
+            this.radioButton6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton6CoordsInch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton6.Location = new System.Drawing.Point(248, 17);
+            this.radioButton6.Name = "radioButton6";
+            this.radioButton6.Size = new System.Drawing.Size(51, 17);
+            this.radioButton6.TabIndex = 0;
+            this.radioButton6.Text = "INCH";
+            this.radioButton6.UseVisualStyleBackColor = true;
+            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
+            // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.radioButton4);
@@ -453,6 +634,33 @@ namespace PCF_Exporter
             this.groupBox7.TabIndex = 0;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "UNITS-BORE";
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton4BoreINCH;
+            this.radioButton4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton4BoreINCH", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton4.Location = new System.Drawing.Point(248, 19);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(51, 17);
+            this.radioButton4.TabIndex = 0;
+            this.radioButton4.Text = "INCH";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton3BoreMM;
+            this.radioButton3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton3BoreMM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton3.Location = new System.Drawing.Point(140, 19);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(43, 17);
+            this.radioButton3.TabIndex = 0;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "MM";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
             // groupBox3
             // 
@@ -479,6 +687,34 @@ namespace PCF_Exporter
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Scope";
             // 
+            // radioButton14
+            // 
+            this.radioButton14.AutoSize = true;
+            this.radioButton14.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton14ExportSelection;
+            this.radioButton14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton14ExportSelection", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton14.Location = new System.Drawing.Point(46, 107);
+            this.radioButton14.Name = "radioButton14";
+            this.radioButton14.Size = new System.Drawing.Size(69, 17);
+            this.radioButton14.TabIndex = 13;
+            this.radioButton14.Tag = "1";
+            this.radioButton14.Text = "Selection";
+            this.radioButton14.UseVisualStyleBackColor = true;
+            this.radioButton14.CheckedChanged += new System.EventHandler(this.radioButton14_CheckedChanged);
+            // 
+            // radioButton13
+            // 
+            this.radioButton13.AutoSize = true;
+            this.radioButton13.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton13AllPipelinesSeparate;
+            this.radioButton13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton13AllPipelinesSeparate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton13.Location = new System.Drawing.Point(46, 62);
+            this.radioButton13.Name = "radioButton13";
+            this.radioButton13.Size = new System.Drawing.Size(148, 17);
+            this.radioButton13.TabIndex = 12;
+            this.radioButton13.Tag = "1";
+            this.radioButton13.Text = "All pipelines, separate files";
+            this.radioButton13.UseVisualStyleBackColor = true;
+            this.radioButton13.CheckedChanged += new System.EventHandler(this.radioButton13_CheckedChanged);
+            // 
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
@@ -487,6 +723,26 @@ namespace PCF_Exporter
             this.comboBox2.Size = new System.Drawing.Size(205, 21);
             this.comboBox2.TabIndex = 11;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // textBox9
+            // 
+            this.textBox9.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "TextBoxFilterPCF_ELEM_SPEC", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox9.Location = new System.Drawing.Point(129, 182);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(233, 20);
+            this.textBox9.TabIndex = 10;
+            this.textBox9.Text = global::PCF_Functions.Properties.Settings.Default.TextBoxFilterPCF_ELEM_SPEC;
+            this.textBox9.TextChanged += new System.EventHandler(this.TextBox9_TextChanged);
+            // 
+            // textBox22
+            // 
+            this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox22.Location = new System.Drawing.Point(84, 139);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(57, 20);
+            this.textBox22.TabIndex = 10;
+            this.textBox22.Text = global::PCF_Functions.Properties.Settings.Default.textBox22DiameterLimit;
+            this.textBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
             // 
             // textBox10
             // 
@@ -543,6 +799,35 @@ namespace PCF_Exporter
             this.textBox21.TabIndex = 9;
             this.textBox21.Text = "Diameter limit:";
             // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton2SpecificPipeline;
+            this.radioButton2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton2SpecificPipeline", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton2.Location = new System.Drawing.Point(46, 85);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(105, 17);
+            this.radioButton2.TabIndex = 1;
+            this.radioButton2.Tag = "2";
+            this.radioButton2.Text = "Specific pipeline:";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton1AllPipelines;
+            this.radioButton1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton1AllPipelines", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton1.Location = new System.Drawing.Point(46, 39);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(120, 17);
+            this.radioButton1.TabIndex = 1;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Tag = "1";
+            this.radioButton1.Text = "All pipelines, one file";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
             // textBox4
             // 
             this.textBox4.BackColor = System.Drawing.SystemColors.Window;
@@ -584,7 +869,7 @@ namespace PCF_Exporter
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(375, 683);
+            this.tabPage3.Size = new System.Drawing.Size(375, 587);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Run";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -635,6 +920,17 @@ namespace PCF_Exporter
             this.textBox6.Text = "Selected output path:";
             this.textBox6.Visible = false;
             // 
+            // textBox5
+            // 
+            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox5.Location = new System.Drawing.Point(3, 88);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.Size = new System.Drawing.Size(363, 13);
+            this.textBox5.TabIndex = 4;
+            this.textBox5.Text = global::PCF_Functions.Properties.Settings.Default.textBox5OutputPath;
+            // 
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(103, 19);
@@ -651,7 +947,7 @@ namespace PCF_Exporter
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(375, 683);
+            this.tabPage4.Size = new System.Drawing.Size(375, 587);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Help";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -674,302 +970,6 @@ namespace PCF_Exporter
             // 
             this.openFileDialog2.FileName = "openFileDialog1";
             // 
-            // radioBox5
-            // 
-            this.radioBox5.Controls.Add(this.textBox11);
-            this.radioBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioBox5.Location = new System.Drawing.Point(3, 135);
-            this.radioBox5.Name = "radioBox5";
-            this.radioBox5.Size = new System.Drawing.Size(369, 60);
-            this.radioBox5.TabIndex = 7;
-            this.radioBox5.TabStop = false;
-            this.radioBox5.Text = "PROJECT-IDENTIFIER";
-            // 
-            // textBox11
-            // 
-            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "TextBox11PROJECTIDENTIFIER", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox11.Location = new System.Drawing.Point(6, 23);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(357, 20);
-            this.textBox11.TabIndex = 11;
-            this.textBox11.Text = global::PCF_Functions.Properties.Settings.Default.TextBox11PROJECTIDENTIFIER;
-            this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
-            // 
-            // radioButton16
-            // 
-            this.radioButton16.AutoSize = true;
-            this.radioButton16.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton16Append;
-            this.radioButton16.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton16Append", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton16.Location = new System.Drawing.Point(251, 19);
-            this.radioButton16.Name = "radioButton16";
-            this.radioButton16.Size = new System.Drawing.Size(62, 17);
-            this.radioButton16.TabIndex = 1;
-            this.radioButton16.Text = "Append";
-            this.radioButton16.UseVisualStyleBackColor = true;
-            // 
-            // radioButton15
-            // 
-            this.radioButton15.AutoSize = true;
-            this.radioButton15.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton15Overwrite;
-            this.radioButton15.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton15Overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton15.Location = new System.Drawing.Point(143, 19);
-            this.radioButton15.Name = "radioButton15";
-            this.radioButton15.Size = new System.Drawing.Size(70, 17);
-            this.radioButton15.TabIndex = 0;
-            this.radioButton15.TabStop = true;
-            this.radioButton15.Text = "Overwrite";
-            this.radioButton15.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = global::PCF_Functions.Properties.Settings.Default.checkBox2Checked;
-            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "checkBox2Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox2.Location = new System.Drawing.Point(251, 20);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(68, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Caesar II";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = global::PCF_Functions.Properties.Settings.Default.checkBox1Checked;
-            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "checkBox1Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox1.Location = new System.Drawing.Point(143, 20);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(58, 17);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Isogen";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // radioButton12
-            // 
-            this.radioButton12.AutoSize = true;
-            this.radioButton12.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton12WallThkTrue;
-            this.radioButton12.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton12WallThkTrue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton12.Location = new System.Drawing.Point(143, 68);
-            this.radioButton12.Name = "radioButton12";
-            this.radioButton12.Size = new System.Drawing.Size(47, 17);
-            this.radioButton12.TabIndex = 2;
-            this.radioButton12.Text = "True";
-            this.radioButton12.UseVisualStyleBackColor = true;
-            this.radioButton12.CheckedChanged += new System.EventHandler(this.radioButton12_CheckedChanged);
-            // 
-            // radioButton11
-            // 
-            this.radioButton11.AutoSize = true;
-            this.radioButton11.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton11WallThkFalse;
-            this.radioButton11.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton11WallThkFalse", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton11.Location = new System.Drawing.Point(251, 68);
-            this.radioButton11.Name = "radioButton11";
-            this.radioButton11.Size = new System.Drawing.Size(50, 17);
-            this.radioButton11.TabIndex = 1;
-            this.radioButton11.TabStop = true;
-            this.radioButton11.Text = "False";
-            this.radioButton11.UseVisualStyleBackColor = true;
-            this.radioButton11.CheckedChanged += new System.EventHandler(this.radioButton11_CheckedChanged);
-            // 
-            // radioButton10
-            // 
-            this.radioButton10.AutoSize = true;
-            this.radioButton10.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton10WeightLengthF;
-            this.radioButton10.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton10WeightLengthF", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton10.Location = new System.Drawing.Point(248, 17);
-            this.radioButton10.Name = "radioButton10";
-            this.radioButton10.Size = new System.Drawing.Size(52, 17);
-            this.radioButton10.TabIndex = 0;
-            this.radioButton10.Text = "FEET";
-            this.radioButton10.UseVisualStyleBackColor = true;
-            this.radioButton10.CheckedChanged += new System.EventHandler(this.radioButton10_CheckedChanged);
-            // 
-            // radioButton9
-            // 
-            this.radioButton9.AutoSize = true;
-            this.radioButton9.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton9WeightLengthM;
-            this.radioButton9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton9WeightLengthM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton9.Location = new System.Drawing.Point(140, 17);
-            this.radioButton9.Name = "radioButton9";
-            this.radioButton9.Size = new System.Drawing.Size(63, 17);
-            this.radioButton9.TabIndex = 0;
-            this.radioButton9.TabStop = true;
-            this.radioButton9.Text = "METER";
-            this.radioButton9.UseVisualStyleBackColor = true;
-            this.radioButton9.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
-            // 
-            // radioButton7
-            // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton7WeightKgs;
-            this.radioButton7.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton7WeightKgs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton7.Location = new System.Drawing.Point(140, 17);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(47, 17);
-            this.radioButton7.TabIndex = 0;
-            this.radioButton7.TabStop = true;
-            this.radioButton7.Text = "KGS";
-            this.radioButton7.UseVisualStyleBackColor = true;
-            this.radioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
-            // 
-            // radioButton8
-            // 
-            this.radioButton8.AutoSize = true;
-            this.radioButton8.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton8WeightLbs;
-            this.radioButton8.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton8WeightLbs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton8.Location = new System.Drawing.Point(248, 17);
-            this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(45, 17);
-            this.radioButton8.TabIndex = 0;
-            this.radioButton8.Text = "LBS";
-            this.radioButton8.UseVisualStyleBackColor = true;
-            this.radioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
-            // 
-            // radioButton5
-            // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton5CoordsMm;
-            this.radioButton5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton5CoordsMm", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton5.Location = new System.Drawing.Point(140, 17);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(43, 17);
-            this.radioButton5.TabIndex = 0;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "MM";
-            this.radioButton5.UseVisualStyleBackColor = true;
-            this.radioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
-            // 
-            // radioButton6
-            // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton6CoordsInch;
-            this.radioButton6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton6CoordsInch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton6.Location = new System.Drawing.Point(248, 17);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(51, 17);
-            this.radioButton6.TabIndex = 0;
-            this.radioButton6.Text = "INCH";
-            this.radioButton6.UseVisualStyleBackColor = true;
-            this.radioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton4BoreINCH;
-            this.radioButton4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton4BoreINCH", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton4.Location = new System.Drawing.Point(248, 19);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(51, 17);
-            this.radioButton4.TabIndex = 0;
-            this.radioButton4.Text = "INCH";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton3BoreMM;
-            this.radioButton3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton3BoreMM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton3.Location = new System.Drawing.Point(140, 19);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(43, 17);
-            this.radioButton3.TabIndex = 0;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "MM";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
-            // 
-            // radioButton14
-            // 
-            this.radioButton14.AutoSize = true;
-            this.radioButton14.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton14ExportSelection;
-            this.radioButton14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton14ExportSelection", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton14.Location = new System.Drawing.Point(46, 107);
-            this.radioButton14.Name = "radioButton14";
-            this.radioButton14.Size = new System.Drawing.Size(69, 17);
-            this.radioButton14.TabIndex = 13;
-            this.radioButton14.Tag = "1";
-            this.radioButton14.Text = "Selection";
-            this.radioButton14.UseVisualStyleBackColor = true;
-            this.radioButton14.CheckedChanged += new System.EventHandler(this.radioButton14_CheckedChanged);
-            // 
-            // radioButton13
-            // 
-            this.radioButton13.AutoSize = true;
-            this.radioButton13.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton13AllPipelinesSeparate;
-            this.radioButton13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton13AllPipelinesSeparate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton13.Location = new System.Drawing.Point(46, 62);
-            this.radioButton13.Name = "radioButton13";
-            this.radioButton13.Size = new System.Drawing.Size(148, 17);
-            this.radioButton13.TabIndex = 12;
-            this.radioButton13.Tag = "1";
-            this.radioButton13.Text = "All pipelines, separate files";
-            this.radioButton13.UseVisualStyleBackColor = true;
-            this.radioButton13.CheckedChanged += new System.EventHandler(this.radioButton13_CheckedChanged);
-            // 
-            // textBox9
-            // 
-            this.textBox9.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "TextBoxFilterPCF_ELEM_SPEC", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox9.Location = new System.Drawing.Point(129, 182);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(233, 20);
-            this.textBox9.TabIndex = 10;
-            this.textBox9.Text = global::PCF_Functions.Properties.Settings.Default.TextBoxFilterPCF_ELEM_SPEC;
-            this.textBox9.TextChanged += new System.EventHandler(this.TextBox9_TextChanged);
-            // 
-            // textBox22
-            // 
-            this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox22.Location = new System.Drawing.Point(84, 139);
-            this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(57, 20);
-            this.textBox22.TabIndex = 10;
-            this.textBox22.Text = global::PCF_Functions.Properties.Settings.Default.textBox22DiameterLimit;
-            this.textBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton2SpecificPipeline;
-            this.radioButton2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton2SpecificPipeline", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton2.Location = new System.Drawing.Point(46, 85);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(105, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.Tag = "2";
-            this.radioButton2.Text = "Specific pipeline:";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton1AllPipelines;
-            this.radioButton1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton1AllPipelines", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton1.Location = new System.Drawing.Point(46, 39);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(120, 17);
-            this.radioButton1.TabIndex = 1;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Tag = "1";
-            this.radioButton1.Text = "All pipelines, one file";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
-            // 
-            // textBox5
-            // 
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox5.Location = new System.Drawing.Point(3, 88);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(363, 13);
-            this.textBox5.TabIndex = 4;
-            this.textBox5.Text = global::PCF_Functions.Properties.Settings.Default.textBox5OutputPath;
-            // 
             // PCF_Exporter_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -985,6 +985,8 @@ namespace PCF_Exporter
             this.radioBox4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.radioBox5.ResumeLayout(false);
+            this.radioBox5.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.radioBox3.ResumeLayout(false);
@@ -1007,8 +1009,6 @@ namespace PCF_Exporter
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPage4.ResumeLayout(false);
-            this.radioBox5.ResumeLayout(false);
-            this.radioBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
