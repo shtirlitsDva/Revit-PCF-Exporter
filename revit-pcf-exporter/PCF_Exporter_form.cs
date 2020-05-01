@@ -47,36 +47,22 @@ namespace PCF_Exporter
             _doc = _uidoc.Document;
             _message = message;
 
-            try
+            //Init excel path
+            _excelPath = mySettings.Default.excelPath;
+            textBox20.Text = _excelPath;
+            if (!string.IsNullOrEmpty(_excelPath) && File.Exists(_excelPath))
             {
-                //Init excel path
-                _excelPath = mySettings.Default.excelPath;
-                textBox20.Text = _excelPath;
-                if (!string.IsNullOrEmpty(_excelPath) && File.Exists(_excelPath))
-                {
-                    dataSetElements = dh.ImportExcelToDataSet(_excelPath, "YES");
-                    dataTableElements = dh.ReadDataTable(dataSetElements.Tables, "Elements");
-                }
-            }
-            catch (Exception)
-            {
-
+                dataSetElements = dh.ImportExcelToDataSet(_excelPath, "YES");
+                dataTableElements = dh.ReadDataTable(dataSetElements.Tables, "Elements");
             }
 
-            try
+            //Init LDT path
+            _LDTPath = mySettings.Default.LDTPath;
+            textBox7.Text = _LDTPath;
+            if (!string.IsNullOrEmpty(_LDTPath) && File.Exists(_LDTPath))
             {
-                //Init LDT path
-                _LDTPath = mySettings.Default.LDTPath;
-                textBox7.Text = _LDTPath;
-                if (!string.IsNullOrEmpty(_LDTPath) && File.Exists(_LDTPath))
-                {
-                    dataSetPipelines = dh.ImportExcelToDataSet(_excelPath, "YES");
-                    dataTablePipelines = dh.ReadDataTable(dataSetPipelines.Tables, "Pipelines");
-                }
-            }
-            catch (Exception)
-            {
-
+                dataSetPipelines = dh.ImportExcelToDataSet(_LDTPath, "YES");
+                dataTablePipelines = dh.ReadDataTable(dataSetPipelines.Tables, "Pipelines");
             }
 
             //Init PROJECT-IDENTIFIER

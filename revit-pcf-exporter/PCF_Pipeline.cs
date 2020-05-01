@@ -61,11 +61,12 @@ namespace PCF_Pipeline
 
                         string sysAbbr = pipingSystemType.get_Parameter(BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM).AsString();
                         string parName = "";
+                        string projId = iv.PCF_PROJECT_IDENTIFIER;
 
-                        EnumerableRowCollection<string> ldtQuery = from value in data.AsEnumerable()
-                                                                   where value.Field<string>(0) == iv.PCF_PROJECT_IDENTIFIER &&
-                                                                         value.Field<string>(1) == sysAbbr
-                                                                   select value.Field<string>(parName);
+                        //EnumerableRowCollection<string> ldtQuery = from row in data.AsEnumerable()
+                        //                                           where row.Field<string>("PCF_PROJID") == projId &&
+                        //                                                 row.Field<string>("LINE_NAME") == sysAbbr
+                        //                                           select row.Field<string>(parName);
 
                         //var lineId = pipingSystemType.get_Parameter(Plst.PCF_PIPL_LINEID.Guid).AsString();
 
@@ -73,7 +74,12 @@ namespace PCF_Pipeline
                         foreach (pdef par in LdtPars)
                         {
                             parName = par.Name;
-                            string value = ldtQuery.FirstOrDefault();
+
+                            int rowIndex = data.Rows.IndexOf(data.Select(
+                                $"PCF_PROJID = '{projId}' AND LINE_NAME = '{sysAbbr}'")[0]);
+
+                            string value = Convert.ToString(data.Rows[rowIndex][parName]);
+                            //string value = ldtQuery.FirstOrDefault();
 
                             if (!string.IsNullOrEmpty(value))
                             {

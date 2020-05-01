@@ -337,8 +337,8 @@ namespace PCF_Parameters
         internal Result PopulatePipelineData(UIApplication uiApp, ref string msg, DataTable dataTable)
         {
             List<string> ParameterNames = (from dc in dataTable.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
-            ParameterNames.RemoveAt(0);
-            ParameterNames.RemoveAt(0);
+            //ParameterNames.RemoveAt(0);
+            //ParameterNames.RemoveAt(0);
             //Test to see if the list of parameter names is defined at all, if not -- break.
             if (ParameterNames.IsNullOrEmpty())
             {
@@ -382,7 +382,7 @@ namespace PCF_Parameters
             //Debugging
             //StringBuilder sbParameters = new StringBuilder();
 
-            using (Transaction trans = new Transaction(doc, "Initialize PCF parameters"))
+            using (Transaction trans = new Transaction(doc, "Initialize Pipeline PCF parameters"))
             {
                 trans.Start();
 
@@ -405,7 +405,9 @@ namespace PCF_Parameters
                             Guid parGuid = (from d in pQuery.ToList() where d.Name == parameterName select d.Guid).FirstOrDefault();
                             //Check if parGuid returns a match
                             if (parGuid == null) continue;
-                            pipeSystemType.get_Parameter(parGuid).Set(parameterValue);
+                            Parameter par = pipeSystemType.get_Parameter(parGuid);
+                            if (par == null) continue;
+                            par.Set(parameterValue);
                         }
 
                         //sbParameters.Append(eFamilyType);
