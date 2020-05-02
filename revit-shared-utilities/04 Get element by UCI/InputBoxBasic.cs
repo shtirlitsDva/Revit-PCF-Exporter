@@ -9,18 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Shared;
-using stgs = MEPUtils.Properties.Settings;
 
-namespace MEPUtils.MoveToDistance
+namespace Shared.Tools
 {
     public partial class InputBoxBasic : Form
     {
-        public string DistanceToKeep;
+        public string InputText;
 
         public InputBoxBasic()
         {
             InitializeComponent();
-            if (!stgs.Default.MoveToDistance_DistanceValueFromLast.IsNullOrEmpty()) textBox1.Text = stgs.Default.MoveToDistance_DistanceValueFromLast;
             textBox1.SelectionStart = 0;
             textBox1.SelectionLength = textBox1.Text.Length;
         }
@@ -29,8 +27,7 @@ namespace MEPUtils.MoveToDistance
 
         private void InputBoxBasic_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DistanceToKeep = textBox1.Text;
-            stgs.Default.Save();
+            InputText = textBox1.Text;
         }
 
         private void textBox1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)

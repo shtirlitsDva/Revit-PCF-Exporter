@@ -111,17 +111,21 @@ namespace PCF_Exporter
                 try
                 {
                     //DiameterLimit filter applied to ALL elements.
-                    var filtering = from element in colElements where FilterDiameterLimit.FilterDL(element) select element;
+                    var filtering = from element in colElements where Filters.FilterDL(element) select element;
 
                     //Filter out EXCLUDED elements -> 0 means no checkmark
                     filtering = from element in filtering
                                 where element.get_Parameter(new plst().PCF_ELEM_EXCL.Guid).AsInteger() == 0
                                 select element;
 
+                    //Filter out EXCLUDED pipelines -> 0 means no checkmark
+                    filtering = filtering.Where(x => x.PipingSystemAllowed(doc) == true);
+
                     //Remove instrument pipes
                     filtering = filtering.ExceptWhere(x => x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
                                                       .AsString() == "INSTR");
 
+                    //Filter out elements with specified PCF_ELEM_SPEC string
                     if (InputVars.PCF_ELEM_SPEC_FILTER.IsNullOrEmpty() == false)
                     {
                         filtering = filtering.ExceptWhere(x => x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == InputVars.PCF_ELEM_SPEC_FILTER);
@@ -157,6 +161,15 @@ namespace PCF_Exporter
                 #endregion
 
                 #region Initialize Material Data
+                //TEST: Do not write material data to elements with EXISTING-INCLUDE spec
+                HashSet<Element> existInclElements = elements.Where(x =>
+                    x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
+                //Remember the clearing of previous run data in transaction below
+                
+                elements = elements.ExceptWhere(x =>
+                    x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
+
+
                 //Set the start number to count the COMPID instances and MAT groups.
                 int elementIdentificationNumber = 0;
                 int materialGroupIdentifier = 0;
@@ -179,6 +192,12 @@ namespace PCF_Exporter
                 {
 
                     trans.Start();
+                    //Clear MTL data from previous runs for elements with EXISTING-INCLUDE spec
+                    foreach (Element e in existInclElements)
+                    {
+                        e.LookupParameter("PCF_ELEM_COMPID").Set("");
+                        e.LookupParameter("PCF_MAT_ID").Set("");
+                    }
 
                     //Access groups
                     foreach (IEnumerable<Element> group in materialGroups)
@@ -229,7 +248,7 @@ namespace PCF_Exporter
                         StringBuilder sbFilename = PCF_Pipeline.Filename.BuildAndWriteFilename(doc);
                         StringBuilder sbEndsAndConnections = PCF_Pipeline.EndsAndConnections
                             .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, doc);
-                        
+
                         #region BrokenPipes
 
                         //Here be code to handle break in accessories that act as supports

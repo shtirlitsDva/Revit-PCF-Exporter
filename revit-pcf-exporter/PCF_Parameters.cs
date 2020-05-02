@@ -73,7 +73,7 @@ namespace PCF_Parameters
             collector = Shared.Filter.GetElementsWithConnectors(doc);
             HashSet<Element> elements = collector.ToElements().ToHashSet();
             HashSet<Element> limitedElements = (from Element e in elements
-                                                where FilterDiameterLimit.FilterDL(e)
+                                                where Filters.FilterDL(e)
                                                 select e).ToHashSet();
             HashSet<Element> filteredElements = (from Element e in limitedElements
                                                  where e.Category.Id.IntegerValue != (int)BuiltInCategory.OST_PipeCurves

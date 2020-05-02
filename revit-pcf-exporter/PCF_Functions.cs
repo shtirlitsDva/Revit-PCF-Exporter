@@ -174,7 +174,7 @@ namespace PCF_Functions
             //If an element has EXISTING in it's PCF_ELEM_SPEC the writing of ITEM-CODE will be skipped, making Plant 3D ISO treat it as existing.
             pdef elemSpec = new plst().PCF_ELEM_SPEC;
             Parameter pm = element.get_Parameter(elemSpec.Guid);
-            if (string.Equals(pm.AsString(), "EXISTING")) return new StringBuilder();
+            if (string.Equals(pm.AsString(), "EXISTING-INCLUDE")) return new StringBuilder();
 
             //Write ITEM-CODE et al
             StringBuilder sb = new StringBuilder();
@@ -229,7 +229,7 @@ namespace PCF_Functions
         #endregion
     }
 
-    public static class FilterDiameterLimit
+    public static class Filters
     {
         /// <summary>
         /// Tests the diameter of the pipe or primary connector of element against the diameter limit set in the interface.
@@ -262,6 +262,16 @@ namespace PCF_Functions
                     break;
             }
             return testedDiameter >= diameterLimit;
+        }
+
+        public static bool PipingSystemAllowed(this Element elem, Document doc)
+        {
+            Element pipingSystemType = doc.GetElement(elem.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId());
+            if (pipingSystemType == null) return false;
+            Parameter pipingExclParameter = pipingSystemType?.get_Parameter(new Guid("c1c2c9fe-2634-42ba-89d0-5af699f54d4c"));
+            if (pipingExclParameter == null) throw new Exception("PipingSystemAllowed cannot acces PCF_PIPL_EXCL! Does the parameter exist in the project?");
+            if (pipingExclParameter.AsInteger() == 0) return true;
+            else return false;
         }
     }
 

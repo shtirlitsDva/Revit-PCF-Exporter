@@ -142,7 +142,7 @@ namespace PCF_Taps
                 if (InputVars.UNITS_BORE_MM) tapsWriter.Append(Conversion.PipeSizeToMm(connectorSize));
                 if (InputVars.UNITS_BORE_INCH) tapsWriter.Append(Conversion.PipeSizeToInch(connectorSize));
                 tapsWriter.AppendLine();
-                if (!FilterDiameterLimit.FilterDL(tappingElement)) tapsWriter = null;
+                if (!Filters.FilterDL(tappingElement)) tapsWriter = null;
             }
 
             catch (NullReferenceException ex)

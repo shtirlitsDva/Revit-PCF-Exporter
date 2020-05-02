@@ -1,4 +1,5 @@
-﻿namespace MEPUtils.MoveToDistance
+﻿namespace Shared.Tools
+
 {
     partial class InputBoxBasic
     {
@@ -33,12 +34,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::MEPUtils.Properties.Settings.Default, "MoveToDistance_DistanceValueFromLast", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox1.Location = new System.Drawing.Point(12, 12);
+                        this.textBox1.Location = new System.Drawing.Point(12, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(95, 20);
             this.textBox1.TabIndex = 0;
-            this.textBox1.Text = global::MEPUtils.Properties.Settings.Default.MoveToDistance_DistanceValueFromLast;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 

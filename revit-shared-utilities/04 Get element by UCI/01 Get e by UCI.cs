@@ -20,38 +20,24 @@ namespace Shared.Tools
 {
     class GetElementByUCI
     {
-        private const int precision = 3;
-
-        public static Result ElementCoordinatesPCF(ExternalCommandData cData)
+        public static Result GetEByUCI(ExternalCommandData cData)
         {
             UIApplication uiApp = cData.Application;
             Document doc = cData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = uiApp.ActiveUIDocument;
 
+            //Ask for a UCI input
+            InputBoxBasic ds = new InputBoxBasic();
+            ds.ShowDialog();
+
+            Element element = doc.GetElement(ds.Text);
+            List<ElementId> ids = new List<ElementId>(1);
+            ids.Add(element.Id);
+            
             Selection selection = uidoc.Selection;
-            var items = selection.GetElementIds().Select(x => doc.GetElement(x));
-
-            string message = string.Empty;
-            foreach (Element e in items)
-            {
-                message += e.Name + "\n";
-
-                Cons cons = mp.GetConnectors(e);
-                message += PCF_Functions.EndWriter.WriteEP1(e, cons.Primary);
-                message += PCF_Functions.EndWriter.WriteEP1(e, cons.Secondary);
-            }
-
-            Shared.BuildingCoder.BuildingCoderUtilities.InfoMsg(message);
+            selection.SetElementIds(ids);
 
             return Result.Succeeded;
-        }
-
-        internal static string PointStringMm(XYZ p, int precision)
-        {
-            return string.Concat(
-                Math.Round(p.X.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")), " ",
-                Math.Round(p.Y.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")), " ",
-                Math.Round(p.Z.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")));
         }
     }
 }
