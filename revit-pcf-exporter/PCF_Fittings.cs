@@ -29,7 +29,15 @@ namespace PCF_Fittings
             foreach (Element element in fittingsList)
             {
                 sbFittings.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
-                sbFittings.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
+
+                if (element.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE")
+                {
+                    sbFittings.AppendLine("    STATUS DOTTED-UNDIMENSIONED");
+                }
+                else
+                {
+                    sbFittings.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsString());
+                }
 
                 //Write Plant3DIso entries if turned on
                 if (iv.ExportToIsogen) sbFittings.Append(Composer.Plant3DIsoWriter(element, doc));

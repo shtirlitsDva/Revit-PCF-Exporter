@@ -169,7 +169,6 @@ namespace PCF_Exporter
                 elements = elements.ExceptWhere(x =>
                     x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
 
-
                 //Set the start number to count the COMPID instances and MAT groups.
                 int elementIdentificationNumber = 0;
                 int materialGroupIdentifier = 0;
@@ -190,13 +189,12 @@ namespace PCF_Exporter
 
                 using (Transaction trans = new Transaction(doc, "Set PCF_ELEM_COMPID and PCF_MAT_ID"))
                 {
-
                     trans.Start();
                     //Clear MTL data from previous runs for elements with EXISTING-INCLUDE spec
                     foreach (Element e in existInclElements)
                     {
-                        e.LookupParameter("PCF_ELEM_COMPID").Set("");
-                        e.LookupParameter("PCF_MAT_ID").Set("");
+                        e.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).Set("");
+                        e.get_Parameter(new plst().PCF_MAT_ID.Guid).Set("");
                     }
 
                     //Access groups
@@ -207,8 +205,8 @@ namespace PCF_Exporter
                         foreach (Element element in group)
                         {
                             elementIdentificationNumber++;
-                            element.LookupParameter("PCF_ELEM_COMPID").Set(elementIdentificationNumber);
-                            element.LookupParameter("PCF_MAT_ID").Set(materialGroupIdentifier);
+                            element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).Set(elementIdentificationNumber.ToString());
+                            element.get_Parameter(new plst().PCF_MAT_ID.Guid).Set(materialGroupIdentifier.ToString());
                         }
                     }
                     trans.Commit();

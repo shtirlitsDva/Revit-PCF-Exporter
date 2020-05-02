@@ -41,7 +41,15 @@ namespace PCF_Accessories
                     element = Element;
 
                     sbAccessories.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
-                    sbAccessories.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsInteger());
+
+                    if (element.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE")
+                    {
+                        sbAccessories.AppendLine("    STATUS DOTTED-UNDIMENSIONED");
+                    }
+                    else
+                    {
+                        sbAccessories.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsString());
+                    }
 
                     //Write Plant3DIso entries if turned on
                     if (InputVars.ExportToIsogen) sbAccessories.Append(Composer.Plant3DIsoWriter(element, doc));

@@ -70,8 +70,8 @@ namespace PCF_Functions
         public readonly pdef PCF_ELEM_TAP1 = new pdef("PCF_ELEM_TAP1", "ELEM", "P", pd.Text, new Guid("5fda303c-5536-429b-9fcc-afb40d14c7b3"));
         public readonly pdef PCF_ELEM_TAP2 = new pdef("PCF_ELEM_TAP2", "ELEM", "P", pd.Text, new Guid("e1e9bc3b-ce75-4f3a-ae43-c270f4fde937"));
         public readonly pdef PCF_ELEM_TAP3 = new pdef("PCF_ELEM_TAP3", "ELEM", "P", pd.Text, new Guid("12693653-8029-4743-be6a-310b1fbc0620"));
-        public readonly pdef PCF_ELEM_COMPID = new pdef("PCF_ELEM_COMPID", "ELEM", "P", pd.Integer, new Guid("876d2334-f860-4b5a-8c24-507e2c545fc0"));
-        public readonly pdef PCF_MAT_ID = new pdef("PCF_MAT_ID", "ELEM", "P", pd.Integer, new Guid("fc5d3b19-af5b-47f6-a269-149b701c9364"), "MATERIAL-IDENTIFIER");
+        public readonly pdef PCF_ELEM_COMPID = new pdef("PCF_ELEM_COMPID", "ELEM", "P", pd.Text, new Guid("4EAB3C7A-C0BF-4E9A-B7B9-978407C12800"));
+        public readonly pdef PCF_MAT_ID = new pdef("PCF_MAT_ID", "ELEM", "P", pd.Text, new Guid("DE851B73-AFEA-4B38-9BCB-EFC8CBA78B16"), "MATERIAL-IDENTIFIER");
 
         //Pipeline parameters
         public readonly pdef PCF_PIPL_LINEID = new pdef("PCF_LINEID", "PIPL", "U", pd.Text, new Guid("A12D0564-A8D9-451A-9800-5704EB1E7B75"), "LINE-ID");

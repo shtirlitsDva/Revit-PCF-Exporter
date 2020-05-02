@@ -182,7 +182,7 @@ namespace PCF_Functions
             pdef matId = new plst().PCF_MAT_ID;
             pdef matDescr = new plst().PCF_MAT_DESCR;
 
-            int itemCode = element.get_Parameter(matId.Guid).AsInteger();
+            string itemCode = element.get_Parameter(matId.Guid).AsString();
             string itemDescr = element.get_Parameter(matDescr.Guid).AsString();
             string key = Shared.MepUtils.GetElementPipingSystemType(element, doc).Abbreviation;
 
