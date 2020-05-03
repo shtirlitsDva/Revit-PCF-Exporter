@@ -30,7 +30,8 @@ namespace Shared.Tools
             InputBoxBasic ds = new InputBoxBasic();
             ds.ShowDialog();
 
-            Element element = doc.GetElement(ds.Text);
+            Element element = doc.GetElement(ds.InputText);
+            if (element == null) return Result.Failed;
             List<ElementId> ids = new List<ElementId>(1);
             ids.Add(element.Id);
             
