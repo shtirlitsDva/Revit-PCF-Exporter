@@ -57,8 +57,8 @@ namespace PCF_Functions
         //public readonly pdef PCF_ELEM_TRACING_SPEC = new pdef("PCF_ELEM_TRACING_SPEC", "ELEM", "U", pd.Text, new Guid("8e1d43fb-9cd2-4591-a1f5-ba392f0a8708"), "TRACING-SPEC");
         //public readonly pdef PCF_ELEM_INSUL_SPEC = new pdef("PCF_ELEM_INSUL_SPEC", "ELEM", "U", pd.Text, new Guid("d628605e-c0bf-43dc-9f05-e22dbae2022e"), "INSULATION-SPEC");
         //public readonly pdef PCF_ELEM_PAINT_SPEC = new pdef("PCF_ELEM_PAINT_SPEC", "ELEM", "U", pd.Text, new Guid("b51db394-85ee-43af-9117-bb255ac0aaac"), "PAINTING-SPEC");
-        //public readonly pdef PCF_ELEM_MISC1 = new pdef("PCF_ELEM_MISC1", "ELEM", "U", pd.Text, new Guid("ea4315ce-e5f5-4538-a6e9-f548068c3c66"), "MISC-SPEC1");
-        //public readonly pdef PCF_ELEM_MISC2 = new pdef("PCF_ELEM_MISC2", "ELEM", "U", pd.Text, new Guid("cca78e21-5ed7-44bc-9dab-844997a1b965"), "MISC-SPEC2");
+        //public readonly pdef PCF_ELEM_MTLST = new pdef("PCF_ELEM_MTLST", "ELEM", "U", pd.Text, new Guid("ea4315ce-e5f5-4538-a6e9-f548068c3c66"), "MATERIAL-LIST");
+        public readonly pdef PCF_ELEM_REV = new pdef("PCF_ELEM_REV", "ELEM", "U", pd.Text, new Guid("cca78e21-5ed7-44bc-9dab-844997a1b965"), "REVISION");
         //public readonly pdef PCF_ELEM_MISC3 = new pdef("PCF_ELEM_MISC3", "ELEM", "U", pd.Text, new Guid("0e065f3e-83c8-44c8-a1cb-babaf20476b9"), "MISC-SPEC3");
         //public readonly pdef PCF_ELEM_MISC4 = new pdef("PCF_ELEM_MISC4", "ELEM", "U", pd.Text, new Guid("3229c505-3802-416c-bf04-c109f41f3ab7"), "MISC-SPEC4");
         //public readonly pdef PCF_ELEM_MISC5 = new pdef("PCF_ELEM_MISC5", "ELEM", "U", pd.Text, new Guid("692e2e97-3b9c-4616-8a03-dfd493b01762"), "MISC-SPEC5");
@@ -184,12 +184,12 @@ namespace PCF_Functions
             LPAll.Add(PCF_ELEM_END2);
             LPAll.Add(PCF_ELEM_END3);
             LPAll.Add(PCF_ELEM_BP1);
-            //ListParametersAll.Add(PCF_ELEM_STATUS);
+            //LPAll.Add(PCF_ELEM_STATUS);
             //ListParametersAll.Add(PCF_ELEM_TRACING_SPEC);
             //ListParametersAll.Add(PCF_ELEM_INSUL_SPEC);
             //ListParametersAll.Add(PCF_ELEM_PAINT_SPEC);
-            //ListParametersAll.Add(PCF_ELEM_MISC1);
-            //ListParametersAll.Add(PCF_ELEM_MISC2);
+            //LPAll.Add(PCF_ELEM_MTLST);
+            LPAll.Add(PCF_ELEM_REV);
             //ListParametersAll.Add(PCF_ELEM_MISC3);
             //ListParametersAll.Add(PCF_ELEM_MISC4);
             //ListParametersAll.Add(PCF_ELEM_MISC5);

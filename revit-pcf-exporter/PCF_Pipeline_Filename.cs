@@ -50,10 +50,11 @@ namespace PCF_Pipeline
 
             string _outputDir = iv.OutputDirectoryFilePath;
 
-            iv.FullFileName = _outputDir + "\\" + docName + "_" + dateAndTime + scope + ".pcf";
+            //iv.FullFileName = _outputDir + "\\" + docName + "_" + dateAndTime + "_" scope + ".pcf";
+            iv.FullFileName = $"{_outputDir}\\{docName}_{dateAndTime}_{scope}.pcf";
             //string filename = _outputDir+"\\" + docName + ".pcf";
 
-            sb.AppendLine("    ATTRIBUTE59 " + iv.FullFileName);
+            sb.AppendLine($"    ATTRIBUTE59 {docName}_{dateAndTime}_{scope}.pcf");
 
             return sb;
         }

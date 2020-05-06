@@ -79,9 +79,6 @@ namespace PCF_Functions
         //Shared parameter group
         //public const string PCF_GROUP_NAME = "PCF"; OBSOLETE
         public const BuiltInParameterGroup PCF_BUILTIN_GROUP_NAME = BuiltInParameterGroup.PG_ANALYTICAL_MODEL;
-
-        //PCF specification - OBSOLETE
-        //public static string PIPING_SPEC = "STD";
         #endregion
     }
 
@@ -174,7 +171,7 @@ namespace PCF_Functions
             //If an element has EXISTING in it's PCF_ELEM_SPEC the writing of ITEM-CODE will be skipped, making Plant 3D ISO treat it as existing.
             pdef elemSpec = new plst().PCF_ELEM_SPEC;
             Parameter pm = element.get_Parameter(elemSpec.Guid);
-            if (string.Equals(pm.AsString(), "EXISTING-INCLUDE")) return new StringBuilder();
+            //if (string.Equals(pm.AsString(), "EXISTING-INCLUDE")) return new StringBuilder();
 
             //Write ITEM-CODE et al
             StringBuilder sb = new StringBuilder();
