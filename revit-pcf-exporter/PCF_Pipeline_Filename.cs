@@ -37,15 +37,15 @@ namespace PCF_Pipeline
 
             if (iv.ExportAllOneFile)
             {
-                scope = "_All_Lines";
+                scope = "All_Lines";
             }
             else if (iv.ExportAllSepFiles || iv.ExportSpecificPipeLine)
             {
-                scope = "_" + iv.SysAbbr;
+                scope = iv.SysAbbr;
             }
             else if (iv.ExportSelection)
             {
-                scope = "_Selection";
+                scope = "Selection";
             }
 
             string _outputDir = iv.OutputDirectoryFilePath;
