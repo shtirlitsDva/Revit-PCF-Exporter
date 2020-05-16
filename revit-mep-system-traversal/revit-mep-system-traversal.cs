@@ -31,6 +31,7 @@ namespace RevitMEPSystemTraversal
 
         public void AnalyzeSystem()
         {
+            //Deviously hard to follow (and debug) code be here
             //Start analysis
             var openEnds = detectOpenEnds(Model);
 
