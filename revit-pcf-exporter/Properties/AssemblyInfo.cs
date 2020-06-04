@@ -77,5 +77,5 @@ using System.Reflection;
 // [assembly: AssemblyVersion("1.0.*")]
 // 2016-03-05 - 2016.0.0.1 - implemented interface
 //
-[assembly: AssemblyVersion("2019.0.0.*")]
-[assembly: AssemblyFileVersion("2019.1.1.1")]
+[assembly: AssemblyVersion("2021.0.0.*")]
+[assembly: AssemblyFileVersion("2021.0.0.0")]
