@@ -248,6 +248,9 @@ namespace PCF_Fittings
                         sbFittings.AppendLine();
 
                         break;
+
+                    case ("TEE-STUB"):
+                        goto case ("OLET");
                 }
 
                 Composer elemParameterComposer = new Composer();

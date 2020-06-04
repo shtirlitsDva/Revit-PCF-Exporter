@@ -151,7 +151,9 @@ namespace PCF_Parameters
                     if (row == 2) worksheet.Cells[1, col] = p.Name; //Fill out top row only in the first iteration
                     ElementId id = gp.First().GetTypeId();
                     PipingSystemType ps = (PipingSystemType)doc.GetElement(id); //SystemType parameters can only be read from type elements
-                    worksheet.Cells[row, col] = ps.get_Parameter(p.Guid).AsString();
+                    Parameter par = ps.get_Parameter(p.Guid);
+                    if (par == null) continue;
+                    worksheet.Cells[row, col] = par.AsString();
                     col++; //Increment column
                 }
                 row++; col = 2; //Increment row and reset column

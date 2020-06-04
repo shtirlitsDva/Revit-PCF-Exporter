@@ -71,6 +71,8 @@ namespace PCF_Accessories
                             sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
 
                             break;
+                        case ("SAFETY-DISC"):
+                            goto case ("INSTRUMENT");
 
                         case ("VALVE"):
                             goto case ("INSTRUMENT");
