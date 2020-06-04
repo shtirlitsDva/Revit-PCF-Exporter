@@ -65,6 +65,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\revit-pcf-exporter\PCF_Functions.cs">
+      <Link>PCF_Functions.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter\PCF_ParameterData.cs">
+      <Link>PCF_ParameterData.cs</Link>
+    </Compile>
     <Compile Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,12 +105,6 @@
     <EmbeddedResource Include="Tools.resx">
       <DependentUpon>Tools.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\revit-pcf-exporter\revit-pcf-exporter.csproj">
-      <Project>{037b382d-9bc9-4d7a-b76d-55be5964e44d}</Project>
-      <Name>revit-pcf-exporter</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AnalysisTools16.png" />

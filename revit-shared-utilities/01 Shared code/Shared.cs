@@ -3,7 +3,7 @@ using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Plumbing;
 //using MoreLinq;
-using Shared.BuildingCoder;
+//using Shared.BuildingCoder;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -629,8 +629,8 @@ namespace Shared
                 }
             }
 
-            if (data == null) BuildingCoderUtilities.ErrorMsg("Data set is null");
-            if (data.Tables.Count < 1) BuildingCoderUtilities.ErrorMsg("Table count in DataSet is 0");
+            if (data == null) Shared.BuildingCoder.BuildingCoderUtilities.ErrorMsg("Data set is null");
+            if (data.Tables.Count < 1) BuildingCoder.BuildingCoderUtilities.ErrorMsg("Table count in DataSet is 0");
 
             return data;
         }
