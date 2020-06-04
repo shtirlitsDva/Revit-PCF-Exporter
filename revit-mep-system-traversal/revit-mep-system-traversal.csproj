@@ -80,6 +80,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+	<Compile Include="..\revit-shared-utilities\01 Shared code\Shared.cs">
+      <Link>Shared.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-shared-utilities\01 Shared code\Utils.cs">
+      <Link>Utils.cs</Link>
+    </Compile>
     <Compile Include="revit-mep-system-traversal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
