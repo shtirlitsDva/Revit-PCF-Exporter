@@ -53,6 +53,8 @@ namespace PCF_Fittings
 
                         Parameter par = element.LookupParameter("Angle");
                         if (par == null) par = element.LookupParameter("angle");
+                        if (par == null) par = element.LookupParameter("Угол");
+                        if (par == null) par = element.LookupParameter("угол");
                         if (par == null) throw new Exception($"Angle parameter on elbow {element.Id.IntegerValue} does not exist or is named differently!");
                         sbFittings.Append((Conversion.RadianToDegree(par.AsDouble()) * 100).ToString("0"));
                         sbFittings.AppendLine();

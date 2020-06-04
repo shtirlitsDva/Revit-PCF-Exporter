@@ -381,65 +381,66 @@ namespace PCF_Parameters
             trans.Start();
 
             //Loop all elements pipes and fittings and accessories, setting parameters as defined in the dataset
-            try
+            //try
+            //{
+            //Reporting the number of different elements initialized
+            int sNumber = 0;
+            foreach (Element element in sQuery)
             {
-                //Reporting the number of different elements initialized
-                int sNumber = 0;
-                foreach (Element element in sQuery)
+                //reporting
+                sNumber++;
+
+                eFamilyType = "Piping System: " + element.Name;
+                foreach (string parameterName in pd.parameterNames) // <-- pd.parameterNames must be correctly initialized by FormCaller!!!
                 {
-                    //reporting
-                    sNumber++;
-
-                    eFamilyType = "Piping System: " + element.Name;
-                    foreach (string parameterName in pd.parameterNames) // <-- pd.parameterNames must be correctly initialized by FormCaller!!!
+                    columnName = parameterName; //This is needed to execute query correctly by deferred execution
+                    string parameterValue = query.FirstOrDefault();
+                    if (string.IsNullOrEmpty(parameterValue)) continue;
+                    Guid parGuid = (from d in pQuery.ToList() where d.Name == parameterName select d.Guid).First();
+                    //Check if parGuid returns a match
+                    if (parGuid == null)
                     {
-                        columnName = parameterName; //This is needed to execute query correctly by deferred execution
-                        string parameterValue = query.FirstOrDefault();
-                        if (string.IsNullOrEmpty(parameterValue)) continue;
-                        Guid parGuid = (from d in pQuery.ToList() where d.Name == parameterName select d.Guid).First();
-                        //Check if parGuid returns a match
-                        if (parGuid == null)
-                        {
-                            BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select PIPELINE parameters.");
-                            return Result.Failed;
-                        }
-                        element.get_Parameter(parGuid).Set(parameterValue);
+                        BuildingCoderUtilities.ErrorMsg("Wrong parameter set. Select PIPELINE parameters.");
+                        return Result.Failed;
                     }
-
-                    //sbParameters.Append(eFamilyType);
-                    //sbParameters.AppendLine();
+                    element.get_Parameter(parGuid).Set(parameterValue);
                 }
 
                 //sbParameters.Append(eFamilyType);
                 //sbParameters.AppendLine();
-                //}
-                trans.Commit();
-                sbFeedback.Append(sNumber + " Pipe Systems (Pipelines) initialized.\n");
-                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
-                //excelReader.Close();
+            }
 
-                //// Debugging
-                //// Clear the output file
-                //File.WriteAllBytes(InputVars.OutputDirectoryFilePath + "Parameters.pcf", new byte[0]);
+            //sbParameters.Append(eFamilyType);
+            //sbParameters.AppendLine();
+            //}
+            trans.Commit();
+            sbFeedback.Append(sNumber + " Pipe Systems (Pipelines) initialized.\n");
+            BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
+            //excelReader.Close();
 
-                //// Write to output file
-                //using (StreamWriter w = File.AppendText(InputVars.OutputDirectoryFilePath + "Parameters.pcf"))
-                //{
-                //    w.Write(sbParameters);
-                //    w.Close();
-                //}
-            }
-            catch (Autodesk.Revit.Exceptions.OperationCanceledException)
-            {
-                return Result.Cancelled;
-            }
-            catch (Exception ex)
-            {
-                msg = ex.Message;
-                BuildingCoderUtilities.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
-                trans.RollBack();
-                return Result.Failed;
-            }
+            //// Debugging
+            //// Clear the output file
+            //File.WriteAllBytes(InputVars.OutputDirectoryFilePath + "Parameters.pcf", new byte[0]);
+
+            //// Write to output file
+            //using (StreamWriter w = File.AppendText(InputVars.OutputDirectoryFilePath + "Parameters.pcf"))
+            //{
+            //    w.Write(sbParameters);
+            //    w.Close();
+            //}
+            //}
+            //catch (Autodesk.Revit.Exceptions.OperationCanceledException)
+            //{
+            //    return Result.Cancelled;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw
+            //    //msg = ex.Message;
+            //    //BuildingCoderUtilities.ErrorMsg("Population of parameters failed with the following exception: \n" + msg);
+            //    //trans.RollBack();
+            //    //return Result.Failed;
+            //}
             return Result.Succeeded;
         }
 
