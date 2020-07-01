@@ -616,7 +616,16 @@ namespace Shared
                 {
                     var dataTable = new DataTable();
                     string query = string.Format("SELECT * FROM [{0}]", sheetName);
-                    con.Open();
+
+                    try
+                    {
+                        con.Open();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception($"OleDb threw an Exception AGAIN!!!\n{e.Message}");
+                    }
+
                     OleDbDataAdapter adapter = new OleDbDataAdapter(query, con);
                     adapter.Fill(dataTable);
 

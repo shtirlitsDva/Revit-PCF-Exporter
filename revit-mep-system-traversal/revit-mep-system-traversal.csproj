@@ -39,9 +39,6 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mg.revit-shared-utilities, Version=2021.1.2.20800, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mg.revit-shared-utilities.2021.1.2.20800\lib\net48\mg.revit-shared-utilities.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -72,9 +69,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,6 +82,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\revit-shared-utilities\01 Shared code\Shared.cs">
+      <Link>Shared.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-shared-utilities\01 Shared code\Utils.cs">
+      <Link>Utils.cs</Link>
+    </Compile>
     <Compile Include="revit-mep-system-traversal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

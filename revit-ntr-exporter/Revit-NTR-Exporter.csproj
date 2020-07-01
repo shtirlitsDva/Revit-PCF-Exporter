@@ -40,9 +40,6 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mg.revit-shared-utilities, Version=2021.1.2.20800, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mg.revit-shared-utilities.2021.1.2.20800\lib\net48\mg.revit-shared-utilities.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -89,6 +86,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\revit-shared-utilities\01 Shared code\RadioBox.cs">
+      <Link>RadioBox.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-shared-utilities\01 Shared code\Shared.cs">
+      <Link>Shared.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-shared-utilities\01 Shared code\Utils.cs">
+      <Link>Utils.cs</Link>
+    </Compile>
     <Compile Include="App.cs" />
     <Compile Include="NTR_Accessories.cs" />
     <Compile Include="NTR_Fittings.cs" />
