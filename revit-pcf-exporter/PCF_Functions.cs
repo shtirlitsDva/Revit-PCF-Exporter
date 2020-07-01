@@ -274,12 +274,23 @@ namespace PCF_Functions
 
     public static class EndWriter
     {
-        internal static string PointStringMm(XYZ p)
+        internal static string PointStringMm(XYZ p, int decimals = 1)
         {
+            string zeroes = "";
+
+            if (decimals > 1)
+            {
+                for (int i = 1; i < decimals + 1; i++)
+                {
+                    zeroes += "0";
+                }
+            }
+            else { zeroes = "0"; }
+
             return string.Concat(
-                Math.Round(p.X.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
-                Math.Round(p.Y.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")), " ",
-                Math.Round(p.Z.FtToMm(), 1, MidpointRounding.AwayFromZero).ToString("0.0", CultureInfo.GetCultureInfo("en-GB")));
+                Math.Round(p.X.FtToMm(), decimals, MidpointRounding.AwayFromZero).ToString($"0.{zeroes}", CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Y.FtToMm(), decimals, MidpointRounding.AwayFromZero).ToString($"0.{zeroes}", CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Z.FtToMm(), decimals, MidpointRounding.AwayFromZero).ToString($"0.{zeroes}", CultureInfo.GetCultureInfo("en-GB")));
         }
 
         public static StringBuilder WriteEP(XYZ endPoint)
@@ -308,6 +319,19 @@ namespace PCF_Functions
                 sbEndWriter.Append(" ");
                 sbEndWriter.Append(element.LookupParameter("PCF_ELEM_END1").AsString());
             }
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
+
+        public static StringBuilder WriteEP1(Connector connector, int decimals)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            XYZ connectorOrigin = connector.Origin;
+            double connectorSize = connector.Radius;
+            sbEndWriter.Append("    END-POINT ");
+            sbEndWriter.Append(PointStringMm(connectorOrigin, decimals));
+            sbEndWriter.Append(" ");
+            sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
             sbEndWriter.AppendLine();
             return sbEndWriter;
         }

@@ -62,7 +62,7 @@ namespace Shared.Tools
             nameDict = new Dictionary<int, string>
             {
                 {0, "Spatial validation." },
-                {1, "Coords PCF" },
+                {1, "(ctrl) Coords PCF" },
                 {2, "Get E by UCI" }
             };
 

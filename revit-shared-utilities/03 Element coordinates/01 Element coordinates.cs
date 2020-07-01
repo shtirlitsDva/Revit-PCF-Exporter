@@ -6,6 +6,7 @@ using Autodesk.Revit.UI.Selection;
 using MoreLinq;
 using Shared;
 using System;
+using System.Windows.Input;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -31,14 +32,26 @@ namespace Shared.Tools
             Selection selection = uidoc.Selection;
             var items = selection.GetElementIds().Select(x => doc.GetElement(x));
 
+            int decimals = 1;
+
+            bool ctrl = false;
+            if ((int)Keyboard.Modifiers == 2) ctrl = true;
+
+            if (ctrl)
+            {
+                InputBoxBasic ds = new InputBoxBasic();
+                ds.ShowDialog();
+                decimals = int.Parse(ds.InputText); 
+            }
+
             string message = string.Empty;
             foreach (Element e in items)
             {
                 message += e.Name + "\n";
 
                 Cons cons = mp.GetConnectors(e);
-                message += PCF_Functions.EndWriter.WriteEP1(e, cons.Primary);
-                message += PCF_Functions.EndWriter.WriteEP1(e, cons.Secondary);
+                message += PCF_Functions.EndWriter.WriteEP1(cons.Primary, decimals);
+                message += PCF_Functions.EndWriter.WriteEP1(cons.Secondary, decimals);
             }
 
             Shared.BuildingCoder.BuildingCoderUtilities.InfoMsg(message);
