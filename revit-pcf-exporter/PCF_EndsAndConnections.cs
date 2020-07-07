@@ -114,7 +114,7 @@ namespace PCF_Pipeline
                             sb.AppendLine("END-CONNECTION-EQUIPMENT");
                             sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
                             sb.Append(PCF_Functions.ParameterDataWriter
-                                .ParameterValue("CONNECTION-REFERENCE", new[] { "TAG 1", "TAG 2" }, correspondingCon.Owner));
+                                .ParameterValue("CONNECTION-REFERENCE", new[] { "TAG 1", "TAG 2", "TAG 3", "TAG 4" }, correspondingCon.Owner));
 
                             continue;
                         }
