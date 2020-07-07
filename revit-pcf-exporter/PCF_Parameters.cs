@@ -199,8 +199,6 @@ namespace PCF_Parameters
 
             #endregion
 
-
-
             collector.Dispose();
             return Result.Succeeded;
         }
@@ -471,7 +469,12 @@ namespace PCF_Parameters
 
             string ExecutingAssemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string oriFile = app.SharedParametersFilename;
-            string tempFile = ExecutingAssemblyPath + "Temp.txt";
+            string tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()) + ".txt";
+            using (File.Create(tempFile)) { }
+            uiApp.Application.SharedParametersFilename = tempFile;
+            app.SharedParametersFilename = tempFile;
+            DefinitionFile file = app.OpenSharedParameterFile();
+            var groups = file.Groups;
 
             StringBuilder sbFeedback = new StringBuilder();
             //Parameter query
@@ -481,43 +484,39 @@ namespace PCF_Parameters
                         select p;
 
             //Create parameter bindings
-            try
+            Transaction trans = new Transaction(doc, "Bind element PCF parameters");
+            trans.Start();
+
+            int count = 0;
+
+            foreach (pdef parameter in query.ToList())
             {
-                Transaction trans = new Transaction(doc, "Bind element PCF parameters");
-                trans.Start();
-                foreach (pdef parameter in query.ToList())
+                count++;
+
+                ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(parameter.Name, parameter.Type)
                 {
-                    using (File.Create(tempFile)) { }
-                    app.SharedParametersFilename = tempFile;
-                    ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(parameter.Name, parameter.Type)
-                    {
-                        GUID = parameter.Guid
-                    };
-                    ExternalDefinition def = app.OpenSharedParameterFile().Groups.Create("TemporaryDefinitionGroup").Definitions.Create(options) as ExternalDefinition;
+                    GUID = parameter.Guid
+                };
 
-                    BindingMap map = doc.ParameterBindings;
-                    Binding binding = app.Create.NewInstanceBinding(catSet);
+                string tempName = "TemporaryDefinitionGroup" + count;
+                var tempGr = groups.Create(tempName);
+                var tempDefs = tempGr.Definitions;
+                ExternalDefinition def = tempDefs.Create(options) as ExternalDefinition;
 
-                    if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " already exists.\n");
-                    else
-                    {
-                        map.Insert(def, binding, InputVars.PCF_BUILTIN_GROUP_NAME);
-                        if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " added to project.\n");
-                        else sbFeedback.Append("Creation of parameter " + parameter.Name + " failed for some reason.\n");
-                    }
-                    File.Delete(tempFile);
+                BindingMap map = doc.ParameterBindings;
+                Binding binding = app.Create.NewInstanceBinding(catSet);
+
+                if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " already exists.\n");
+                else
+                {
+                    map.Insert(def, binding, InputVars.PCF_BUILTIN_GROUP_NAME);
+                    if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " added to project.\n");
+                    else sbFeedback.Append("Creation of parameter " + parameter.Name + " failed for some reason.\n");
                 }
-                trans.Commit();
-                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
             }
-
-            catch (Autodesk.Revit.Exceptions.OperationCanceledException) { return Result.Cancelled; }
-
-            catch (Exception ex)
-            {
-                msg = ex.Message;
-                return Result.Failed;
-            }
+            trans.Commit();
+            BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
+            File.Delete(tempFile);
 
             app.SharedParametersFilename = oriFile;
 
@@ -539,7 +538,13 @@ namespace PCF_Parameters
 
             string ExecutingAssemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string oriFile = app.SharedParametersFilename;
-            string tempFile = ExecutingAssemblyPath + "Temp.txt";
+            string tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()) + ".txt";
+            using (File.Create(tempFile)) { }
+            uiApp.Application.SharedParametersFilename = tempFile;
+            app.SharedParametersFilename = tempFile;
+            DefinitionFile file = app.OpenSharedParameterFile();
+            var groups = file.Groups;
+            int count = 0;
 
             StringBuilder sbFeedback = new StringBuilder();
 
@@ -549,43 +554,37 @@ namespace PCF_Parameters
                         select p;
 
             //Create parameter bindings
-            try
+            Transaction trans = new Transaction(doc, "Bind PCF parameters");
+            trans.Start();
+
+            foreach (pdef parameter in query.ToList())
             {
-                Transaction trans = new Transaction(doc, "Bind PCF parameters");
-                trans.Start();
-                foreach (pdef parameter in query.ToList())
+                count++;
+
+                ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(parameter.Name, parameter.Type)
                 {
-                    using (File.Create(tempFile)) { }
-                    app.SharedParametersFilename = tempFile;
-                    ExternalDefinitionCreationOptions options = new ExternalDefinitionCreationOptions(parameter.Name, parameter.Type)
-                    {
-                        GUID = parameter.Guid
-                    };
-                    ExternalDefinition def = app.OpenSharedParameterFile().Groups.Create("TemporaryDefinitionGroup").Definitions.Create(options) as ExternalDefinition;
+                    GUID = parameter.Guid
+                };
 
-                    BindingMap map = doc.ParameterBindings;
-                    Binding binding = app.Create.NewTypeBinding(catSet);
+                string tempName = "TemporaryDefinitionGroup" + count;
+                var tempGr = groups.Create(tempName);
+                var tempDefs = tempGr.Definitions;
+                ExternalDefinition def = tempDefs.Create(options) as ExternalDefinition;
 
-                    if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " already exists.\n");
-                    else
-                    {
-                        map.Insert(def, binding, InputVars.PCF_BUILTIN_GROUP_NAME);
-                        if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " added to project.\n");
-                        else sbFeedback.Append("Creation of parameter " + parameter.Name + " failed for some reason.\n");
-                    }
-                    File.Delete(tempFile);
+                BindingMap map = doc.ParameterBindings;
+                Binding binding = app.Create.NewTypeBinding(catSet);
+
+                if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " already exists.\n");
+                else
+                {
+                    map.Insert(def, binding, InputVars.PCF_BUILTIN_GROUP_NAME);
+                    if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " added to project.\n");
+                    else sbFeedback.Append("Creation of parameter " + parameter.Name + " failed for some reason.\n");
                 }
-                trans.Commit();
-                BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
             }
-
-            catch (Autodesk.Revit.Exceptions.OperationCanceledException) { return Result.Cancelled; }
-
-            catch (Exception ex)
-            {
-                msg = ex.Message;
-                return Result.Failed;
-            }
+            trans.Commit();
+            BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
+            File.Delete(tempFile);
 
             app.SharedParametersFilename = oriFile;
 
