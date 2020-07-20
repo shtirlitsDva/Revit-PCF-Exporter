@@ -45,14 +45,15 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 450);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // BaseFormTableLayoutPanel_BasicList
+            // BaseFormTableLayoutPanel_Basic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "BaseFormTableLayoutPanel_BasicList";
+            this.Name = "BaseFormTableLayoutPanel_Basic";
             this.Text = "BaseFormTableLayoutPanel_BasicList";
+            this.Load += new System.EventHandler(this.BaseFormTableLayoutPanel_Basic_Load);
             this.ResumeLayout(false);
 
         }

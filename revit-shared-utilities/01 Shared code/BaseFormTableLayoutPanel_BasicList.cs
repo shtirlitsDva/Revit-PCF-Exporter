@@ -19,6 +19,9 @@ namespace Shared
         /// </summary>
         public string strTR { get; private set; }
 
+        private int desiredStartLocationX;
+        private int desiredStartLocationY;
+
         public BaseFormTableLayoutPanel_Basic(List<string> stringList)
         {
             InitializeComponent();
@@ -56,7 +59,15 @@ namespace Shared
             }
         }
 
-        public BaseFormTableLayoutPanel_Basic(Dictionary<string,string> dict)
+        public BaseFormTableLayoutPanel_Basic(int x, int y, List<string> stringList) : this(stringList)
+        {
+            desiredStartLocationX = x;
+            desiredStartLocationY = y;
+
+            Load += new EventHandler(BaseFormTableLayoutPanel_Basic_Load);
+        }
+
+        public BaseFormTableLayoutPanel_Basic(Dictionary<string, string> dict)
         {
             InitializeComponent();
 
@@ -81,7 +92,7 @@ namespace Shared
                 this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100 / rowCount));
             }
 
-            foreach (KeyValuePair<string,string> entry in dict)
+            foreach (KeyValuePair<string, string> entry in dict)
             {
                 var b = new Button();
                 b.Text = entry.Key;
@@ -93,6 +104,19 @@ namespace Shared
             }
         }
 
+        public BaseFormTableLayoutPanel_Basic(int x, int y, Dictionary<string, string> stringDict) : this(stringDict)
+        {
+            desiredStartLocationX = x;
+            desiredStartLocationY = y;
+
+            Load += new EventHandler(BaseFormTableLayoutPanel_Basic_Load);
+        }
+
+        private void BaseFormTableLayoutPanel_Basic_Load(object sender, EventArgs e)
+        {
+            SetDesktopLocation(desiredStartLocationX, desiredStartLocationY);
+        }
+
         private void b_Click(object sender, EventArgs e)
         {
             var b = sender as Button;
@@ -100,11 +124,12 @@ namespace Shared
             this.Close();
         }
 
-        private void b_ClickDict(object sender, EventArgs e, Dictionary<string,string> dict)
+        private void b_ClickDict(object sender, EventArgs e, Dictionary<string, string> dict)
         {
             var b = sender as Button;
             strTR = dict[b.Text];
             this.Close();
         }
     }
+
 }
