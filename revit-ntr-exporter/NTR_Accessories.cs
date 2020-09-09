@@ -145,7 +145,7 @@ namespace NTR_Exporter
 
                 sbAccessories.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
                 sbAccessories.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
-                sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2" }, element));
+                sbAccessories.Append(dw.ParameterValue("TEXT", new[] { "TAG 1", "TAG 2", "TAG 3", "TAG 4" }, element));
                 sbAccessories.Append(dw.WriteElementId(element, "REF"));
                 sbAccessories.Append(" LTG=" + key);
                 sbAccessories.AppendLine();
