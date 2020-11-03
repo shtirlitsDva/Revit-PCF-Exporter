@@ -13,7 +13,7 @@ using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Shared;
 
-//using RadioBox = CIINExporter.RadioBox;
+using RadioBox = Shared.RadioBox;
 
 namespace CIINExporter
 {
