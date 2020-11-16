@@ -798,7 +798,7 @@ namespace Shared
         public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate) => source.Where(x => !predicate(x));
 
         public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
-        
+
         public static string MEPSystemAbbreviation(this Connector con, Document doc, bool ignoreMepSystemNull = false)
         {
             if (con.MEPSystem != null)
@@ -883,6 +883,43 @@ namespace Shared
                     break;
             }
             return ret;
+        }
+        public static string ToValueString2(this Autodesk.Revit.DB.Parameter p)
+        {
+            string ret = string.Empty;
+
+            switch (p.StorageType)
+            {
+                case StorageType.ElementId:
+                    ret = p.AsValueString();
+                    break;
+                case StorageType.Integer:
+                    ret = p.AsInteger().ToString();
+                    break;
+                case StorageType.String:
+                    ret = p.AsString();
+                    break;
+                case StorageType.Double:
+                    ret = p.AsValueString();
+                    break;
+                default:
+                    break;
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Return a descriptive string for a built-in 
+        /// category by removing the trailing plural 's' 
+        /// and the OST_ prefix.
+        /// </summary>
+        public static string Description(this BuiltInCategory bic)
+        {
+            string s = bic.ToString().ToLower();
+            s = s.Substring(4);
+            Debug.Assert(s.EndsWith("s"), "expected plural suffix 's'");
+            s = s.Substring(0, s.Length - 1);
+            return s;
         }
     }
 
