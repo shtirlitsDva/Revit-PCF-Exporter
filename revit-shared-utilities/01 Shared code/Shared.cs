@@ -884,6 +884,30 @@ namespace Shared
             }
             return ret;
         }
+
+        public static string ToValueString2(this Autodesk.Revit.DB.Parameter p)
+        {
+            string ret = string.Empty;
+
+            switch (p.StorageType)
+            {
+                case StorageType.ElementId:
+                    ret = p.AsValueString();
+                    break;
+                case StorageType.Integer:
+                    ret = p.AsInteger().ToString();
+                    break;
+                case StorageType.String:
+                    ret = p.AsString();
+                    break;
+                case StorageType.Double:
+                    ret = p.AsValueString();
+                    break;
+                default:
+                    break;
+            }
+            return ret;
+        }
     }
 
     public static class Transformation
