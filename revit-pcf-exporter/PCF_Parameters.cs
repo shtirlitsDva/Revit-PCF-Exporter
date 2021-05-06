@@ -256,6 +256,7 @@ namespace PCF_Parameters
 
                         //Filter out elements in ARGD (Rigids) system type
                         Cons cons = new Cons(element);
+
                         if (cons.Primary.MEPSystemAbbreviation(doc) == "ARGD") continue;
 
                         //reporting
