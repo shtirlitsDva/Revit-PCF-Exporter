@@ -110,8 +110,14 @@ namespace PCF_Exporter
                 HashSet<Element> elements;
                 try
                 {
+                    FilterOptions filterOptions = new FilterOptions()
+                    {
+                        FilterByDiameter = true,
+                        FilterByPCF_ELEM_EXCL = true,
+                        FilterByPCF_PIPL_EXCL = true
+                    };
+
                     //DiameterLimit filter applied to ALL elements.
-                    //Done
                     IEnumerable<Element> filtering = from element in colElements where Filters.FilterDL(element) select element;
 
                     //Filter out EXCLUDED elements -> 0 means no checkmark
