@@ -132,7 +132,7 @@ namespace PCF_Parameters
             //Change domain for query
             string curDomain = "PIPL", curUsage = "U";
 
-            var query = from p in new plst().LPAll
+            var query = from p in plst.LPAll
                         where p.Domain == curDomain && p.Usage == curUsage
                         select p;
 
@@ -233,7 +233,7 @@ namespace PCF_Parameters
                                                     where value.Field<string>(0) == eFamilyType
                                                     select value.Field<string>(columnName);
 
-            var pQuery = from p in new plst().LPAll
+            var pQuery = from p in plst.LPAll
                          where p.Domain == "ELEM"
                          select p;
 
@@ -373,7 +373,7 @@ namespace PCF_Parameters
                                                     select value.Field<string>(columnName);
 
             //Get a query for pipeline parameters
-            var pQuery = from p in new plst().LPAll
+            var pQuery = from p in plst.LPAll
                          where p.Domain == "PIPL" &&
                                p.ExportingTo != "LDT" //<- LDT parameters are read directly from EXCEL to PCF file.
                          select p;
@@ -479,7 +479,7 @@ namespace PCF_Parameters
 
             StringBuilder sbFeedback = new StringBuilder();
             //Parameter query
-            var query = from p in new plst().LPAll
+            var query = from p in plst.LPAll
                         where p.Domain == "ELEM" ||
                               p.Name == "PCF_ELEM_EXCL"
                         select p;
@@ -550,7 +550,7 @@ namespace PCF_Parameters
             StringBuilder sbFeedback = new StringBuilder();
 
             //Parameter query
-            var query = from p in new plst().LPAll
+            var query = from p in plst.LPAll
                         where (p.Domain == "PIPL" || p.Name == "PCF_PIPL_EXCL") && p.ExportingTo != "LDT"
                         select p;
 
@@ -608,7 +608,7 @@ namespace PCF_Parameters
             {
                 Transaction trans = new Transaction(doc, "Delete PCF parameters");
                 trans.Start();
-                foreach (pdef parameter in new plst().LPAll.ToList())
+                foreach (pdef parameter in plst.LPAll.ToList())
                     RemoveSharedParameterBinding(doc.Application, parameter.Name, parameter.Type);
                 trans.Commit();
                 BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());

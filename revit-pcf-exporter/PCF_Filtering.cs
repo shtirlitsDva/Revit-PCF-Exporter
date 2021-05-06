@@ -20,9 +20,21 @@ namespace PCF_Functions
 {
     class PCF_Filtering
     {
-        public PCF_Filtering()
+        HashSet<Element> ElementsToFilter;
+        public PCF_Filtering(HashSet<Element> elementsToFilter)
         {
-
+            ElementsToFilter = elementsToFilter;
         }
+        public HashSet<Element> GetFilteredElements(FilterOptions options)
+        {
+            IEnumerable<Element> filtering = ElementsToFilter;
+            if (options.FilterByDiameter) filtering = filtering.Where(x => Filters.FilterDL(x));
+        }
+    }
+
+    class FilterOptions
+    {
+        public bool FilterByDiameter = false;
+
     }
 }

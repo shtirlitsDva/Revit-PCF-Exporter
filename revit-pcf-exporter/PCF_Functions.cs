@@ -145,7 +145,7 @@ namespace PCF_Functions
             //                           where string.Equals(st.Abbreviation, systemAbbreviation)
             //                           select st).FirstOrDefault();
 
-            var query = from p in new plst().LPAll
+            var query = from p in plst.LPAll
                         where string.Equals(p.Domain, "PIPL") && string.Equals(p.ExportingTo, "CII")
                         select p;
 
@@ -169,15 +169,15 @@ namespace PCF_Functions
         public static StringBuilder Plant3DIsoWriter(Element element, Document doc)
         {
             //If an element has EXISTING in it's PCF_ELEM_SPEC the writing of ITEM-CODE will be skipped, making Plant 3D ISO treat it as existing.
-            pdef elemSpec = new plst().PCF_ELEM_SPEC;
+            pdef elemSpec = plst.PCF_ELEM_SPEC;
             Parameter pm = element.get_Parameter(elemSpec.Guid);
             //if (string.Equals(pm.AsString(), "EXISTING-INCLUDE")) return new StringBuilder();
 
             //Write ITEM-CODE et al
             StringBuilder sb = new StringBuilder();
 
-            pdef matId = new plst().PCF_MAT_ID;
-            pdef matDescr = new plst().PCF_MAT_DESCR;
+            pdef matId = plst.PCF_MAT_ID;
+            pdef matDescr = plst.PCF_MAT_DESCR;
 
             string itemCode = element.get_Parameter(matId.Guid).AsString();
             string itemDescr = element.get_Parameter(matDescr.Guid).AsString();
@@ -196,7 +196,7 @@ namespace PCF_Functions
         {
             StringBuilder sbElemParameters = new StringBuilder();
 
-            var pQuery = from p in new plst().LPAll
+            var pQuery = from p in plst.LPAll
                          where !string.IsNullOrEmpty(p.Keyword) && string.Equals(p.Domain, "ELEM")
                          select p;
 
@@ -550,7 +550,7 @@ namespace PCF_Functions
 
                 string curUsage = "U";
                 string curDomain = "ELEM";
-                var query = from p in new plst().LPAll where p.Usage == curUsage && p.Domain == curDomain select p;
+                var query = from p in plst.LPAll where p.Usage == curUsage && p.Domain == curDomain select p;
 
                 foreach (pdef pDef in query.ToList())
                 {
@@ -615,18 +615,17 @@ namespace PCF_Functions
 
                 //curDomain = "PIPL";
                 List<pdef> parList = new List<pdef>();
-                plst Plst = new plst();
-                parList.Add(Plst.PCF_PIPL_LINEID);
-                parList.Add(Plst.PCF_PIPL_NOMCLASS);
-                parList.Add(Plst.PCF_PIPL_TEMP);
-                parList.Add(Plst.PCF_PIPL_AREA);
-                parList.Add(Plst.PCF_PIPL_PROJID);
-                parList.Add(Plst.PCF_PIPL_DATE);
-                parList.Add(Plst.PCF_PIPL_DWGNAME);
-                parList.Add(Plst.PCF_PIPL_REV);
-                parList.Add(Plst.PCF_PIPL_TEGN);
-                parList.Add(Plst.PCF_PIPL_KONTR);
-                parList.Add(Plst.PCF_PIPL_GODK);
+                parList.Add(plst.PCF_PIPL_LINEID);
+                parList.Add(plst.PCF_PIPL_NOMCLASS);
+                parList.Add(plst.PCF_PIPL_TEMP);
+                parList.Add(plst.PCF_PIPL_AREA);
+                parList.Add(plst.PCF_PIPL_PROJID);
+                parList.Add(plst.PCF_PIPL_DATE);
+                parList.Add(plst.PCF_PIPL_DWGNAME);
+                parList.Add(plst.PCF_PIPL_REV);
+                parList.Add(plst.PCF_PIPL_TEGN);
+                parList.Add(plst.PCF_PIPL_KONTR);
+                parList.Add(plst.PCF_PIPL_GODK);
                 foreach (pdef pDef in parList)
                 {
                     SharedParameterElement parameter = (from SharedParameterElement param in sharedParameters
@@ -685,8 +684,8 @@ namespace PCF_Functions
                 [600] = "12.5 mm"
             };
 
-            pdef wallThkDef = new plst().PCF_ELEM_CII_WALLTHK;
-            pdef elemType = new plst().PCF_ELEM_TYPE;
+            pdef wallThkDef = plst.PCF_ELEM_CII_WALLTHK;
+            pdef elemType = plst.PCF_ELEM_TYPE;
 
             foreach (Element element in elements)
             {
@@ -816,12 +815,12 @@ namespace PCF_Functions
             if (refFirstCon != null)
             {
                 Element el = refFirstCon.Owner;
-                firstSpec = el.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+                firstSpec = el.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString();
             }
             if (refSecondCon != null)
             {
                 Element el = refSecondCon.Owner;
-                secondSpec = el.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+                secondSpec = el.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString();
             }
 
             if (firstSpec.IsNullOrEmpty() && secondSpec.IsNullOrEmpty()) return; //<- Both empty
@@ -896,7 +895,7 @@ namespace PCF_Functions
                 }
 
                 //Continuation 1b
-                string elementSpec = elementToConsider.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString();
+                string elementSpec = elementToConsider.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString();
                 if (spec != elementSpec && !isSupport) //The spec can be different for another support on the pipe, so it must accept those
                 {
                     if (firstSideDone == false)

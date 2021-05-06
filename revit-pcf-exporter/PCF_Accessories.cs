@@ -21,12 +21,11 @@ namespace PCF_Accessories
         {
             Document doc = document;
             string key = pipeLineAbbreviation;
-            plst pList = new plst();
-            //paramList = new plst();
+            //paramList = plst;
             //The list of fittings, sorted by TYPE then SKEY
             IList<Element> accessoriesList = elements.
-                OrderBy(e => e.get_Parameter(pList.PCF_ELEM_TYPE.Guid).AsString()).
-                ThenBy(e => e.get_Parameter(pList.PCF_ELEM_SKEY.Guid).AsString()).ToList();
+                OrderBy(e => e.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString()).
+                ThenBy(e => e.get_Parameter(plst.PCF_ELEM_SKEY.Guid).AsString()).ToList();
 
             StringBuilder sbAccessories = new StringBuilder();
 
@@ -40,10 +39,10 @@ namespace PCF_Accessories
                     //This is a workaround to try to determine what element caused an exception
                     element = Element;
 
-                    sbAccessories.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
-                    sbAccessories.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsString());
+                    sbAccessories.AppendLine(element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString());
+                    sbAccessories.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(plst.PCF_ELEM_COMPID.Guid).AsString());
 
-                    if (element.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE")
+                    if (element.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE")
                     {
                         sbAccessories.AppendLine("    STATUS DOTTED-UNDIMENSIONED");
                         sbAccessories.AppendLine("    MATERIAL-LIST EXCLUDE");
@@ -60,7 +59,7 @@ namespace PCF_Accessories
                     var cons = mp.GetConnectors(element);
 
                     //Switch to different element type configurations
-                    switch (element.get_Parameter(pList.PCF_ELEM_TYPE.Guid).AsString())
+                    switch (element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString())
                     {
                         case ("FILTER"):
                             //Process endpoints of the component
@@ -174,7 +173,7 @@ namespace PCF_Accessories
                     sbAccessories.Append(elemParameterComposer.ElemParameterWriter(element));
 
                     #region CII export
-                    if (InputVars.ExportToCII && !string.Equals(element.get_Parameter(pList.PCF_ELEM_TYPE.Guid).AsString(), "SUPPORT"))
+                    if (InputVars.ExportToCII && !string.Equals(element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString(), "SUPPORT"))
                         sbAccessories.Append(Composer.CIIWriter(doc, key));
                     #endregion
 
