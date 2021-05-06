@@ -39,47 +39,60 @@ namespace NTR_Exporter
 
             #region Internal supports (supports on steels frames)
             //Create additional analytical stick elements for supports on steel frames
-            //The GUID is for TAG 4
             //Possible non defined behaviour:
             //This function gets ALL supports in model
             //While nodes are created only for the current pipeLine
             //So right now this only works either for the whole model
             //Or only for a specific pipeline where the model has been extracted to separate project
-            var SteelSupports = Shared.Filter.GetElements<FamilyInstance, Guid>
-                (doc, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), "FRAME");
+
+            #region Prepare intersection objects
+            //Prepare common objects for intersection analysis
+            //Create a filter that filters for structural columns and framing
+            //As I want to select by category, I need them to be FamilyInstances
+            IList<ElementFilter> filterList = new List<ElementFilter>
+                                        { new ElementCategoryFilter(BuiltInCategory.OST_StructuralFraming),
+                                          new ElementCategoryFilter(BuiltInCategory.OST_StructuralColumns) };
+            LogicalOrFilter bicFilter = new LogicalOrFilter(filterList);
+
+            LogicalAndFilter fiAndBicFilter = new LogicalAndFilter(bicFilter, new ElementClassFilter(typeof(FamilyInstance)));
+
+            //Get the default 3D view
+            var view3D = Shared.Filter.Get3DView(doc);
+            if (view3D == null) throw new Exception("No default 3D view named {3D} is found!.");
+
+            var refIntersect = new ReferenceIntersector(fiAndBicFilter, FindReferenceTarget.Element, view3D);
+            #endregion
+
+            //Get internal support elements
+            ElementParameterFilter epf = Filter.ParameterValueGenericFilter(doc, true, new Guid("dba1aec8-daa6-46c0-a4d0-db8d50155dcb"));
+            FilteredElementCollector col = new FilteredElementCollector(doc);
+            col.OfCategory(BuiltInCategory.OST_PipeAccessory).OfClass(typeof(FamilyInstance)).WherePasses(epf);
+
+            var SteelSupports = col.ToHashSet();
 
             foreach (FamilyInstance fi in SteelSupports)
             {
+                #region Direction parameters
+                //TODO: Implement checking if parameters are present
+                bool TopBool = fi.get_Parameter(new Guid("86aed9b9-7c99-4e82-96cb-b114523cd128"))?.AsInteger() == 1;
+                bool BottomBool = fi.get_Parameter(new Guid("5cd46d66-e672-4477-91e3-f208626644d5"))?.AsInteger() == 1;
+                bool LeftBool = fi.get_Parameter(new Guid("08407d63-4a9d-43e0-8cd4-21b327fb110d"))?.AsInteger() == 1;
+                bool RightBool = fi.get_Parameter(new Guid("629fe8bb-ab73-448f-8619-3b2a15fc2908"))?.AsInteger() == 1;
+                #endregion
+
+                Transform trf = fi.GetTransform();
+                XYZ Origin = new XYZ();
+                Origin = trf.OfPoint(Origin);
+
                 string familyName = fi.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
                 if (familyName == "VEKS bærering modplade")
                 {
+                    //Legacy implementation
                     Element elType = doc.GetElement(fi.GetTypeId());
-                    bool TopBool = elType.LookupParameter("Modpl_Top_Vis").AsInteger() == 1;
-                    bool BottomBool = elType.LookupParameter("Modpl_Bottom_Vis").AsInteger() == 1;
-                    bool LeftBool = elType.LookupParameter("Modpl_Left_Vis").AsInteger() == 1;
-                    bool RightBool = elType.LookupParameter("Modpl_Right_Vis").AsInteger() == 1;
-
-                    Transform trf = fi.GetTransform();
-                    XYZ Origin = new XYZ();
-                    Origin = trf.OfPoint(Origin);
-
-                    #region Intersection preparation
-                    //Prepare common objects for intersection analysis
-                    //Create a filter that filters for structural columns and framing
-                    //As I want to select by category, I need them to be FamilyInstances
-                    IList<ElementFilter> filterList = new List<ElementFilter>
-                                        { new ElementCategoryFilter(BuiltInCategory.OST_StructuralFraming),
-                                          new ElementCategoryFilter(BuiltInCategory.OST_StructuralColumns) };
-                    LogicalOrFilter bicFilter = new LogicalOrFilter(filterList);
-
-                    LogicalAndFilter fiAndBicFilter = new LogicalAndFilter(bicFilter, new ElementClassFilter(typeof(FamilyInstance)));
-
-                    //Get the default 3D view
-                    var view3D = Shared.Filter.Get3DView(doc);
-                    if (view3D == null) throw new Exception("No default 3D view named {3D} is found!.");
-
-                    var refIntersect = new ReferenceIntersector(fiAndBicFilter, FindReferenceTarget.Element, view3D);
-                    #endregion
+                    TopBool = elType.LookupParameter("Modpl_Top_Vis").AsInteger() == 1;
+                    BottomBool = elType.LookupParameter("Modpl_Bottom_Vis").AsInteger() == 1;
+                    LeftBool = elType.LookupParameter("Modpl_Left_Vis").AsInteger() == 1;
+                    RightBool = elType.LookupParameter("Modpl_Right_Vis").AsInteger() == 1;
 
                     if (TopBool)
                     {
@@ -88,7 +101,6 @@ namespace NTR_Exporter
 
                         DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Top", Top));
                     }
-
                     if (BottomBool)
                     {
                         //case "Bottom":
@@ -96,7 +108,6 @@ namespace NTR_Exporter
 
                         DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Bottom", Bottom));
                     }
-
                     if (LeftBool)
                     {
                         //case "Left":
@@ -104,7 +115,6 @@ namespace NTR_Exporter
 
                         DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Left", Left));
                     }
-
                     if (RightBool)
                     {
                         //case "Right":
@@ -113,7 +123,33 @@ namespace NTR_Exporter
                         DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Right", Right));
                     }
                 }
-                else { }//Implement other possibilities later
+                else
+                {
+                    if (TopBool)
+                    {
+                        //case "Top":
+                        XYZ Top = trf.BasisZ;
+                        DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Top", Top));
+                    }
+                    if (BottomBool)
+                    {
+                        //case "Bottom":
+                        XYZ Bottom = trf.BasisZ * -1;
+                        DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Bottom", Bottom));
+                    }
+                    if (LeftBool)
+                    {
+                        //case "Left":
+                        XYZ Left = trf.BasisY;
+                        DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Left", Left));
+                    }
+                    if (RightBool)
+                    {
+                        //case "Right":
+                        XYZ Right = trf.BasisY * -1;
+                        DetectAndCreateInternalSupport(ASE_OriginalList, fi, Origin, refIntersect, ("Right", Right));
+                    }
+                }
             }
             #endregion
 

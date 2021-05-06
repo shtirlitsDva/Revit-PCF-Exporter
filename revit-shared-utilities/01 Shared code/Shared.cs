@@ -161,7 +161,8 @@ namespace Shared
                     case BuiltInCategory.INVALID:
                         return new FilteredElementCollector(doc).OfClass(typeof(T1)).Cast<T1>().ToHashSet();
                     default:
-                        throw new NotImplementedException($"The {bic} is not implemented in the GetElements method!");
+                        return new FilteredElementCollector(doc).OfCategory(bic).OfClass(typeof(T1)).Cast<T1>().ToHashSet();
+                        //throw new NotImplementedException($"The {bic} is not implemented in the GetElements method!");
                 }
             }
 
