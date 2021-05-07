@@ -114,7 +114,10 @@ namespace PCF_Exporter
                     {
                         FilterByDiameter = true,
                         FilterByPCF_ELEM_EXCL = true,
-                        FilterByPCF_PIPL_EXCL = true
+                        FilterByPCF_PIPL_EXCL = true,
+                        FilterOutInstrumentPipes = true,
+                        FilterOutSpecifiedPCF_ELEM_SPEC = 
+                            InputVars.PCF_ELEM_SPEC_FILTER.IsNullOrEmpty() == false
                     };
 
                     //DiameterLimit filter applied to ALL elements.
