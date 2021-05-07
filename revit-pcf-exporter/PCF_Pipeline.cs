@@ -16,8 +16,6 @@ namespace PCF_Pipeline
 {
     public class PCF_Pipeline_Export
     {
-        plst Plst = new plst();
-
         public StringBuilder Export(string key, Document doc)
         {
             StringBuilder sbPipeline = new StringBuilder();
@@ -33,7 +31,7 @@ namespace PCF_Pipeline
                                                      where string.Equals(st.Abbreviation, key)
                                                      select st).FirstOrDefault();
 
-                IEnumerable<pdef> query = from p in Plst.LPAll
+                IEnumerable<pdef> query = from p in plst.LPAll
                                           where string.Equals(p.Domain, "PIPL") &&
                                           !string.Equals(p.ExportingTo, "CII") &&
                                           !string.Equals(p.ExportingTo, "LDT")
@@ -70,7 +68,7 @@ namespace PCF_Pipeline
 
                         //var lineId = pipingSystemType.get_Parameter(Plst.PCF_PIPL_LINEID.Guid).AsString();
 
-                        var LdtPars = Plst.LPAll.Where(x => x.ExportingTo == "LDT");
+                        var LdtPars = plst.LPAll.Where(x => x.ExportingTo == "LDT");
                         foreach (pdef par in LdtPars)
                         {
                             parName = par.Name;

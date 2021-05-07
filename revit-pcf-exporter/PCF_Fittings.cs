@@ -22,16 +22,16 @@ namespace PCF_Fittings
             string key = pipeLineAbbreviation;
             //The list of fittings, sorted by TYPE then SKEY
             IList<Element> fittingsList = elements.
-                OrderBy(e => e.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString()).
-                ThenBy(e => e.get_Parameter(new plst().PCF_ELEM_SKEY.Guid).AsString()).ToList();
+                OrderBy(e => e.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString()).
+                ThenBy(e => e.get_Parameter(plst.PCF_ELEM_SKEY.Guid).AsString()).ToList();
 
             StringBuilder sbFittings = new StringBuilder();
             foreach (Element element in fittingsList)
             {
-                sbFittings.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
-                sbFittings.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsString());
+                sbFittings.AppendLine(element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString());
+                sbFittings.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(plst.PCF_ELEM_COMPID.Guid).AsString());
 
-                if (element.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE")
+                if (element.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE")
                 {
                     sbFittings.AppendLine("    STATUS DOTTED-UNDIMENSIONED");
                     sbFittings.AppendLine("    MATERIAL-LIST EXCLUDE");
@@ -48,7 +48,7 @@ namespace PCF_Fittings
                 var cons = mp.GetConnectors(element);
 
                 //Switch to different element type configurations
-                switch (element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString())
+                switch (element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString())
                 {
                     case ("ELBOW"):
                         sbFittings.Append(EndWriter.WriteEP1(element, cons.Primary));

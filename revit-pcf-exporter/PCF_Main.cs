@@ -110,12 +110,19 @@ namespace PCF_Exporter
                 HashSet<Element> elements;
                 try
                 {
+                    FilterOptions filterOptions = new FilterOptions()
+                    {
+                        FilterByDiameter = true,
+                        FilterByPCF_ELEM_EXCL = true,
+                        FilterByPCF_PIPL_EXCL = true
+                    };
+
                     //DiameterLimit filter applied to ALL elements.
-                    var filtering = from element in colElements where Filters.FilterDL(element) select element;
+                    IEnumerable<Element> filtering = from element in colElements where Filters.FilterDL(element) select element;
 
                     //Filter out EXCLUDED elements -> 0 means no checkmark
                     filtering = from element in filtering
-                                where element.get_Parameter(new plst().PCF_ELEM_EXCL.Guid).AsInteger() == 0
+                                where element.get_Parameter(plst.PCF_ELEM_EXCL.Guid).AsInteger() == 0
                                 select element;
 
                     //Filter out EXCLUDED pipelines -> 0 means no checkmark
@@ -128,7 +135,7 @@ namespace PCF_Exporter
                     //Filter out elements with specified PCF_ELEM_SPEC string
                     if (InputVars.PCF_ELEM_SPEC_FILTER.IsNullOrEmpty() == false)
                     {
-                        filtering = filtering.ExceptWhere(x => x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == InputVars.PCF_ELEM_SPEC_FILTER);
+                        filtering = filtering.ExceptWhere(x => x.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == InputVars.PCF_ELEM_SPEC_FILTER);
                     }
 
                     //If exporting to ISO, remove some not needed elements
@@ -163,11 +170,11 @@ namespace PCF_Exporter
                 #region Initialize Material Data
                 //TEST: Do not write material data to elements with EXISTING-INCLUDE spec
                 //HashSet<Element> existInclElements = elements.Where(x =>
-                //    x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
+                //    x.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
                 ////Remember the clearing of previous run data in transaction below
                 
                 //elements = elements.ExceptWhere(x =>
-                //    x.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
+                //    x.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
 
                 //Set the start number to count the COMPID instances and MAT groups.
                 int elementIdentificationNumber = 0;
@@ -176,7 +183,7 @@ namespace PCF_Exporter
                 //Make sure that every element has PCF_MAT_DESCR filled out.
                 foreach (Element e in elements)
                 {
-                    if (string.IsNullOrEmpty(e.get_Parameter(new plst().PCF_MAT_DESCR.Guid).AsString()))
+                    if (string.IsNullOrEmpty(e.get_Parameter(plst.PCF_MAT_DESCR.Guid).AsString()))
                     {
                         uidoc.Selection.SetElementIds(new List<ElementId>(1) { e.Id });
                         BuildingCoderUtilities.ErrorMsg("PCF_MAT_DESCR is empty for element " + e.Id + "! Please, correct this issue before exporting again.");
@@ -185,7 +192,7 @@ namespace PCF_Exporter
                 }
 
                 //Initialize material group numbers on the elements
-                IEnumerable<IGrouping<string, Element>> materialGroups = from e in elements group e by e.get_Parameter(new plst().PCF_MAT_DESCR.Guid).AsString();
+                IEnumerable<IGrouping<string, Element>> materialGroups = from e in elements group e by e.get_Parameter(plst.PCF_MAT_DESCR.Guid).AsString();
 
                 using (Transaction trans = new Transaction(doc, "Set PCF_ELEM_COMPID and PCF_MAT_ID"))
                 {
@@ -193,8 +200,8 @@ namespace PCF_Exporter
                     //Clear MTL data from previous runs for elements with EXISTING-INCLUDE spec
                     //foreach (Element e in existInclElements)
                     //{
-                    //    e.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).Set("");
-                    //    e.get_Parameter(new plst().PCF_MAT_ID.Guid).Set("");
+                    //    e.get_Parameter(plst.PCF_ELEM_COMPID.Guid).Set("");
+                    //    e.get_Parameter(plst.PCF_MAT_ID.Guid).Set("");
                     //}
 
                     //Access groups
@@ -205,8 +212,8 @@ namespace PCF_Exporter
                         foreach (Element element in group)
                         {
                             elementIdentificationNumber++;
-                            element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).Set(elementIdentificationNumber.ToString());
-                            element.get_Parameter(new plst().PCF_MAT_ID.Guid).Set(materialGroupIdentifier.ToString());
+                            element.get_Parameter(plst.PCF_ELEM_COMPID.Guid).Set(elementIdentificationNumber.ToString());
+                            element.get_Parameter(plst.PCF_MAT_ID.Guid).Set(materialGroupIdentifier.ToString());
                         }
                     }
                     trans.Commit();
@@ -329,8 +336,8 @@ namespace PCF_Exporter
                         using (Transaction tx = new Transaction(doc))
                         {
                             //Gather all relevant parameter definitions
-                            List<pdef> plist = new plst().LPAll.Where(x => x.Domain == "ELEM" && x.Usage == "U").ToList();
-                            plist.Add(new plst().PCF_MAT_ID);
+                            List<pdef> plist = plst.LPAll.Where(x => x.Domain == "ELEM" && x.Usage == "U").ToList();
+                            plist.Add(plst.PCF_MAT_ID);
 
                             tx.Start("Populate the HealedPipe parameters!");
                             foreach (BrokenPipesGroup bpg in bpgList)

@@ -22,10 +22,10 @@ namespace PCF_Pipes
 
             foreach (Element element in pipeList)
             {
-                sbPipes.AppendLine(element.get_Parameter(new plst().PCF_ELEM_TYPE.Guid).AsString());
-                sbPipes.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(new plst().PCF_ELEM_COMPID.Guid).AsString());
+                sbPipes.AppendLine(element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString());
+                sbPipes.AppendLine("    COMPONENT-IDENTIFIER " + element.get_Parameter(plst.PCF_ELEM_COMPID.Guid).AsString());
 
-                if (element.get_Parameter(new plst().PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE")
+                if (element.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE")
                 {
                     sbPipes.AppendLine("    STATUS DOTTED-UNDIMENSIONED");
                     sbPipes.AppendLine("    MATERIAL-LIST EXCLUDE");
