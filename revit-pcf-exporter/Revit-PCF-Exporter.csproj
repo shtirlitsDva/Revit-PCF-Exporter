@@ -106,6 +106,7 @@
   <ItemGroup>
     <Compile Include="..\revit-shared-utilities\01 Shared code\RadioBox.cs">
       <Link>RadioBox.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\revit-shared-utilities\01 Shared code\Shared.cs">
       <Link>Shared.cs</Link>
