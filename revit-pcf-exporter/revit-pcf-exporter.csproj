@@ -62,9 +62,8 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
-      <Private>True</Private>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -107,6 +106,7 @@
   <ItemGroup>
     <Compile Include="..\revit-shared-utilities\01 Shared code\RadioBox.cs">
       <Link>RadioBox.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\revit-shared-utilities\01 Shared code\Shared.cs">
       <Link>Shared.cs</Link>
@@ -115,6 +115,7 @@
       <Link>Utils.cs</Link>
     </Compile>
     <Compile Include="App.cs" />
+    <Compile Include="PCF_Filtering.cs" />
     <Compile Include="PCF_Pipeline_Filename.cs" />
     <Compile Include="PCF_EndsAndConnections.cs" />
     <Compile Include="PCF_ParameterData.cs" />
