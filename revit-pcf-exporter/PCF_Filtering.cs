@@ -50,9 +50,15 @@ namespace PCF_Functions
             {
                 filtering = from element in filtering
                             let par = element.get_Parameter(plst.PCF_ELEM_SPEC.Guid)
-                            where par != null && par.AsString() == InputVars.PCF_ELEM_SPEC_FILTER
+                            where par != null && par.AsString() != InputVars.PCF_ELEM_SPEC_FILTER
                             select element;
             }
+            if (options.FilterForIsogen)
+            {
+                filtering = filtering.ExceptWhere(x => x.get_Parameter(
+                    BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD");
+            }
+            return filtering.ToHashSet();
         }
     }
 
@@ -63,5 +69,6 @@ namespace PCF_Functions
         public bool FilterByPCF_PIPL_EXCL = false;
         public bool FilterOutInstrumentPipes = false;
         public bool FilterOutSpecifiedPCF_ELEM_SPEC = false;
+        public bool FilterForIsogen = false;
     }
 }

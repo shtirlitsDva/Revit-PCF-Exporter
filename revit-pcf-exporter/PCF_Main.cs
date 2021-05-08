@@ -43,6 +43,9 @@ namespace PCF_Exporter
                 //Declare an object to hold collected elements from collector
                 HashSet<Element> colElements = new HashSet<Element>();
 
+                //Collection to hold filtered elements
+                HashSet<Element> elements = new HashSet<Element>();
+
                 // Instance a collecting stringbuilder
                 StringBuilder sbCollect = new StringBuilder();
                 #endregion
@@ -107,7 +110,6 @@ namespace PCF_Exporter
 
 
                 #region Sub: Filtering
-                HashSet<Element> elements;
                 try
                 {
                     FilterOptions filterOptions = new FilterOptions()
@@ -116,50 +118,54 @@ namespace PCF_Exporter
                         FilterByPCF_ELEM_EXCL = true,
                         FilterByPCF_PIPL_EXCL = true,
                         FilterOutInstrumentPipes = true,
-                        FilterOutSpecifiedPCF_ELEM_SPEC = 
-                            InputVars.PCF_ELEM_SPEC_FILTER.IsNullOrEmpty() == false
+                        FilterOutSpecifiedPCF_ELEM_SPEC =
+                            InputVars.PCF_ELEM_SPEC_FILTER.IsNullOrEmpty() == false,
+                        FilterForIsogen = InputVars.ExportToIsogen
                     };
 
-                    //DiameterLimit filter applied to ALL elements.
-                    IEnumerable<Element> filtering = from element in colElements where Filters.FilterDL(element) select element;
+                    #region Old filtering
+                    ////DiameterLimit filter applied to ALL elements.
+                    //IEnumerable<Element> filtering = from element in colElements where Filters.FilterDL(element) select element;
 
-                    //Filter out EXCLUDED elements -> 0 means no checkmark
-                    filtering = from element in filtering
-                                where element.get_Parameter(plst.PCF_ELEM_EXCL.Guid).AsInteger() == 0
-                                select element;
+                    ////Filter out EXCLUDED elements -> 0 means no checkmark
+                    //filtering = from element in filtering
+                    //            where element.get_Parameter(plst.PCF_ELEM_EXCL.Guid).AsInteger() == 0
+                    //            select element;
 
-                    //Filter out EXCLUDED pipelines -> 0 means no checkmark
-                    filtering = filtering.Where(x => x.PipingSystemAllowed(doc) == true);
+                    ////Filter out EXCLUDED pipelines -> 0 means no checkmark
+                    //filtering = filtering.Where(x => x.PipingSystemAllowed(doc) == true);
 
-                    //Remove instrument pipes
-                    filtering = filtering.ExceptWhere(x => x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
-                                                      .AsString() == "INSTR");
+                    ////Remove instrument pipes
+                    //filtering = filtering.ExceptWhere(x => x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
+                    //                                  .AsString() == "INSTR");
 
-                    //Filter out elements with specified PCF_ELEM_SPEC string
-                    if (InputVars.PCF_ELEM_SPEC_FILTER.IsNullOrEmpty() == false)
-                    {
-                        filtering = filtering.ExceptWhere(x => x.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == InputVars.PCF_ELEM_SPEC_FILTER);
-                    }
+                    ////Filter out elements with specified PCF_ELEM_SPEC string
+                    //if (InputVars.PCF_ELEM_SPEC_FILTER.IsNullOrEmpty() == false)
+                    //{
+                    //    filtering = filtering.ExceptWhere(x => x.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == InputVars.PCF_ELEM_SPEC_FILTER);
+                    //}
 
-                    //If exporting to ISO, remove some not needed elements
-                    if (InputVars.ExportToIsogen)
-                    {
-                        //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
-                        filtering = filtering
-                            .Where(x => !(x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD"));
+                    ////If exporting to ISO, remove some not needed elements
+                    //if (InputVars.ExportToIsogen)
+                    //{
+                    //    //When exporting to Plant3D ISO creation, remove the group with the Piping System: Analysis Rigids (ARGD)
+                    //    filtering = filtering
+                    //        .Where(x => !(x.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == "ARGD"));
 
-                        ////Also remove anchor symbols -> not needed for ISO
-                        ////Currently not removed -> used for floor symbols
-                        //filtering = filtering.ExceptWhere(x => x
-                        //    .get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
-                        //    .AsValueString() == "Support Symbolic: ANC");
-                    }
+                    //    ////Also remove anchor symbols -> not needed for ISO
+                    //    ////Currently not removed -> used for floor symbols
+                    //    //filtering = filtering.ExceptWhere(x => x
+                    //    //    .get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
+                    //    //    .AsValueString() == "Support Symbolic: ANC");
+                    //} 
+                    #endregion
+
+                    PCF_Filtering filter = new PCF_Filtering(colElements);
+                    elements = filter.GetFilteredElements(doc, filterOptions);
 
                     //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
-                    pipelineGroups = from e in filtering
+                    pipelineGroups = from e in elements
                                      group e by e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
-
-                    elements = filtering.ToHashSet();
                 }
                 catch (Exception ex)
                 {
