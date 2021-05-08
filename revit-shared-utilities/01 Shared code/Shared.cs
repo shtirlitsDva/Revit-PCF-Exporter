@@ -1064,7 +1064,8 @@ namespace Shared
 
             using (StreamWriter w = File.AppendText(filePath))
             {
-                w.Write(whatToWrite);
+                if (whatToWrite is StringBuilder sb) w.Write(sb.ToString());
+                else w.Write(whatToWrite);
                 w.Close();
             }
         }

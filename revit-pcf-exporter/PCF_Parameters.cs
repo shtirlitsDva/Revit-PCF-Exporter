@@ -257,7 +257,7 @@ namespace PCF_Parameters
                         //Filter out elements in ARGD (Rigids) system type
                         Cons cons = new Cons(element);
 
-                        if (cons.Primary.MEPSystemAbbreviation(doc) == "ARGD") continue;
+                        if (cons.Primary.MEPSystemAbbreviation(doc, true) == "ARGD") continue;
 
                         //reporting
                         if (string.Equals(element.Category.Name.ToString(), "Pipes")) pNumber++;
@@ -335,6 +335,11 @@ namespace PCF_Parameters
 
         internal Result PopulatePipelineData(UIApplication uiApp, ref string msg, DataTable dataTable)
         {
+
+            #region Debug
+            //StringBuilder sb = new StringBuilder();
+            #endregion
+
             List<string> ParameterNames = (from dc in dataTable.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
             //ParameterNames.RemoveAt(0);
             //ParameterNames.RemoveAt(0);
@@ -370,7 +375,7 @@ namespace PCF_Parameters
             EnumerableRowCollection<string> query = from value in dataTable.AsEnumerable()
                                                     where value.Field<string>(0) == iv.PCF_PROJECT_IDENTIFIER &&
                                                           value.Field<string>(1) == sysAbbr
-                                                    select value.Field<string>(columnName);
+                                                    select value.Field<string>(columnName) ?? "";
 
             //Get a query for pipeline parameters
             var pQuery = from p in plst.LPAll
@@ -400,13 +405,19 @@ namespace PCF_Parameters
                         {
                             columnName = parameterName; //This is needed to execute query correctly by deferred execution
                             string parameterValue = query.FirstOrDefault();
-                            if (string.IsNullOrEmpty(parameterValue)) continue;
+                            if (parameterValue == null) continue;
                             Guid parGuid = (from d in pQuery.ToList() where d.Name == parameterName select d.Guid).FirstOrDefault();
                             //Check if parGuid returns a match
                             if (parGuid == null) continue;
                             Parameter par = pipeSystemType.get_Parameter(parGuid);
                             if (par == null) continue;
                             par.Set(parameterValue);
+
+                            //Debug
+                            //if (parameterName == "PCF_REV")
+                            //{
+                            //    sb.AppendLine($"Existing value: {par.AsString()} : Future value: {parameterValue}"); 
+                            //}
                         }
 
                         //sbParameters.Append(eFamilyType);
@@ -416,6 +427,9 @@ namespace PCF_Parameters
                     //sbParameters.Append(eFamilyType);
                     //sbParameters.AppendLine();
                     //}
+
+                    //Debug
+                    //Output.WriteDebugFile(@"G:\Temp.txt", sb);
 
                     sbFeedback.Append(sNumber + " Pipe Systems (Pipelines) initialized.\n");
                     BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
