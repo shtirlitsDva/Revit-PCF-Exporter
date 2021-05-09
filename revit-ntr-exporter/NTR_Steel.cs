@@ -33,6 +33,8 @@ namespace NTR_Exporter
 
             foreach (AnalyticalModelStick ams in AllAnalyticalModelSticks)
             {
+                //Skip non-steel structural members
+                if (ams.IsSteelMember(doc) == false) continue;
                 AnalyticalSteelElement ase = new AnalyticalSteelElement(doc, ams);
                 ASE_OriginalList.Add(ase);
             }
@@ -273,6 +275,16 @@ namespace NTR_Exporter
             }
 
             return sb;
+        }
+    }
+
+    internal static class Extensions
+    {
+        internal static bool IsSteelMember(this AnalyticalModelStick ams, Document doc)
+        {
+            Element host = doc.GetElement(ams.GetElementId());
+            if (host is FamilyInstance fi) if (fi.StructuralMaterialType == StructuralMaterialType.Steel) return true;
+            return false;
         }
     }
 
