@@ -606,7 +606,7 @@ namespace Shared
             //On connection strings http://www.connectionstrings.com/excel/#p84
             string connectionString =
                 string.Format(
-                    "provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0;HDR={1};IMEX=1\"",
+                    "provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 12.0;HDR={1};\"",
                     fileName, dataHasHeaders);
 
             DataSet data = new DataSet();
@@ -835,6 +835,7 @@ namespace Shared
         public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate) => source.Where(x => !predicate(x));
 
         public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
+        public static string FamilyAndTypeName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
 
         public static string MEPSystemAbbreviation(this Connector con, Document doc, bool ignoreMepSystemNull = false)
         {
