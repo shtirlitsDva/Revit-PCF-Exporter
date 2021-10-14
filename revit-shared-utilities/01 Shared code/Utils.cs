@@ -683,10 +683,10 @@ namespace Shared.BuildingCoder
               + PointArrayString(curve.Tessellate());
         }
 
-        /// <summary>
-        /// Convert a UnitSymbolType enumeration value
-        /// to a brief human readable abbreviation string.
-        /// </summary>
+        ///// <summary>
+        ///// Convert a UnitSymbolType enumeration value
+        ///// to a brief human readable abbreviation string.
+        ///// </summary>
         //public static string UnitSymbolTypeString(
         //  UnitSymbolType u)
         //{
