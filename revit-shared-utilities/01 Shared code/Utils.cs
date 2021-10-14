@@ -687,21 +687,21 @@ namespace Shared.BuildingCoder
         /// Convert a UnitSymbolType enumeration value
         /// to a brief human readable abbreviation string.
         /// </summary>
-        public static string UnitSymbolTypeString(
-          UnitSymbolType u)
-        {
-            string s = u.ToString();
+        //public static string UnitSymbolTypeString(
+        //  UnitSymbolType u)
+        //{
+        //    string s = u.ToString();
 
-            Debug.Assert(s.StartsWith("UST_"),
-              "expected UnitSymbolType enumeration value "
-              + "to begin with 'UST_'");
+        //    Debug.Assert(s.StartsWith("UST_"),
+        //      "expected UnitSymbolType enumeration value "
+        //      + "to begin with 'UST_'");
 
-            s = s.Substring(4)
-              .Replace("_SUP_", "^")
-              .ToLower();
+        //    s = s.Substring(4)
+        //      .Replace("_SUP_", "^")
+        //      .ToLower();
 
-            return s;
-        }
+        //    return s;
+        //}
         #endregion // Formatting
 
         #region Display a message
