@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Shared
 {
@@ -690,6 +691,62 @@ namespace Shared
             }
             else return null;
         }
+        /// <summary>
+        /// Looks up value from data table.
+        /// </summary>
+        /// <param name="key">Value to match in key column</param>
+        /// <param name="table">Table to look up in</param>
+        /// <param name="parameter">Column name where to get return value</param>
+        /// <param name="keyColumnIdx">Key column index</param>
+        /// <returns></returns>
+        public static string ReadStringParameterFromDataTable(string key, System.Data.DataTable table, string parameter, int keyColumnIdx)
+        {
+            //Test if value exists
+            if (table.AsEnumerable().Any(row => row.Field<string>(keyColumnIdx) == key))
+            {
+                var query = from row in table.AsEnumerable()
+                            where row.Field<string>(keyColumnIdx) == key
+                            select row.Field<string>(parameter);
+
+                string value = query.FirstOrDefault();
+
+                //if (value.IsNullOrEmpty()) return null;
+                return value;
+            }
+            else return null;
+        }
+        /// <summary>
+        /// Looks up value from data table.
+        /// </summary>
+        /// <param name="key">Value to match in key column</param>
+        /// <param name="table">Table to look up in</param>
+        /// <param name="parameter">Column name where to get return value</param>
+        /// <param name="keyColumnIdx">Key column index</param>
+        /// <returns></returns>
+        public static double ReadDoubleParameterFromDataTable(string key, System.Data.DataTable table, string parameter, int keyColumnIdx)
+        {
+            //Test if value exists
+            if (table.AsEnumerable().Any(row => row.Field<string>(keyColumnIdx) == key))
+            {
+                var query = from row in table.AsEnumerable()
+                            where row.Field<string>(keyColumnIdx) == key
+                            select row.Field<string>(parameter);
+
+                string value = query.FirstOrDefault();
+
+                if (value.IsNoE() || value == null) return 0;
+
+                double result;
+
+                if (double.TryParse(value, NumberStyles.AllowDecimalPoint,
+                                    CultureInfo.InvariantCulture, out result))
+                {
+                    return result;
+                }
+                return 0;
+            }
+            else return 0;
+        }
 
         public static DataTable READExcel(string path)
         {
@@ -725,6 +782,52 @@ namespace Shared
             objWB.Close();
             objXL.Quit();
             return dt;
+        }
+
+        internal static DataTable ReadCsvToDataTable(string path, string dataTableName)
+        {
+            using (TextFieldParser csvParser = new TextFieldParser(path))
+            {
+                csvParser.CommentTokens = new string[] { "#" };
+                csvParser.SetDelimiters(new string[] { ";" });
+                csvParser.HasFieldsEnclosedInQuotes = false;
+
+                string[] colNames = new string[0];
+                string[] fields = new string[0];
+
+                DataTable dt = new DataTable(dataTableName);
+
+                int counter = 0;
+                while (!csvParser.EndOfData)
+                {
+                    if (counter == 0)
+                    {
+                        colNames = csvParser.ReadFields();
+                        counter++;
+
+                        for (int i = 0; i < colNames.Length; i++)
+                        {
+
+                            DataColumn dc = new DataColumn(colNames[i]);
+                            dc.DataType = typeof(string);
+                            dt.Columns.Add(dc);
+                        }
+                    }
+                    else
+                    {// Read current line fields, pointer moves to the next line.
+                        fields = csvParser.ReadFields();
+                        DataRow dr = dt.NewRow();
+
+                        for (int i = 0; i < colNames.Length; i++)
+                        {
+                            dr[i] = fields[i];
+                        }
+                        dt.Rows.Add(dr);
+                        counter++;
+                    }
+                }
+                return dt;
+            }
         }
     }
 
@@ -799,44 +902,31 @@ namespace Shared
         const double _convertFootToMeter = _foot_to_mm * 0.001;
         const double _convertSqrFootToSqrMeter = _convertFootToMeter * _convertFootToMeter;
         const double _convertCubicFootToCubicMeter = _convertFootToMeter * _convertFootToMeter * _convertFootToMeter;
-
         public static double Round(this double number, int decimals = 0)
         {
             return Math.Round(number, decimals, MidpointRounding.AwayFromZero);
         }
-
         public static double FtToMm(this double l) => l * _foot_to_mm;
-
         /// <summary>
         /// Returns the value converted to meters.
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
         public static double FtToMtrs(this double l) => l * _foot_to_mm / 1000;
-
         public static double FtToInch(this double l) => l * _foot_to_inch;
-
         public static double MmToFt(this double l) => l / _foot_to_mm;
-
         public static double SqrFeetToSqrMeters(this double l) => l * _convertSqrFootToSqrMeter;
-
         public static bool Equalz(this double a, double b, double tol) => Math.Abs(a - b) <= tol;
-
         public static bool Equalz(this XYZ a, XYZ b, double tol) => a.X.Equalz(b.X, tol) && a.Y.Equalz(b.Y, tol) && a.Z.Equalz(b.Z, tol);
-
         public static bool Equalz(this Connector a, Connector b, double tol) => a.Origin.Equalz(b.Origin, tol);
-
         public static bool IsOdd(this int number) => number % 2 != 0;
-
         public static bool IsType<T>(this object obj) => obj is T;
-
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
-
+        public static bool IsNoE(this string str) => string.IsNullOrEmpty(str);
+        public static bool IsNotNoE(this string str) => !string.IsNullOrEmpty(str);
         public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate) => source.Where(x => !predicate(x));
-
         public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
         public static string FamilyAndTypeName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
-
         public static string MEPSystemAbbreviation(this Connector con, Document doc, bool ignoreMepSystemNull = false)
         {
             if (con.MEPSystem != null)
@@ -848,13 +938,11 @@ namespace Shared
             else if (ignoreMepSystemNull) return "";
             else throw new Exception($"A connector at element {con.Owner.Id.IntegerValue} has MEPSystem = null!");
         }
-
         public static string MEPSystemAbbreviation(this Element elem)
         {
             Parameter abbreviationParameter = elem.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM);
             return abbreviationParameter.AsString();
         }
-
         /// <summary>
         /// Returns, for fittings only, the PartType of the element in question.
         /// </summary>
@@ -869,7 +957,6 @@ namespace Shared
             }
             else return PartType.Undefined;
         }
-
         public static string ComponentClass1(this Element e, Document doc)
         {
             Element elType = doc.GetElement(e.GetTypeId());
@@ -877,7 +964,6 @@ namespace Shared
             if (par == null) return "";
             return par.AsString();
         }
-
         /// <summary>
         /// Remember to check for con.IsConnected!
         /// </summary>
@@ -892,7 +978,6 @@ namespace Shared
                 .Where(x => x.Owner.Id.IntegerValue != elem.Id.IntegerValue).FirstOrDefault();
             return correspondingCon;
         }
-
         /// <summary>
         /// Method is taken from here:
         /// https://spiderinnet.typepad.com/blog/2011/08/revit-parameter-api-asvaluestring-tostring-tovaluestring-and-tovaluedisplaystring.html
@@ -922,7 +1007,6 @@ namespace Shared
             }
             return ret;
         }
-
         public static string ToValueString2(this Autodesk.Revit.DB.Parameter p)
         {
             string ret = string.Empty;
@@ -946,7 +1030,6 @@ namespace Shared
             }
             return ret;
         }
-
         /// <summary>	
         /// Return a descriptive string for a built-in 	
         /// category by removing the trailing plural 's' 	
@@ -959,6 +1042,31 @@ namespace Shared
             Debug.Assert(s.EndsWith("s"), "expected plural suffix 's'");
             s = s.Substring(0, s.Length - 1);
             return s;
+        }
+        internal static string MultipleInstanceParameterValuesAsString(this Element element,
+                                                    string[] parNames, string separator = "")
+        {
+            List<string> values = new List<string>();
+            foreach (string name in parNames)
+            {
+                string value = element.LookupParameter(name)?.ToValueString2();
+                if (!value.IsNullOrEmpty()) values.Add(value);
+            }
+            if (values.Count < 1) return "";
+            else return $"{string.Join(separator, values)}";
+        }
+        internal static string MultipleTypeParameterValuesAsString(this Element element, Document doc,
+                                                    string[] parNames, string separator = "")
+        {
+            Element elType = doc.GetElement(element.GetTypeId());
+            List<string> values = new List<string>();
+            foreach (string name in parNames)
+            {
+                string value = elType.LookupParameter(name)?.ToValueString2();
+                if (!value.IsNullOrEmpty()) values.Add(value);
+            }
+            if (values.Count < 1) return "";
+            else return $"{string.Join(separator, values)}";
         }
     }
 
