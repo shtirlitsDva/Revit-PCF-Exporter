@@ -84,11 +84,15 @@
       <HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="RevitAPI">
+    <Reference Include="RevitAPI, Version=22.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Revit SDK\2022\RevitAPI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIUI">
+    <Reference Include="RevitAPIUI, Version=22.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Revit SDK\2022\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
