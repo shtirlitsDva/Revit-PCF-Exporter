@@ -437,6 +437,28 @@ namespace PCF_Functions
             return sbEndWriter;
         }
 
+        /// <summary>
+        /// Special case for tapping Olets to add the tapped elemend size to record.
+        /// </summary>
+        public static StringBuilder WriteTappingOletCP(Connector oletCpCon, Parameter end1, Element tappedElement)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            sbEndWriter.Append("    CENTRE-POINT ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(oletCpCon.Origin));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(oletCpCon.Origin));
+            sbEndWriter.Append(" ");
+            if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(oletCpCon.Radius));
+            if (InputVars.UNITS_BORE_INCH) sbEndWriter.Append(Conversion.PipeSizeToInch(oletCpCon.Radius));
+            sbEndWriter.Append(" ");
+            if (string.IsNullOrEmpty(end1.AsString()) == false)
+            {
+                sbEndWriter.Append(" ");
+                sbEndWriter.Append(end1.AsString());
+            }
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
+
         public static StringBuilder WriteCO(XYZ point)
         {
             StringBuilder sbEndWriter = new StringBuilder();

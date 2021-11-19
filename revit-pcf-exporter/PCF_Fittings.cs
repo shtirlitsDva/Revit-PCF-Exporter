@@ -156,102 +156,159 @@ namespace PCF_Fittings
                         Pipe refPipe = null;
                         var refCons = mp.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
 
+                        bool isTap = false;
                         Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
                         if (refCon == null)
                         {
                             //Find the target pipe
-                            var filter = new ElementClassFilter(typeof(Pipe));
+
+                            IList<BuiltInCategory> bics = new List<BuiltInCategory>(3)
+                            {
+                                BuiltInCategory.OST_PipeAccessory,
+                                BuiltInCategory.OST_PipeCurves,
+                                BuiltInCategory.OST_PipeFitting
+                            };
+
+                            IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
+
+                            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
+
+                            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
+
+                            LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
+
+                            IList<ElementFilter> b = new List<ElementFilter>
+                            {
+                                new ElementClassFilter(typeof(Pipe)),
+                                familyInstanceFilter
+                            };
+                            LogicalOrFilter filter = new LogicalOrFilter(b);
+
                             var view3D = Shared.Filter.Get3DView(doc);
                             var refIntersect = new ReferenceIntersector(filter, FindReferenceTarget.Element, view3D);
                             ReferenceWithContext rwc = refIntersect.FindNearest(cons.Primary.Origin, cons.Primary.CoordinateSystem.BasisZ);
                             var refId = rwc.GetReference().ElementId;
-                            refPipe = (Pipe)doc.GetElement(refId);
+                            Element refElement = doc.GetElement(refId);
 
-                            if (refPipe == null) throw new Exception($"Olet {element.Id.IntegerValue} cannot find a reference Pipe!");
+                            if (refElement is Pipe pipe)
+                            {
+                                refPipe = pipe;
+                            }
+                            else
+                            {
+                                //If no reference pipe can be found
+                                //The olet could be tapped to a FamilyInstance
+                                //Check to see if any of PipeAccessories or PipeFittings
+                                //Have the olet as tap
+                                HashSet<Element> possibleTappedElements = Shared.Filter.GetElements(
+                                    doc,
+                                    new List<BuiltInCategory>() { BuiltInCategory.OST_PipeFitting, BuiltInCategory.OST_PipeAccessory },
+                                    new List<Type>() { typeof(FamilyInstance), typeof(FamilyInstance) });
+
+                                string oletUid = element.UniqueId;
+                                var query = possibleTappedElements.Where(x =>
+                                    x.LookupParameter("PCF_ELEM_TAP1").AsString() == oletUid ||
+                                    x.LookupParameter("PCF_ELEM_TAP2").AsString() == oletUid ||
+                                    x.LookupParameter("PCF_ELEM_TAP3").AsString() == oletUid);
+
+                                if (query.Count() == 0) throw new Exception($"Olet {element.Id.IntegerValue} cannot find a reference Pipe!");
+                                else
+                                {
+                                    //It is detected that the olet is a tapping element
+                                    isTap = true;
+
+                                    sbFittings.Append(EndWriter.WriteTappingOletCP(cons.Primary, element.LookupParameter("PCF_ELEM_END1"), query.First()));
+                                    sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
+                                }
+                            }
                         }
                         else { refPipe = (Pipe)refCon.Owner; }
 
-                        Cons refPipeCons = mp.GetConnectors(refPipe);
-
-                        //Following code is ported from my python solution in Dynamo.
-                        //The olet geometry is analyzed with congruent rectangles to find the connection point on the pipe even for angled olets.
-                        XYZ B = endPointOriginOletPrimary; XYZ D = endPointOriginOletSecondary; XYZ pipeEnd1 = refPipeCons.Primary.Origin; XYZ pipeEnd2 = refPipeCons.Secondary.Origin;
-                        XYZ BDvector = D - B; XYZ ABvector = pipeEnd1 - pipeEnd2;
-                        double angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
-                        if (angle > 90)
+                        //Guard against olet being tapping olet
+                        if (!isTap)
                         {
-                            ABvector = -ABvector;
-                            angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+                            Cons refPipeCons = new Cons(refPipe);
+
+                            //Following code is ported from my python solution in Dynamo.
+                            //The olet geometry is analyzed with congruent rectangles to find the connection point on the pipe even for angled olets.
+                            XYZ B = endPointOriginOletPrimary; XYZ D = endPointOriginOletSecondary; XYZ pipeEnd1 = refPipeCons.Primary.Origin; XYZ pipeEnd2 = refPipeCons.Secondary.Origin;
+                            XYZ BDvector = D - B; XYZ ABvector = pipeEnd1 - pipeEnd2;
+                            double angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+                            if (angle > 90)
+                            {
+                                ABvector = -ABvector;
+                                angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+                            }
+                            Line refsLine = Line.CreateBound(pipeEnd1, pipeEnd2);
+                            XYZ C = refsLine.Project(B).XYZPoint;
+                            double L3 = B.DistanceTo(C);
+                            XYZ E = refsLine.Project(D).XYZPoint;
+                            double L4 = D.DistanceTo(E);
+                            double ratio = L4 / L3;
+                            double L1 = E.DistanceTo(C);
+                            double L5 = L1 / (ratio - 1);
+                            XYZ A;
+                            if (angle < 89)
+                            {
+                                XYZ ECvector = C - E;
+                                ECvector = ECvector.Normalize();
+                                double L = L1 + L5;
+                                ECvector = ECvector.Multiply(L);
+                                A = E.Add(ECvector);
+
+                                #region Debug
+                                //Debug
+                                //Place family instance at points to debug the alorithm
+                                //StructuralType strType = (StructuralType)4;
+                                //FamilySymbol familySymbol = null;
+                                //FilteredElementCollector collector = new FilteredElementCollector(doc);
+                                //IEnumerable<Element> collection = collector.OfClass(typeof(FamilySymbol)).ToElements();
+                                //FamilySymbol marker = null;
+                                //foreach (Element e in collection)
+                                //{
+                                //    familySymbol = e as FamilySymbol;
+                                //    if (null != familySymbol.Category)
+                                //    {
+                                //        if ("Structural Columns" == familySymbol.Category.Name)
+                                //        {
+                                //            break;
+                                //        }
+                                //    }
+                                //}
+
+                                //if (null != familySymbol)
+                                //{
+                                //    foreach (Element e in collection)
+                                //    {
+                                //        familySymbol = e as FamilySymbol;
+                                //        if (familySymbol.FamilyName == "Marker")
+                                //        {
+                                //            marker = familySymbol;
+                                //            Transaction trans = new Transaction(doc, "Place point markers");
+                                //            trans.Start();
+                                //            doc.Create.NewFamilyInstance(A, marker, strType);
+                                //            doc.Create.NewFamilyInstance(B, marker, strType);
+                                //            doc.Create.NewFamilyInstance(C, marker, strType);
+                                //            doc.Create.NewFamilyInstance(D, marker, strType);
+                                //            doc.Create.NewFamilyInstance(E, marker, strType);
+                                //            trans.Commit();
+                                //        }
+                                //    }
+
+                                //}
+                                #endregion
+                            }
+                            else A = E;
+                            angle = Math.Round(angle * 100);
+
+                            sbFittings.Append(EndWriter.WriteCP(A));
+
+                            sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
+
+                            sbFittings.Append("    ANGLE ");
+                            sbFittings.Append(Conversion.AngleToPCF(angle));
+                            sbFittings.AppendLine();
                         }
-                        Line refsLine = Line.CreateBound(pipeEnd1, pipeEnd2);
-                        XYZ C = refsLine.Project(B).XYZPoint;
-                        double L3 = B.DistanceTo(C);
-                        XYZ E = refsLine.Project(D).XYZPoint;
-                        double L4 = D.DistanceTo(E);
-                        double ratio = L4 / L3;
-                        double L1 = E.DistanceTo(C);
-                        double L5 = L1 / (ratio - 1);
-                        XYZ A;
-                        if (angle < 89)
-                        {
-                            XYZ ECvector = C - E;
-                            ECvector = ECvector.Normalize();
-                            double L = L1 + L5;
-                            ECvector = ECvector.Multiply(L);
-                            A = E.Add(ECvector);
-
-                            #region Debug
-                            //Debug
-                            //Place family instance at points to debug the alorithm
-                            //StructuralType strType = (StructuralType)4;
-                            //FamilySymbol familySymbol = null;
-                            //FilteredElementCollector collector = new FilteredElementCollector(doc);
-                            //IEnumerable<Element> collection = collector.OfClass(typeof(FamilySymbol)).ToElements();
-                            //FamilySymbol marker = null;
-                            //foreach (Element e in collection)
-                            //{
-                            //    familySymbol = e as FamilySymbol;
-                            //    if (null != familySymbol.Category)
-                            //    {
-                            //        if ("Structural Columns" == familySymbol.Category.Name)
-                            //        {
-                            //            break;
-                            //        }
-                            //    }
-                            //}
-
-                            //if (null != familySymbol)
-                            //{
-                            //    foreach (Element e in collection)
-                            //    {
-                            //        familySymbol = e as FamilySymbol;
-                            //        if (familySymbol.FamilyName == "Marker")
-                            //        {
-                            //            marker = familySymbol;
-                            //            Transaction trans = new Transaction(doc, "Place point markers");
-                            //            trans.Start();
-                            //            doc.Create.NewFamilyInstance(A, marker, strType);
-                            //            doc.Create.NewFamilyInstance(B, marker, strType);
-                            //            doc.Create.NewFamilyInstance(C, marker, strType);
-                            //            doc.Create.NewFamilyInstance(D, marker, strType);
-                            //            doc.Create.NewFamilyInstance(E, marker, strType);
-                            //            trans.Commit();
-                            //        }
-                            //    }
-
-                            //}
-                            #endregion
-                        }
-                        else A = E;
-                        angle = Math.Round(angle * 100);
-
-                        sbFittings.Append(EndWriter.WriteCP(A));
-
-                        sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
-
-                        sbFittings.Append("    ANGLE ");
-                        sbFittings.Append(Conversion.AngleToPCF(angle));
-                        sbFittings.AppendLine();
 
                         break;
                 }
@@ -266,6 +323,24 @@ namespace PCF_Fittings
                 sbFittings.Append("    UNIQUE-COMPONENT-IDENTIFIER ");
                 sbFittings.Append(element.UniqueId);
                 sbFittings.AppendLine();
+
+                //Process tap entries of the element if any
+                //Diameter Limit nullifies the tapsWriter output if the tap diameter is less than the limit so it doesn't get exported
+                if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP1").AsString()) == false)
+                {
+                    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP1", doc);
+                    sbFittings.Append(tapsWriter.tapsWriter);
+                }
+                if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP2").AsString()) == false)
+                {
+                    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP2", doc);
+                    sbFittings.Append(tapsWriter.tapsWriter);
+                }
+                if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP3").AsString()) == false)
+                {
+                    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP3", doc);
+                    sbFittings.Append(tapsWriter.tapsWriter);
+                }
             }
 
             //// Clear the output file

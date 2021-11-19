@@ -29,15 +29,12 @@ namespace PCF_Taps
                 //Select tapped element
                 Element tappedElement = BuildingCoderUtilities.SelectSingleElement(uidoc, "Select tapped element.");
 
-                if (!(tappedElement != null)) throw new Exception("Tap Connection cancelled!");
-
-                //Pipe type to restrict selection of tapping element
-                Type t = typeof(Pipe);
+                if (tappedElement == null) throw new Exception("Tap Connection cancelled!");
 
                 //Select tap element
-                Element tappingElement = BuildingCoderUtilities.SelectSingleElementOfType(uidoc, t, "Select tapping element (must be a pipe).", false);
+                Element tappingElement = BuildingCoderUtilities.SelectSingleElement(uidoc, "Select tapping element.");
 
-                if (!(tappingElement != null)) throw new Exception("Tap Connection cancelled!");
+                if (tappingElement == null) throw new Exception("Tap Connection cancelled!");
 
                 ////Debugging
                 //StringBuilder sbTaps = new StringBuilder();
@@ -115,16 +112,17 @@ namespace PCF_Taps
                 Element tappingElement = null;
                 if (uniqueId != null) tappingElement = doc.GetElement(uniqueId.ToString());
 
-                Pipe tappingPipe = (Pipe)tappingElement;
+                //Pipe tappingPipe = (Pipe)tappingElement;
 
-                ConnectorSet connectorTapSet = tappingPipe.ConnectorManager.Connectors;
+                //ConnectorSet connectorTapSet = tappingPipe.ConnectorManager.Connectors;
+                Cons cons = new Cons(tappingElement);
                 //Filter out non-end types of connectors. The output is converted to a list to prevent deferred execution (I am afraid
                 //that deferred execution leads to inconsisten returns of connectors from the connector set but am not sure it does).
-                IList<Connector> connectorTapEnds = (from Connector connector in connectorTapSet
-                                                     where connector.ConnectorType.ToString().Equals("End")
-                                                     select connector).ToList();
+                //IList<Connector> connectorTapEnds = (from Connector connector in connectorTapSet
+                //                                     where connector.ConnectorType.ToString().Equals("End")
+                //                                     select connector).ToList();
 
-                Connector end1 = connectorTapEnds.First(); Connector end2 = connectorTapEnds.Last();
+                Connector end1 = cons.Primary; Connector end2 = cons.Secondary;
                 double dist1 = elementOrigin.DistanceTo(end1.Origin); double dist2 = elementOrigin.DistanceTo(end2.Origin);
                 Connector tapConnector = null;
 

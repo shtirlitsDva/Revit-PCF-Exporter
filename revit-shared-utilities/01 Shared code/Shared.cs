@@ -170,6 +170,16 @@ namespace Shared
             return new FilteredElementCollector(doc).OfClass(typeof(T1)).Cast<T1>().ToHashSet();
         }
 
+        public static HashSet<Element> GetElements(Document doc, List<BuiltInCategory> categoriesList, List<Type> typesList)
+        {
+            HashSet<Element> result = new HashSet<Element>();
+            for (int i = 0; i < categoriesList.Count; i++)
+            {
+                result.UnionWith(new FilteredElementCollector(doc).OfCategory(categoriesList[i]).OfClass(typesList[i]).ToHashSet());
+            }
+            return result;
+        }
+
         /// <summary>
         /// Return a view, specify the type of view and name.
         /// </summary>
