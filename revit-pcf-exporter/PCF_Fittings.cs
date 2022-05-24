@@ -79,6 +79,7 @@ namespace PCF_Fittings
 
                         break;
 
+                    case "UNION":
                     case ("REDUCER-CONCENTRIC"):
                         sbFittings.Append(EndWriter.WriteEP1(element, cons.Primary));
                         sbFittings.Append(EndWriter.WriteEP2(element, cons.Secondary));
