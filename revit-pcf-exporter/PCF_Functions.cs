@@ -447,8 +447,8 @@ namespace PCF_Functions
             if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(oletCpCon.Origin));
             if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(oletCpCon.Origin));
             sbEndWriter.Append(" ");
-            if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(oletCpCon.Radius));
-            if (InputVars.UNITS_BORE_INCH) sbEndWriter.Append(Conversion.PipeSizeToInch(oletCpCon.Radius));
+            if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(new Cons(tappedElement).Primary.Radius));
+            if (InputVars.UNITS_BORE_INCH) sbEndWriter.Append(Conversion.PipeSizeToInch(new Cons(tappedElement).Primary.Radius));
             sbEndWriter.Append(" ");
             if (string.IsNullOrEmpty(end1.AsString()) == false)
             {

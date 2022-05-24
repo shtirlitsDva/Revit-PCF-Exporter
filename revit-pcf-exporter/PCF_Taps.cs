@@ -134,7 +134,7 @@ namespace PCF_Taps
                 tapsWriter.Append("    TAP-CONNECTION");
                 tapsWriter.AppendLine();
                 tapsWriter.Append("    CO-ORDS ");
-                if (InputVars.UNITS_CO_ORDS_MM) tapsWriter.Append(Conversion.PointStringMm(connectorOrigin));
+                if (InputVars.UNITS_CO_ORDS_MM) tapsWriter.Append(EndWriter.PointStringMm(connectorOrigin));
                 if (InputVars.UNITS_CO_ORDS_INCH) tapsWriter.Append(Conversion.PointStringInch(connectorOrigin));
                 tapsWriter.Append(" ");
                 if (InputVars.UNITS_BORE_MM) tapsWriter.Append(Conversion.PipeSizeToMm(connectorSize));

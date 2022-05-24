@@ -77,6 +77,7 @@ namespace PCF_Accessories
 
                             break;
 
+                        case ("MISC-COMPONENT"):
                         case ("VALVE"):
                             goto case ("INSTRUMENT");
 
