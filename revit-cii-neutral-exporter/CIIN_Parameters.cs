@@ -532,7 +532,7 @@ namespace CIINExporter
         }
 
         //Method deletes parameters
-        public void RemoveSharedParameterBinding(Application app, string name, ParameterType type)
+        public void RemoveSharedParameterBinding(Application app, string name, ForgeTypeId type)
         {
             BindingMap map = (new UIApplication(app)).ActiveUIDocument.Document.ParameterBindings;
             DefinitionBindingMapIterator it = map.ForwardIterator();
@@ -541,7 +541,7 @@ namespace CIINExporter
             Definition def = null;
             while (it.MoveNext())
             {
-                if (it.Key != null && it.Key.Name == name && type == it.Key.ParameterType)
+                if (it.Key != null && it.Key.Name == name && type == it.Key.GetDataType())
                 {
                     def = it.Key;
                     break;
