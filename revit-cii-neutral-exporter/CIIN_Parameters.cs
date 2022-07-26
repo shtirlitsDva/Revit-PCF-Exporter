@@ -137,7 +137,7 @@ namespace CIINExporter
         internal Result PopulateElementData(UIApplication uiApp, ref string msg, string path)
         {
             //Test to see if the list of parameter names is defined at all, if not -- break.
-            if (pd.parameterNames.IsNullOrEmpty())
+            if (pd.parameterNames == null || pd.parameterNames.Count == 0)
             {
                 BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;
@@ -246,7 +246,7 @@ namespace CIINExporter
         internal Result PopulatePipelineData(UIApplication uiApp, ref string msg, string path)
         {
             //Test to see if the list of parameter names is defined at all, if not -- break.
-            if (pd.parameterNames.IsNullOrEmpty())
+            if (pd.parameterNames == null || pd.parameterNames.Count == 0)
             {
                 BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;

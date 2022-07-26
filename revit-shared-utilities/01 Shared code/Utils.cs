@@ -33,9 +33,9 @@ using WinForms = System.Windows.Forms;
 
 #endregion // Namespaces
 
-namespace BuildingCoder
+namespace Shared.BuildingCoder
 {
-    internal class Util
+    internal class BuildingCoderUtilities
     {
         #region Geometrical Comparison
 
@@ -43,7 +43,8 @@ namespace BuildingCoder
         ///     Default tolerance used to add fuzz
         ///     for real number equality detection
         /// </summary>
-        public const double _eps = 1.0e-9;
+        public const double _epx = 1.0e-9;  //Original tolerance
+        public const double _eps = 0.00328; //Tolerance equal to 1 mm
 
         /// <summary>
         ///     Default tolerance used to add fuzz
@@ -2349,63 +2350,21 @@ const T f = ( ay * bx ) - ( ax * by );
 
         #endregion // Generate add-in manifest on the fly
 
-        //#region Compatibility fix for spelling error change
-        ///// <summary>
-        ///// Wrapper to fix a spelling error prior to Revit 2016.
-        ///// </summary>
-        //public class SpellingErrorCorrector
-        //{
-        //  static bool _in_revit_2015_or_earlier;
-        //  static Type _external_definition_creation_options_type;
+        #region Excel
+        public static string GetColumnName(int index)
+        {
+            const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        //  public SpellingErrorCorrector( Application app )
-        //  {
-        //    _in_revit_2015_or_earlier = 0
-        //      <= app.VersionNumber.CompareTo( "2015" );
+            var value = "";
 
-        //    string s
-        //      = _in_revit_2015_or_earlier
-        //        ? "ExternalDefinitonCreationOptions"
-        //        : "ExternalDefinitionCreationOptions";
+            if (index >= letters.Length)
+                value += letters[index / letters.Length - 1];
 
-        //    _external_definition_creation_options_type
-        //      = System.Reflection.Assembly
-        //        .GetExecutingAssembly().GetType( s );
-        //  }
+            value += letters[index % letters.Length];
 
-        //  object NewExternalDefinitionCreationOptions(
-        //    string name,
-        //    ParameterType parameterType )
-        //  {
-        //    object[] args = new object[] {
-        //      name, parameterType };
-
-        //    return _external_definition_creation_options_type
-        //      .GetConstructor( new Type[] {
-        //        _external_definition_creation_options_type } )
-        //      .Invoke( args );
-        //  }
-
-        //  public Definition NewDefinition(
-        //    Definitions definitions,
-        //    string name,
-        //    ParameterType parameterType )
-        //  {
-        //    //return definitions.Create( 
-        //    //  NewExternalDefinitionCreationOptions() );
-
-        //    object opt
-        //      = NewExternalDefinitionCreationOptions(
-        //        name,
-        //        parameterType );
-
-        //    return typeof( Definitions ).InvokeMember(
-        //      "Create", BindingFlags.InvokeMethod, null,
-        //      definitions, new object[] { opt } )
-        //      as Definition;
-        //  }
-        //}
-        //#endregion // Compatibility fix for spelling error change
+            return value;
+        }
+        #endregion
     }
 
     #region Extension Method Classes
@@ -2455,59 +2414,59 @@ const T f = ( ay * bx ) - ( ax * by );
         ///     Create HashSet from IEnumerable given selector and comparer.
         ///     http://geekswithblogs.net/BlackRabbitCoder/archive/2011/03/31/c.net-toolbox-adding-a-tohashset-extension-method.aspx
         /// </summary>
-        public static HashSet<TElement> ToHashSet<TSource, TElement>(
-            this IEnumerable<TSource> source,
-            Func<TSource, TElement> elementSelector,
-            IEqualityComparer<TElement> comparer)
-        {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (elementSelector == null)
-                throw new ArgumentNullException("elementSelector");
+        //public static HashSet<TElement> ToHashSet<TSource, TElement>(
+        //    this IEnumerable<TSource> source,
+        //    Func<TSource, TElement> elementSelector,
+        //    IEqualityComparer<TElement> comparer)
+        //{
+        //    if (source == null)
+        //        throw new ArgumentNullException("source");
+        //    if (elementSelector == null)
+        //        throw new ArgumentNullException("elementSelector");
 
-            // you can unroll this into a foreach if you want efficiency gain, but for brevity...
-            return new HashSet<TElement>(
-                source.Select(elementSelector), comparer);
-        }
+        //    // you can unroll this into a foreach if you want efficiency gain, but for brevity...
+        //    return new HashSet<TElement>(
+        //        source.Select(elementSelector), comparer);
+        //}
 
         /// <summary>
         ///     Create a HashSet of TSource from an IEnumerable
         ///     of TSource using the identity selector and
         ///     default equality comparer.
         /// </summary>
-        public static HashSet<TSource> ToHashSet<TSource>(
-            this IEnumerable<TSource> source)
-        {
-            // key selector is identity fxn and null is default comparer
-            return source.ToHashSet(
-                item => item, null);
-        }
+        //public static HashSet<TSource> ToHashSet<TSource>(
+        //    this IEnumerable<TSource> source)
+        //{
+        //    // key selector is identity fxn and null is default comparer
+        //    return source.ToHashSet(
+        //        item => item, null);
+        //}
 
         /// <summary>
         ///     Create a HashSet of TSource from an IEnumerable
         ///     of TSource using the identity selector and
         ///     specified equality comparer.
         /// </summary>
-        public static HashSet<TSource> ToHashSet<TSource>(
-            this IEnumerable<TSource> source,
-            IEqualityComparer<TSource> comparer)
-        {
-            return source.ToHashSet(
-                item => item, comparer);
-        }
+        //public static HashSet<TSource> ToHashSet<TSource>(
+        //    this IEnumerable<TSource> source,
+        //    IEqualityComparer<TSource> comparer)
+        //{
+        //    return source.ToHashSet(
+        //        item => item, comparer);
+        //}
 
         /// <summary>
         ///     Create a HashSet of TElement from an IEnumerable
         ///     of TSource using the specified element selector
         ///     and default equality comparer.
         /// </summary>
-        public static HashSet<TElement> ToHashSet<TSource, TElement>(
-            this IEnumerable<TSource> source,
-            Func<TSource, TElement> elementSelector)
-        {
-            return source.ToHashSet(
-                elementSelector, null);
-        }
+        //public static HashSet<TElement> ToHashSet<TSource, TElement>(
+        //    this IEnumerable<TSource> source,
+        //    Func<TSource, TElement> elementSelector)
+        //{
+        //    return source.ToHashSet(
+        //        elementSelector, null);
+        //}
     }
 
     public static class JtElementExtensionMethods
@@ -2586,7 +2545,7 @@ const T f = ( ay * bx ) - ( ax * by );
         public static bool Contains(
             this Line line,
             XYZ p,
-            double tolerance = Util._eps)
+            double tolerance = BuildingCoderUtilities._eps)
         {
             var a = line.GetEndPoint(0); // line start point
             var b = line.GetEndPoint(1); // line end point
@@ -2672,7 +2631,7 @@ const T f = ( ay * bx ) - ( ax * by );
             XYZ p)
         {
             Debug.Assert(
-                Util.IsEqual(plane.Normal.GetLength(), 1),
+                BuildingCoderUtilities.IsEqual(plane.Normal.GetLength(), 1),
                 "expected normalised plane normal");
 
             var v = p - plane.Origin;
@@ -2693,7 +2652,7 @@ const T f = ( ay * bx ) - ( ax * by );
             var q = p - d * plane.Normal;
 
             Debug.Assert(
-                Util.IsZero(plane.SignedDistanceTo(q)),
+                BuildingCoderUtilities.IsZero(plane.SignedDistanceTo(q)),
                 "expected point on plane to have zero distance to plane");
 
             return q;

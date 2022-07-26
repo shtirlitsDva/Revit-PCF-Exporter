@@ -211,7 +211,7 @@ namespace PCF_Parameters
             List<string> ParameterNames = (from dc in dataTable.Columns.Cast<DataColumn>() select dc.ColumnName).ToList();
             ParameterNames.RemoveAt(0);
             //Test to see if the list of parameter names is defined at all, if not -- break.
-            if (ParameterNames.IsNullOrEmpty())
+            if (ParameterNames == null || ParameterNames.Count == 0)
             {
                 BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;
@@ -344,7 +344,7 @@ namespace PCF_Parameters
             //ParameterNames.RemoveAt(0);
             //ParameterNames.RemoveAt(0);
             //Test to see if the list of parameter names is defined at all, if not -- break.
-            if (ParameterNames.IsNullOrEmpty())
+            if (ParameterNames == null || ParameterNames.Count == 0)
             {
                 BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;
@@ -643,7 +643,7 @@ namespace PCF_Parameters
         }
 
         //Method deletes parameters
-        public void RemoveSharedParameterBinding(Application app, string name, ParameterType type)
+        public void RemoveSharedParameterBinding(Application app, string name, ForgeTypeId type)
         {
             BindingMap map = (new UIApplication(app)).ActiveUIDocument.Document.ParameterBindings;
             DefinitionBindingMapIterator it = map.ForwardIterator();
@@ -652,7 +652,7 @@ namespace PCF_Parameters
             Definition def = null;
             while (it.MoveNext())
             {
-                if (it.Key != null && it.Key.Name == name && type == it.Key.ParameterType)
+                if (it.Key != null && it.Key.Name == name && type == it.Key.GetDataType())
                 {
                     def = it.Key;
                     break;

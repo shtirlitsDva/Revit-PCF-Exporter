@@ -26,15 +26,16 @@ namespace NTR_Exporter
 
             //Collect in-model steel elements' analytical stick models
             var AllAnalyticalModelSticks = Shared.Filter
-                .GetElements<AnalyticalModelStick, BuiltInCategory>(doc, BuiltInCategory.INVALID);
+                .GetElements<AnalyticalMember, BuiltInCategory>(doc, BuiltInCategory.INVALID);
 
             List<AnalyticalSteelElement> ASE_OriginalList = new List<AnalyticalSteelElement>();
             List<AnalyticalSteelElement> ASE_NewElementsList = new List<AnalyticalSteelElement>();
 
-            foreach (AnalyticalModelStick ams in AllAnalyticalModelSticks)
+            foreach (AnalyticalMember ams in AllAnalyticalModelSticks)
             {
                 //Skip non-steel structural members
-                if (ams.IsSteelMember(doc) == false) continue;
+                //Revit 2023: is still working this way?
+                //if (ams.IsSteelMember(doc) == false) continue;
                 AnalyticalSteelElement ase = new AnalyticalSteelElement(doc, ams);
                 ASE_OriginalList.Add(ase);
             }
@@ -180,7 +181,16 @@ namespace NTR_Exporter
                 sb.Append(dw.PointCoords("P2", ase.P2));
                 //Hardcoded material until further notice
                 sb.Append(" MAT=S235JR");
-                sb.Append(dw.ParameterValue("TYP", BuiltInParameter.ELEM_TYPE_PARAM, ase.Host));
+
+                //Read profile section type and write it's name
+                //It changed because of 2023 additions
+                ElementId id = ase.Host.get_Parameter(BuiltInParameter.ANALYTICAL_MEMBER_SECTION_TYPE)?.AsElementId();
+                if (id != null)
+                {
+                    Element sectionType = doc.GetElement(id);
+                    if (sectionType != null) sb.Append($" TYP={sectionType.Name}");
+                }
+
                 sb.Append(" ACHSE=Y");
                 sb.Append(" RI='0,1,0'");
                 sb.Append(" LAST=STEEL");
@@ -219,11 +229,12 @@ namespace NTR_Exporter
             var refId = rwc.GetReference()?.ElementId;
 
             Element foundElement = doc.GetElement(refId);
-            var ams = foundElement.GetAnalyticalModel();
-            var ir = ams.GetCurve().Project(Origin);
+            throw new NotImplementedException("Steel export has to be redesigned following the 2023 changes!!!");
+            //var ams = foundElement.GetAnalyticalModel();
+            //var ir = ams.GetCurve().Project(Origin);
 
             //Dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", Origin, Origin + Direction.Dir * 5);
-            list.Add(new AnalyticalSteelElement(Origin, ir.XYZPoint, true));
+            //list.Add(new AnalyticalSteelElement(Origin, ir.XYZPoint, true));
         }
 
         private void CreatePartialElements(AnalyticalSteelElement ASE, List<AnalyticalSteelElement> NewElements, List<XYZ> intersections)
@@ -280,12 +291,12 @@ namespace NTR_Exporter
 
     internal static class Extensions
     {
-        internal static bool IsSteelMember(this AnalyticalModelStick ams, Document doc)
-        {
-            Element host = doc.GetElement(ams.GetElementId());
-            if (host is FamilyInstance fi) if (fi.StructuralMaterialType == StructuralMaterialType.Steel) return true;
-            return false;
-        }
+        //internal static bool IsSteelMember(this AnalyticalMember ams, Document doc)
+        //{
+        //    Element host = doc.GetElement(ams.);
+        //    if (host is FamilyInstance fi) if (fi.StructuralMaterialType == StructuralMaterialType.Steel) return true;
+        //    return false;
+        //}
     }
 
     internal class AnalyticalSteelElement
@@ -293,10 +304,10 @@ namespace NTR_Exporter
         public XYZ P1;
         public XYZ P2;
         public Curve Curve;
-        public Element Host;
+        public AnalyticalMember Host;
         public bool IsInternalSupport = false;
 
-        public AnalyticalSteelElement(XYZ p1, XYZ p2, Element host)
+        public AnalyticalSteelElement(XYZ p1, XYZ p2, AnalyticalMember host)
         {
             P1 = p1; P2 = p2; Host = host;
         }
@@ -306,12 +317,12 @@ namespace NTR_Exporter
             P1 = p1; P2 = p2; IsInternalSupport = isInternalSupport; Curve = Line.CreateBound(p1, p2);
         }
 
-        public AnalyticalSteelElement(Document doc, AnalyticalModelStick ams)
+        public AnalyticalSteelElement(Document doc, AnalyticalMember ams)
         {
             Curve = ams.GetCurve();
             P1 = Curve.GetEndPoint(0);
             P2 = Curve.GetEndPoint(1);
-            Host = doc.GetElement(ams.GetElementId());
+            Host = ams;
         }
     }
 }

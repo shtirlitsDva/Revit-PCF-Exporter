@@ -9,7 +9,7 @@ namespace PCF_Functions
 {
     public class ParameterDefinition
     {
-        public ParameterDefinition(string pName, string pDomain, string pUsage, ParameterType pType, Guid pGuid, string pKeyword = "")
+        public ParameterDefinition(string pName, string pDomain, string pUsage, ForgeTypeId pType, Guid pGuid, string pKeyword = "")
         {
             Name = pName;
             Domain = pDomain;
@@ -19,7 +19,7 @@ namespace PCF_Functions
             Keyword = pKeyword;
         }
 
-        public ParameterDefinition(string pName, string pDomain, string pUsage, ParameterType pType, Guid pGuid, string pKeyword, string pExportingTo)
+        public ParameterDefinition(string pName, string pDomain, string pUsage, ForgeTypeId pType, Guid pGuid, string pKeyword, string pExportingTo)
         {
             Name = pName;
             Domain = pDomain;
@@ -33,7 +33,7 @@ namespace PCF_Functions
         public string Name { get; }
         public string Domain { get; } //PIPL = Pipeline, ELEM = Element, SUPP = Support, CTRL = Execution control.
         public string Usage { get; } //U = user defined values, P = programatically defined values.
-        public ParameterType Type { get; }
+        public ForgeTypeId Type { get; }
         public Guid Guid { get; }
         public string Keyword { get; } //The keyword as defined in the PCF reference guide.
         public string ExportingTo { get; } = null; //CII export to CII, LDT export to ISOGEN
@@ -302,9 +302,9 @@ namespace PCF_Functions
         #region Parameter Data Entry
 
         //general values
-        public const ParameterType Text = ParameterType.Text;
-        public const ParameterType Integer = ParameterType.Integer;
-        public const ParameterType YesNo = ParameterType.YesNo;
+        public static ForgeTypeId Text = SpecTypeId.String.Text;
+        public static ForgeTypeId Integer = SpecTypeId.Int.Integer;
+        public static ForgeTypeId YesNo = SpecTypeId.Boolean.YesNo;
         #endregion
 
         //public static IList<string> parameterNames = new List<string>();

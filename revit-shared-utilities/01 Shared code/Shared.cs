@@ -52,7 +52,7 @@ namespace Shared
             {
                 case string str:
                     FilterStringRuleEvaluator fsrE = new FilterStringEquals();
-                    FilterStringRule fsr = new FilterStringRule(pvp, fsrE, str, false);
+                    FilterStringRule fsr = new FilterStringRule(pvp, fsrE, str);
                     return new ElementParameterFilter(fsr);
                 case bool bol:
                     int _value;
