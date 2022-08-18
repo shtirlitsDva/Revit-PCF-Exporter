@@ -312,6 +312,16 @@ namespace PCF_Fittings
                         }
 
                         break;
+
+                        // In case of a Hot-tap valve
+                    case ("VALVE"):
+                        //Process endpoints of the component
+                        sbFittings.Append(EndWriter.WriteEP1(element, cons.Primary));
+                        sbFittings.Append(EndWriter.WriteEP2(element, cons.Secondary));
+                        sbFittings.Append(EndWriter.WriteCP(familyInstance));
+                        sbFittings.Append(ParameterDataWriter.ParameterValue(
+                            "TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
+                        break;
                 }
 
                 Composer elemParameterComposer = new Composer();
