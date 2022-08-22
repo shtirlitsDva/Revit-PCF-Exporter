@@ -87,6 +87,7 @@ namespace PCF_Fittings
                         break;
 
                     case ("REDUCER-ECCENTRIC"):
+                        sbFittings.AppendLine("    FLAT-DIRECTION DOWN");
                         goto case ("REDUCER-CONCENTRIC");
 
                     case ("COUPLING"):
