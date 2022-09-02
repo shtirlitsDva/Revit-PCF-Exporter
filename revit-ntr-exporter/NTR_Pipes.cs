@@ -54,7 +54,8 @@ namespace NTR_Exporter
                         sbPipes.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "MAT"));
                         sbPipes.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "LAST"));
                         sbPipes.Append(dw.WriteElementId(element, "REF"));
-                        sbPipes.Append(" LTG=" + key);
+                        if (key.Any(Char.IsWhiteSpace)) sbPipes.Append(" LTG='" + key +"'");
+                        else sbPipes.Append(" LTG=" + key);
                         sbPipes.AppendLine();
                         break;
                 }

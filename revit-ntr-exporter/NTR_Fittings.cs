@@ -90,7 +90,8 @@ namespace NTR_Exporter
                 sbFittings.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "MAT")); //Is not required for FLABL?
                 sbFittings.Append(dw.ReadPropertyFromDataTable(key, conf.Pipelines, "LAST")); //Is not required for FLABL?
                 sbFittings.Append(dw.WriteElementId(element, "REF"));
-                sbFittings.Append(" LTG=" + key);
+                if (key.Any(Char.IsWhiteSpace)) sbFittings.Append(" LTG='" + key + "'");
+                else sbFittings.Append(" LTG=" + key);
                 sbFittings.AppendLine();
 
                 //Detect and write NOZZLES
