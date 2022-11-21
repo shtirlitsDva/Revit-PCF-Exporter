@@ -926,6 +926,8 @@ namespace Shared
         public static double FtToInch(this double l) => l * _foot_to_inch;
         public static double MmToFt(this double l) => l / _foot_to_mm;
         public static double SqrFeetToSqrMeters(this double l) => l * _convertSqrFootToSqrMeter;
+        public static double CubicFtPrSecToCubicMtrPrHour(this double f) =>
+            f * 0.02831685 * 3600.0;
         public static bool Equalz(this double a, double b, double tol) => Math.Abs(a - b) <= tol;
         public static bool Equalz(this XYZ a, XYZ b, double tol) => a.X.Equalz(b.X, tol) && a.Y.Equalz(b.Y, tol) && a.Z.Equalz(b.Z, tol);
         public static bool Equalz(this Connector a, Connector b, double tol) => a.Origin.Equalz(b.Origin, tol);
@@ -1078,6 +1080,11 @@ namespace Shared
             if (values.Count < 1) return "";
             else return $"{string.Join(separator, values)}";
         }
+        /// <summary>
+        /// Returns pipe length in meters.
+        /// </summary>
+        public static double Length(this Pipe pipe) =>
+            pipe.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble().FtToMtrs();
     }
 
     public static class Transformation
