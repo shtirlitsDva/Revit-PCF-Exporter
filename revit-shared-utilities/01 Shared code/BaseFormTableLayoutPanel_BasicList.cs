@@ -114,6 +114,8 @@ namespace Shared
 
         private void BaseFormTableLayoutPanel_Basic_Load(object sender, EventArgs e)
         {
+            //Look into this to prevent the windows spawning partially offscreen
+            //https://stackoverflow.com/questions/45640880/prevent-new-window-from-going-offscreen
             SetDesktopLocation(desiredStartLocationX, desiredStartLocationY);
         }
 
