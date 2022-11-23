@@ -128,7 +128,11 @@ namespace Shared
         }
 
         /// <summary>
-        /// Get the collection of elements of the specified type additionally filtered by a string value of specified BuiltInParameter.
+        /// Get the collection of elements of the specified type additionally filtered
+        /// by a string value of specified BuiltInParameter.
+        /// Okay, now I get that this is a very bad method.
+        /// It tries to do everything at once.
+        /// It should be refactored into separate overloads.
         /// </summary>
         /// <typeparam name="T1">The type of element to get.</typeparam>
         /// <param name="doc">The usual active document.</param>
@@ -926,15 +930,19 @@ namespace Shared
         public static double FtToInch(this double l) => l * _foot_to_inch;
         public static double MmToFt(this double l) => l / _foot_to_mm;
         public static double SqrFeetToSqrMeters(this double l) => l * _convertSqrFootToSqrMeter;
+        public static double CubicFtPrSecToCubicMtrPrHour(this double f)
+            => f * 0.028316846592 * 3600.0;
         public static bool Equalz(this double a, double b, double tol) => Math.Abs(a - b) <= tol;
-        public static bool Equalz(this XYZ a, XYZ b, double tol) => a.X.Equalz(b.X, tol) && a.Y.Equalz(b.Y, tol) && a.Z.Equalz(b.Z, tol);
+        public static bool Equalz(this XYZ a, XYZ b, double tol)
+            => a.X.Equalz(b.X, tol) && a.Y.Equalz(b.Y, tol) && a.Z.Equalz(b.Z, tol);
         public static bool Equalz(this Connector a, Connector b, double tol) => a.Origin.Equalz(b.Origin, tol);
         public static bool IsOdd(this int number) => number % 2 != 0;
         public static bool IsType<T>(this object obj) => obj is T;
         public static bool IsNullOrEmpty(this string str) => string.IsNullOrEmpty(str);
         public static bool IsNoE(this string str) => string.IsNullOrEmpty(str);
         public static bool IsNotNoE(this string str) => !string.IsNullOrEmpty(str);
-        public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate) => source.Where(x => !predicate(x));
+        public static IEnumerable<T> ExceptWhere<T>(this IEnumerable<T> source, Predicate<T> predicate)
+            => source.Where(x => !predicate(x));
         public static string FamilyName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString();
         public static string FamilyAndTypeName(this Element e) => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
         public static string MEPSystemAbbreviation(this Connector con, Document doc, bool ignoreMepSystemNull = false)
@@ -1078,6 +1086,11 @@ namespace Shared
             if (values.Count < 1) return "";
             else return $"{string.Join(separator, values)}";
         }
+        /// <summary>
+        /// Returns pipe length in meters.
+        /// </summary>
+        public static double Length(this Pipe pipe) =>
+            pipe.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble().FtToMtrs();
     }
 
     public static class Transformation
@@ -1224,6 +1237,19 @@ namespace Shared
             point2.Position = p2;
 
             return instance;
+        }
+    }
+
+    public static class SimpleLogger
+    {
+        public static string LogFileName { get; set; } = "C:\\Temp\\SimpleLog.txt";
+        public static void clrLog()
+        {
+            System.IO.File.WriteAllBytes(LogFileName, new byte[0]);
+        }
+        public static void log(string msg)
+        {
+            File.AppendAllLines(LogFileName, new string[] { $"{DateTime.Now}: {msg}" });
         }
     }
 }
