@@ -87,12 +87,12 @@
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI, Version=22.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>X:\RevitAPI\2023\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Revit SDK\2023\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI, Version=22.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>X:\RevitAPI\2023\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\Revit SDK\2023\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
