@@ -43,6 +43,7 @@ namespace PCF_Fittings
                 //Cast the elements gathered by the collector to FamilyInstances
                 FamilyInstance familyInstance = (FamilyInstance)element;
                 Options options = new Options();
+                options.DetailLevel = ViewDetailLevel.Fine;
 
                 //Gather connectors of the element
                 var cons = mp.GetConnectors(element);
