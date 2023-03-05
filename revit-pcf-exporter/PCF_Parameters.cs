@@ -213,7 +213,8 @@ namespace PCF_Parameters
             //Test to see if the list of parameter names is defined at all, if not -- break.
             if (ParameterNames == null || ParameterNames.Count == 0)
             {
-                BuildingCoderUtilities.ErrorMsg("Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
+                BuildingCoderUtilities.ErrorMsg(
+                    "Parameter names are incorrectly defined. Please reselect the EXCEL workbook.");
                 return Result.Failed;
             };
             Document doc = uiApp.ActiveUIDocument.Document;

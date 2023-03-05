@@ -165,7 +165,9 @@ namespace PCF_Exporter
 
                     //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
                     pipelineGroups = from e in elements
-                                     group e by e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
+                                     group e by e.get_Parameter(
+                                         BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
+                                     .AsString();
                 }
                 catch (Exception ex)
                 {

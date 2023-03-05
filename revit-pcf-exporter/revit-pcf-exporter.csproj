@@ -15,7 +15,7 @@
     <ProjectGuid>{037B382D-9BC9-4D7A-B76D-55BE5964E44D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PCF_Functions</RootNamespace>
+    <RootNamespace>PCF_Exporter</RootNamespace>
     <AssemblyName>PCF-Exporter</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
