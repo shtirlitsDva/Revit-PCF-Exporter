@@ -401,14 +401,14 @@ namespace PCF_Exporter
             // textBox5
             // 
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox5.Location = new System.Drawing.Point(6, 162);
             this.textBox5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(666, 22);
             this.textBox5.TabIndex = 4;
-            this.textBox5.Text = global::PCF_Functions.Properties.Settings.Default.textBox5OutputPath;
+            this.textBox5.Text = global::PCF_Exporter.Properties.Settings.Default.textBox5OutputPath;
             // 
             // button5
             // 
@@ -505,8 +505,8 @@ namespace PCF_Exporter
             // radioButton16
             // 
             this.radioButton16.AutoSize = true;
-            this.radioButton16.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton16Append;
-            this.radioButton16.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton16Append", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton16.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton16Append;
+            this.radioButton16.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton16Append", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton16.Location = new System.Drawing.Point(460, 35);
             this.radioButton16.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton16.Name = "radioButton16";
@@ -518,8 +518,8 @@ namespace PCF_Exporter
             // radioButton15
             // 
             this.radioButton15.AutoSize = true;
-            this.radioButton15.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton15Overwrite;
-            this.radioButton15.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton15Overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton15.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton15Overwrite;
+            this.radioButton15.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton15Overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton15.Location = new System.Drawing.Point(262, 35);
             this.radioButton15.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton15.Name = "radioButton15";
@@ -544,13 +544,13 @@ namespace PCF_Exporter
             // 
             // textBox11
             // 
-            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "TextBox11PROJECTIDENTIFIER", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "TextBox11PROJECTIDENTIFIER", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox11.Location = new System.Drawing.Point(11, 42);
             this.textBox11.Margin = new System.Windows.Forms.Padding(6);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(651, 29);
             this.textBox11.TabIndex = 11;
-            this.textBox11.Text = global::PCF_Functions.Properties.Settings.Default.TextBox11PROJECTIDENTIFIER;
+            this.textBox11.Text = global::PCF_Exporter.Properties.Settings.Default.TextBox11PROJECTIDENTIFIER;
             this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
             // 
@@ -571,8 +571,8 @@ namespace PCF_Exporter
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = global::PCF_Functions.Properties.Settings.Default.checkBox2Checked;
-            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "checkBox2Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox2.Checked = global::PCF_Exporter.Properties.Settings.Default.checkBox2Checked;
+            this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "checkBox2Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox2.Location = new System.Drawing.Point(460, 37);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(6);
             this.checkBox2.Name = "checkBox2";
@@ -585,8 +585,8 @@ namespace PCF_Exporter
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = global::PCF_Functions.Properties.Settings.Default.checkBox1Checked;
-            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "checkBox1Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.checkBox1.Checked = global::PCF_Exporter.Properties.Settings.Default.checkBox1Checked;
+            this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "checkBox1Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.checkBox1.Location = new System.Drawing.Point(262, 37);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(6);
             this.checkBox1.Name = "checkBox1";
@@ -614,8 +614,8 @@ namespace PCF_Exporter
             // radioButton12
             // 
             this.radioButton12.AutoSize = true;
-            this.radioButton12.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton12WallThkTrue;
-            this.radioButton12.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton12WallThkTrue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton12.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton12WallThkTrue;
+            this.radioButton12.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton12WallThkTrue", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton12.Location = new System.Drawing.Point(262, 126);
             this.radioButton12.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton12.Name = "radioButton12";
@@ -628,8 +628,8 @@ namespace PCF_Exporter
             // radioButton11
             // 
             this.radioButton11.AutoSize = true;
-            this.radioButton11.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton11WallThkFalse;
-            this.radioButton11.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton11WallThkFalse", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton11.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton11WallThkFalse;
+            this.radioButton11.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton11WallThkFalse", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton11.Location = new System.Drawing.Point(460, 126);
             this.radioButton11.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton11.Name = "radioButton11";
@@ -686,8 +686,8 @@ namespace PCF_Exporter
             // radioButton10
             // 
             this.radioButton10.AutoSize = true;
-            this.radioButton10.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton10WeightLengthF;
-            this.radioButton10.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton10WeightLengthF", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton10.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton10WeightLengthF;
+            this.radioButton10.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton10WeightLengthF", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton10.Location = new System.Drawing.Point(455, 31);
             this.radioButton10.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton10.Name = "radioButton10";
@@ -700,8 +700,8 @@ namespace PCF_Exporter
             // radioButton9
             // 
             this.radioButton9.AutoSize = true;
-            this.radioButton9.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton9WeightLengthM;
-            this.radioButton9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton9WeightLengthM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton9.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton9WeightLengthM;
+            this.radioButton9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton9WeightLengthM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton9.Location = new System.Drawing.Point(257, 31);
             this.radioButton9.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton9.Name = "radioButton9";
@@ -729,8 +729,8 @@ namespace PCF_Exporter
             // radioButton7
             // 
             this.radioButton7.AutoSize = true;
-            this.radioButton7.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton7WeightKgs;
-            this.radioButton7.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton7WeightKgs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton7.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton7WeightKgs;
+            this.radioButton7.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton7WeightKgs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton7.Location = new System.Drawing.Point(257, 31);
             this.radioButton7.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton7.Name = "radioButton7";
@@ -744,8 +744,8 @@ namespace PCF_Exporter
             // radioButton8
             // 
             this.radioButton8.AutoSize = true;
-            this.radioButton8.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton8WeightLbs;
-            this.radioButton8.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton8WeightLbs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton8.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton8WeightLbs;
+            this.radioButton8.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton8WeightLbs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton8.Location = new System.Drawing.Point(455, 31);
             this.radioButton8.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton8.Name = "radioButton8";
@@ -772,8 +772,8 @@ namespace PCF_Exporter
             // radioButton5
             // 
             this.radioButton5.AutoSize = true;
-            this.radioButton5.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton5CoordsMm;
-            this.radioButton5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton5CoordsMm", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton5.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton5CoordsMm;
+            this.radioButton5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton5CoordsMm", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton5.Location = new System.Drawing.Point(257, 31);
             this.radioButton5.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton5.Name = "radioButton5";
@@ -787,8 +787,8 @@ namespace PCF_Exporter
             // radioButton6
             // 
             this.radioButton6.AutoSize = true;
-            this.radioButton6.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton6CoordsInch;
-            this.radioButton6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton6CoordsInch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton6.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton6CoordsInch;
+            this.radioButton6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton6CoordsInch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton6.Location = new System.Drawing.Point(455, 31);
             this.radioButton6.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton6.Name = "radioButton6";
@@ -815,8 +815,8 @@ namespace PCF_Exporter
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
-            this.radioButton4.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton4BoreINCH;
-            this.radioButton4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton4BoreINCH", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton4.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton4BoreINCH;
+            this.radioButton4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton4BoreINCH", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton4.Location = new System.Drawing.Point(455, 35);
             this.radioButton4.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton4.Name = "radioButton4";
@@ -829,8 +829,8 @@ namespace PCF_Exporter
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton3BoreMM;
-            this.radioButton3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton3BoreMM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton3.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton3BoreMM;
+            this.radioButton3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton3BoreMM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton3.Location = new System.Drawing.Point(257, 35);
             this.radioButton3.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton3.Name = "radioButton3";
@@ -871,8 +871,8 @@ namespace PCF_Exporter
             // radioButton14
             // 
             this.radioButton14.AutoSize = true;
-            this.radioButton14.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton14ExportSelection;
-            this.radioButton14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton14ExportSelection", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton14.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton14ExportSelection;
+            this.radioButton14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton14ExportSelection", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton14.Location = new System.Drawing.Point(84, 198);
             this.radioButton14.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton14.Name = "radioButton14";
@@ -886,8 +886,8 @@ namespace PCF_Exporter
             // radioButton13
             // 
             this.radioButton13.AutoSize = true;
-            this.radioButton13.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton13AllPipelinesSeparate;
-            this.radioButton13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton13AllPipelinesSeparate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton13.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton13AllPipelinesSeparate;
+            this.radioButton13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton13AllPipelinesSeparate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton13.Location = new System.Drawing.Point(84, 114);
             this.radioButton13.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton13.Name = "radioButton13";
@@ -910,24 +910,24 @@ namespace PCF_Exporter
             // 
             // textBox9
             // 
-            this.textBox9.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "TextBoxFilterPCF_ELEM_SPEC", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox9.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "TextBoxFilterPCF_ELEM_SPEC", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox9.Location = new System.Drawing.Point(237, 336);
             this.textBox9.Margin = new System.Windows.Forms.Padding(6);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(424, 29);
             this.textBox9.TabIndex = 10;
-            this.textBox9.Text = global::PCF_Functions.Properties.Settings.Default.TextBoxFilterPCF_ELEM_SPEC;
+            this.textBox9.Text = global::PCF_Exporter.Properties.Settings.Default.TextBoxFilterPCF_ELEM_SPEC;
             this.textBox9.TextChanged += new System.EventHandler(this.TextBox9_TextChanged);
             // 
             // textBox22
             // 
-            this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Functions.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.textBox22.Location = new System.Drawing.Point(154, 257);
             this.textBox22.Margin = new System.Windows.Forms.Padding(6);
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new System.Drawing.Size(101, 29);
             this.textBox22.TabIndex = 10;
-            this.textBox22.Text = global::PCF_Functions.Properties.Settings.Default.textBox22DiameterLimit;
+            this.textBox22.Text = global::PCF_Exporter.Properties.Settings.Default.textBox22DiameterLimit;
             this.textBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
             // 
             // textBox10
@@ -993,8 +993,8 @@ namespace PCF_Exporter
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton2SpecificPipeline;
-            this.radioButton2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton2SpecificPipeline", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton2.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton2SpecificPipeline;
+            this.radioButton2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton2SpecificPipeline", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton2.Location = new System.Drawing.Point(84, 157);
             this.radioButton2.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton2.Name = "radioButton2";
@@ -1008,8 +1008,8 @@ namespace PCF_Exporter
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton1AllPipelines;
-            this.radioButton1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton1AllPipelines", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton1.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton1AllPipelines;
+            this.radioButton1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton1AllPipelines", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton1.Location = new System.Drawing.Point(84, 72);
             this.radioButton1.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton1.Name = "radioButton1";
@@ -1075,8 +1075,8 @@ namespace PCF_Exporter
             // radioButton17
             // 
             this.radioButton17.AutoSize = true;
-            this.radioButton17.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton17UTF8_BOM;
-            this.radioButton17.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton17UTF8_BOM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton17.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton17UTF8_BOM;
+            this.radioButton17.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton17UTF8_BOM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton17.Location = new System.Drawing.Point(367, 35);
             this.radioButton17.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton17.Name = "radioButton17";
@@ -1088,8 +1088,8 @@ namespace PCF_Exporter
             // radioButton18
             // 
             this.radioButton18.AutoSize = true;
-            this.radioButton18.Checked = global::PCF_Functions.Properties.Settings.Default.radioButton18ANSIEncoding;
-            this.radioButton18.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Functions.Properties.Settings.Default, "radioButton18ANSIEncoding", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.radioButton18.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton18ANSIEncoding;
+            this.radioButton18.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton18ANSIEncoding", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.radioButton18.Location = new System.Drawing.Point(189, 35);
             this.radioButton18.Margin = new System.Windows.Forms.Padding(6);
             this.radioButton18.Name = "radioButton18";
