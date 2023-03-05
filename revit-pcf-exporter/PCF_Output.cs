@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using Autodesk.Revit.DB;
 using iv = PCF_Functions.InputVars;
-using mySettings = PCF_Functions.Properties.Settings;
+using mySettings = PCF_Exporter.Properties.Settings;
 
 namespace PCF_Output
 {

@@ -9,7 +9,7 @@ using Autodesk.Revit.DB.Plumbing;
 using Shared.BuildingCoder;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
-using mySettings = PCF_Functions.Properties.Settings;
+using mySettings = PCF_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
 
 namespace PCF_Pipeline

@@ -12,7 +12,7 @@ using Shared.BuildingCoder;
 using PCF_Parameters;
 using PCF_Functions;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using mySettings = PCF_Functions.Properties.Settings;
+using mySettings = PCF_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
 using dh = Shared.DataHandler;
 
