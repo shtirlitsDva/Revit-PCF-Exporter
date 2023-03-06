@@ -60,14 +60,14 @@ namespace PCF_Exporter
             RibbonPanel rvtRibbonPanel = application.CreateRibbonPanel("PCF Tools");
             PushButtonData data = new PushButtonData("PCFExporter","PCF",ExecutingAssemblyPath,"PCF_Exporter.FormCaller");
             data.ToolTip = pcfExporterButtonToolTip;
-            data.Image = NewBitmapImage(exe, "PCF_Functions.ImgPcfExport16.png");
-            data.LargeImage = NewBitmapImage(exe, "PCF_Functions.ImgPcfExport32.png");
+            data.Image = NewBitmapImage(exe, "PCF_Exporter.ImgPcfExport16.png");
+            data.LargeImage = NewBitmapImage(exe, "PCF_Exporter.ImgPcfExport32.png");
             PushButton pushButton = rvtRibbonPanel.AddItem(data) as PushButton;
 
             data = new PushButtonData("TAPConnection", "Taps", ExecutingAssemblyPath, "PCF_Exporter.TapsCaller");
             data.ToolTip = tapConnectionButtonToolTip;
-            data.Image = NewBitmapImage(exe, "PCF_Functions.ImgTapCon16.png");
-            data.LargeImage = NewBitmapImage(exe, "PCF_Functions.ImgTapCon32.png");
+            data.Image = NewBitmapImage(exe, "PCF_Exporter.ImgTapCon16.png");
+            data.LargeImage = NewBitmapImage(exe, "PCF_Exporter.ImgTapCon32.png");
             pushButton = rvtRibbonPanel.AddItem(data) as PushButton;
 
             //data = new PushButtonData("SupportSystemType","SST",ExecutingAssemblyPath, "PCF_Exporter.SupportsCaller");
