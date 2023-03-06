@@ -68,7 +68,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\Revit SDK\2013\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Revit SDK\2023\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIIFC">
