@@ -168,6 +168,15 @@ namespace PCF_Accessories
                             sbAccessories.Append(EndWriter.WriteEP3(element, cons.Tertiary));
                             sbAccessories.Append(EndWriter.WriteCP(familyInstance));
                             break;
+                        case "PIPE-BLOCK-FIXED":
+                            sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
+                            sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
+                            break;
+                        default:
+                            throw new Exception(
+                                $"Element type " +
+                                $"{element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString()} " +
+                                $"not defined!");
                     }
 
                     Composer elemParameterComposer = new Composer();

@@ -214,7 +214,9 @@ namespace PCF_Fittings
                                     x.LookupParameter("PCF_ELEM_TAP2").AsString() == oletUid ||
                                     x.LookupParameter("PCF_ELEM_TAP3").AsString() == oletUid);
 
-                                if (query.Count() == 0) throw new Exception($"Olet {element.Id.IntegerValue} cannot find a reference Pipe!");
+                                if (query.Count() == 0) throw new Exception(
+                                    $"Olet {element.Id.IntegerValue} cannot find a reference Pipe!\n" +
+                                    $"Remember to assign 'olet to PCF_ELEM_TAPX!");
                                 else
                                 {
                                     //It is detected that the olet is a tapping element
