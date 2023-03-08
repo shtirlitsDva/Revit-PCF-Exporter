@@ -60,9 +60,9 @@ namespace PCF_Exporter
             }
             catch (Exception) { }
             try
-            { 
-            //Init LDT path
-            _LDTPath = mySettings.Default.LDTPath;
+            {
+                //Init LDT path
+                _LDTPath = mySettings.Default.LDTPath;
                 textBox7.Text = _LDTPath;
                 if (!string.IsNullOrEmpty(_LDTPath) && File.Exists(_LDTPath))
                 {
@@ -82,6 +82,11 @@ namespace PCF_Exporter
 
             //Use the distinct abbreviations as data source for the comboBox
             comboBox2.DataSource = pipeLinesAbbreviations;
+
+            //Set the previous sysAbbr
+            if (pipeLinesAbbreviations.Contains(mySettings.Default.selectedSysAbbr))
+                comboBox2.SelectedIndex = pipeLinesAbbreviations.IndexOf(
+                    mySettings.Default.selectedSysAbbr);
 
             iv.ExportAllOneFile = mySettings.Default.radioButton1AllPipelines;
             iv.ExportAllSepFiles = mySettings.Default.radioButton13AllPipelinesSeparate;
@@ -426,6 +431,7 @@ namespace PCF_Exporter
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             iv.SysAbbr = comboBox2.SelectedItem.ToString();
+            mySettings.Default.selectedSysAbbr = iv.SysAbbr;
         }
 
         private void radioButton15_CheckedChanged(object sender, EventArgs e)
@@ -459,6 +465,12 @@ namespace PCF_Exporter
         private void textBox11_TextChanged(object sender, EventArgs e)
         {
             iv.PCF_PROJECT_IDENTIFIER = textBox11.Text;
+        }
+
+        private void PCF_Exporter_form_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            mySettings.Default.selectedSysAbbr = iv.SysAbbr;
+            mySettings.Default.Save();
         }
     }
 }

@@ -334,5 +334,17 @@ namespace PCF_Exporter.Properties {
                 this["radioButton17UTF8_BOM"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string selectedSysAbbr {
+            get {
+                return ((string)(this["selectedSysAbbr"]));
+            }
+            set {
+                this["selectedSysAbbr"] = value;
+            }
+        }
     }
 }
