@@ -189,7 +189,7 @@ namespace PCF_Exporter
             PopulateParameters PP = new PopulateParameters();
             if (dataTableElements == null)
             {
-                Shared.BuildingCoder.BuildingCoderUtilities.ErrorMsg("dataTableElements is null!");
+                BuildingCoderUtilities.ErrorMsg("dataTableElements is null!");
                 return;
             }
             PP.PopulateElementData(_uiapp, ref _message, dataTableElements);
@@ -441,7 +441,7 @@ namespace PCF_Exporter
         private void button10_Click(object sender, EventArgs e)
         {
             ExportParameters EP = new ExportParameters();
-            EP.ExportUndefinedElements(_doc, _excelPath);
+            EP.ExportUndefinedElements(_uiapp, _doc, _excelPath);
         }
 
         private void button12_Click(object sender, EventArgs e)

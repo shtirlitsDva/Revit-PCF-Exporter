@@ -24,7 +24,7 @@ namespace PCF_Parameters
 {
     public class ExportParameters
     {
-        public void ExportUndefinedElements(Document doc, string excelPath)
+        public void ExportUndefinedElements(UIApplication uiApp, Document doc, string excelPath)
         {
             //Read existing values
             DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
@@ -70,9 +70,53 @@ namespace PCF_Parameters
 
             //Collect all elements
             FilteredElementCollector collector = new FilteredElementCollector(doc);
-            collector = Shared.Filter.GetElementsWithConnectors(doc);
-            HashSet<Element> elements = collector.ToElements().ToHashSet();
-            HashSet<Element> limitedElements = (from Element e in elements
+            HashSet<Element> colElements = null;
+
+            if (InputVars.ExportAllOneFile)
+            {
+                //Define a collector (Pipe OR FamInst) AND (Fitting OR Accessory OR Pipe).
+                //This is to eliminate FamilySymbols from collector which would throw an exception later on.
+                collector.WherePasses(new LogicalAndFilter(new List<ElementFilter>
+                        {new LogicalOrFilter(new List<ElementFilter>
+                        {
+                            new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting),
+                            new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
+                            new ElementClassFilter(typeof (Pipe))
+                        }),
+                            new LogicalOrFilter(new List<ElementFilter>
+                            {
+                                new ElementClassFilter(typeof(Pipe)),
+                                new ElementClassFilter(typeof(FamilyInstance))
+                            })
+                        }));
+
+                colElements = collector.ToElements().ToHashSet();
+
+            }
+
+            else if (InputVars.ExportAllSepFiles || InputVars.ExportSpecificPipeLine)
+            {
+                //Define a collector with multiple filters to collect PipeFittings OR PipeAccessories OR Pipes + filter by System Abbreviation
+                //System Abbreviation filter also filters FamilySymbols out.
+                collector.WherePasses(
+                    new LogicalOrFilter(
+                        new List<ElementFilter>
+                        {
+                                new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting),
+                                new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
+                                new ElementClassFilter(typeof (Pipe))
+                        })).WherePasses(
+                    Filter.ParameterValueGenericFilter(doc, InputVars.SysAbbr, InputVars.SysAbbrParam));
+                colElements = collector.ToElements().ToHashSet();
+            }
+
+            else if (InputVars.ExportSelection)
+            {
+                ICollection<ElementId> selection = uiApp.ActiveUIDocument.Selection.GetElementIds();
+                colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
+            }
+
+            HashSet<Element> limitedElements = (from Element e in colElements
                                                 where Filters.FilterDL(e)
                                                 select e).ToHashSet();
             HashSet<Element> filteredElements = (from Element e in limitedElements
@@ -224,7 +268,54 @@ namespace PCF_Parameters
             //Failure feedback
             Element elementRefForFeedback = null;
 
-            FilteredElementCollector collector = Shared.Filter.GetElementsWithConnectors(doc);
+            FilteredElementCollector collector = new FilteredElementCollector(doc);
+            HashSet<Element> colElements;
+
+            if (InputVars.ExportAllOneFile)
+            {
+                //Define a collector (Pipe OR FamInst) AND (Fitting OR Accessory OR Pipe).
+                //This is to eliminate FamilySymbols from collector which would throw an exception later on.
+                collector.WherePasses(new LogicalAndFilter(new List<ElementFilter>
+                        {new LogicalOrFilter(new List<ElementFilter>
+                        {
+                            new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting),
+                            new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
+                            new ElementClassFilter(typeof (Pipe))
+                        }),
+                            new LogicalOrFilter(new List<ElementFilter>
+                            {
+                                new ElementClassFilter(typeof(Pipe)),
+                                new ElementClassFilter(typeof(FamilyInstance))
+                            })
+                        }));
+
+                colElements = collector.ToElements().ToHashSet();
+
+            }
+
+            else if (InputVars.ExportAllSepFiles || InputVars.ExportSpecificPipeLine)
+            {
+                //Define a collector with multiple filters to collect PipeFittings OR PipeAccessories OR Pipes + filter by System Abbreviation
+                //System Abbreviation filter also filters FamilySymbols out.
+                collector.WherePasses(
+                    new LogicalOrFilter(
+                        new List<ElementFilter>
+                        {
+                                new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting),
+                                new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
+                                new ElementClassFilter(typeof (Pipe))
+                        })).WherePasses(
+                    Filter.ParameterValueGenericFilter(doc, InputVars.SysAbbr, InputVars.SysAbbrParam));
+                colElements = collector.ToElements().ToHashSet();
+            }
+
+            else if (InputVars.ExportSelection)
+            {
+                ICollection<ElementId> selection = uiApp.ActiveUIDocument.Selection.GetElementIds();
+                colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
+            }
+
+
 
             //prepare input variables which are initialized when looping the elements
             string eFamilyType = null; string columnName = null;
