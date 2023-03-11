@@ -42,6 +42,10 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAPICodePack.1.1.2\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="MoreLinq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
     </Reference>
@@ -101,6 +105,11 @@
     </Compile>
     <Compile Include="04 Get element by UCI\InputBoxBasic.Designer.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Tools.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +123,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.resx">
@@ -130,6 +143,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\AnalysisTools16.png" />
     <EmbeddedResource Include="Resources\AnalysisTools32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\revit-pcf-exporter\revit-pcf-exporter.csproj">
+      <Project>{037B382D-9BC9-4D7A-B76D-55BE5964E44D}</Project>
+      <Name>revit-pcf-exporter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
