@@ -7,6 +7,7 @@ using Autodesk.Revit.UI.Selection;
 using static MoreLinq.Extensions.MaxByExtension;
 using Shared;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,6 +18,7 @@ using dbg = Shared.Dbg;
 using fi = Shared.Filter;
 using mp = Shared.MepUtils;
 using tr = Shared.Transformation;
+using System.Diagnostics;
 
 namespace Shared.Tools
 {
@@ -35,23 +37,19 @@ namespace Shared.Tools
             Document doc = cData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = uiApp.ActiveUIDocument;
 
-            //Gather all connectors from the document
-            //Filter also out all "Curve" connectors, which are olet ends at pipe cntr.
-            HashSet<Connector> AllCons = mp.GetALLConnectorsInDocument(doc)
-                .ExceptWhere(c => c.ConnectorType == ConnectorType.Curve).ToHashSet();
-            //if (ctrl)
-            AllCons = AllCons.ExceptWhere(c => c.MEPSystemAbbreviation(doc, true) == "ARGD").ToHashSet();
+            ValidationTypeSelector vts = new ValidationTypeSelector(doc);
+            vts.ShowDialog();
 
             //Create collection with distinct connectors with a set tolerance
             double Tol = 3.0.MmToFt();
-            var DistinctCons = AllCons.ToHashSet(new ConnectorXyzComparer(Tol));
+            var DistinctCons = vts.Connectors.ToHashSet(new ConnectorXyzComparer(Tol));
 
             List<connectorSpatialGroup> csgList = new List<connectorSpatialGroup>();
 
             foreach (Connector distinctCon in DistinctCons)
             {
-                csgList.Add(new connectorSpatialGroup(AllCons.Where(x => distinctCon.Equalz(x, Tol))));
-                AllCons = AllCons.ExceptWhere(x => distinctCon.Equalz(x, Tol)).ToHashSet();
+                csgList.Add(new connectorSpatialGroup(vts.Connectors.Where(x => distinctCon.Equalz(x, Tol))));
+                vts.Connectors = vts.Connectors.ExceptWhere(x => distinctCon.Equalz(x, Tol)).ToHashSet();
             }
 
             foreach (var g in csgList)
@@ -102,7 +100,21 @@ namespace Shared.Tools
                 }
             }
 
-            Shared.BuildingCoder.BuildingCoderUtilities.InfoMsg(string.Join(string.Empty, results));
+            if (results.Count == 0)
+            {
+                BuildingCoder.BuildingCoderUtilities.InfoMsg("No misalignments detected!");
+                return Result.Succeeded;
+            }
+
+            string basePath = Environment.ExpandEnvironmentVariables("%TEMP%") + "\\";
+            string fileName = "validationResult.txt";
+
+            File.WriteAllText(basePath + fileName,
+                string.Join(string.Empty, results));
+
+            Process.Start(basePath + fileName);
+
+            //Shared.BuildingCoder.BuildingCoderUtilities.InfoMsg(string.Join(string.Empty, results));
 
             return Result.Succeeded;
         }
@@ -140,7 +152,7 @@ namespace Shared.Tools
             {
                 Element owner = con.Owner;
                 Parameter par = owner.get_Parameter(new Guid("90be8246-25f7-487d-b352-554f810fcaa7")); //PCF_ELEM_SPEC parameter
-                SpecList.Add(par.AsString());
+                if (par != null) { SpecList.Add(par.AsString()); }
                 ListOfIds.Add(owner.Id.ToString());
             }
         }
