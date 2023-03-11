@@ -238,4 +238,3 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 deploy/
-/revit-shared-utilities
