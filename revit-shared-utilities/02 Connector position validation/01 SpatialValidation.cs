@@ -110,9 +110,12 @@ namespace Shared.Tools
         internal static string PointStringMm(XYZ p, int precision)
         {
             return string.Concat(
-                Math.Round(p.X.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")), " ",
-                Math.Round(p.Y.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")), " ",
-                Math.Round(p.Z.FtToMm(), precision, MidpointRounding.AwayFromZero).ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")));
+                Math.Round(p.X.FtToMm(), precision, MidpointRounding.AwayFromZero)
+                .ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Y.FtToMm(), precision, MidpointRounding.AwayFromZero)
+                .ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")), " ",
+                Math.Round(p.Z.FtToMm(), precision, MidpointRounding.AwayFromZero)
+                .ToString("#." + new string('0', precision), CultureInfo.GetCultureInfo("en-GB")));
         }
     }
 
