@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="01 Shared code\Shared.cs" />
     <Compile Include="02 Connector position validation\01 SpatialValidation.cs" />
+    <Compile Include="02 Connector position validation\connectorSpatialGroup.cs" />
     <Compile Include="02 Connector position validation\ValidationTypeSelector.cs">
       <SubType>Form</SubType>
     </Compile>
