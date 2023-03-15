@@ -201,24 +201,26 @@ namespace Shared
         /// <summary>
         /// Return a 3D view from the given document.
         /// </summary>
-        public static View3D Get3DView(Document doc)
-        {
-            FilteredElementCollector collector = new FilteredElementCollector(doc);
+        public static View3D Get3DView(Document doc) =>
+            doc.ActiveView as View3D;
+        //{
+        //    //FilteredElementCollector collector = new FilteredElementCollector(doc);
 
-            collector.OfClass(typeof(View3D));
+        //    //collector.OfClass(typeof(View3D));
 
-            foreach (View3D v in collector)
-            {
-                // skip view templates here because they
-                // are invisible in project browsers:
+        //    //foreach (View3D v in collector)
+        //    //{
+        //    //    // skip view templates here because they
+        //    //    // are invisible in project browsers:
 
-                if (v != null && !v.IsTemplate && v.Name == "{3D}")
-                {
-                    return v;
-                }
-            }
-            return null;
-        }
+        //    //    //if (v != null && !v.IsTemplate && v.Name == "{3D}")
+        //    //    //if (v != null && !v.IsTemplate && v.Name == "{3D - mgo@damgaard-ri.dk}")
+        //    //    //{
+        //    //    //    return v;
+        //    //    //}
+        //    //}
+        //    return null;
+        //}
 
         public static LogicalOrFilter FamSymbolsAndPipeTypes()
         {

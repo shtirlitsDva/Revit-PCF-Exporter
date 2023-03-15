@@ -188,7 +188,8 @@ namespace PCF_Fittings
                             LogicalOrFilter filter = new LogicalOrFilter(b);
 
                             var view3D = Shared.Filter.Get3DView(doc);
-                            var refIntersect = new ReferenceIntersector(filter, FindReferenceTarget.Element, view3D);
+                            
+                            var refIntersect = new ReferenceIntersector(filter, FindReferenceTarget.All, view3D);
                             ReferenceWithContext rwc = refIntersect.FindNearest(cons.Primary.Origin, cons.Primary.CoordinateSystem.BasisZ);
                             var refId = rwc.GetReference().ElementId;
                             Element refElement = doc.GetElement(refId);
