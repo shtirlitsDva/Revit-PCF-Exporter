@@ -423,7 +423,7 @@ namespace PCF_Exporter
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.ToString());
             }
 
             return Result.Succeeded;

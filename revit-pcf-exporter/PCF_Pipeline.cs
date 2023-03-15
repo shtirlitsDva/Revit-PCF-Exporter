@@ -103,7 +103,7 @@ namespace PCF_Pipeline
             }
             catch (Exception e)
             {
-                BuildingCoderUtilities.ErrorMsg(e.Message);
+                throw new Exception(e.ToString());
             }
 
             return sbPipeline;
