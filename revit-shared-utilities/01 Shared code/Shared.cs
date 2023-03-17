@@ -279,7 +279,7 @@ namespace Shared
 
     public static class MepUtils
     {
-        public static IList<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
+        public static List<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
         {
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             HashSet<PipingSystem> pipingSystems = collector.OfClass(typeof(PipingSystem)).Cast<PipingSystem>().ToHashSet();

@@ -27,7 +27,7 @@ namespace PCF_Exporter
         static Document _doc;
         private string _message;
 
-        private IList<string> pipeLinesAbbreviations;
+        private List<string> pipeLinesAbbreviations;
 
         private string _excelPath = null;
         private string _LDTPath = null;
@@ -38,9 +38,13 @@ namespace PCF_Exporter
         private DataSet dataSetPipelines = null;
         public static DataTable dataTablePipelines = null;
 
+        private Properties.Settings _mySets;
+
         public PCF_Exporter_form(ExternalCommandData cData, string message)
         {
             InitializeComponent();
+            _mySets = mySettings.Default;
+
             _commandData = cData;
             _uiapp = _commandData.Application;
             _uidoc = _uiapp.ActiveUIDocument;
@@ -80,6 +84,7 @@ namespace PCF_Exporter
             //Gather all physical piping systems and collect distinct abbreviations
             pipeLinesAbbreviations = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
 
+            comboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
             //Use the distinct abbreviations as data source for the comboBox
             comboBox2.DataSource = pipeLinesAbbreviations;
 
@@ -87,6 +92,7 @@ namespace PCF_Exporter
             if (pipeLinesAbbreviations.Contains(mySettings.Default.selectedSysAbbr))
                 comboBox2.SelectedIndex = pipeLinesAbbreviations.IndexOf(
                     mySettings.Default.selectedSysAbbr);
+            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
 
             iv.ExportAllOneFile = mySettings.Default.radioButton1AllPipelines;
             iv.ExportAllSepFiles = mySettings.Default.radioButton13AllPipelinesSeparate;
@@ -469,7 +475,7 @@ namespace PCF_Exporter
 
         private void PCF_Exporter_form_FormClosed(object sender, FormClosedEventArgs e)
         {
-            mySettings.Default.selectedSysAbbr = iv.SysAbbr;
+            //mySettings.Default.selectedSysAbbr = iv.SysAbbr;
             mySettings.Default.Save();
         }
     }

@@ -64,12 +64,12 @@ namespace PCF_Exporter
             this.button6 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.radioBox1 = new Shared.RadioBox();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
@@ -398,6 +398,18 @@ namespace PCF_Exporter
             this.textBox6.Text = "Selected output path:";
             this.textBox6.Visible = false;
             // 
+            // textBox5
+            // 
+            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.textBox5.Location = new System.Drawing.Point(7, 169);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.ReadOnly = true;
+            this.textBox5.Size = new System.Drawing.Size(727, 24);
+            this.textBox5.TabIndex = 4;
+            this.textBox5.Text = global::PCF_Exporter.Properties.Settings.Default.textBox5OutputPath;
+            // 
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(206, 36);
@@ -439,18 +451,6 @@ namespace PCF_Exporter
             // openFileDialog2
             // 
             this.openFileDialog2.FileName = "openFileDialog1";
-            // 
-            // textBox5
-            // 
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox5.Location = new System.Drawing.Point(7, 169);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(727, 24);
-            this.textBox5.TabIndex = 4;
-            this.textBox5.Text = global::PCF_Exporter.Properties.Settings.Default.textBox5OutputPath;
             // 
             // radioBox1
             // 
