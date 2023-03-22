@@ -16,6 +16,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.FileIO;
+using Autodesk.Revit.UI.Selection;
 
 namespace Shared
 {
@@ -589,7 +590,14 @@ namespace Shared
                     }
 
                     if (Count > 1 && Secondary == null)
+                    {
+                        string path =
+                            Environment.ExpandEnvironmentVariables("%temp%") + "\\" + "errorElId.txt";
+                        File.WriteAllText(path, element.Id.ToString());
+                        Process.Start("notepad.exe", path);
                         throw new Exception($"Element {element.Id.ToString()} has {Count} connectors and no secondary!");
+                    }
+                        
 
                     if (element is FamilyInstance)
                     {

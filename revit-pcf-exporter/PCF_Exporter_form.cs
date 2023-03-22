@@ -90,8 +90,12 @@ namespace PCF_Exporter
 
             //Set the previous sysAbbr
             if (pipeLinesAbbreviations.Contains(mySettings.Default.selectedSysAbbr))
+            {
                 comboBox2.SelectedIndex = pipeLinesAbbreviations.IndexOf(
                     mySettings.Default.selectedSysAbbr);
+                iv.SysAbbr = mySettings.Default.selectedSysAbbr;
+            }
+            else iv.SysAbbr = pipeLinesAbbreviations[0];
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
 
             iv.ExportAllOneFile = mySettings.Default.radioButton1AllPipelines;
