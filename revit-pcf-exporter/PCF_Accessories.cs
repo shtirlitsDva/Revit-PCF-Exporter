@@ -68,6 +68,11 @@ namespace PCF_Accessories
                             sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
                             break;
 
+                        case ("GASKET"):
+                            sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
+                            sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
+                            break;
+
                         case ("INSTRUMENT"):
                             //Process endpoints of the component
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
