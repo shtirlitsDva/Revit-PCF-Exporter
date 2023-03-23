@@ -68,6 +68,7 @@ namespace PCF_Accessories
                             sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
                             break;
 
+                        case ("COUPLING"):
                         case ("GASKET"):
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
