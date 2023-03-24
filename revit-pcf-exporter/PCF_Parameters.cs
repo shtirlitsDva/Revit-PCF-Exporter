@@ -609,15 +609,32 @@ namespace PCF_Parameters
                 var tempGr = groups.Create(tempName);
                 var tempDefs = tempGr.Definitions;
                 ExternalDefinition def = tempDefs.Create(options) as ExternalDefinition;
-
+                
                 BindingMap map = doc.ParameterBindings;
                 Binding binding = app.Create.NewInstanceBinding(catSet);
 
                 if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " already exists.\n");
                 else
                 {
-                    map.Insert(def, binding, InputVars.PCF_BUILTIN_GROUP_NAME);
-                    if (map.Contains(def)) sbFeedback.Append("Parameter " + parameter.Name + " added to project.\n");
+                    map.Insert(def, binding, parameter.ParameterGroup);
+                    if (map.Contains(def))
+                    {
+                        doc.Regenerate();
+                        sbFeedback.Append("Parameter " + parameter.Name + " added to project.\n");
+                        var spe = SharedParameterElement.Lookup(doc, def.GUID);
+                        var internalDef = spe.GetDefinition();
+                        if (internalDef != null) 
+                        {
+                            try
+                            {
+                                internalDef.SetAllowVaryBetweenGroups(doc, true);
+                            }
+                            catch (Exception)
+                            {
+                                //ignore exception
+                            }
+                        }
+                    }
                     else sbFeedback.Append("Creation of parameter " + parameter.Name + " failed for some reason.\n");
                 }
             }

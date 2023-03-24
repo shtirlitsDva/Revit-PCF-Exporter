@@ -25,11 +25,11 @@ namespace PCF_Functions
             ExportingTo = pExportingTo;
         }
 
-        public ParameterDefinition(string pName, string pDomain, string pUsage, ForgeTypeId pType, Guid pGuid, string pKeyword,
+        public ParameterDefinition(string pName, string pDomain, string pUsage, ForgeTypeId pType, Guid pGuid,
             BuiltInParameterGroup pGroup) :
-            this(pName, pDomain, pUsage, pType, pGuid, pKeyword)
+            this(pName, pDomain, pUsage, pType, pGuid)
         {
-            ParameterGroup= pGroup;
+            ParameterGroup = pGroup;
         }
 
         public string Name { get; }
@@ -176,13 +176,13 @@ namespace PCF_Functions
 
         //Parameters TAGS
         public static readonly pdef TAG_1 =
-            new pdef("TAG 1", "ELEM", "U", pd.Text, new Guid("a93679f7-ca9e-4a1e-bb44-0d890a5b4ba1"), "TAG 1", BuiltInParameterGroup.PG_MECHANICAL);
+            new pdef("TAG 1", "ELEM", "U", pd.Text, new Guid("a93679f7-ca9e-4a1e-bb44-0d890a5b4ba1"), BuiltInParameterGroup.PG_MECHANICAL);
         public static readonly pdef TAG_2 =
-            new pdef("TAG 2", "ELEM", "U", pd.Text, new Guid("3b2afba4-447f-422a-8280-fd394718ad4e"), "TAG 2", BuiltInParameterGroup.PG_MECHANICAL);
+            new pdef("TAG 2", "ELEM", "U", pd.Text, new Guid("3b2afba4-447f-422a-8280-fd394718ad4e"), BuiltInParameterGroup.PG_MECHANICAL);
         public static readonly pdef TAG_3 =
-            new pdef("TAG 3", "ELEM", "U", pd.Text, new Guid("5c238fab-f1b0-4946-9c92-c3037b8d3b68"), "TAG 3", BuiltInParameterGroup.PG_MECHANICAL);
+            new pdef("TAG 3", "ELEM", "U", pd.Text, new Guid("5c238fab-f1b0-4946-9c92-c3037b8d3b68"), BuiltInParameterGroup.PG_MECHANICAL);
         public static readonly pdef TAG_4 =
-            new pdef("TAG 4", "ELEM", "U", pd.Text, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), "TAG 4", BuiltInParameterGroup.PG_MECHANICAL);
+            new pdef("TAG 4", "ELEM", "U", pd.Text, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), BuiltInParameterGroup.PG_MECHANICAL);
         #endregion
 
         static ParameterList()
