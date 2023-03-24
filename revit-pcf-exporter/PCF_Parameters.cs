@@ -167,7 +167,7 @@ namespace PCF_Parameters
             xel.Workbook workbook = excel.Workbooks.Add(Missing.Value);
             xel.Worksheet worksheet;
             worksheet = excel.ActiveSheet as xel.Worksheet;
-            worksheet.Name = "PCF Export - pipelines";
+            worksheet.Name = "Pipelines";
 
             worksheet.Columns.ColumnWidth = 20;
 
@@ -215,7 +215,7 @@ namespace PCF_Parameters
 
             excel.Sheets.Add(Missing.Value, Missing.Value, Missing.Value, Missing.Value);
             worksheet = excel.ActiveSheet as xel.Worksheet;
-            worksheet.Name = "PCF Export - elements";
+            worksheet.Name = "Elements";
 
             worksheet.Columns.ColumnWidth = 20;
 
