@@ -62,7 +62,10 @@ namespace PCF_Exporter
                     dataTableElements = dh.ReadDataTable(dataSetElements.Tables, "Elements");
                 }
             }
-            catch (Exception) { }
+            catch (Exception) 
+            {
+                textBox20.Text = "Reinstall Access Database Engine 2010 x64!";
+            }
             try
             {
                 //Init LDT path
@@ -74,7 +77,10 @@ namespace PCF_Exporter
                     dataTablePipelines = dh.ReadDataTable(dataSetPipelines.Tables, "Pipelines");
                 }
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                textBox7.Text = "Reinstall Access Database Engine 2010 x64!";
+            }
 
             //Init PROJECT-IDENTIFIER
             //textBox11.Text = mySettings.Default.TextBox11PROJECTIDENTIFIER;

@@ -303,7 +303,8 @@ namespace Shared
             {
                 //If parameter exists, take only not excluded
                 abbreviations = pipingSystemTypes
-                      .Where(pst => pst.get_Parameter(new Guid("C1C2C9FE-2634-42BA-89D0-5AF699F54D4C")).AsInteger() == 0) //Filter out EXCLUDED piping systems
+                      .Where(pst => pst.get_Parameter(
+                          new Guid("C1C2C9FE-2634-42BA-89D0-5AF699F54D4C")).AsInteger() == 0) //Filter out EXCLUDED piping systems
                       .Select(pst => pst.Abbreviation).ToHashSet();
             }
 
