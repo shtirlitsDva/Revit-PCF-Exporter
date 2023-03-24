@@ -19,15 +19,17 @@ namespace PCF_Functions
             Keyword = pKeyword;
         }
 
-        public ParameterDefinition(string pName, string pDomain, string pUsage, ForgeTypeId pType, Guid pGuid, string pKeyword, string pExportingTo)
+        public ParameterDefinition(string pName, string pDomain, string pUsage, ForgeTypeId pType, Guid pGuid, string pKeyword, string pExportingTo) :
+            this(pName, pDomain, pUsage, pType, pGuid, pKeyword)
         {
-            Name = pName;
-            Domain = pDomain;
-            Usage = pUsage; //U = user, P = programmatic
-            Type = pType;
-            Guid = pGuid;
-            Keyword = pKeyword;
             ExportingTo = pExportingTo;
+        }
+
+        public ParameterDefinition(string pName, string pDomain, string pUsage, ForgeTypeId pType, Guid pGuid, string pKeyword,
+            BuiltInParameterGroup pGroup) :
+            this(pName, pDomain, pUsage, pType, pGuid, pKeyword)
+        {
+            ParameterGroup= pGroup;
         }
 
         public string Name { get; }
@@ -37,6 +39,7 @@ namespace PCF_Functions
         public Guid Guid { get; }
         public string Keyword { get; } //The keyword as defined in the PCF reference guide.
         public string ExportingTo { get; } = null; //CII export to CII, LDT export to ISOGEN
+        public BuiltInParameterGroup ParameterGroup { get; } = BuiltInParameterGroup.PG_ANALYTICAL_MODEL;
     }
 
     public static class ParameterList
@@ -170,6 +173,16 @@ namespace PCF_Functions
         //If guid changes can break other methods!!
         //Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(Document doc) uses this guid!!!
         public static readonly pdef PCF_PIPL_EXCL = new pdef("PCF_PIPL_EXCL", "CTRL", "U", pd.YesNo, new Guid("C1C2C9FE-2634-42BA-89D0-5AF699F54D4C"));
+
+        //Parameters TAGS
+        public static readonly pdef TAG_1 =
+            new pdef("TAG 1", "ELEM", "U", pd.Text, new Guid("a93679f7-ca9e-4a1e-bb44-0d890a5b4ba1"), "TAG 1", BuiltInParameterGroup.PG_MECHANICAL);
+        public static readonly pdef TAG_2 =
+            new pdef("TAG 2", "ELEM", "U", pd.Text, new Guid("3b2afba4-447f-422a-8280-fd394718ad4e"), "TAG 2", BuiltInParameterGroup.PG_MECHANICAL);
+        public static readonly pdef TAG_3 =
+            new pdef("TAG 3", "ELEM", "U", pd.Text, new Guid("5c238fab-f1b0-4946-9c92-c3037b8d3b68"), "TAG 3", BuiltInParameterGroup.PG_MECHANICAL);
+        public static readonly pdef TAG_4 =
+            new pdef("TAG 4", "ELEM", "U", pd.Text, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), "TAG 4", BuiltInParameterGroup.PG_MECHANICAL);
         #endregion
 
         static ParameterList()
@@ -293,6 +306,11 @@ namespace PCF_Functions
 
             LPAll.Add(PCF_ELEM_EXCL);
             LPAll.Add(PCF_PIPL_EXCL);
+
+            LPAll.Add(TAG_1);
+            LPAll.Add(TAG_2);
+            LPAll.Add(TAG_3);
+            LPAll.Add(TAG_4);
             #endregion
         }
     }
