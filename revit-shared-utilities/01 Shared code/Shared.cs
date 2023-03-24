@@ -695,9 +695,16 @@ namespace Shared
             return excelSheetNames;
         }
 
-        public static DataTable ReadDataTable(DataTableCollection dataTableCollection, string tableName)
+        public static DataTable ReadDataTable(DataSet ds, string tableName)
         {
-            return (from DataTable dtbl in dataTableCollection where dtbl.TableName == tableName select dtbl).FirstOrDefault();
+            DataTableCollection dataTableCollection = ds.Tables;
+            DataTable tbl = 
+                (from DataTable dtbl in dataTableCollection where dtbl.TableName == 
+                 tableName select dtbl).FirstOrDefault();
+            if (tbl == null)
+                throw new Exception(
+                    $"DataSet does not have table named {tableName}!");
+            return tbl;
         }
 
         public static string ReadParameterFromDataTable(string key, DataTable table, string parameter)
