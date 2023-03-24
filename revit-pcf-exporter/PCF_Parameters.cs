@@ -28,7 +28,7 @@ namespace PCF_Parameters
         {
             //Read existing values
             DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
-            DataTable Elements = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Elements");
+            DataTable Elements = Shared.DataHandler.ReadDataTable(dataSetWithHeaders, "Elements");
             //DataTable Pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
 
             //Instantiate excel
