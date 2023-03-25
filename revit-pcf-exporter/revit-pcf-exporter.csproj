@@ -168,6 +168,7 @@
     <EmbeddedResource Include="ImgSupports16.png" />
     <EmbeddedResource Include="ImgSupports32.png" />
     <Content Include="PCF_DEVELOPEMENT_01.xlsx" />
+    <None Include="LDT.xlsx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
