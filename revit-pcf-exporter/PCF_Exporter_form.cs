@@ -429,16 +429,6 @@ namespace PCF_Exporter
             iv.PCF_ELEM_SPEC_FILTER = textBox9.Text;
         }
 
-        private void radioButton12_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton12.Checked) iv.WriteWallThickness = true;
-        }
-
-        private void radioButton11_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton12.Checked) iv.WriteWallThickness = false;
-        }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             iv.ExportToIsogen = checkBox1.Checked;
