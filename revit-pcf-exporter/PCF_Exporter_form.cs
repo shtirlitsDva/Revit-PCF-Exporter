@@ -15,7 +15,6 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using mySettings = PCF_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
 using dh = Shared.DataHandler;
-using ExcelDataReader;
 
 namespace PCF_Exporter
 {
@@ -59,10 +58,7 @@ namespace PCF_Exporter
                 textBox20.Text = _excelPath;
                 if (!string.IsNullOrEmpty(_excelPath) && File.Exists(_excelPath))
                 {
-                    using (var stream = File.Open(_excelPath, FileMode.Open, FileAccess.Read))
-                    using (var reader = ExcelReaderFactory.CreateReader(stream))
-                    { dataSetElements = reader.AsDataSet(); }
-
+                    dataSetElements = dh.ReadExcelToDataSet(_excelPath);
                     //dataSetElements = dh.ImportExcelToDataSet(_excelPath, "YES");
                     dataTableElements = dh.ReadDataTable(dataSetElements, "Elements");
                 }
@@ -78,9 +74,7 @@ namespace PCF_Exporter
                 textBox7.Text = _LDTPath;
                 if (!string.IsNullOrEmpty(_LDTPath) && File.Exists(_LDTPath))
                 {
-                    using (var stream = File.Open(_LDTPath, FileMode.Open, FileAccess.Read))
-                    using (var reader = ExcelReaderFactory.CreateReader(stream))
-                    { dataSetPipelines = reader.AsDataSet(); }
+                    dataSetPipelines = dh.ReadExcelToDataSet(_LDTPath);
 
                     //dataSetPipelines = dh.ImportExcelToDataSet(_LDTPath, "YES");
                     dataTablePipelines = dh.ReadDataTable(dataSetPipelines, "Pipelines");
@@ -179,13 +173,7 @@ namespace PCF_Exporter
                 //Save excel file to settings
                 mySettings.Default.excelPath = _excelPath;
 
-                using (var stream = File.Open(_excelPath, FileMode.Open, FileAccess.Read))
-                {
-                    using (var reader = ExcelReaderFactory.CreateReader(stream))
-                    {
-                        dataSetElements = reader.AsDataSet();
-                    }
-                }
+                dataSetElements = dh.ReadExcelToDataSet(_excelPath);
 
                 //dataSetElements = dh.ImportExcelToDataSet(_excelPath, "YES");
                 dataTableElements = dh.ReadDataTable(dataSetElements, "Elements");
@@ -202,13 +190,7 @@ namespace PCF_Exporter
                 //Save excel file to settings
                 mySettings.Default.LDTPath = _LDTPath;
 
-                using (var stream = File.Open(_LDTPath, FileMode.Open, FileAccess.Read))
-                {
-                    using (var reader = ExcelReaderFactory.CreateReader(stream))
-                    {
-                        dataSetPipelines = reader.AsDataSet();
-                    }
-                }
+                dataSetPipelines = dh.ReadExcelToDataSet(_LDTPath);
 
                 //dataSetPipelines = dh.ImportExcelToDataSet(_LDTPath, "YES");
                 dataTablePipelines = dh.ReadDataTable(dataSetPipelines, "Pipelines");

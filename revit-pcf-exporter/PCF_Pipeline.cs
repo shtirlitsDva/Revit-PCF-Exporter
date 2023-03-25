@@ -11,6 +11,7 @@ using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
 using mySettings = PCF_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
+using Shared;
 
 namespace PCF_Pipeline
 {
@@ -54,12 +55,17 @@ namespace PCF_Pipeline
                     string LDTPath = mySettings.Default.LDTPath;
                     if (!string.IsNullOrEmpty(LDTPath) && File.Exists(LDTPath))
                     {
-                        var dataSet = Shared.DataHandler.ImportExcelToDataSet(LDTPath, "YES");
-                        var data = Shared.DataHandler.ReadDataTable(dataSet.Tables, "Pipelines");
+                        DataSet dataSet = DataHandler.ReadExcelToDataSet(LDTPath);
+                        
+                        //DataSet dataSet = Shared.DataHandler.ImportExcelToDataSet(LDTPath, "YES");
+                        var data = Shared.DataHandler.ReadDataTable(dataSet, "Pipelines");
 
-                        string sysAbbr = pipingSystemType.get_Parameter(BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM).AsString();
+                        string sysAbbr = pipingSystemType.get_Parameter(
+                            BuiltInParameter.RBS_SYSTEM_ABBREVIATION_PARAM).AsString();
                         string parName = "";
                         string projId = iv.PCF_PROJECT_IDENTIFIER;
+                        if (projId.IsNoE())
+                            throw new Exception("PROJECT-IDENTIFIER is empty!");
 
                         //EnumerableRowCollection<string> ldtQuery = from row in data.AsEnumerable()
                         //                                           where row.Field<string>("PCF_PROJID") == projId &&
@@ -75,6 +81,12 @@ namespace PCF_Pipeline
 
                             int rowIndex = data.Rows.IndexOf(data.Select(
                                 $"PCF_PROJID = '{projId}' AND LINE_NAME = '{sysAbbr}'")[0]);
+
+                            if (rowIndex == -1)
+                                throw new Exception(
+                                    $"LDT file does not have a row matching:\n" +
+                                    $"PCF_PROJID = {projId} (PROJECT-IDENTIFIER);" +
+                                    $"LINE_NAME = {sysAbbr} (System Abbreviation);");
 
                             string value = Convert.ToString(data.Rows[rowIndex][parName]);
                             //string value = ldtQuery.FirstOrDefault();

@@ -19,6 +19,7 @@ using PCF_Exporter;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
 using iv = PCF_Functions.InputVars;
+using ExcelDataReader;
 
 namespace PCF_Parameters
 {
@@ -27,16 +28,20 @@ namespace PCF_Parameters
         public void ExportUndefinedElements(UIApplication uiApp, Document doc, string excelPath)
         {
             //Read existing values
-            DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
+            //DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
+            DataSet dataSetWithHeaders;
+
+            using (var stream = File.Open(excelPath, FileMode.Open, FileAccess.Read))
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    dataSetWithHeaders = reader.AsDataSet();
+                }
+            }
+
             DataTable Elements = Shared.DataHandler.ReadDataTable(dataSetWithHeaders, "Elements");
             //DataTable Pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
 
-            //Instantiate excel
-            xel.Application excel = new xel.Application();
-            if (null == excel) throw new Exception("Failed to start EXCEL!");
-            excel.Visible = true;
-            xel.Workbook workbook = excel.Workbooks.Add(Missing.Value);
-            xel.Worksheet worksheet;
 
             #region Pipelines
             ////Collect all pipelines
@@ -63,11 +68,6 @@ namespace PCF_Parameters
             #endregion
 
             #region Elements
-            //Process elements
-            worksheet = excel.ActiveSheet as xel.Worksheet;
-            worksheet.Name = "MISSING_ELEMENTS";
-            worksheet.Columns.ColumnWidth = 20;
-
             //Collect all elements
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             HashSet<Element> colElements = null;
@@ -128,15 +128,42 @@ namespace PCF_Parameters
                 group e by e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
                 .AsValueString();
 
-            //Compare values and write those who are not in configuration workbook
-            int row = 1;
-            int col = 1;
+            HashSet<string> missingElements = new HashSet<string>();
             foreach (IGrouping<string, Element> gp in elementGroups)
             {
                 //See if record already is defined
                 if (Elements.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == gp.Key)) continue;
-                worksheet.Cells[row, col] = gp.Key;
-                row++;
+                missingElements.Add(gp.Key);
+            }
+
+            //Compare values and write those who are not in configuration workbook
+            if (missingElements.Count > 0)
+            {
+                //Instantiate excel
+                xel.Application excel = new xel.Application();
+                if (null == excel) throw new Exception("Failed to start EXCEL!");
+                excel.Visible = true;
+                xel.Workbook workbook = excel.Workbooks.Add(Missing.Value);
+                xel.Worksheet worksheet;
+
+                //Process elements
+                worksheet = excel.ActiveSheet as xel.Worksheet;
+                worksheet.Name = "MISSING_ELEMENTS";
+                worksheet.Columns.ColumnWidth = 20;
+
+                int row = 1;
+                int col = 1;
+                foreach (string missingElement in missingElements)
+                {
+                    worksheet.Cells[row, col] = missingElement;
+                    row++;
+                }
+            }
+            else
+            {
+                BuildingCoderUtilities.InfoMsg(
+                    "All ELEMENTS defined!\n" +
+                    "Note: This does not validate\ncorrectness of definition.");
             }
             #endregion
         }
@@ -412,8 +439,10 @@ namespace PCF_Parameters
                 catch (Exception ex)
                 {
                     msg = ex.Message;
-                    BuildingCoderUtilities.ErrorMsg($"Population of parameters failed with the following exception: \n" + msg +
+                    BuildingCoderUtilities.ErrorMsg($"Population of parameters failed with the following exception: \n" + ex.ToString() +
                                                     $"\n For element {elementRefForFeedback.Id.IntegerValue}.");
+                    uiApp.ActiveUIDocument.Selection.SetElementIds(
+                        new ElementId[1] { elementRefForFeedback.Id });
                     trans.RollBack();
                     return Result.Failed;
                 }
@@ -609,7 +638,7 @@ namespace PCF_Parameters
                 var tempGr = groups.Create(tempName);
                 var tempDefs = tempGr.Definitions;
                 ExternalDefinition def = tempDefs.Create(options) as ExternalDefinition;
-                
+
                 BindingMap map = doc.ParameterBindings;
                 Binding binding = app.Create.NewInstanceBinding(catSet);
 
@@ -623,7 +652,7 @@ namespace PCF_Parameters
                         sbFeedback.Append("Parameter " + parameter.Name + " added to project.\n");
                         var spe = SharedParameterElement.Lookup(doc, def.GUID);
                         var internalDef = spe.GetDefinition();
-                        if (internalDef != null) 
+                        if (internalDef != null)
                         {
                             try
                             {

@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.FileIO;
 using Autodesk.Revit.UI.Selection;
+using ExcelDataReader;
 
 namespace Shared
 {
@@ -669,6 +670,50 @@ namespace Shared
             if (data.Tables.Count < 1) BuildingCoderUtilities.ErrorMsg("Table count in DataSet is 0");
 
             return data;
+        }
+        // Read excel to dataset using DataExcelReader
+        /// <summary>
+        /// Read Excel file using DataExcelReader
+        /// </summary>
+        /// <returns>DataSet with the data</returns>
+        public static DataSet ReadExcelToDataSet(string fileName, bool dataHasHeaders = true)
+        {
+            DataSet dataSet;
+            using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
+            using (var reader = ExcelReaderFactory.CreateReader(stream))
+            { dataSet = reader.AsDataSet(new ExcelDataSetConfiguration()
+            {
+                ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                {
+                    // Gets or sets a value indicating the prefix of generated column names.
+                    EmptyColumnNamePrefix = "Column",
+
+                    // Gets or sets a value indicating whether to use a row from the 
+                    // data as column names.
+                    UseHeaderRow = dataHasHeaders,
+
+                    // Gets or sets a callback to determine which row is the header row. 
+                    // Only called when UseHeaderRow = true.
+                    ReadHeaderRow = (rowReader) => {
+                        // F.ex skip the first row and use the 2nd row as column headers:
+                        // rowReader.Read();
+                    },
+
+                    // Gets or sets a callback to determine whether to include the 
+                    // current row in the DataTable.
+                    //FilterRow = (rowReader) => {
+                    //    return true;
+                    //},
+
+                    // Gets or sets a callback to determine whether to include the specific
+                    // column in the DataTable. Called once per column after reading the 
+                    // headers.
+                    //FilterColumn = (rowReader, columnIndex) => {
+                    //    return true;
+                    //}
+                }
+            }); }
+            return dataSet;
         }
 
         static string[] GetExcelSheetNames(string connectionString)
