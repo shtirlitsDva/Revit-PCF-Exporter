@@ -11,6 +11,7 @@ using Autodesk.Revit.UI;
 using PCF_Functions;
 //using mySettings = PCF_Functions.Properties.Settings;
 using PCF_Taps;
+using System.Diagnostics;
 
 namespace PCF_Exporter
 {
@@ -96,7 +97,8 @@ namespace PCF_Exporter
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Trace.WriteLine(ex.ToString());
+                throw new Exception(ex.ToString());
             }
         }
     }

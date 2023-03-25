@@ -19,7 +19,6 @@ using PCF_Exporter;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
 using iv = PCF_Functions.InputVars;
-using ExcelDataReader;
 
 namespace PCF_Parameters
 {
@@ -29,15 +28,7 @@ namespace PCF_Parameters
         {
             //Read existing values
             //DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
-            DataSet dataSetWithHeaders;
-
-            using (var stream = File.Open(excelPath, FileMode.Open, FileAccess.Read))
-            {
-                using (var reader = ExcelReaderFactory.CreateReader(stream))
-                {
-                    dataSetWithHeaders = reader.AsDataSet();
-                }
-            }
+            DataSet dataSetWithHeaders = DataHandler.ReadExcelToDataSet(excelPath);
 
             DataTable Elements = Shared.DataHandler.ReadDataTable(dataSetWithHeaders, "Elements");
             //DataTable Pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
@@ -180,8 +171,12 @@ namespace PCF_Parameters
             collector.OfClass(typeof(PipingSystem));
 
             //Group all elements by their Family and Type
-            IOrderedEnumerable<Element> orderedCollector = collector.OrderBy(e => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString());
-            IEnumerable<IGrouping<string, Element>> elementGroups = from e in orderedCollector group e by e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
+            IOrderedEnumerable<Element> orderedCollector = 
+                collector.OrderBy(e => e.get_Parameter(
+                    BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString());
+            IEnumerable<IGrouping<string, Element>> elementGroups = 
+                from e in orderedCollector group e by e.get_Parameter(
+                    BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
 
             xel.Application excel = new xel.Application();
             if (null == excel)
@@ -219,7 +214,9 @@ namespace PCF_Parameters
                     if (row == 2) worksheet.Cells[1, col] = p.Name; //Fill out top row only in the first iteration
                     ElementId id = gp.First().GetTypeId();
                     PipingSystemType ps = (PipingSystemType)doc.GetElement(id); //SystemType parameters can only be read from type elements
-                    worksheet.Cells[row, col] = ps.get_Parameter(p.Guid).AsString();
+                    Parameter parameter = ps.get_Parameter(p.Guid);
+                    if (parameter == null) continue;
+                    worksheet.Cells[row, col] = parameter.AsString();
                     col++; //Increment column
                 }
                 row++; col = 2; //Increment row and reset column
@@ -262,6 +259,8 @@ namespace PCF_Parameters
                 foreach (var p in query)
                 {
                     if (row == 2) worksheet.Cells[1, col] = p.Name; //Fill out top row only in the first iteration
+                    Parameter parameter = gp.First().get_Parameter(p.Guid);
+                    if (parameter == null) continue;
                     worksheet.Cells[row, col] = gp.First().get_Parameter(p.Guid).AsString();
                     col++; //Increment column
                 }
