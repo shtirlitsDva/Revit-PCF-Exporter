@@ -79,8 +79,15 @@ namespace PCF_Pipeline
                         {
                             parName = par.Name;
 
-                            int rowIndex = data.Rows.IndexOf(data.Select(
-                                $"PCF_PROJID = '{projId}' AND LINE_NAME = '{sysAbbr}'")[0]);
+                            var matchingRows = data.Select(
+                                $"PCF_PROJID = '{projId}' AND LINE_NAME = '{sysAbbr}'");
+
+                            if (matchingRows.Length == 0)
+                                throw new Exception(
+                                    $"For project {projId} no pipeline with abbreviation {sysAbbr} found!\n" +
+                                    $"Is PROJECT-IDENTIFIER correctly filled out?");
+
+                            int rowIndex = data.Rows.IndexOf(matchingRows[0]);
 
                             if (rowIndex == -1)
                                 throw new Exception(
