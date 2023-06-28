@@ -236,8 +236,6 @@ namespace PCF_Fittings
                             {
                                 Cons refPipeCons = new Cons(refPipe);
 
-                                //Following code is ported from my python solution in Dynamo.
-                                //The olet geometry is analyzed with congruent rectangles to find the connection point on the pipe even for angled olets.
                                 XYZ pipeEnd1 = refPipeCons.Primary.Origin; XYZ pipeEnd2 = refPipeCons.Secondary.Origin;
                                 XYZ BDvector = cons.Primary.CoordinateSystem.BasisZ; XYZ ABvector = pipeEnd1 - pipeEnd2;
                                 double angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
