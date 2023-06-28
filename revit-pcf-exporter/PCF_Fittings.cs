@@ -151,117 +151,104 @@ namespace PCF_Fittings
                     case ("CAP"):
                         goto case ("FLANGE-BLIND");
 
-                    case ("OLET"):
-                        XYZ endPointOriginOletPrimary = cons.Primary.Origin;
-                        XYZ endPointOriginOletSecondary = cons.Secondary.Origin;
-
-                        //get reference elements
-                        Pipe refPipe = null;
-                        var refCons = mp.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
-
-                        bool isTap = false;
-                        Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
-                        if (refCon == null)
+                    case ("TEE-STUB"):
                         {
-                            //Find the target pipe
+                            XYZ endPointOriginOletPrimary = cons.Primary.Origin;
+                            XYZ endPointOriginOletSecondary = cons.Secondary.Origin;
 
-                            IList<BuiltInCategory> bics = new List<BuiltInCategory>(3)
+                            //get reference elements
+                            Pipe refPipe = null;
+                            var refCons = mp.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
+
+                            bool isTap = false;
+                            Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
+                            if (refCon == null)
+                            {
+                                //Find the target pipe
+
+                                IList<BuiltInCategory> bics = new List<BuiltInCategory>(3)
                             {
                                 BuiltInCategory.OST_PipeAccessory,
                                 BuiltInCategory.OST_PipeCurves,
                                 BuiltInCategory.OST_PipeFitting
                             };
 
-                            IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
+                                IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
 
-                            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
+                                foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
 
-                            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
+                                LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
 
-                            LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
+                                LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
 
-                            IList<ElementFilter> b = new List<ElementFilter>
+                                IList<ElementFilter> b = new List<ElementFilter>
                             {
                                 new ElementClassFilter(typeof(Pipe)),
                                 familyInstanceFilter
                             };
-                            LogicalOrFilter filter = new LogicalOrFilter(b);
+                                LogicalOrFilter filter = new LogicalOrFilter(b);
 
-                            var view3D = Shared.Filter.Get3DView(doc);
-                            
-                            var refIntersect = new ReferenceIntersector(filter, FindReferenceTarget.All, view3D);
-                            ReferenceWithContext rwc = refIntersect.FindNearest(cons.Primary.Origin, cons.Primary.CoordinateSystem.BasisZ);
-                            var refId = rwc.GetReference().ElementId;
-                            Element refElement = doc.GetElement(refId);
+                                var view3D = Shared.Filter.Get3DView(doc);
 
-                            if (refElement is Pipe pipe)
-                            {
-                                refPipe = pipe;
-                            }
-                            else
-                            {
-                                //If no reference pipe can be found
-                                //The olet could be tapped to a FamilyInstance
-                                //Check to see if any of PipeAccessories or PipeFittings
-                                //Have the olet as tap
-                                HashSet<Element> possibleTappedElements = Shared.Filter.GetElements(
-                                    doc,
-                                    new List<BuiltInCategory>() { BuiltInCategory.OST_PipeFitting, BuiltInCategory.OST_PipeAccessory },
-                                    new List<Type>() { typeof(FamilyInstance), typeof(FamilyInstance) });
+                                var refIntersect = new ReferenceIntersector(filter, FindReferenceTarget.All, view3D);
+                                ReferenceWithContext rwc = refIntersect.FindNearest(cons.Primary.Origin, cons.Primary.CoordinateSystem.BasisZ);
+                                var refId = rwc.GetReference().ElementId;
+                                Element refElement = doc.GetElement(refId);
 
-                                string oletUid = element.UniqueId;
-                                var query = possibleTappedElements.Where(x =>
-                                    x.LookupParameter("PCF_ELEM_TAP1").AsString() == oletUid ||
-                                    x.LookupParameter("PCF_ELEM_TAP2").AsString() == oletUid ||
-                                    x.LookupParameter("PCF_ELEM_TAP3").AsString() == oletUid);
-
-                                if (query.Count() == 0) throw new Exception(
-                                    $"Olet {element.Id.IntegerValue} cannot find a reference Pipe!\n" +
-                                    $"Remember to assign 'olet to PCF_ELEM_TAPX!");
+                                if (refElement is Pipe pipe)
+                                {
+                                    refPipe = pipe;
+                                }
                                 else
                                 {
-                                    //It is detected that the olet is a tapping element
-                                    isTap = true;
+                                    //If no reference pipe can be found
+                                    //The olet could be tapped to a FamilyInstance
+                                    //Check to see if any of PipeAccessories or PipeFittings
+                                    //Have the olet as tap
+                                    HashSet<Element> possibleTappedElements = Shared.Filter.GetElements(
+                                        doc,
+                                        new List<BuiltInCategory>() { BuiltInCategory.OST_PipeFitting, BuiltInCategory.OST_PipeAccessory },
+                                        new List<Type>() { typeof(FamilyInstance), typeof(FamilyInstance) });
 
-                                    sbFittings.Append(EndWriter.WriteTappingOletCP(cons.Primary, element.LookupParameter("PCF_ELEM_END1"), query.First()));
-                                    sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
+                                    string oletUid = element.UniqueId;
+                                    var query = possibleTappedElements.Where(x =>
+                                        x.LookupParameter("PCF_ELEM_TAP1").AsString() == oletUid ||
+                                        x.LookupParameter("PCF_ELEM_TAP2").AsString() == oletUid ||
+                                        x.LookupParameter("PCF_ELEM_TAP3").AsString() == oletUid);
+
+                                    if (query.Count() == 0) throw new Exception(
+                                        $"Olet {element.Id.IntegerValue} cannot find a reference Pipe!\n" +
+                                        $"Remember to assign 'olet to PCF_ELEM_TAPX!");
+                                    else
+                                    {
+                                        //It is detected that the olet is a tapping element
+                                        isTap = true;
+
+                                        sbFittings.Append(EndWriter.WriteTappingOletCP(cons.Primary, element.LookupParameter("PCF_ELEM_END1"), query.First()));
+                                        sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
+                                    }
                                 }
                             }
-                        }
-                        else { refPipe = (Pipe)refCon.Owner; }
+                            else { refPipe = (Pipe)refCon.Owner; }
 
-                        //Guard against olet being tapping olet
-                        if (!isTap)
-                        {
-                            Cons refPipeCons = new Cons(refPipe);
-
-                            //Following code is ported from my python solution in Dynamo.
-                            //The olet geometry is analyzed with congruent rectangles to find the connection point on the pipe even for angled olets.
-                            XYZ B = endPointOriginOletPrimary; XYZ D = endPointOriginOletSecondary; XYZ pipeEnd1 = refPipeCons.Primary.Origin; XYZ pipeEnd2 = refPipeCons.Secondary.Origin;
-                            XYZ BDvector = D - B; XYZ ABvector = pipeEnd1 - pipeEnd2;
-                            double angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
-                            if (angle > 90)
+                            //Guard against olet being tapping olet
+                            if (!isTap)
                             {
-                                ABvector = -ABvector;
-                                angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
-                            }
-                            Line refsLine = Line.CreateBound(pipeEnd1, pipeEnd2);
-                            XYZ C = refsLine.Project(B).XYZPoint;
-                            double L3 = B.DistanceTo(C);
-                            XYZ E = refsLine.Project(D).XYZPoint;
-                            double L4 = D.DistanceTo(E);
-                            double ratio = L4 / L3;
-                            double L1 = E.DistanceTo(C);
-                            double L5 = L1 / (ratio - 1);
-                            XYZ A;
-                            if (angle < 89)
-                            {
-                                XYZ ECvector = C - E;
-                                ECvector = ECvector.Normalize();
-                                double L = L1 + L5;
-                                ECvector = ECvector.Multiply(L);
-                                A = E.Add(ECvector);
+                                Cons refPipeCons = new Cons(refPipe);
 
+                                //Following code is ported from my python solution in Dynamo.
+                                //The olet geometry is analyzed with congruent rectangles to find the connection point on the pipe even for angled olets.
+                                XYZ pipeEnd1 = refPipeCons.Primary.Origin; XYZ pipeEnd2 = refPipeCons.Secondary.Origin;
+                                XYZ BDvector = cons.Primary.CoordinateSystem.BasisZ; XYZ ABvector = pipeEnd1 - pipeEnd2;
+                                double angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+                                if (angle > 90)
+                                {
+                                    ABvector = -ABvector;
+                                    angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+                                }
+                                Line refsLine = Line.CreateBound(pipeEnd1, pipeEnd2);
+
+                                var projectionPoint = refsLine.Project(cons.Primary.Origin).XYZPoint;
                                 #region Debug
                                 //Debug
                                 //Place family instance at points to debug the alorithm
@@ -303,22 +290,189 @@ namespace PCF_Fittings
 
                                 //}
                                 #endregion
+                                angle = Math.Round(angle * 100);
+
+                                sbFittings.Append(EndWriter.WriteCP(projectionPoint));
+
+                                sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
+
+                                sbFittings.Append("    ANGLE ");
+                                sbFittings.Append(Conversion.AngleToPCF(angle));
+                                sbFittings.AppendLine();
                             }
-                            else A = E;
-                            angle = Math.Round(angle * 100);
+                        }
 
-                            sbFittings.Append(EndWriter.WriteCP(A));
+                        break;
+                    case ("OLET"):
+                        {
+                            XYZ endPointOriginOletPrimary = cons.Primary.Origin;
+                            XYZ endPointOriginOletSecondary = cons.Secondary.Origin;
 
-                            sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
+                            //get reference elements
+                            Pipe refPipe = null;
+                            var refCons = mp.GetAllConnectorsFromConnectorSet(cons.Primary.AllRefs);
 
-                            sbFittings.Append("    ANGLE ");
-                            sbFittings.Append(Conversion.AngleToPCF(angle));
-                            sbFittings.AppendLine();
+                            bool isTap = false;
+                            Connector refCon = refCons.Where(x => x.Owner.IsType<Pipe>()).FirstOrDefault();
+                            if (refCon == null)
+                            {
+                                //Find the target pipe
+
+                                IList<BuiltInCategory> bics = new List<BuiltInCategory>(3)
+                            {
+                                BuiltInCategory.OST_PipeAccessory,
+                                BuiltInCategory.OST_PipeCurves,
+                                BuiltInCategory.OST_PipeFitting
+                            };
+
+                                IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
+
+                                foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
+
+                                LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
+
+                                LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
+
+                                IList<ElementFilter> b = new List<ElementFilter>
+                            {
+                                new ElementClassFilter(typeof(Pipe)),
+                                familyInstanceFilter
+                            };
+                                LogicalOrFilter filter = new LogicalOrFilter(b);
+
+                                var view3D = Shared.Filter.Get3DView(doc);
+
+                                var refIntersect = new ReferenceIntersector(filter, FindReferenceTarget.All, view3D);
+                                ReferenceWithContext rwc = refIntersect.FindNearest(cons.Primary.Origin, cons.Primary.CoordinateSystem.BasisZ);
+                                var refId = rwc.GetReference().ElementId;
+                                Element refElement = doc.GetElement(refId);
+
+                                if (refElement is Pipe pipe)
+                                {
+                                    refPipe = pipe;
+                                }
+                                else
+                                {
+                                    //If no reference pipe can be found
+                                    //The olet could be tapped to a FamilyInstance
+                                    //Check to see if any of PipeAccessories or PipeFittings
+                                    //Have the olet as tap
+                                    HashSet<Element> possibleTappedElements = Shared.Filter.GetElements(
+                                        doc,
+                                        new List<BuiltInCategory>() { BuiltInCategory.OST_PipeFitting, BuiltInCategory.OST_PipeAccessory },
+                                        new List<Type>() { typeof(FamilyInstance), typeof(FamilyInstance) });
+
+                                    string oletUid = element.UniqueId;
+                                    var query = possibleTappedElements.Where(x =>
+                                        x.LookupParameter("PCF_ELEM_TAP1").AsString() == oletUid ||
+                                        x.LookupParameter("PCF_ELEM_TAP2").AsString() == oletUid ||
+                                        x.LookupParameter("PCF_ELEM_TAP3").AsString() == oletUid);
+
+                                    if (query.Count() == 0) throw new Exception(
+                                        $"Olet {element.Id.IntegerValue} cannot find a reference Pipe!\n" +
+                                        $"Remember to assign 'olet to PCF_ELEM_TAPX!");
+                                    else
+                                    {
+                                        //It is detected that the olet is a tapping element
+                                        isTap = true;
+
+                                        sbFittings.Append(EndWriter.WriteTappingOletCP(cons.Primary, element.LookupParameter("PCF_ELEM_END1"), query.First()));
+                                        sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
+                                    }
+                                }
+                            }
+                            else { refPipe = (Pipe)refCon.Owner; }
+
+                            //Guard against olet being tapping olet
+                            if (!isTap)
+                            {
+                                Cons refPipeCons = new Cons(refPipe);
+
+                                //Following code is ported from my python solution in Dynamo.
+                                //The olet geometry is analyzed with congruent rectangles to find the connection point on the pipe even for angled olets.
+                                XYZ B = endPointOriginOletPrimary; XYZ D = endPointOriginOletSecondary; XYZ pipeEnd1 = refPipeCons.Primary.Origin; XYZ pipeEnd2 = refPipeCons.Secondary.Origin;
+                                XYZ BDvector = D - B; XYZ ABvector = pipeEnd1 - pipeEnd2;
+                                double angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+                                if (angle > 90)
+                                {
+                                    ABvector = -ABvector;
+                                    angle = Conversion.RadianToDegree(ABvector.AngleTo(BDvector));
+                                }
+                                Line refsLine = Line.CreateBound(pipeEnd1, pipeEnd2);
+                                XYZ C = refsLine.Project(B).XYZPoint;
+                                double L3 = B.DistanceTo(C);
+                                XYZ E = refsLine.Project(D).XYZPoint;
+                                double L4 = D.DistanceTo(E);
+                                double ratio = L4 / L3;
+                                double L1 = E.DistanceTo(C);
+                                double L5 = L1 / (ratio - 1);
+                                XYZ A;
+                                if (angle < 89)
+                                {
+                                    XYZ ECvector = C - E;
+                                    ECvector = ECvector.Normalize();
+                                    double L = L1 + L5;
+                                    ECvector = ECvector.Multiply(L);
+                                    A = E.Add(ECvector);
+
+                                    #region Debug
+                                    //Debug
+                                    //Place family instance at points to debug the alorithm
+                                    //StructuralType strType = (StructuralType)4;
+                                    //FamilySymbol familySymbol = null;
+                                    //FilteredElementCollector collector = new FilteredElementCollector(doc);
+                                    //IEnumerable<Element> collection = collector.OfClass(typeof(FamilySymbol)).ToElements();
+                                    //FamilySymbol marker = null;
+                                    //foreach (Element e in collection)
+                                    //{
+                                    //    familySymbol = e as FamilySymbol;
+                                    //    if (null != familySymbol.Category)
+                                    //    {
+                                    //        if ("Structural Columns" == familySymbol.Category.Name)
+                                    //        {
+                                    //            break;
+                                    //        }
+                                    //    }
+                                    //}
+
+                                    //if (null != familySymbol)
+                                    //{
+                                    //    foreach (Element e in collection)
+                                    //    {
+                                    //        familySymbol = e as FamilySymbol;
+                                    //        if (familySymbol.FamilyName == "Marker")
+                                    //        {
+                                    //            marker = familySymbol;
+                                    //            Transaction trans = new Transaction(doc, "Place point markers");
+                                    //            trans.Start();
+                                    //            doc.Create.NewFamilyInstance(A, marker, strType);
+                                    //            doc.Create.NewFamilyInstance(B, marker, strType);
+                                    //            doc.Create.NewFamilyInstance(C, marker, strType);
+                                    //            doc.Create.NewFamilyInstance(D, marker, strType);
+                                    //            doc.Create.NewFamilyInstance(E, marker, strType);
+                                    //            trans.Commit();
+                                    //        }
+                                    //    }
+
+                                    //}
+                                    #endregion
+                                }
+                                else A = E;
+                                angle = Math.Round(angle * 100);
+
+                                sbFittings.Append(EndWriter.WriteCP(A));
+
+                                sbFittings.Append(EndWriter.WriteBP1(element, cons.Secondary));
+
+                                sbFittings.Append("    ANGLE ");
+                                sbFittings.Append(Conversion.AngleToPCF(angle));
+                                sbFittings.AppendLine();
+                            }
                         }
 
                         break;
 
-                        // In case of a Hot-tap valve
+                    // In case of a Hot-tap valve
                     case ("VALVE"):
                         //Process endpoints of the component
                         sbFittings.Append(EndWriter.WriteEP1(element, cons.Primary));
