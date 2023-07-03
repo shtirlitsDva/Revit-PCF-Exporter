@@ -945,10 +945,12 @@ namespace Shared
 
         public static string PipeSizeToMm(double l)
         {
-            string size = string.Format("{0}", Math.Round(l * 2 * _foot_to_mm));
-            int intSize = Convert.ToInt32(size);
-            if (øDimToDn.ContainsKey(intSize))
-                size = øDimToDn[intSize].ToString();
+            int truncSize = (int)(l * 2 * _foot_to_mm);
+            string size = string.Format(
+                "{0}", Math.Round(l * 2 * _foot_to_mm));
+            
+            if (øDimToDn.ContainsKey(truncSize))
+                size = øDimToDn[truncSize].ToString();
 
             return size;
         }
@@ -985,20 +987,21 @@ namespace Shared
                 { 48, 40 },
                 { 60, 50 },
                 { 76, 65 },
-                { 89, 80 },
+                { 88, 80 },
                 { 114, 100 },
-                { 140, 125 },
+                { 139, 125 },
                 { 168, 150 },
                 { 219, 200 },
                 { 273, 250 },
-                { 324, 300 },
-                { 356, 350 },
+                { 323, 300 },
+                { 355, 350 },
                 { 406, 400 },
                 { 457, 450 },
                 { 508, 500 },
                 { 559, 550 },
                 { 610, 600 },
                 { 711, 700 },
+                { 813, 800 },
             };
     }
 
