@@ -129,6 +129,65 @@ namespace Shared
             return collector;
         }
 
+        public static FilteredElementCollector GetElementsWithConnectors(Document doc, ElementId viewId, bool includeMechEquipment = false)
+        {
+            // what categories of family instances
+            // are we interested in?
+            // From here: http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html
+
+            IList<BuiltInCategory> bics = new List<BuiltInCategory>(3)
+            {
+                //BuiltInCategory.OST_CableTray,
+                //BuiltInCategory.OST_CableTrayFitting,
+                //BuiltInCategory.OST_Conduit,
+                //BuiltInCategory.OST_ConduitFitting,
+                //BuiltInCategory.OST_DuctCurves,
+                //BuiltInCategory.OST_DuctFitting,
+                //BuiltInCategory.OST_DuctTerminal,
+                //BuiltInCategory.OST_ElectricalEquipment,
+                //BuiltInCategory.OST_ElectricalFixtures,
+                //BuiltInCategory.OST_LightingDevices,
+                //BuiltInCategory.OST_LightingFixtures,
+                //BuiltInCategory.OST_MechanicalEquipment,
+                BuiltInCategory.OST_PipeAccessory,
+                BuiltInCategory.OST_PipeCurves,
+                BuiltInCategory.OST_PipeFitting,
+                //BuiltInCategory.OST_PlumbingFixtures,
+                //BuiltInCategory.OST_SpecialityEquipment,
+                //BuiltInCategory.OST_Sprinklers,
+                //BuiltInCategory.OST_Wire
+            };
+
+            if (includeMechEquipment) bics.Add(BuiltInCategory.OST_MechanicalEquipment);
+
+            IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
+
+            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
+
+            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
+
+            LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
+
+            //IList<ElementFilter> b = new List<ElementFilter>(6);
+            IList<ElementFilter> b = new List<ElementFilter>
+            {
+
+                //b.Add(new ElementClassFilter(typeof(CableTray)));
+                //b.Add(new ElementClassFilter(typeof(Conduit)));
+                //b.Add(new ElementClassFilter(typeof(Duct)));
+                new ElementClassFilter(typeof(Pipe)),
+
+                familyInstanceFilter
+            };
+            LogicalOrFilter classFilter = new LogicalOrFilter(b);
+
+            FilteredElementCollector collector = new FilteredElementCollector(doc, viewId);
+
+            collector.WherePasses(classFilter);
+
+            return collector;
+        }
+
         /// <summary>
         /// Get the collection of elements of the specified type additionally filtered
         /// by a string value of specified BuiltInParameter.
