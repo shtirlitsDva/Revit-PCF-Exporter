@@ -62,6 +62,7 @@ namespace PCF_Functions
         //public static readonly pdef PCF_ELEM_PAINT_SPEC = new pdef("PCF_ELEM_PAINT_SPEC", "ELEM", "U", pd.Text, new Guid("b51db394-85ee-43af-9117-bb255ac0aaac"), "PAINTING-SPEC");
         //public static readonly pdef PCF_ELEM_MTLST = new pdef("PCF_ELEM_MTLST", "ELEM", "U", pd.Text, new Guid("ea4315ce-e5f5-4538-a6e9-f548068c3c66"), "MATERIAL-LIST");
         public static readonly pdef PCF_ELEM_REV = new pdef("PCF_ELEM_REV", "ELEM", "U", pd.Text, new Guid("cca78e21-5ed7-44bc-9dab-844997a1b965"), "REVISION");
+        public static readonly pdef PCF_ELEM_MSG = new pdef("PCF_ELEM_MSG", "ELEM", "U", pd.Text, new Guid("61367166-7C88-436B-B089-BDA9DB571D6B"), "MESSAGE\n    TEXT");
         //public static readonly pdef PCF_ELEM_MISC3 = new pdef("PCF_ELEM_MISC3", "ELEM", "U", pd.Text, new Guid("0e065f3e-83c8-44c8-a1cb-babaf20476b9"), "MISC-SPEC3");
         //public static readonly pdef PCF_ELEM_MISC4 = new pdef("PCF_ELEM_MISC4", "ELEM", "U", pd.Text, new Guid("3229c505-3802-416c-bf04-c109f41f3ab7"), "MISC-SPEC4");
         //public static readonly pdef PCF_ELEM_MISC5 = new pdef("PCF_ELEM_MISC5", "ELEM", "U", pd.Text, new Guid("692e2e97-3b9c-4616-8a03-dfd493b01762"), "MISC-SPEC5");
@@ -203,6 +204,7 @@ namespace PCF_Functions
             //ListParametersAll.Add(PCF_ELEM_PAINT_SPEC);
             //LPAll.Add(PCF_ELEM_MTLST);
             LPAll.Add(PCF_ELEM_REV);
+            LPAll.Add(PCF_ELEM_MSG);
             //ListParametersAll.Add(PCF_ELEM_MISC3);
             //ListParametersAll.Add(PCF_ELEM_MISC4);
             //ListParametersAll.Add(PCF_ELEM_MISC5);
