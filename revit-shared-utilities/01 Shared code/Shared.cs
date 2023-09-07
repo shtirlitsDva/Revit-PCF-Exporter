@@ -340,7 +340,7 @@ namespace Shared
 
     public static class MepUtils
     {
-        public static List<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
+        public static List<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc, bool ordered = false)
         {
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             HashSet<PipingSystem> pipingSystems = collector.OfClass(typeof(PipingSystem)).Cast<PipingSystem>().ToHashSet();
@@ -368,7 +368,8 @@ namespace Shared
                       .Select(pst => pst.Abbreviation).ToHashSet();
             }
 
-            return abbreviations.Distinct().ToList();
+            if (ordered) return abbreviations.Distinct().OrderBy(x => x).ToList();
+            else return abbreviations.Distinct().ToList();
         }
 
         /// <summary>

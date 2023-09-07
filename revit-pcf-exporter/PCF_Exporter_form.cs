@@ -91,7 +91,7 @@ namespace PCF_Exporter
 
             //Init Scope
             //Gather all physical piping systems and collect distinct abbreviations
-            pipeLinesAbbreviations = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc);
+            pipeLinesAbbreviations = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc, true);
 
             comboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
             //Use the distinct abbreviations as data source for the comboBox
