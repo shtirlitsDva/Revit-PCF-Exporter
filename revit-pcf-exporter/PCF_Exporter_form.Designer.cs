@@ -56,7 +56,7 @@ namespace PCF_Exporter
             this.button11 = new System.Windows.Forms.Button();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.button13 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
+            this.exportUndefinedElements_Button = new System.Windows.Forms.Button();
             this.textBox20 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -143,10 +143,10 @@ namespace PCF_Exporter
             this.Tabs.Controls.Add(this.tabPage4);
             this.Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tabs.Location = new System.Drawing.Point(0, 0);
-            this.Tabs.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.Tabs.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(766, 1179);
+            this.Tabs.Size = new System.Drawing.Size(894, 1368);
             this.Tabs.TabIndex = 0;
             // 
             // TabSetup
@@ -156,11 +156,11 @@ namespace PCF_Exporter
             this.TabSetup.Controls.Add(this.groupBox2);
             this.TabSetup.Controls.Add(this.radioBox5);
             this.TabSetup.Controls.Add(this.groupBox1);
-            this.TabSetup.Location = new System.Drawing.Point(8, 39);
-            this.TabSetup.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.TabSetup.Location = new System.Drawing.Point(10, 47);
+            this.TabSetup.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.TabSetup.Name = "TabSetup";
-            this.TabSetup.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.TabSetup.Size = new System.Drawing.Size(750, 1132);
+            this.TabSetup.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.TabSetup.Size = new System.Drawing.Size(874, 1311);
             this.TabSetup.TabIndex = 0;
             this.TabSetup.Text = "Setup";
             this.TabSetup.UseVisualStyleBackColor = true;
@@ -170,21 +170,21 @@ namespace PCF_Exporter
             this.radioBox1.Controls.Add(this.button9);
             this.radioBox1.Controls.Add(this.button8);
             this.radioBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioBox1.Location = new System.Drawing.Point(7, 884);
-            this.radioBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioBox1.Location = new System.Drawing.Point(8, 1026);
+            this.radioBox1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioBox1.Name = "radioBox1";
-            this.radioBox1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.radioBox1.Size = new System.Drawing.Size(736, 143);
+            this.radioBox1.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.radioBox1.Size = new System.Drawing.Size(858, 166);
             this.radioBox1.TabIndex = 6;
             this.radioBox1.TabStop = false;
             this.radioBox1.Text = "Create and export element schedule";
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(408, 39);
-            this.button9.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button9.Location = new System.Drawing.Point(476, 45);
+            this.button9.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(324, 89);
+            this.button9.Size = new System.Drawing.Size(378, 103);
             this.button9.TabIndex = 1;
             this.button9.Text = "Export schedule to EXCEL";
             this.button9.UseVisualStyleBackColor = true;
@@ -192,10 +192,10 @@ namespace PCF_Exporter
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(12, 39);
-            this.button8.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button8.Location = new System.Drawing.Point(14, 45);
+            this.button8.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(324, 89);
+            this.button8.Size = new System.Drawing.Size(378, 103);
             this.button8.TabIndex = 0;
             this.button8.Text = "Create schedules";
             this.button8.UseVisualStyleBackColor = true;
@@ -206,11 +206,11 @@ namespace PCF_Exporter
             this.radioBox4.Controls.Add(this.radioButton16);
             this.radioBox4.Controls.Add(this.radioButton15);
             this.radioBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioBox4.Location = new System.Drawing.Point(7, 795);
-            this.radioBox4.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioBox4.Location = new System.Drawing.Point(8, 923);
+            this.radioBox4.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioBox4.Name = "radioBox4";
-            this.radioBox4.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.radioBox4.Size = new System.Drawing.Size(736, 89);
+            this.radioBox4.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.radioBox4.Size = new System.Drawing.Size(858, 103);
             this.radioBox4.TabIndex = 5;
             this.radioBox4.TabStop = false;
             this.radioBox4.Text = "Write mode";
@@ -220,10 +220,10 @@ namespace PCF_Exporter
             this.radioButton16.AutoSize = true;
             this.radioButton16.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton16Append;
             this.radioButton16.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton16Append", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton16.Location = new System.Drawing.Point(502, 36);
-            this.radioButton16.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton16.Location = new System.Drawing.Point(586, 42);
+            this.radioButton16.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton16.Name = "radioButton16";
-            this.radioButton16.Size = new System.Drawing.Size(117, 29);
+            this.radioButton16.Size = new System.Drawing.Size(128, 33);
             this.radioButton16.TabIndex = 1;
             this.radioButton16.Text = "Append";
             this.radioButton16.UseVisualStyleBackColor = true;
@@ -233,10 +233,10 @@ namespace PCF_Exporter
             this.radioButton15.AutoSize = true;
             this.radioButton15.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton15Overwrite;
             this.radioButton15.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton15Overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton15.Location = new System.Drawing.Point(286, 36);
-            this.radioButton15.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton15.Location = new System.Drawing.Point(334, 42);
+            this.radioButton15.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton15.Name = "radioButton15";
-            this.radioButton15.Size = new System.Drawing.Size(134, 29);
+            this.radioButton15.Size = new System.Drawing.Size(148, 33);
             this.radioButton15.TabIndex = 0;
             this.radioButton15.TabStop = true;
             this.radioButton15.Text = "Overwrite";
@@ -247,27 +247,27 @@ namespace PCF_Exporter
             this.groupBox2.Controls.Add(this.button11);
             this.groupBox2.Controls.Add(this.textBox7);
             this.groupBox2.Controls.Add(this.button13);
-            this.groupBox2.Controls.Add(this.button10);
+            this.groupBox2.Controls.Add(this.exportUndefinedElements_Button);
             this.groupBox2.Controls.Add(this.textBox20);
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Controls.Add(this.button7);
             this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(7, 376);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox2.Location = new System.Drawing.Point(8, 437);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox2.Size = new System.Drawing.Size(736, 419);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox2.Size = new System.Drawing.Size(858, 486);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PCF parameter INITIALIZATION";
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(408, 216);
-            this.button11.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button11.Location = new System.Drawing.Point(476, 251);
+            this.button11.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(324, 89);
+            this.button11.Size = new System.Drawing.Size(378, 103);
             this.button11.TabIndex = 11;
             this.button11.Text = "NOT WORKING YET: Export undefined PIPELINES";
             this.button11.UseVisualStyleBackColor = true;
@@ -276,56 +276,56 @@ namespace PCF_Exporter
             // 
             this.textBox7.BackColor = System.Drawing.SystemColors.Window;
             this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox7.Location = new System.Drawing.Point(403, 141);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox7.Location = new System.Drawing.Point(470, 164);
+            this.textBox7.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox7.Multiline = true;
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(331, 64);
+            this.textBox7.Size = new System.Drawing.Size(386, 74);
             this.textBox7.TabIndex = 10;
             this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(408, 36);
-            this.button13.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button13.Location = new System.Drawing.Point(476, 42);
+            this.button13.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(324, 89);
+            this.button13.Size = new System.Drawing.Size(378, 103);
             this.button13.TabIndex = 9;
             this.button13.Text = "Select PIPELINE parameter setup file (LDT)";
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
-            // button10
+            // exportUndefinedElements_Button
             // 
-            this.button10.Location = new System.Drawing.Point(12, 216);
-            this.button10.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(324, 89);
-            this.button10.TabIndex = 8;
-            this.button10.Text = "Export undefined ELEMENTS";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.exportUndefinedElements_Button.Location = new System.Drawing.Point(14, 251);
+            this.exportUndefinedElements_Button.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.exportUndefinedElements_Button.Name = "exportUndefinedElements_Button";
+            this.exportUndefinedElements_Button.Size = new System.Drawing.Size(378, 103);
+            this.exportUndefinedElements_Button.TabIndex = 8;
+            this.exportUndefinedElements_Button.Text = "Export undefined ELEMENTS";
+            this.exportUndefinedElements_Button.UseVisualStyleBackColor = true;
+            this.exportUndefinedElements_Button.Click += new System.EventHandler(this.button10_Click);
             // 
             // textBox20
             // 
             this.textBox20.BackColor = System.Drawing.SystemColors.Window;
             this.textBox20.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox20.Location = new System.Drawing.Point(7, 141);
-            this.textBox20.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox20.Location = new System.Drawing.Point(8, 164);
+            this.textBox20.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox20.Multiline = true;
             this.textBox20.Name = "textBox20";
             this.textBox20.ReadOnly = true;
-            this.textBox20.Size = new System.Drawing.Size(331, 64);
+            this.textBox20.Size = new System.Drawing.Size(386, 74);
             this.textBox20.TabIndex = 7;
             this.textBox20.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 36);
-            this.button4.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button4.Location = new System.Drawing.Point(14, 42);
+            this.button4.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(324, 89);
+            this.button4.Size = new System.Drawing.Size(378, 103);
             this.button4.TabIndex = 2;
             this.button4.Text = "Select ELEMENT parameter setup file";
             this.button4.UseVisualStyleBackColor = true;
@@ -333,10 +333,10 @@ namespace PCF_Exporter
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(408, 316);
-            this.button7.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button7.Location = new System.Drawing.Point(476, 367);
+            this.button7.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(324, 89);
+            this.button7.Size = new System.Drawing.Size(378, 103);
             this.button7.TabIndex = 2;
             this.button7.Text = "Populate PCF parameters PIPELINE";
             this.button7.UseVisualStyleBackColor = true;
@@ -344,10 +344,10 @@ namespace PCF_Exporter
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(12, 316);
-            this.button3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button3.Location = new System.Drawing.Point(14, 367);
+            this.button3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(324, 89);
+            this.button3.Size = new System.Drawing.Size(378, 103);
             this.button3.TabIndex = 2;
             this.button3.Text = "Populate PCF parameters ELEMENT";
             this.button3.UseVisualStyleBackColor = true;
@@ -357,11 +357,11 @@ namespace PCF_Exporter
             // 
             this.radioBox5.Controls.Add(this.textBox11);
             this.radioBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioBox5.Location = new System.Drawing.Point(7, 260);
-            this.radioBox5.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioBox5.Location = new System.Drawing.Point(8, 302);
+            this.radioBox5.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioBox5.Name = "radioBox5";
-            this.radioBox5.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.radioBox5.Size = new System.Drawing.Size(736, 116);
+            this.radioBox5.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.radioBox5.Size = new System.Drawing.Size(858, 135);
             this.radioBox5.TabIndex = 7;
             this.radioBox5.TabStop = false;
             this.radioBox5.Text = "PROJECT-IDENTIFIER";
@@ -369,10 +369,10 @@ namespace PCF_Exporter
             // textBox11
             // 
             this.textBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "TextBox11PROJECTIDENTIFIER", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox11.Location = new System.Drawing.Point(12, 44);
-            this.textBox11.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox11.Location = new System.Drawing.Point(14, 51);
+            this.textBox11.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(710, 31);
+            this.textBox11.Size = new System.Drawing.Size(828, 35);
             this.textBox11.TabIndex = 11;
             this.textBox11.Text = global::PCF_Exporter.Properties.Settings.Default.TextBox11PROJECTIDENTIFIER;
             this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -383,21 +383,21 @@ namespace PCF_Exporter
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(7, 6);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox1.Location = new System.Drawing.Point(8, 7);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox1.Size = new System.Drawing.Size(736, 254);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox1.Size = new System.Drawing.Size(858, 295);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PCF parameter MANAGEMENT";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(199, 136);
-            this.button2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button2.Location = new System.Drawing.Point(232, 158);
+            this.button2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(324, 89);
+            this.button2.Size = new System.Drawing.Size(378, 103);
             this.button2.TabIndex = 1;
             this.button2.Text = "Delete PCF parameters";
             this.button2.UseVisualStyleBackColor = true;
@@ -405,10 +405,10 @@ namespace PCF_Exporter
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(199, 36);
-            this.button1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button1.Location = new System.Drawing.Point(232, 42);
+            this.button1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(324, 89);
+            this.button1.Size = new System.Drawing.Size(378, 103);
             this.button1.TabIndex = 0;
             this.button1.Text = "Import PCF parameters";
             this.button1.UseVisualStyleBackColor = true;
@@ -419,11 +419,11 @@ namespace PCF_Exporter
             this.tabPage2.Controls.Add(this.radioBox3);
             this.tabPage2.Controls.Add(this.groupBox6);
             this.tabPage2.Controls.Add(this.groupBox3);
-            this.tabPage2.Location = new System.Drawing.Point(8, 39);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage2.Location = new System.Drawing.Point(10, 47);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.tabPage2.Size = new System.Drawing.Size(750, 1132);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.tabPage2.Size = new System.Drawing.Size(874, 1311);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Config";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -433,11 +433,11 @@ namespace PCF_Exporter
             this.radioBox3.Controls.Add(this.checkBox2);
             this.radioBox3.Controls.Add(this.checkBox1);
             this.radioBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioBox3.Location = new System.Drawing.Point(7, 808);
-            this.radioBox3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioBox3.Location = new System.Drawing.Point(8, 937);
+            this.radioBox3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioBox3.Name = "radioBox3";
-            this.radioBox3.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.radioBox3.Size = new System.Drawing.Size(736, 114);
+            this.radioBox3.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.radioBox3.Size = new System.Drawing.Size(858, 132);
             this.radioBox3.TabIndex = 3;
             this.radioBox3.TabStop = false;
             this.radioBox3.Text = "Export to";
@@ -447,10 +447,10 @@ namespace PCF_Exporter
             this.checkBox2.AutoSize = true;
             this.checkBox2.Checked = global::PCF_Exporter.Properties.Settings.Default.checkBox2Checked;
             this.checkBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "checkBox2Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox2.Location = new System.Drawing.Point(502, 39);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.checkBox2.Location = new System.Drawing.Point(586, 45);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(129, 29);
+            this.checkBox2.Size = new System.Drawing.Size(140, 33);
             this.checkBox2.TabIndex = 1;
             this.checkBox2.Text = "Caesar II";
             this.checkBox2.UseVisualStyleBackColor = true;
@@ -462,10 +462,10 @@ namespace PCF_Exporter
             this.checkBox1.Checked = global::PCF_Exporter.Properties.Settings.Default.checkBox1Checked;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "checkBox1Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.checkBox1.Location = new System.Drawing.Point(286, 39);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.checkBox1.Location = new System.Drawing.Point(334, 45);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(108, 29);
+            this.checkBox1.Size = new System.Drawing.Size(118, 33);
             this.checkBox1.TabIndex = 0;
             this.checkBox1.Text = "Isogen";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -478,11 +478,11 @@ namespace PCF_Exporter
             this.groupBox6.Controls.Add(this.groupBox8);
             this.groupBox6.Controls.Add(this.groupBox7);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox6.Location = new System.Drawing.Point(7, 465);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox6.Location = new System.Drawing.Point(8, 539);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox6.Size = new System.Drawing.Size(736, 343);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox6.Size = new System.Drawing.Size(858, 398);
             this.groupBox6.TabIndex = 1;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "PCF File Header";
@@ -492,11 +492,11 @@ namespace PCF_Exporter
             this.groupBox10.Controls.Add(this.radioButton10);
             this.groupBox10.Controls.Add(this.radioButton9);
             this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox10.Location = new System.Drawing.Point(7, 261);
-            this.groupBox10.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox10.Location = new System.Drawing.Point(8, 302);
+            this.groupBox10.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox10.Size = new System.Drawing.Size(722, 77);
+            this.groupBox10.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox10.Size = new System.Drawing.Size(842, 89);
             this.groupBox10.TabIndex = 3;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "UNITS-WEIGHT-LENGTH";
@@ -506,10 +506,10 @@ namespace PCF_Exporter
             this.radioButton10.AutoSize = true;
             this.radioButton10.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton10WeightLengthF;
             this.radioButton10.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton10WeightLengthF", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton10.Location = new System.Drawing.Point(496, 32);
-            this.radioButton10.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton10.Location = new System.Drawing.Point(579, 37);
+            this.radioButton10.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton10.Name = "radioButton10";
-            this.radioButton10.Size = new System.Drawing.Size(97, 29);
+            this.radioButton10.Size = new System.Drawing.Size(107, 33);
             this.radioButton10.TabIndex = 0;
             this.radioButton10.Text = "FEET";
             this.radioButton10.UseVisualStyleBackColor = true;
@@ -520,10 +520,10 @@ namespace PCF_Exporter
             this.radioButton9.AutoSize = true;
             this.radioButton9.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton9WeightLengthM;
             this.radioButton9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton9WeightLengthM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton9.Location = new System.Drawing.Point(280, 32);
-            this.radioButton9.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton9.Location = new System.Drawing.Point(327, 37);
+            this.radioButton9.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton9.Name = "radioButton9";
-            this.radioButton9.Size = new System.Drawing.Size(117, 29);
+            this.radioButton9.Size = new System.Drawing.Size(129, 33);
             this.radioButton9.TabIndex = 0;
             this.radioButton9.TabStop = true;
             this.radioButton9.Text = "METER";
@@ -535,11 +535,11 @@ namespace PCF_Exporter
             this.groupBox9.Controls.Add(this.radioButton7);
             this.groupBox9.Controls.Add(this.radioButton8);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox9.Location = new System.Drawing.Point(7, 184);
-            this.groupBox9.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox9.Location = new System.Drawing.Point(8, 213);
+            this.groupBox9.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox9.Size = new System.Drawing.Size(722, 77);
+            this.groupBox9.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox9.Size = new System.Drawing.Size(842, 89);
             this.groupBox9.TabIndex = 2;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "UNITS-WEIGHT";
@@ -549,10 +549,10 @@ namespace PCF_Exporter
             this.radioButton7.AutoSize = true;
             this.radioButton7.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton7WeightKgs;
             this.radioButton7.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton7WeightKgs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton7.Location = new System.Drawing.Point(280, 32);
-            this.radioButton7.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton7.Location = new System.Drawing.Point(327, 37);
+            this.radioButton7.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(87, 29);
+            this.radioButton7.Size = new System.Drawing.Size(94, 33);
             this.radioButton7.TabIndex = 0;
             this.radioButton7.TabStop = true;
             this.radioButton7.Text = "KGS";
@@ -564,10 +564,10 @@ namespace PCF_Exporter
             this.radioButton8.AutoSize = true;
             this.radioButton8.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton8WeightLbs;
             this.radioButton8.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton8WeightLbs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton8.Location = new System.Drawing.Point(496, 32);
-            this.radioButton8.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton8.Location = new System.Drawing.Point(579, 37);
+            this.radioButton8.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton8.Name = "radioButton8";
-            this.radioButton8.Size = new System.Drawing.Size(83, 29);
+            this.radioButton8.Size = new System.Drawing.Size(89, 33);
             this.radioButton8.TabIndex = 0;
             this.radioButton8.Text = "LBS";
             this.radioButton8.UseVisualStyleBackColor = true;
@@ -578,11 +578,11 @@ namespace PCF_Exporter
             this.groupBox8.Controls.Add(this.radioButton5);
             this.groupBox8.Controls.Add(this.radioButton6);
             this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox8.Location = new System.Drawing.Point(7, 107);
-            this.groupBox8.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox8.Location = new System.Drawing.Point(8, 124);
+            this.groupBox8.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox8.Size = new System.Drawing.Size(722, 77);
+            this.groupBox8.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox8.Size = new System.Drawing.Size(842, 89);
             this.groupBox8.TabIndex = 1;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "UNITS-CO-ORDS";
@@ -592,10 +592,10 @@ namespace PCF_Exporter
             this.radioButton5.AutoSize = true;
             this.radioButton5.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton5CoordsMm;
             this.radioButton5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton5CoordsMm", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton5.Location = new System.Drawing.Point(280, 32);
-            this.radioButton5.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton5.Location = new System.Drawing.Point(327, 37);
+            this.radioButton5.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(79, 29);
+            this.radioButton5.Size = new System.Drawing.Size(84, 33);
             this.radioButton5.TabIndex = 0;
             this.radioButton5.TabStop = true;
             this.radioButton5.Text = "MM";
@@ -607,10 +607,10 @@ namespace PCF_Exporter
             this.radioButton6.AutoSize = true;
             this.radioButton6.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton6CoordsInch;
             this.radioButton6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton6CoordsInch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton6.Location = new System.Drawing.Point(496, 32);
-            this.radioButton6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton6.Location = new System.Drawing.Point(579, 37);
+            this.radioButton6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(93, 29);
+            this.radioButton6.Size = new System.Drawing.Size(102, 33);
             this.radioButton6.TabIndex = 0;
             this.radioButton6.Text = "INCH";
             this.radioButton6.UseVisualStyleBackColor = true;
@@ -621,11 +621,11 @@ namespace PCF_Exporter
             this.groupBox7.Controls.Add(this.radioButton4);
             this.groupBox7.Controls.Add(this.radioButton3);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox7.Location = new System.Drawing.Point(7, 30);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox7.Location = new System.Drawing.Point(8, 35);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox7.Size = new System.Drawing.Size(722, 77);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox7.Size = new System.Drawing.Size(842, 89);
             this.groupBox7.TabIndex = 0;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "UNITS-BORE";
@@ -635,10 +635,10 @@ namespace PCF_Exporter
             this.radioButton4.AutoSize = true;
             this.radioButton4.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton4BoreINCH;
             this.radioButton4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton4BoreINCH", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton4.Location = new System.Drawing.Point(496, 36);
-            this.radioButton4.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton4.Location = new System.Drawing.Point(579, 42);
+            this.radioButton4.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(93, 29);
+            this.radioButton4.Size = new System.Drawing.Size(102, 33);
             this.radioButton4.TabIndex = 0;
             this.radioButton4.Text = "INCH";
             this.radioButton4.UseVisualStyleBackColor = true;
@@ -649,10 +649,10 @@ namespace PCF_Exporter
             this.radioButton3.AutoSize = true;
             this.radioButton3.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton3BoreMM;
             this.radioButton3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton3BoreMM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton3.Location = new System.Drawing.Point(280, 36);
-            this.radioButton3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton3.Location = new System.Drawing.Point(327, 42);
+            this.radioButton3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(79, 29);
+            this.radioButton3.Size = new System.Drawing.Size(84, 33);
             this.radioButton3.TabIndex = 0;
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "MM";
@@ -677,11 +677,11 @@ namespace PCF_Exporter
             this.groupBox3.Controls.Add(this.textBox2);
             this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Location = new System.Drawing.Point(7, 6);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox3.Location = new System.Drawing.Point(8, 7);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox3.Size = new System.Drawing.Size(736, 459);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox3.Size = new System.Drawing.Size(858, 532);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Scope";
@@ -691,10 +691,10 @@ namespace PCF_Exporter
             this.radioButton14.AutoSize = true;
             this.radioButton14.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton14ExportSelection;
             this.radioButton14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton14ExportSelection", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton14.Location = new System.Drawing.Point(92, 206);
-            this.radioButton14.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton14.Location = new System.Drawing.Point(107, 239);
+            this.radioButton14.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton14.Name = "radioButton14";
-            this.radioButton14.Size = new System.Drawing.Size(132, 29);
+            this.radioButton14.Size = new System.Drawing.Size(145, 33);
             this.radioButton14.TabIndex = 13;
             this.radioButton14.Tag = "1";
             this.radioButton14.Text = "Selection";
@@ -706,10 +706,10 @@ namespace PCF_Exporter
             this.radioButton13.AutoSize = true;
             this.radioButton13.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton13AllPipelinesSeparate;
             this.radioButton13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton13AllPipelinesSeparate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton13.Location = new System.Drawing.Point(92, 119);
-            this.radioButton13.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton13.Location = new System.Drawing.Point(107, 138);
+            this.radioButton13.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton13.Name = "radioButton13";
-            this.radioButton13.Size = new System.Drawing.Size(300, 29);
+            this.radioButton13.Size = new System.Drawing.Size(332, 33);
             this.radioButton13.TabIndex = 12;
             this.radioButton13.Tag = "1";
             this.radioButton13.Text = "All pipelines, separate files";
@@ -719,20 +719,20 @@ namespace PCF_Exporter
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(314, 161);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.comboBox2.Location = new System.Drawing.Point(366, 187);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(407, 33);
+            this.comboBox2.Size = new System.Drawing.Size(474, 37);
             this.comboBox2.TabIndex = 11;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // textBox9
             // 
             this.textBox9.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "TextBoxFilterPCF_ELEM_SPEC", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox9.Location = new System.Drawing.Point(259, 350);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox9.Location = new System.Drawing.Point(302, 406);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(462, 31);
+            this.textBox9.Size = new System.Drawing.Size(538, 35);
             this.textBox9.TabIndex = 10;
             this.textBox9.Text = global::PCF_Exporter.Properties.Settings.Default.TextBoxFilterPCF_ELEM_SPEC;
             this.textBox9.TextChanged += new System.EventHandler(this.TextBox9_TextChanged);
@@ -740,10 +740,10 @@ namespace PCF_Exporter
             // textBox22
             // 
             this.textBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox22.Location = new System.Drawing.Point(168, 268);
-            this.textBox22.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox22.Location = new System.Drawing.Point(196, 311);
+            this.textBox22.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(110, 31);
+            this.textBox22.Size = new System.Drawing.Size(128, 35);
             this.textBox22.TabIndex = 10;
             this.textBox22.Text = global::PCF_Exporter.Properties.Settings.Default.textBox22DiameterLimit;
             this.textBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
@@ -752,11 +752,11 @@ namespace PCF_Exporter
             // 
             this.textBox10.BackColor = System.Drawing.SystemColors.Window;
             this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox10.Location = new System.Drawing.Point(7, 400);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox10.Location = new System.Drawing.Point(8, 464);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox10.Name = "textBox10";
             this.textBox10.ReadOnly = true;
-            this.textBox10.Size = new System.Drawing.Size(718, 24);
+            this.textBox10.Size = new System.Drawing.Size(838, 28);
             this.textBox10.TabIndex = 7;
             this.textBox10.Text = "Elements with matching values will not be exported. Leave empty to avoid.";
             // 
@@ -764,11 +764,11 @@ namespace PCF_Exporter
             // 
             this.textBox23.BackColor = System.Drawing.SystemColors.Window;
             this.textBox23.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox23.Location = new System.Drawing.Point(7, 309);
-            this.textBox23.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox23.Location = new System.Drawing.Point(8, 358);
+            this.textBox23.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox23.Name = "textBox23";
             this.textBox23.ReadOnly = true;
-            this.textBox23.Size = new System.Drawing.Size(691, 24);
+            this.textBox23.Size = new System.Drawing.Size(806, 28);
             this.textBox23.TabIndex = 7;
             this.textBox23.Text = "Elements below or equal to specified nominal size will not be exported.";
             // 
@@ -776,11 +776,11 @@ namespace PCF_Exporter
             // 
             this.textBox24.BackColor = System.Drawing.SystemColors.Window;
             this.textBox24.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox24.Location = new System.Drawing.Point(316, 273);
-            this.textBox24.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox24.Location = new System.Drawing.Point(369, 317);
+            this.textBox24.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox24.Name = "textBox24";
             this.textBox24.ReadOnly = true;
-            this.textBox24.Size = new System.Drawing.Size(182, 24);
+            this.textBox24.Size = new System.Drawing.Size(212, 28);
             this.textBox24.TabIndex = 8;
             this.textBox24.Text = "Nominal";
             // 
@@ -788,11 +788,11 @@ namespace PCF_Exporter
             // 
             this.textBox3.BackColor = System.Drawing.SystemColors.Window;
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(7, 356);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox3.Location = new System.Drawing.Point(8, 413);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(242, 24);
+            this.textBox3.Size = new System.Drawing.Size(282, 28);
             this.textBox3.TabIndex = 9;
             this.textBox3.Text = "Filter PCF_ELEM_SPEC:";
             // 
@@ -800,11 +800,11 @@ namespace PCF_Exporter
             // 
             this.textBox21.BackColor = System.Drawing.SystemColors.Window;
             this.textBox21.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox21.Location = new System.Drawing.Point(7, 273);
-            this.textBox21.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox21.Location = new System.Drawing.Point(8, 317);
+            this.textBox21.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox21.Name = "textBox21";
             this.textBox21.ReadOnly = true;
-            this.textBox21.Size = new System.Drawing.Size(151, 24);
+            this.textBox21.Size = new System.Drawing.Size(176, 28);
             this.textBox21.TabIndex = 9;
             this.textBox21.Text = "Diameter limit:";
             // 
@@ -813,10 +813,10 @@ namespace PCF_Exporter
             this.radioButton2.AutoSize = true;
             this.radioButton2.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton2SpecificPipeline;
             this.radioButton2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton2SpecificPipeline", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton2.Location = new System.Drawing.Point(92, 164);
-            this.radioButton2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton2.Location = new System.Drawing.Point(107, 190);
+            this.radioButton2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(206, 29);
+            this.radioButton2.Size = new System.Drawing.Size(229, 33);
             this.radioButton2.TabIndex = 1;
             this.radioButton2.Tag = "2";
             this.radioButton2.Text = "Specific pipeline:";
@@ -828,10 +828,10 @@ namespace PCF_Exporter
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton1AllPipelines;
             this.radioButton1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton1AllPipelines", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton1.Location = new System.Drawing.Point(92, 75);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton1.Location = new System.Drawing.Point(107, 87);
+            this.radioButton1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(241, 29);
+            this.radioButton1.Size = new System.Drawing.Size(267, 33);
             this.radioButton1.TabIndex = 1;
             this.radioButton1.TabStop = true;
             this.radioButton1.Tag = "1";
@@ -843,11 +843,11 @@ namespace PCF_Exporter
             // 
             this.textBox4.BackColor = System.Drawing.SystemColors.Window;
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Location = new System.Drawing.Point(518, 214);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox4.Location = new System.Drawing.Point(604, 248);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(206, 24);
+            this.textBox4.Size = new System.Drawing.Size(240, 28);
             this.textBox4.TabIndex = 0;
             this.textBox4.Text = "System Abbreviation";
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -856,11 +856,11 @@ namespace PCF_Exporter
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Window;
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(7, 79);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox2.Location = new System.Drawing.Point(8, 92);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(72, 24);
+            this.textBox2.Size = new System.Drawing.Size(84, 28);
             this.textBox2.TabIndex = 0;
             this.textBox2.Text = "Export:";
             // 
@@ -868,11 +868,11 @@ namespace PCF_Exporter
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Window;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(7, 36);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox1.Location = new System.Drawing.Point(8, 42);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(720, 24);
+            this.textBox1.Size = new System.Drawing.Size(840, 28);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "Pipelines are defined by System Abbreviation parameter in Revit.";
             // 
@@ -881,11 +881,11 @@ namespace PCF_Exporter
             this.tabPage3.Controls.Add(this.groupBox5);
             this.tabPage3.Controls.Add(this.groupBox4);
             this.tabPage3.Controls.Add(this.radioBox6);
-            this.tabPage3.Location = new System.Drawing.Point(8, 39);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage3.Location = new System.Drawing.Point(10, 47);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.tabPage3.Size = new System.Drawing.Size(750, 1132);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.tabPage3.Size = new System.Drawing.Size(874, 1311);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Run";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -894,21 +894,21 @@ namespace PCF_Exporter
             // 
             this.groupBox5.Controls.Add(this.button6);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox5.Location = new System.Drawing.Point(7, 323);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox5.Location = new System.Drawing.Point(8, 375);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox5.Size = new System.Drawing.Size(736, 161);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox5.Size = new System.Drawing.Size(858, 187);
             this.groupBox5.TabIndex = 1;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Export PCF data";
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(206, 36);
-            this.button6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button6.Location = new System.Drawing.Point(240, 42);
+            this.button6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(324, 91);
+            this.button6.Size = new System.Drawing.Size(378, 106);
             this.button6.TabIndex = 0;
             this.button6.Text = "Export PCF";
             this.button6.UseVisualStyleBackColor = true;
@@ -920,11 +920,11 @@ namespace PCF_Exporter
             this.groupBox4.Controls.Add(this.textBox5);
             this.groupBox4.Controls.Add(this.button5);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(7, 117);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.groupBox4.Location = new System.Drawing.Point(8, 136);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.groupBox4.Size = new System.Drawing.Size(736, 206);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.groupBox4.Size = new System.Drawing.Size(858, 239);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Output directory";
@@ -933,11 +933,11 @@ namespace PCF_Exporter
             // 
             this.textBox6.BackColor = System.Drawing.SystemColors.Window;
             this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox6.Location = new System.Drawing.Point(12, 132);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox6.Location = new System.Drawing.Point(14, 153);
+            this.textBox6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(410, 24);
+            this.textBox6.Size = new System.Drawing.Size(478, 28);
             this.textBox6.TabIndex = 5;
             this.textBox6.Text = "Selected output path:";
             this.textBox6.Visible = false;
@@ -946,20 +946,20 @@ namespace PCF_Exporter
             // 
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.textBox5.Location = new System.Drawing.Point(7, 169);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.textBox5.Location = new System.Drawing.Point(8, 196);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(727, 24);
+            this.textBox5.Size = new System.Drawing.Size(848, 28);
             this.textBox5.TabIndex = 4;
             this.textBox5.Text = global::PCF_Exporter.Properties.Settings.Default.textBox5OutputPath;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(206, 36);
-            this.button5.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.button5.Location = new System.Drawing.Point(240, 42);
+            this.button5.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(324, 89);
+            this.button5.Size = new System.Drawing.Size(378, 103);
             this.button5.TabIndex = 3;
             this.button5.Text = "Select output directory";
             this.button5.UseVisualStyleBackColor = true;
@@ -970,11 +970,11 @@ namespace PCF_Exporter
             this.radioBox6.Controls.Add(this.radioButton17);
             this.radioBox6.Controls.Add(this.radioButton18);
             this.radioBox6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.radioBox6.Location = new System.Drawing.Point(7, 6);
-            this.radioBox6.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioBox6.Location = new System.Drawing.Point(8, 7);
+            this.radioBox6.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioBox6.Name = "radioBox6";
-            this.radioBox6.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.radioBox6.Size = new System.Drawing.Size(736, 111);
+            this.radioBox6.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.radioBox6.Size = new System.Drawing.Size(858, 129);
             this.radioBox6.TabIndex = 2;
             this.radioBox6.TabStop = false;
             this.radioBox6.Text = "Output file encoding";
@@ -984,10 +984,10 @@ namespace PCF_Exporter
             this.radioButton17.AutoSize = true;
             this.radioButton17.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton17UTF8_BOM;
             this.radioButton17.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton17UTF8_BOM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton17.Location = new System.Drawing.Point(400, 36);
-            this.radioButton17.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton17.Location = new System.Drawing.Point(467, 42);
+            this.radioButton17.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton17.Name = "radioButton17";
-            this.radioButton17.Size = new System.Drawing.Size(287, 29);
+            this.radioButton17.Size = new System.Drawing.Size(318, 33);
             this.radioButton17.TabIndex = 0;
             this.radioButton17.Text = "UTF8-BOM (Plant 3D Iso)";
             this.radioButton17.UseVisualStyleBackColor = true;
@@ -997,10 +997,10 @@ namespace PCF_Exporter
             this.radioButton18.AutoSize = true;
             this.radioButton18.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton18ANSIEncoding;
             this.radioButton18.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton18ANSIEncoding", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.radioButton18.Location = new System.Drawing.Point(206, 36);
-            this.radioButton18.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.radioButton18.Location = new System.Drawing.Point(240, 42);
+            this.radioButton18.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.radioButton18.Name = "radioButton18";
-            this.radioButton18.Size = new System.Drawing.Size(175, 29);
+            this.radioButton18.Size = new System.Drawing.Size(194, 33);
             this.radioButton18.TabIndex = 0;
             this.radioButton18.TabStop = true;
             this.radioButton18.Text = "ANSI (Isogen)";
@@ -1009,11 +1009,11 @@ namespace PCF_Exporter
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.richTextBox1);
-            this.tabPage4.Location = new System.Drawing.Point(8, 39);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.tabPage4.Location = new System.Drawing.Point(10, 47);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.tabPage4.Size = new System.Drawing.Size(750, 1132);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.tabPage4.Size = new System.Drawing.Size(874, 1311);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Help";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1021,10 +1021,10 @@ namespace PCF_Exporter
             // richTextBox1
             // 
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Location = new System.Drawing.Point(12, 11);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.richTextBox1.Location = new System.Drawing.Point(14, 13);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(722, 891);
+            this.richTextBox1.Size = new System.Drawing.Size(842, 1034);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             this.richTextBox1.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox1_LinkClicked);
@@ -1039,11 +1039,11 @@ namespace PCF_Exporter
             // 
             // PCF_Exporter_form
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(766, 1179);
+            this.ClientSize = new System.Drawing.Size(894, 1368);
             this.Controls.Add(this.Tabs);
-            this.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "PCF_Exporter_form";
             this.Text = "PCF_Exporter_form";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PCF_Exporter_form_FormClosed);
@@ -1141,7 +1141,7 @@ namespace PCF_Exporter
         private RadioBox radioBox4;
         private System.Windows.Forms.RadioButton radioButton16;
         private System.Windows.Forms.RadioButton radioButton15;
-        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button exportUndefinedElements_Button;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox10;

@@ -111,7 +111,8 @@ namespace PCF_Parameters
                                                 where Filters.FilterDL(e)
                                                 select e).ToHashSet();
             HashSet<Element> filteredElements = (from Element e in limitedElements
-                                                 where e.Category.Id.IntegerValue != (int)BuiltInCategory.OST_PipeCurves
+                                                 where true
+                                                 //where e.Category.Id.IntegerValue != (int)BuiltInCategory.OST_PipeCurves
                                                  select e).ToHashSet();
 
             IEnumerable<IGrouping<string, Element>> elementGroups =
