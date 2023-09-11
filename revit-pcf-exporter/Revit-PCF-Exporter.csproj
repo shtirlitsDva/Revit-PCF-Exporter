@@ -60,6 +60,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DarkUI, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DarkUI.2.0.2\lib\DarkUI.dll</HintPath>
+    </Reference>
     <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
     </Reference>
@@ -128,6 +131,12 @@
       <Link>Utils.cs</Link>
     </Compile>
     <Compile Include="App.cs" />
+    <Compile Include="Dark_PCF_Exporter_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dark_PCF_Exporter_form.Designer.cs">
+      <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
+    </Compile>
     <Compile Include="PCF_Filtering.cs" />
     <Compile Include="PCF_Pipeline_Filename.cs" />
     <Compile Include="PCF_EndsAndConnections.cs" />
@@ -165,6 +174,9 @@
     <Content Include="license.txt" />
     <Content Include="Windows Logo.png" />
     <None Include="app.config" />
+    <EmbeddedResource Include="Dark_PCF_Exporter_form.resx">
+      <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImgSupports16.png" />
     <EmbeddedResource Include="ImgSupports32.png" />
     <Content Include="PCF_DEVELOPEMENT_01.xlsx" />
