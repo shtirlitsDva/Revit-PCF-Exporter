@@ -48,66 +48,69 @@
             this.darkButton7 = new DarkUI.Controls.DarkButton();
             this.darkTextBox20 = new DarkUI.Controls.DarkTextBox();
             this.darkTextBox7 = new DarkUI.Controls.DarkTextBox();
+            this.darkRadioBox1 = new Shared.DarkRadioBox();
+            this.darkRadioButton16 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioButton15 = new DarkUI.Controls.DarkRadioButton();
             this.darkGroupBox3 = new DarkUI.Controls.DarkGroupBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.darkButton8 = new DarkUI.Controls.DarkButton();
             this.darkButton9 = new DarkUI.Controls.DarkButton();
-            this.darkRadioBox1 = new Shared.DarkRadioBox();
-            this.darkRadioButton16 = new DarkUI.Controls.DarkRadioButton();
-            this.darkRadioButton15 = new DarkUI.Controls.DarkRadioButton();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.darkSectionPanel2 = new DarkUI.Controls.DarkSectionPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.darkGroupBox4 = new DarkUI.Controls.DarkGroupBox();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.darkRadioBox2 = new Shared.DarkRadioBox();
-            this.darkRadioBox3 = new Shared.DarkRadioBox();
-            this.darkRadioBox4 = new Shared.DarkRadioBox();
-            this.darkRadioBox5 = new Shared.DarkRadioBox();
-            this.darkGroupBox5 = new DarkUI.Controls.DarkGroupBox();
-            this.darkRadioButton3 = new DarkUI.Controls.DarkRadioButton();
             this.darkRadioButton4 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioButton3 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioBox3 = new Shared.DarkRadioBox();
             this.darkRadioButton6 = new DarkUI.Controls.DarkRadioButton();
             this.darkRadioButton5 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioBox4 = new Shared.DarkRadioBox();
             this.darkRadioButton8 = new DarkUI.Controls.DarkRadioButton();
             this.darkRadioButton7 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioBox5 = new Shared.DarkRadioBox();
             this.darkRadioButton10 = new DarkUI.Controls.DarkRadioButton();
             this.darkRadioButton9 = new DarkUI.Controls.DarkRadioButton();
-            this.darkCheckBox1 = new DarkUI.Controls.DarkCheckBox();
+            this.darkGroupBox5 = new DarkUI.Controls.DarkGroupBox();
             this.darkCheckBox2 = new DarkUI.Controls.DarkCheckBox();
+            this.darkCheckBox1 = new DarkUI.Controls.DarkCheckBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.darkSectionPanel3 = new DarkUI.Controls.DarkSectionPanel();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.darkRadioBox6 = new Shared.DarkRadioBox();
-            this.darkRadioButton18 = new DarkUI.Controls.DarkRadioButton();
             this.darkRadioButton17 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioButton18 = new DarkUI.Controls.DarkRadioButton();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.darkSectionPanel4 = new DarkUI.Controls.DarkSectionPanel();
-            this.darkSectionPanel5 = new DarkUI.Controls.DarkSectionPanel();
             this.darkButton5 = new DarkUI.Controls.DarkButton();
+            this.darkSectionPanel5 = new DarkUI.Controls.DarkSectionPanel();
             this.darkTextBox5 = new DarkUI.Controls.DarkTextBox();
             this.darkSectionPanel6 = new DarkUI.Controls.DarkSectionPanel();
             this.darkButton6 = new DarkUI.Controls.DarkButton();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.darkSectionPanel7 = new DarkUI.Controls.DarkSectionPanel();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.darkSectionPanel8 = new DarkUI.Controls.DarkSectionPanel();
-            this.darkTextBox1 = new DarkUI.Controls.DarkTextBox();
+            this.darkTextBox11 = new DarkUI.Controls.DarkTextBox();
             this.darkRadioBox7 = new Shared.DarkRadioBox();
-            this.darkRadioButton1 = new DarkUI.Controls.DarkRadioButton();
-            this.darkRadioButton13 = new DarkUI.Controls.DarkRadioButton();
-            this.darkRadioButton2 = new DarkUI.Controls.DarkRadioButton();
-            this.darkRadioButton14 = new DarkUI.Controls.DarkRadioButton();
-            this.darkComboBox2 = new DarkUI.Controls.DarkComboBox();
             this.darkTextBox4 = new DarkUI.Controls.DarkTextBox();
+            this.darkComboBox2 = new DarkUI.Controls.DarkComboBox();
+            this.darkRadioButton14 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioButton2 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioButton13 = new DarkUI.Controls.DarkRadioButton();
+            this.darkRadioButton1 = new DarkUI.Controls.DarkRadioButton();
             this.darkSectionPanel9 = new DarkUI.Controls.DarkSectionPanel();
-            this.darkTextBox22 = new DarkUI.Controls.DarkTextBox();
             this.darkTextBox23 = new DarkUI.Controls.DarkTextBox();
+            this.darkTextBox22 = new DarkUI.Controls.DarkTextBox();
             this.darkSectionPanel10 = new DarkUI.Controls.DarkSectionPanel();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
-            this.darkGroupBox6 = new DarkUI.Controls.DarkGroupBox();
-            this.darkTextBox2 = new DarkUI.Controls.DarkTextBox();
             this.darkTextBox3 = new DarkUI.Controls.DarkTextBox();
+            this.darkGroupBox6 = new DarkUI.Controls.DarkGroupBox();
+            this.darkTextBox9 = new DarkUI.Controls.DarkTextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.darkSectionPanel11 = new DarkUI.Controls.DarkSectionPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -117,11 +120,10 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.darkGroupBox2.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.darkRadioBox1.SuspendLayout();
             this.darkGroupBox3.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            this.darkRadioBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.darkSectionPanel2.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.darkGroupBox4.SuspendLayout();
@@ -131,6 +133,7 @@
             this.darkRadioBox4.SuspendLayout();
             this.darkRadioBox5.SuspendLayout();
             this.darkGroupBox5.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.darkSectionPanel3.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             this.darkRadioBox6.SuspendLayout();
@@ -138,6 +141,7 @@
             this.darkSectionPanel4.SuspendLayout();
             this.darkSectionPanel5.SuspendLayout();
             this.darkSectionPanel6.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.darkSectionPanel7.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.darkSectionPanel8.SuspendLayout();
@@ -270,6 +274,7 @@
             this.darkButton1.Size = new System.Drawing.Size(332, 56);
             this.darkButton1.TabIndex = 0;
             this.darkButton1.Text = "Import PCF parameters";
+            this.darkButton1.Click += new System.EventHandler(this.button1_Click);
             // 
             // darkButton2
             // 
@@ -281,6 +286,7 @@
             this.darkButton2.Size = new System.Drawing.Size(332, 57);
             this.darkButton2.TabIndex = 1;
             this.darkButton2.Text = "Delete PCF parameters";
+            this.darkButton2.Click += new System.EventHandler(this.button2_Click);
             // 
             // darkGroupBox2
             // 
@@ -331,6 +337,7 @@
             this.darkButton4.Size = new System.Drawing.Size(165, 49);
             this.darkButton4.TabIndex = 0;
             this.darkButton4.Text = "Select ELEMENT parameter setup file";
+            this.darkButton4.Click += new System.EventHandler(this.button4_Click);
             // 
             // darkButton13
             // 
@@ -342,6 +349,7 @@
             this.darkButton13.Size = new System.Drawing.Size(165, 49);
             this.darkButton13.TabIndex = 1;
             this.darkButton13.Text = "Select PIPELINE parameter setup file (LDT)";
+            this.darkButton13.Click += new System.EventHandler(this.button13_Click);
             // 
             // darkExportUndefinedElements_Button
             // 
@@ -353,6 +361,7 @@
             this.darkExportUndefinedElements_Button.Size = new System.Drawing.Size(165, 49);
             this.darkExportUndefinedElements_Button.TabIndex = 2;
             this.darkExportUndefinedElements_Button.Text = "Export undefined ELEMENTS";
+            this.darkExportUndefinedElements_Button.Click += new System.EventHandler(this.button10_Click);
             // 
             // darkButton11
             // 
@@ -375,6 +384,7 @@
             this.darkButton3.Size = new System.Drawing.Size(165, 51);
             this.darkButton3.TabIndex = 4;
             this.darkButton3.Text = "Populate PCF parameters ELEMENT";
+            this.darkButton3.Click += new System.EventHandler(this.button3_Click);
             // 
             // darkButton7
             // 
@@ -386,6 +396,7 @@
             this.darkButton7.Size = new System.Drawing.Size(165, 51);
             this.darkButton7.TabIndex = 5;
             this.darkButton7.Text = "Populate PCF parameters PIPELINE";
+            this.darkButton7.Click += new System.EventHandler(this.button7_Click);
             // 
             // darkTextBox20
             // 
@@ -412,6 +423,42 @@
             this.darkTextBox7.Size = new System.Drawing.Size(161, 97);
             this.darkTextBox7.TabIndex = 7;
             this.darkTextBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // darkRadioBox1
+            // 
+            this.darkRadioBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.darkRadioBox1.Controls.Add(this.darkRadioButton16);
+            this.darkRadioBox1.Controls.Add(this.darkRadioButton15);
+            this.darkRadioBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.darkRadioBox1.Location = new System.Drawing.Point(3, 412);
+            this.darkRadioBox1.Name = "darkRadioBox1";
+            this.darkRadioBox1.Size = new System.Drawing.Size(332, 54);
+            this.darkRadioBox1.TabIndex = 2;
+            this.darkRadioBox1.TabStop = false;
+            this.darkRadioBox1.Text = "Write mode";
+            // 
+            // darkRadioButton16
+            // 
+            this.darkRadioButton16.AutoSize = true;
+            this.darkRadioButton16.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton16Append;
+            this.darkRadioButton16.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton16Append", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton16.Location = new System.Drawing.Point(210, 21);
+            this.darkRadioButton16.Name = "darkRadioButton16";
+            this.darkRadioButton16.Size = new System.Drawing.Size(62, 17);
+            this.darkRadioButton16.TabIndex = 1;
+            this.darkRadioButton16.Text = "Append";
+            // 
+            // darkRadioButton15
+            // 
+            this.darkRadioButton15.AutoSize = true;
+            this.darkRadioButton15.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton15Overwrite;
+            this.darkRadioButton15.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton15Overwrite", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton15.Location = new System.Drawing.Point(92, 21);
+            this.darkRadioButton15.Name = "darkRadioButton15";
+            this.darkRadioButton15.Size = new System.Drawing.Size(70, 17);
+            this.darkRadioButton15.TabIndex = 0;
+            this.darkRadioButton15.TabStop = true;
+            this.darkRadioButton15.Text = "Overwrite";
             // 
             // darkGroupBox3
             // 
@@ -449,6 +496,7 @@
             this.darkButton8.Size = new System.Drawing.Size(157, 83);
             this.darkButton8.TabIndex = 0;
             this.darkButton8.Text = "Create schedules";
+            this.darkButton8.Click += new System.EventHandler(this.button8_Click);
             // 
             // darkButton9
             // 
@@ -459,39 +507,7 @@
             this.darkButton9.Size = new System.Drawing.Size(157, 83);
             this.darkButton9.TabIndex = 1;
             this.darkButton9.Text = "Export schedule to EXCEL";
-            // 
-            // darkRadioBox1
-            // 
-            this.darkRadioBox1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.darkRadioBox1.Controls.Add(this.darkRadioButton16);
-            this.darkRadioBox1.Controls.Add(this.darkRadioButton15);
-            this.darkRadioBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkRadioBox1.Location = new System.Drawing.Point(3, 412);
-            this.darkRadioBox1.Name = "darkRadioBox1";
-            this.darkRadioBox1.Size = new System.Drawing.Size(332, 54);
-            this.darkRadioBox1.TabIndex = 2;
-            this.darkRadioBox1.TabStop = false;
-            this.darkRadioBox1.Text = "Write mode";
-            // 
-            // darkRadioButton16
-            // 
-            this.darkRadioButton16.AutoSize = true;
-            this.darkRadioButton16.Checked = true;
-            this.darkRadioButton16.Location = new System.Drawing.Point(210, 21);
-            this.darkRadioButton16.Name = "darkRadioButton16";
-            this.darkRadioButton16.Size = new System.Drawing.Size(62, 17);
-            this.darkRadioButton16.TabIndex = 1;
-            this.darkRadioButton16.TabStop = true;
-            this.darkRadioButton16.Text = "Append";
-            // 
-            // darkRadioButton15
-            // 
-            this.darkRadioButton15.AutoSize = true;
-            this.darkRadioButton15.Location = new System.Drawing.Point(92, 21);
-            this.darkRadioButton15.Name = "darkRadioButton15";
-            this.darkRadioButton15.Size = new System.Drawing.Size(70, 17);
-            this.darkRadioButton15.TabIndex = 0;
-            this.darkRadioButton15.Text = "Overwrite";
+            this.darkButton9.Click += new System.EventHandler(this.button9_Click);
             // 
             // tabPage2
             // 
@@ -503,25 +519,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Config";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.darkSectionPanel3);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(340, 609);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Export";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(340, 609);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Help";
-            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // darkSectionPanel2
             // 
@@ -592,6 +589,31 @@
             this.darkRadioBox2.TabStop = false;
             this.darkRadioBox2.Text = "UNITS-BORE";
             // 
+            // darkRadioButton4
+            // 
+            this.darkRadioButton4.AutoSize = true;
+            this.darkRadioButton4.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton4BoreINCH;
+            this.darkRadioButton4.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton4BoreINCH", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton4.Location = new System.Drawing.Point(223, 23);
+            this.darkRadioButton4.Name = "darkRadioButton4";
+            this.darkRadioButton4.Size = new System.Drawing.Size(51, 17);
+            this.darkRadioButton4.TabIndex = 1;
+            this.darkRadioButton4.Text = "INCH";
+            this.darkRadioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
+            // 
+            // darkRadioButton3
+            // 
+            this.darkRadioButton3.AutoSize = true;
+            this.darkRadioButton3.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton3BoreMM;
+            this.darkRadioButton3.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton3BoreMM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton3.Location = new System.Drawing.Point(119, 23);
+            this.darkRadioButton3.Name = "darkRadioButton3";
+            this.darkRadioButton3.Size = new System.Drawing.Size(43, 17);
+            this.darkRadioButton3.TabIndex = 0;
+            this.darkRadioButton3.TabStop = true;
+            this.darkRadioButton3.Text = "MM";
+            this.darkRadioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            // 
             // darkRadioBox3
             // 
             this.darkRadioBox3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
@@ -604,6 +626,31 @@
             this.darkRadioBox3.TabIndex = 1;
             this.darkRadioBox3.TabStop = false;
             this.darkRadioBox3.Text = "UNITS-CO-ORDS";
+            // 
+            // darkRadioButton6
+            // 
+            this.darkRadioButton6.AutoSize = true;
+            this.darkRadioButton6.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton6CoordsInch;
+            this.darkRadioButton6.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton6CoordsInch", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton6.Location = new System.Drawing.Point(223, 26);
+            this.darkRadioButton6.Name = "darkRadioButton6";
+            this.darkRadioButton6.Size = new System.Drawing.Size(51, 17);
+            this.darkRadioButton6.TabIndex = 3;
+            this.darkRadioButton6.Text = "INCH";
+            this.darkRadioButton6.CheckedChanged += new System.EventHandler(this.radioButton6_CheckedChanged);
+            // 
+            // darkRadioButton5
+            // 
+            this.darkRadioButton5.AutoSize = true;
+            this.darkRadioButton5.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton5CoordsMm;
+            this.darkRadioButton5.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton5CoordsMm", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton5.Location = new System.Drawing.Point(119, 26);
+            this.darkRadioButton5.Name = "darkRadioButton5";
+            this.darkRadioButton5.Size = new System.Drawing.Size(43, 17);
+            this.darkRadioButton5.TabIndex = 2;
+            this.darkRadioButton5.TabStop = true;
+            this.darkRadioButton5.Text = "MM";
+            this.darkRadioButton5.CheckedChanged += new System.EventHandler(this.radioButton5_CheckedChanged);
             // 
             // darkRadioBox4
             // 
@@ -618,6 +665,31 @@
             this.darkRadioBox4.TabStop = false;
             this.darkRadioBox4.Text = "UNITS-WEIGHT";
             // 
+            // darkRadioButton8
+            // 
+            this.darkRadioButton8.AutoSize = true;
+            this.darkRadioButton8.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton8WeightLbs;
+            this.darkRadioButton8.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton8WeightLbs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton8.Location = new System.Drawing.Point(223, 26);
+            this.darkRadioButton8.Name = "darkRadioButton8";
+            this.darkRadioButton8.Size = new System.Drawing.Size(45, 17);
+            this.darkRadioButton8.TabIndex = 3;
+            this.darkRadioButton8.Text = "LBS";
+            this.darkRadioButton8.CheckedChanged += new System.EventHandler(this.radioButton8_CheckedChanged);
+            // 
+            // darkRadioButton7
+            // 
+            this.darkRadioButton7.AutoSize = true;
+            this.darkRadioButton7.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton7WeightKgs;
+            this.darkRadioButton7.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton7WeightKgs", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton7.Location = new System.Drawing.Point(119, 26);
+            this.darkRadioButton7.Name = "darkRadioButton7";
+            this.darkRadioButton7.Size = new System.Drawing.Size(47, 17);
+            this.darkRadioButton7.TabIndex = 2;
+            this.darkRadioButton7.TabStop = true;
+            this.darkRadioButton7.Text = "KGS";
+            this.darkRadioButton7.CheckedChanged += new System.EventHandler(this.radioButton7_CheckedChanged);
+            // 
             // darkRadioBox5
             // 
             this.darkRadioBox5.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
@@ -630,6 +702,31 @@
             this.darkRadioBox5.TabIndex = 3;
             this.darkRadioBox5.TabStop = false;
             this.darkRadioBox5.Text = "UNITS-WEIGHT-LENGTH";
+            // 
+            // darkRadioButton10
+            // 
+            this.darkRadioButton10.AutoSize = true;
+            this.darkRadioButton10.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton10WeightLengthF;
+            this.darkRadioButton10.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton10WeightLengthF", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton10.Location = new System.Drawing.Point(223, 26);
+            this.darkRadioButton10.Name = "darkRadioButton10";
+            this.darkRadioButton10.Size = new System.Drawing.Size(52, 17);
+            this.darkRadioButton10.TabIndex = 5;
+            this.darkRadioButton10.Text = "FEET";
+            this.darkRadioButton10.CheckedChanged += new System.EventHandler(this.radioButton10_CheckedChanged);
+            // 
+            // darkRadioButton9
+            // 
+            this.darkRadioButton9.AutoSize = true;
+            this.darkRadioButton9.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton9WeightLengthM;
+            this.darkRadioButton9.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton9WeightLengthM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton9.Location = new System.Drawing.Point(119, 26);
+            this.darkRadioButton9.Name = "darkRadioButton9";
+            this.darkRadioButton9.Size = new System.Drawing.Size(63, 17);
+            this.darkRadioButton9.TabIndex = 4;
+            this.darkRadioButton9.TabStop = true;
+            this.darkRadioButton9.Text = "METER";
+            this.darkRadioButton9.CheckedChanged += new System.EventHandler(this.radioButton9_CheckedChanged);
             // 
             // darkGroupBox5
             // 
@@ -644,103 +741,40 @@
             this.darkGroupBox5.TabStop = false;
             this.darkGroupBox5.Text = "Export to";
             // 
-            // darkRadioButton3
-            // 
-            this.darkRadioButton3.AutoSize = true;
-            this.darkRadioButton3.Checked = true;
-            this.darkRadioButton3.Location = new System.Drawing.Point(119, 23);
-            this.darkRadioButton3.Name = "darkRadioButton3";
-            this.darkRadioButton3.Size = new System.Drawing.Size(43, 17);
-            this.darkRadioButton3.TabIndex = 0;
-            this.darkRadioButton3.TabStop = true;
-            this.darkRadioButton3.Text = "MM";
-            // 
-            // darkRadioButton4
-            // 
-            this.darkRadioButton4.AutoSize = true;
-            this.darkRadioButton4.Location = new System.Drawing.Point(223, 23);
-            this.darkRadioButton4.Name = "darkRadioButton4";
-            this.darkRadioButton4.Size = new System.Drawing.Size(51, 17);
-            this.darkRadioButton4.TabIndex = 1;
-            this.darkRadioButton4.Text = "INCH";
-            // 
-            // darkRadioButton6
-            // 
-            this.darkRadioButton6.AutoSize = true;
-            this.darkRadioButton6.Location = new System.Drawing.Point(223, 26);
-            this.darkRadioButton6.Name = "darkRadioButton6";
-            this.darkRadioButton6.Size = new System.Drawing.Size(51, 17);
-            this.darkRadioButton6.TabIndex = 3;
-            this.darkRadioButton6.Text = "INCH";
-            // 
-            // darkRadioButton5
-            // 
-            this.darkRadioButton5.AutoSize = true;
-            this.darkRadioButton5.Checked = true;
-            this.darkRadioButton5.Location = new System.Drawing.Point(119, 26);
-            this.darkRadioButton5.Name = "darkRadioButton5";
-            this.darkRadioButton5.Size = new System.Drawing.Size(43, 17);
-            this.darkRadioButton5.TabIndex = 2;
-            this.darkRadioButton5.TabStop = true;
-            this.darkRadioButton5.Text = "MM";
-            // 
-            // darkRadioButton8
-            // 
-            this.darkRadioButton8.AutoSize = true;
-            this.darkRadioButton8.Location = new System.Drawing.Point(223, 26);
-            this.darkRadioButton8.Name = "darkRadioButton8";
-            this.darkRadioButton8.Size = new System.Drawing.Size(45, 17);
-            this.darkRadioButton8.TabIndex = 3;
-            this.darkRadioButton8.Text = "LBS";
-            // 
-            // darkRadioButton7
-            // 
-            this.darkRadioButton7.AutoSize = true;
-            this.darkRadioButton7.Checked = true;
-            this.darkRadioButton7.Location = new System.Drawing.Point(119, 26);
-            this.darkRadioButton7.Name = "darkRadioButton7";
-            this.darkRadioButton7.Size = new System.Drawing.Size(47, 17);
-            this.darkRadioButton7.TabIndex = 2;
-            this.darkRadioButton7.TabStop = true;
-            this.darkRadioButton7.Text = "KGS";
-            // 
-            // darkRadioButton10
-            // 
-            this.darkRadioButton10.AutoSize = true;
-            this.darkRadioButton10.Location = new System.Drawing.Point(223, 26);
-            this.darkRadioButton10.Name = "darkRadioButton10";
-            this.darkRadioButton10.Size = new System.Drawing.Size(52, 17);
-            this.darkRadioButton10.TabIndex = 5;
-            this.darkRadioButton10.Text = "FEET";
-            // 
-            // darkRadioButton9
-            // 
-            this.darkRadioButton9.AutoSize = true;
-            this.darkRadioButton9.Checked = true;
-            this.darkRadioButton9.Location = new System.Drawing.Point(119, 26);
-            this.darkRadioButton9.Name = "darkRadioButton9";
-            this.darkRadioButton9.Size = new System.Drawing.Size(63, 17);
-            this.darkRadioButton9.TabIndex = 4;
-            this.darkRadioButton9.TabStop = true;
-            this.darkRadioButton9.Text = "METER";
-            // 
-            // darkCheckBox1
-            // 
-            this.darkCheckBox1.AutoSize = true;
-            this.darkCheckBox1.Location = new System.Drawing.Point(125, 34);
-            this.darkCheckBox1.Name = "darkCheckBox1";
-            this.darkCheckBox1.Size = new System.Drawing.Size(58, 17);
-            this.darkCheckBox1.TabIndex = 0;
-            this.darkCheckBox1.Text = "Isogen";
-            // 
             // darkCheckBox2
             // 
             this.darkCheckBox2.AutoSize = true;
+            this.darkCheckBox2.Checked = global::PCF_Exporter.Properties.Settings.Default.checkBox2Checked;
+            this.darkCheckBox2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "checkBox2Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.darkCheckBox2.Location = new System.Drawing.Point(229, 34);
             this.darkCheckBox2.Name = "darkCheckBox2";
             this.darkCheckBox2.Size = new System.Drawing.Size(68, 17);
             this.darkCheckBox2.TabIndex = 1;
             this.darkCheckBox2.Text = "Caesar II";
+            this.darkCheckBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // darkCheckBox1
+            // 
+            this.darkCheckBox1.AutoSize = true;
+            this.darkCheckBox1.Checked = global::PCF_Exporter.Properties.Settings.Default.checkBox1Checked;
+            this.darkCheckBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.darkCheckBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "checkBox1Checked", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkCheckBox1.Location = new System.Drawing.Point(125, 34);
+            this.darkCheckBox1.Name = "darkCheckBox1";
+            this.darkCheckBox1.Size = new System.Drawing.Size(58, 17);
+            this.darkCheckBox1.TabIndex = 0;
+            this.darkCheckBox1.Text = "Isogen";
+            this.darkCheckBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.darkSectionPanel3);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(340, 609);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Export";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // darkSectionPanel3
             // 
@@ -783,25 +817,28 @@
             this.darkRadioBox6.TabStop = false;
             this.darkRadioBox6.Text = "Output file encoding";
             // 
+            // darkRadioButton17
+            // 
+            this.darkRadioButton17.AutoSize = true;
+            this.darkRadioButton17.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton17UTF8_BOM;
+            this.darkRadioButton17.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton17UTF8_BOM", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton17.Location = new System.Drawing.Point(173, 34);
+            this.darkRadioButton17.Name = "darkRadioButton17";
+            this.darkRadioButton17.Size = new System.Drawing.Size(144, 17);
+            this.darkRadioButton17.TabIndex = 1;
+            this.darkRadioButton17.Text = "UTF8-BOM (Plant 3d Iso)";
+            // 
             // darkRadioButton18
             // 
             this.darkRadioButton18.AutoSize = true;
-            this.darkRadioButton18.Checked = true;
+            this.darkRadioButton18.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton18ANSIEncoding;
+            this.darkRadioButton18.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton18ANSIEncoding", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.darkRadioButton18.Location = new System.Drawing.Point(49, 34);
             this.darkRadioButton18.Name = "darkRadioButton18";
             this.darkRadioButton18.Size = new System.Drawing.Size(91, 17);
             this.darkRadioButton18.TabIndex = 0;
             this.darkRadioButton18.TabStop = true;
             this.darkRadioButton18.Text = "ANSI (Isogen)";
-            // 
-            // darkRadioButton17
-            // 
-            this.darkRadioButton17.AutoSize = true;
-            this.darkRadioButton17.Location = new System.Drawing.Point(173, 34);
-            this.darkRadioButton17.Name = "darkRadioButton17";
-            this.darkRadioButton17.Size = new System.Drawing.Size(144, 17);
-            this.darkRadioButton17.TabIndex = 1;
-            this.darkRadioButton17.Text = "UTF8-BOM (Plant 3d Iso)";
             // 
             // tableLayoutPanel9
             // 
@@ -828,6 +865,17 @@
             this.darkSectionPanel4.Size = new System.Drawing.Size(326, 93);
             this.darkSectionPanel4.TabIndex = 0;
             // 
+            // darkButton5
+            // 
+            this.darkButton5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.darkButton5.Location = new System.Drawing.Point(1, 25);
+            this.darkButton5.Name = "darkButton5";
+            this.darkButton5.Padding = new System.Windows.Forms.Padding(5);
+            this.darkButton5.Size = new System.Drawing.Size(324, 67);
+            this.darkButton5.TabIndex = 0;
+            this.darkButton5.Text = "Select output directory";
+            this.darkButton5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // darkSectionPanel5
             // 
             this.darkSectionPanel5.Controls.Add(this.darkTextBox5);
@@ -838,20 +886,11 @@
             this.darkSectionPanel5.Size = new System.Drawing.Size(326, 93);
             this.darkSectionPanel5.TabIndex = 1;
             // 
-            // darkButton5
-            // 
-            this.darkButton5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkButton5.Location = new System.Drawing.Point(1, 25);
-            this.darkButton5.Name = "darkButton5";
-            this.darkButton5.Padding = new System.Windows.Forms.Padding(5);
-            this.darkButton5.Size = new System.Drawing.Size(324, 67);
-            this.darkButton5.TabIndex = 0;
-            this.darkButton5.Text = "Select output directory";
-            // 
             // darkTextBox5
             // 
             this.darkTextBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
             this.darkTextBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.darkTextBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.darkTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkTextBox5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
             this.darkTextBox5.Location = new System.Drawing.Point(1, 25);
@@ -859,6 +898,7 @@
             this.darkTextBox5.Name = "darkTextBox5";
             this.darkTextBox5.Size = new System.Drawing.Size(324, 67);
             this.darkTextBox5.TabIndex = 0;
+            this.darkTextBox5.Text = global::PCF_Exporter.Properties.Settings.Default.textBox5OutputPath;
             // 
             // darkSectionPanel6
             // 
@@ -879,6 +919,17 @@
             this.darkButton6.Size = new System.Drawing.Size(330, 84);
             this.darkButton6.TabIndex = 0;
             this.darkButton6.Text = "Export PCF";
+            this.darkButton6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.darkSectionPanel11);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(340, 609);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Help";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // darkSectionPanel7
             // 
@@ -913,7 +964,7 @@
             // 
             // darkSectionPanel8
             // 
-            this.darkSectionPanel8.Controls.Add(this.darkTextBox1);
+            this.darkSectionPanel8.Controls.Add(this.darkTextBox11);
             this.darkSectionPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkSectionPanel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.darkSectionPanel8.Location = new System.Drawing.Point(3, 3);
@@ -922,18 +973,21 @@
             this.darkSectionPanel8.Size = new System.Drawing.Size(311, 52);
             this.darkSectionPanel8.TabIndex = 0;
             // 
-            // darkTextBox1
+            // darkTextBox11
             // 
-            this.darkTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.darkTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.darkTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.darkTextBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox1.Location = new System.Drawing.Point(1, 25);
-            this.darkTextBox1.Name = "darkTextBox1";
-            this.darkTextBox1.Size = new System.Drawing.Size(309, 23);
-            this.darkTextBox1.TabIndex = 1;
-            this.darkTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.darkTextBox11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.darkTextBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.darkTextBox11.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "TextBox11PROJECTIDENTIFIER", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkTextBox11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.darkTextBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.darkTextBox11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.darkTextBox11.Location = new System.Drawing.Point(1, 25);
+            this.darkTextBox11.Name = "darkTextBox11";
+            this.darkTextBox11.Size = new System.Drawing.Size(309, 23);
+            this.darkTextBox11.TabIndex = 1;
+            this.darkTextBox11.Text = global::PCF_Exporter.Properties.Settings.Default.TextBox11PROJECTIDENTIFIER;
+            this.darkTextBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.darkTextBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
             // 
             // darkRadioBox7
             // 
@@ -953,55 +1007,6 @@
             this.darkRadioBox7.TabStop = false;
             this.darkRadioBox7.Text = "Pipelines to export";
             // 
-            // darkRadioButton1
-            // 
-            this.darkRadioButton1.AutoSize = true;
-            this.darkRadioButton1.Checked = true;
-            this.darkRadioButton1.Location = new System.Drawing.Point(9, 23);
-            this.darkRadioButton1.Name = "darkRadioButton1";
-            this.darkRadioButton1.Size = new System.Drawing.Size(120, 17);
-            this.darkRadioButton1.TabIndex = 0;
-            this.darkRadioButton1.TabStop = true;
-            this.darkRadioButton1.Text = "All pipelines, one file";
-            // 
-            // darkRadioButton13
-            // 
-            this.darkRadioButton13.Location = new System.Drawing.Point(9, 46);
-            this.darkRadioButton13.Name = "darkRadioButton13";
-            this.darkRadioButton13.Size = new System.Drawing.Size(158, 17);
-            this.darkRadioButton13.TabIndex = 1;
-            this.darkRadioButton13.Text = "All pipelines, separate files";
-            // 
-            // darkRadioButton2
-            // 
-            this.darkRadioButton2.AutoSize = true;
-            this.darkRadioButton2.Location = new System.Drawing.Point(9, 69);
-            this.darkRadioButton2.Name = "darkRadioButton2";
-            this.darkRadioButton2.Size = new System.Drawing.Size(105, 17);
-            this.darkRadioButton2.TabIndex = 2;
-            this.darkRadioButton2.Text = "Specific pipeline:";
-            // 
-            // darkRadioButton14
-            // 
-            this.darkRadioButton14.AutoSize = true;
-            this.darkRadioButton14.Location = new System.Drawing.Point(9, 92);
-            this.darkRadioButton14.Name = "darkRadioButton14";
-            this.darkRadioButton14.Size = new System.Drawing.Size(69, 17);
-            this.darkRadioButton14.TabIndex = 3;
-            this.darkRadioButton14.Text = "Selection";
-            // 
-            // darkComboBox2
-            // 
-            this.darkComboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.darkComboBox2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.darkComboBox2.FormattingEnabled = true;
-            this.darkComboBox2.Location = new System.Drawing.Point(117, 69);
-            this.darkComboBox2.Name = "darkComboBox2";
-            this.darkComboBox2.Size = new System.Drawing.Size(188, 21);
-            this.darkComboBox2.TabIndex = 4;
-            // 
             // darkTextBox4
             // 
             this.darkTextBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1017,6 +1022,67 @@
             this.darkTextBox4.Text = "System Abbreviation";
             this.darkTextBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // darkComboBox2
+            // 
+            this.darkComboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.darkComboBox2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.darkComboBox2.FormattingEnabled = true;
+            this.darkComboBox2.Location = new System.Drawing.Point(117, 69);
+            this.darkComboBox2.Name = "darkComboBox2";
+            this.darkComboBox2.Size = new System.Drawing.Size(188, 21);
+            this.darkComboBox2.TabIndex = 4;
+            this.darkComboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // darkRadioButton14
+            // 
+            this.darkRadioButton14.AutoSize = true;
+            this.darkRadioButton14.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton14ExportSelection;
+            this.darkRadioButton14.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton14ExportSelection", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton14.Location = new System.Drawing.Point(9, 92);
+            this.darkRadioButton14.Name = "darkRadioButton14";
+            this.darkRadioButton14.Size = new System.Drawing.Size(69, 17);
+            this.darkRadioButton14.TabIndex = 3;
+            this.darkRadioButton14.Text = "Selection";
+            this.darkRadioButton14.CheckedChanged += new System.EventHandler(this.radioButton14_CheckedChanged);
+            // 
+            // darkRadioButton2
+            // 
+            this.darkRadioButton2.AutoSize = true;
+            this.darkRadioButton2.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton2SpecificPipeline;
+            this.darkRadioButton2.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton2SpecificPipeline", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton2.Location = new System.Drawing.Point(9, 69);
+            this.darkRadioButton2.Name = "darkRadioButton2";
+            this.darkRadioButton2.Size = new System.Drawing.Size(105, 17);
+            this.darkRadioButton2.TabIndex = 2;
+            this.darkRadioButton2.Text = "Specific pipeline:";
+            this.darkRadioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            // 
+            // darkRadioButton13
+            // 
+            this.darkRadioButton13.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton13AllPipelinesSeparate;
+            this.darkRadioButton13.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton13AllPipelinesSeparate", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton13.Location = new System.Drawing.Point(9, 46);
+            this.darkRadioButton13.Name = "darkRadioButton13";
+            this.darkRadioButton13.Size = new System.Drawing.Size(158, 17);
+            this.darkRadioButton13.TabIndex = 1;
+            this.darkRadioButton13.Text = "All pipelines, separate files";
+            this.darkRadioButton13.CheckedChanged += new System.EventHandler(this.radioButton13_CheckedChanged);
+            // 
+            // darkRadioButton1
+            // 
+            this.darkRadioButton1.AutoSize = true;
+            this.darkRadioButton1.Checked = global::PCF_Exporter.Properties.Settings.Default.radioButton1AllPipelines;
+            this.darkRadioButton1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::PCF_Exporter.Properties.Settings.Default, "radioButton1AllPipelines", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkRadioButton1.Location = new System.Drawing.Point(9, 23);
+            this.darkRadioButton1.Name = "darkRadioButton1";
+            this.darkRadioButton1.Size = new System.Drawing.Size(120, 17);
+            this.darkRadioButton1.TabIndex = 0;
+            this.darkRadioButton1.TabStop = true;
+            this.darkRadioButton1.Text = "All pipelines, one file";
+            this.darkRadioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
             // darkSectionPanel9
             // 
             this.darkSectionPanel9.Controls.Add(this.darkTextBox23);
@@ -1028,17 +1094,6 @@
             this.darkSectionPanel9.SectionHeader = "Diameter limit";
             this.darkSectionPanel9.Size = new System.Drawing.Size(311, 74);
             this.darkSectionPanel9.TabIndex = 2;
-            // 
-            // darkTextBox22
-            // 
-            this.darkTextBox22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.darkTextBox22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.darkTextBox22.Dock = System.Windows.Forms.DockStyle.Top;
-            this.darkTextBox22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox22.Location = new System.Drawing.Point(1, 25);
-            this.darkTextBox22.Name = "darkTextBox22";
-            this.darkTextBox22.Size = new System.Drawing.Size(309, 20);
-            this.darkTextBox22.TabIndex = 0;
             // 
             // darkTextBox23
             // 
@@ -1055,6 +1110,20 @@
             this.darkTextBox23.TabStop = false;
             this.darkTextBox23.Text = "Elements with connector diameters below or equal to sepcified nominal size will n" +
     "ot be exported.";
+            // 
+            // darkTextBox22
+            // 
+            this.darkTextBox22.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.darkTextBox22.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.darkTextBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkTextBox22.Dock = System.Windows.Forms.DockStyle.Top;
+            this.darkTextBox22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.darkTextBox22.Location = new System.Drawing.Point(1, 25);
+            this.darkTextBox22.Name = "darkTextBox22";
+            this.darkTextBox22.Size = new System.Drawing.Size(309, 20);
+            this.darkTextBox22.TabIndex = 0;
+            this.darkTextBox22.Text = global::PCF_Exporter.Properties.Settings.Default.textBox22DiameterLimit;
+            this.darkTextBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
             // 
             // darkSectionPanel10
             // 
@@ -1082,30 +1151,6 @@
             this.tableLayoutPanel11.Size = new System.Drawing.Size(309, 93);
             this.tableLayoutPanel11.TabIndex = 0;
             // 
-            // darkGroupBox6
-            // 
-            this.darkGroupBox6.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.darkGroupBox6.Controls.Add(this.darkTextBox2);
-            this.darkGroupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkGroupBox6.Location = new System.Drawing.Point(3, 3);
-            this.darkGroupBox6.Name = "darkGroupBox6";
-            this.darkGroupBox6.Size = new System.Drawing.Size(303, 39);
-            this.darkGroupBox6.TabIndex = 0;
-            this.darkGroupBox6.TabStop = false;
-            this.darkGroupBox6.Text = "PCF_ELEM_SPEC";
-            // 
-            // darkTextBox2
-            // 
-            this.darkTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.darkTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.darkTextBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.darkTextBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox2.Location = new System.Drawing.Point(3, 16);
-            this.darkTextBox2.Name = "darkTextBox2";
-            this.darkTextBox2.Size = new System.Drawing.Size(297, 20);
-            this.darkTextBox2.TabIndex = 0;
-            this.darkTextBox2.Text = "EXISTING";
-            // 
             // darkTextBox3
             // 
             this.darkTextBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
@@ -1120,6 +1165,49 @@
             this.darkTextBox3.TabIndex = 0;
             this.darkTextBox3.TabStop = false;
             this.darkTextBox3.Text = "Elements with matching values will not be exported. Leave empty to avoid.";
+            // 
+            // darkGroupBox6
+            // 
+            this.darkGroupBox6.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.darkGroupBox6.Controls.Add(this.darkTextBox9);
+            this.darkGroupBox6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.darkGroupBox6.Location = new System.Drawing.Point(3, 3);
+            this.darkGroupBox6.Name = "darkGroupBox6";
+            this.darkGroupBox6.Size = new System.Drawing.Size(303, 39);
+            this.darkGroupBox6.TabIndex = 0;
+            this.darkGroupBox6.TabStop = false;
+            this.darkGroupBox6.Text = "PCF_ELEM_SPEC";
+            // 
+            // darkTextBox9
+            // 
+            this.darkTextBox9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.darkTextBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.darkTextBox9.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "TextBoxFilterPCF_ELEM_SPEC", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.darkTextBox9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.darkTextBox9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
+            this.darkTextBox9.Location = new System.Drawing.Point(3, 16);
+            this.darkTextBox9.Name = "darkTextBox9";
+            this.darkTextBox9.Size = new System.Drawing.Size(297, 20);
+            this.darkTextBox9.TabIndex = 0;
+            this.darkTextBox9.Text = global::PCF_Exporter.Properties.Settings.Default.TextBoxFilterPCF_ELEM_SPEC;
+            this.darkTextBox9.TextChanged += new System.EventHandler(this.TextBox9_TextChanged);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.FileName = "openFileDialog1";
+            // 
+            // darkSectionPanel11
+            // 
+            this.darkSectionPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.darkSectionPanel11.Location = new System.Drawing.Point(0, 0);
+            this.darkSectionPanel11.Name = "darkSectionPanel11";
+            this.darkSectionPanel11.SectionHeader = null;
+            this.darkSectionPanel11.Size = new System.Drawing.Size(340, 609);
+            this.darkSectionPanel11.TabIndex = 0;
             // 
             // Dark_PCF_Exporter_form
             // 
@@ -1141,12 +1229,11 @@
             this.darkGroupBox2.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            this.darkGroupBox3.ResumeLayout(false);
-            this.tableLayoutPanel5.ResumeLayout(false);
             this.darkRadioBox1.ResumeLayout(false);
             this.darkRadioBox1.PerformLayout();
+            this.darkGroupBox3.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
             this.darkSectionPanel2.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
             this.darkGroupBox4.ResumeLayout(false);
@@ -1161,6 +1248,7 @@
             this.darkRadioBox5.PerformLayout();
             this.darkGroupBox5.ResumeLayout(false);
             this.darkGroupBox5.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
             this.darkSectionPanel3.ResumeLayout(false);
             this.tableLayoutPanel8.ResumeLayout(false);
             this.darkRadioBox6.ResumeLayout(false);
@@ -1170,6 +1258,7 @@
             this.darkSectionPanel5.ResumeLayout(false);
             this.darkSectionPanel5.PerformLayout();
             this.darkSectionPanel6.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
             this.darkSectionPanel7.ResumeLayout(false);
             this.tableLayoutPanel10.ResumeLayout(false);
             this.darkSectionPanel8.ResumeLayout(false);
@@ -1253,7 +1342,7 @@
         private DarkUI.Controls.DarkSectionPanel darkSectionPanel7;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
         private DarkUI.Controls.DarkSectionPanel darkSectionPanel8;
-        private DarkUI.Controls.DarkTextBox darkTextBox1;
+        private DarkUI.Controls.DarkTextBox darkTextBox11;
         private Shared.DarkRadioBox darkRadioBox7;
         private DarkUI.Controls.DarkRadioButton darkRadioButton14;
         private DarkUI.Controls.DarkRadioButton darkRadioButton2;
@@ -1268,6 +1357,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
         private DarkUI.Controls.DarkTextBox darkTextBox3;
         private DarkUI.Controls.DarkGroupBox darkGroupBox6;
-        private DarkUI.Controls.DarkTextBox darkTextBox2;
+        private DarkUI.Controls.DarkTextBox darkTextBox9;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
+        private DarkUI.Controls.DarkSectionPanel darkSectionPanel11;
     }
 }
