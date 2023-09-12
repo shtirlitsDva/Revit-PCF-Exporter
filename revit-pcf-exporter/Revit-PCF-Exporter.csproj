@@ -131,6 +131,9 @@
       <Link>Utils.cs</Link>
     </Compile>
     <Compile Include="App.cs" />
+    <Compile Include="DarkRadioBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Dark_PCF_Exporter_form.cs">
       <SubType>Form</SubType>
     </Compile>
