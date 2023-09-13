@@ -89,6 +89,7 @@
             this.darkSectionPanel6 = new DarkUI.Controls.DarkSectionPanel();
             this.darkButton6 = new DarkUI.Controls.DarkButton();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.darkSectionPanel11 = new DarkUI.Controls.DarkSectionPanel();
             this.darkSectionPanel7 = new DarkUI.Controls.DarkSectionPanel();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.darkSectionPanel8 = new DarkUI.Controls.DarkSectionPanel();
@@ -110,7 +111,6 @@
             this.darkTextBox9 = new DarkUI.Controls.DarkTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.darkSectionPanel11 = new DarkUI.Controls.DarkSectionPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -931,6 +931,15 @@
             this.tabPage4.Text = "Help";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // darkSectionPanel11
+            // 
+            this.darkSectionPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.darkSectionPanel11.Location = new System.Drawing.Point(0, 0);
+            this.darkSectionPanel11.Name = "darkSectionPanel11";
+            this.darkSectionPanel11.SectionHeader = null;
+            this.darkSectionPanel11.Size = new System.Drawing.Size(340, 609);
+            this.darkSectionPanel11.TabIndex = 0;
+            // 
             // darkSectionPanel7
             // 
             this.darkSectionPanel7.Controls.Add(this.tableLayoutPanel10);
@@ -1199,15 +1208,6 @@
             // openFileDialog2
             // 
             this.openFileDialog2.FileName = "openFileDialog1";
-            // 
-            // darkSectionPanel11
-            // 
-            this.darkSectionPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkSectionPanel11.Location = new System.Drawing.Point(0, 0);
-            this.darkSectionPanel11.Name = "darkSectionPanel11";
-            this.darkSectionPanel11.SectionHeader = null;
-            this.darkSectionPanel11.Size = new System.Drawing.Size(340, 609);
-            this.darkSectionPanel11.TabIndex = 0;
             // 
             // Dark_PCF_Exporter_form
             // 
