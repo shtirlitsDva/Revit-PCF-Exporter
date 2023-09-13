@@ -16,8 +16,6 @@ using mySettings = PCF_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
 using dh = Shared.DataHandler;
 using DarkUI.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace PCF_Exporter
 {
@@ -92,23 +90,7 @@ namespace PCF_Exporter
             //textBox11.Text = mySettings.Default.TextBox11PROJECTIDENTIFIER;
             iv.PCF_PROJECT_IDENTIFIER = mySettings.Default.TextBox11PROJECTIDENTIFIER;
 
-            //Init Scope
-            //Gather all physical piping systems and collect distinct abbreviations
-            pipeLinesAbbreviations = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc, true);
-
-            darkComboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
-            //Use the distinct abbreviations as data source for the comboBox
-            darkComboBox2.DataSource = pipeLinesAbbreviations;
-
-            //Set the previous sysAbbr
-            if (pipeLinesAbbreviations.Contains(mySettings.Default.selectedSysAbbr))
-            {
-                darkComboBox2.SelectedIndex = pipeLinesAbbreviations.IndexOf(
-                    mySettings.Default.selectedSysAbbr);
-                iv.SysAbbr = mySettings.Default.selectedSysAbbr;
-            }
-            else iv.SysAbbr = pipeLinesAbbreviations[0];
-            darkComboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
+            //Scope initialization (ComboBox for SysAbbr) is moved to Load event
 
             iv.ExportAllOneFile = mySettings.Default.radioButton1AllPipelines;
             iv.ExportAllSepFiles = mySettings.Default.radioButton13AllPipelinesSeparate;
@@ -483,8 +465,33 @@ namespace PCF_Exporter
 
         private void PCF_Exporter_form_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //mySettings.Default.selectedSysAbbr = iv.SysAbbr;
+            mySettings.Default.selectedSysAbbr = iv.SysAbbr;
             mySettings.Default.Save();
+        }
+
+        private void Dark_PCF_Exporter_form_Load(object sender, EventArgs e)
+        {
+            //Init Scope
+            //Gather all physical piping systems and collect distinct abbreviations
+            pipeLinesAbbreviations = Shared.MepUtils.GetDistinctPhysicalPipingSystemTypeNames(_doc, true);
+
+            darkComboBox2.SelectedIndexChanged -= comboBox2_SelectedIndexChanged;
+            //Use the distinct abbreviations as data source for the comboBox
+            darkComboBox2.DataSource = pipeLinesAbbreviations;
+
+            //Set the previous sysAbbr
+            if (pipeLinesAbbreviations.Contains(mySettings.Default.selectedSysAbbr))
+            {
+                darkComboBox2.SelectedIndex = pipeLinesAbbreviations.IndexOf(
+                    mySettings.Default.selectedSysAbbr);
+                iv.SysAbbr = mySettings.Default.selectedSysAbbr;
+            }
+            else
+            {
+                darkComboBox2.SelectedIndex = 0;
+                iv.SysAbbr = pipeLinesAbbreviations[0];
+            }
+            darkComboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
         }
     }
 }

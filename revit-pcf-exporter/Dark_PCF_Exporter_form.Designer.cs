@@ -1219,6 +1219,7 @@
             this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "Dark_PCF_Exporter_form";
             this.Text = "Dark_PCF_Exporter_form";
+            this.Load += new System.EventHandler(this.Dark_PCF_Exporter_form_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
