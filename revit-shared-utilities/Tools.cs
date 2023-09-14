@@ -55,7 +55,8 @@ namespace Shared.Tools
             {
                 {0, Shared.Tools.SpatialValidation.ValidateConnectorsSpatially },
                 {1, Shared.Tools.ElementCoordinates.ElementCoordinatesPCF },
-                {2, Shared.Tools.GetElementByUCI.GetEByUCI }
+                {2, Shared.Tools.GetElementByUCI.GetEByUCI },
+                {3, Shared.Tools.GetElementsUCI.GetEsUCI },
             };
 
             //Place names for methods in this dict
@@ -63,7 +64,8 @@ namespace Shared.Tools
             {
                 {0, "Spatial validation." },
                 {1, "(ctrl) Coords PCF" },
-                {2, "Get E by UCI" }
+                {2, "Get E by UCI" },
+                {3, "Get UCIs from selection" }
             };
 
             for (int i = 0; i < methodDict.Count; i++)
@@ -99,6 +101,24 @@ namespace Shared.Tools
 
         private void Tools_Load(object sender, EventArgs e)
         {
+            // Get screen dimensions where the cursor is located
+            Screen screen = Screen.FromPoint(
+                new System.Drawing.Point(
+                    desiredStartLocationX, desiredStartLocationY));
+            System.Drawing.Rectangle screenArea = screen.WorkingArea;
+
+            // Adjust X position
+            if (desiredStartLocationX + Width > screenArea.Right)
+                desiredStartLocationX = screenArea.Right - Width;
+            if (desiredStartLocationX < screenArea.Left)
+                desiredStartLocationX = screenArea.Left;
+
+            // Adjust Y position
+            if (desiredStartLocationY + Height > screenArea.Bottom)
+                desiredStartLocationY = screenArea.Bottom - Height;
+            if (desiredStartLocationY < screenArea.Top)
+                desiredStartLocationY = screenArea.Top;
+
             SetDesktopLocation(desiredStartLocationX, desiredStartLocationY);
         }
 
