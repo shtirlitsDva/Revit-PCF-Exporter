@@ -2,6 +2,9 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <NsPath>X:\AutoCAD DRI - Revit\Addins\2024\revit-pcf-exporter</NsPath>
+  </PropertyGroup>
+  <PropertyGroup>
     <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
     None
   </ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
@@ -225,6 +228,20 @@
     <EmbeddedResource Include="ImgTapCon16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release" (
+    for /D %25%25i in ("$(TargetDir)*") do (
+        if /I not "%25%25~nxi"=="NetReload" (
+            xcopy "%25%25i" "$(NsPath)\%25%25~nxi\" /E /Y /D
+        )
+    )
+    for %25%25i in ("$(TargetDir)*.*") do (
+        if /I not "%25%25~dpxi"=="$(TargetDir)NetReload\" (
+            xcopy "%25%25i" "$(NsPath)\" /Y /D
+        )
+    )
+)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
