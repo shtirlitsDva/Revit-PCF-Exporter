@@ -1,153 +1,172 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-    None
-  </ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Shared</RootNamespace>
-    <AssemblyName>mg.revit-shared-utilities</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
-    </Reference>
-    <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="MoreLinq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="RevitAPI">
-      <HintPath>X:\Revit API\2024\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>X:\Revit API\2024\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\revit-pcf-exporter\PCF_Functions.cs">
-      <Link>PCF_Functions.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter\PCF_ParameterData.cs">
-      <Link>PCF_ParameterData.cs</Link>
-    </Compile>
-    <Compile Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.Designer.cs">
-      <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="01 Shared code\RadioBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="01 Shared code\Shared.cs" />
-    <Compile Include="02 Connector position validation\01 SpatialValidation.cs" />
-    <Compile Include="02 Connector position validation\connectorSpatialGroup.cs" />
-    <Compile Include="02 Connector position validation\ValidationTypeSelector.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="02 Connector position validation\ValidationTypeSelector.Designer.cs">
-      <DependentUpon>ValidationTypeSelector.cs</DependentUpon>
-    </Compile>
-    <Compile Include="03 Element coordinates\01 Element coordinates.cs" />
-    <Compile Include="04 Get element by UCI\01 Get e by UCI.cs" />
-    <Compile Include="04 Get element by UCI\InputBoxBasic.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="04 Get element by UCI\InputBoxBasic.Designer.cs" />
-    <Compile Include="05 Get elements UCI\01 Get es UCI.cs" />
-    <Compile Include="App.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Tools.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tools.designer.cs">
-      <DependentUpon>Tools.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ToolsClass.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="01 Shared code\Utils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.resx">
-      <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="02 Connector position validation\ValidationTypeSelector.resx">
-      <DependentUpon>ValidationTypeSelector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="04 Get element by UCI\InputBoxBasic.resx" />
-    <EmbeddedResource Include="Tools.resx">
-      <DependentUpon>Tools.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\AnalysisTools16.png" />
-    <EmbeddedResource Include="Resources\AnalysisTools32.png" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+	<PropertyGroup>
+		<NsPath>X:\AutoCAD DRI - Revit\Addins\2024\revit-shared-utilities</NsPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+			None
+		</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+		<TargetFrameworkProfile />
+	</PropertyGroup>
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>Shared</RootNamespace>
+		<AssemblyName>mg.revit-shared-utilities</AssemblyName>
+		<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>none</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+			<HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
+		</Reference>
+		<Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+			<HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+			<EmbedInteropTypes>True</EmbedInteropTypes>
+		</Reference>
+		<Reference Include="Microsoft.VisualBasic" />
+		<Reference Include="MoreLinq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+			<HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
+		</Reference>
+		<Reference Include="PresentationCore" />
+		<Reference Include="RevitAPI">
+			<HintPath>X:\Revit API\2024\RevitAPI.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="RevitAPIUI">
+			<HintPath>X:\Revit API\2024\RevitAPIUI.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System" />
+		<Reference Include="System.Core" />
+		<Reference Include="System.Drawing" />
+		<Reference Include="System.IO.Compression" />
+		<Reference Include="System.Runtime.Serialization" />
+		<Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+			<HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="System.Xml.Linq" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Net.Http" />
+		<Reference Include="System.Xml" />
+		<Reference Include="WindowsBase" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\revit-pcf-exporter\PCF_Functions.cs">
+			<Link>PCF_Functions.cs</Link>
+		</Compile>
+		<Compile Include="..\revit-pcf-exporter\PCF_ParameterData.cs">
+			<Link>PCF_ParameterData.cs</Link>
+		</Compile>
+		<Compile Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.Designer.cs">
+			<DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
+		</Compile>
+		<Compile Include="01 Shared code\RadioBox.cs">
+			<SubType>Component</SubType>
+		</Compile>
+		<Compile Include="01 Shared code\Shared.cs" />
+		<Compile Include="02 Connector position validation\01 SpatialValidation.cs" />
+		<Compile Include="02 Connector position validation\connectorSpatialGroup.cs" />
+		<Compile Include="02 Connector position validation\ValidationTypeSelector.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="02 Connector position validation\ValidationTypeSelector.Designer.cs">
+			<DependentUpon>ValidationTypeSelector.cs</DependentUpon>
+		</Compile>
+		<Compile Include="03 Element coordinates\01 Element coordinates.cs" />
+		<Compile Include="04 Get element by UCI\01 Get e by UCI.cs" />
+		<Compile Include="04 Get element by UCI\InputBoxBasic.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="04 Get element by UCI\InputBoxBasic.Designer.cs" />
+		<Compile Include="05 Get elements UCI\01 Get es UCI.cs" />
+		<Compile Include="App.cs" />
+		<Compile Include="Properties\Settings.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+		<Compile Include="Tools.cs">
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="Tools.designer.cs">
+			<DependentUpon>Tools.cs</DependentUpon>
+		</Compile>
+		<Compile Include="ToolsClass.cs" />
+		<Compile Include="Properties\AssemblyInfo.cs" />
+		<Compile Include="01 Shared code\Utils.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="app.config" />
+		<None Include="packages.config" />
+		<None Include="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="01 Shared code\BaseFormTableLayoutPanel_BasicList.resx">
+			<DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="02 Connector position validation\ValidationTypeSelector.resx">
+			<DependentUpon>ValidationTypeSelector.cs</DependentUpon>
+		</EmbeddedResource>
+		<EmbeddedResource Include="04 Get element by UCI\InputBoxBasic.resx" />
+		<EmbeddedResource Include="Tools.resx">
+			<DependentUpon>Tools.cs</DependentUpon>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\AnalysisTools16.png" />
+		<EmbeddedResource Include="Resources\AnalysisTools32.png" />
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<PropertyGroup>
+		<PostBuildEvent>
+			if "$(ConfigurationName)"=="Release" (
+			for /D %25%25i in ("$(TargetDir)*") do (
+			if /I not "%25%25~nxi"=="NetReload" (
+			xcopy "%25%25i" "$(NsPath)\%25%25~nxi\" /E /Y /D
+			)
+			)
+			for %25%25i in ("$(TargetDir)*.*") do (
+			if /I not "%25%25~dpxi"=="$(TargetDir)NetReload\" (
+			xcopy "%25%25i" "$(NsPath)\" /Y /D
+			)
+			)
+			)
+		</PostBuildEvent>
+	</PropertyGroup>
 </Project>
