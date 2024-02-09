@@ -38,6 +38,8 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)05 Get elements UCI\01 Get es UCI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoreLinq\DistinctBy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MoreLinq\MoreLinq.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings.Designer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools.cs">
       <SubType>Form</SubType>

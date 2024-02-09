@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>03f00fd4-e636-4a10-aec7-706e13c7b1ab</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MEPUtils_SHARED</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)01 InsulationHandler\CsvReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)01 InsulationHandler\InsulationHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)01 InsulationHandler\InsulationSettingsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 InsulationHandler\InsulationSettingsWindow.Designer.cs">
+      <DependentUpon>InsulationSettingsWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)02 FlangeCreator\FlangeCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)02 FlangeCreator\FlangeCreatorChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)02 FlangeCreator\FlangeCreatorChooser.Designer.cs">
+      <DependentUpon>FlangeCreatorChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 PipeCreator\PipeCreator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)03 PipeCreator\PipeTypeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 PipeCreator\PipeTypeSelector.Designer.cs">
+      <DependentUpon>PipeTypeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)04 TotalLineLength\TotalLineLength.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 ConnectConnectors\ConnectConnectors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)06 PipeInsulationVisibility\PipeInsulationVisibility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)07 PED\PED.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\00 SupportsToolsMain.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\01 CalcHeightByLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\02 CalcHeightBySteelSupport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\03 DetermineCorrectLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\04 CalcHeightBySteelOrLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\05 UpdateLoadsFromR2Loader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\06 CompareDataWithR2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\07 UpdateRevitUsingR2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\DataGridViewWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\DataGridViewWindow.Designer.cs">
+      <DependentUpon>DataGridViewWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\PlaceSupport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportChooser.Designer.cs">
+      <DependentUpon>SupportChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportTools.Designer.cs">
+      <DependentUpon>SupportTools.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportUpdater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportUpdater.Designer.cs">
+      <DependentUpon>SupportUpdater.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)09 CreateInstrumentation\01 CreateInstrumentation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)09 CreateInstrumentation\03 ListsAndDicts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)10 MoveToDistance\01 MoveToDistance.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)10 MoveToDistance\InputBoxBasic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)10 MoveToDistance\InputBoxBasic.Designer.cs">
+      <DependentUpon>InputBoxBasic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)11 CountWelds\01 CountWelds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)12 SetMark\01 SetMark.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)12 SetMark\InputBoxBasic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)12 SetMark\InputBoxBasic.Designer.cs">
+      <DependentUpon>InputBoxBasic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)13 NumberStuff\01 NumberStuff.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)13 NumberStuff\NumberStuffFamilyChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)13 NumberStuff\NumberStuffFamilyChooser.Designer.cs">
+      <DependentUpon>NumberStuffFamilyChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)13 NumberStuff\NumberStuffForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)13 NumberStuff\NumberStuffForm.Designer.cs">
+      <DependentUpon>NumberStuffForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)14 ManageParameterValues\01 ManageParameterValues.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)15 FlowCopy\01 FlowCopy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)16 Tilkoblet\01 Tilkoblet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)17 TestIExternalCommand\01 TestNlog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)18 Treeview test\01 Treeview test.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)18 Treeview test\Treeview test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)18 Treeview test\Treeview test.Designer.cs">
+      <DependentUpon>Treeview test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)19 AssignCorrectLevels\01 AssignCorrectLevels.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)20 Family - Add parameters\01 Family - Add parameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)21 Write all par GUID\02 Write all par GUID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)22 PressureLossCalc\01 PressureLossCalc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)22 PressureLossCalc\02 PressureLossCalcMath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)22 PressureLossCalc\03 PressureLossCalcForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)22 PressureLossCalc\03 PressureLossCalcForm.Designer.cs">
+      <DependentUpon>03 PressureLossCalcForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)22 PressureLossCalc\04 PressureLossCalcRevit.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)23 CreateElementFromDirectShape\01 CreatePipeFromDriectShape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)24 SelectByGuid\01 SelectByGuid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)24 SelectByGuid\InputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)24 SelectByGuid\InputBox.Designer.cs">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\00 StaticVariables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\01 CheckOrCreatePipingSystemFilters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\02 AddAllPipingSystemTypesFiltersToView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\03 IsolateSelectedPipingSystems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)26 CopyElementsToAnotherDoc\01 CopyElementsToAnotherDoc.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MEPUtils.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MEPUtils.Designer.cs">
+      <DependentUpon>MEPUtils.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MEPUtilsClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)01 InsulationHandler\Insulation.xlsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)01 InsulationHandler\InsulationSettingsWindow.resx">
+      <DependentUpon>InsulationSettingsWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)02 FlangeCreator\FlangeCreatorChooser.resx">
+      <DependentUpon>FlangeCreatorChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)03 PipeCreator\PipeTypeSelector.resx">
+      <DependentUpon>PipeTypeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)08 SupportsTools\DataGridViewWindow.resx">
+      <DependentUpon>DataGridViewWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportChooser.resx">
+      <DependentUpon>SupportChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportTools.resx">
+      <DependentUpon>SupportTools.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)08 SupportsTools\SupportUpdater.resx">
+      <DependentUpon>SupportUpdater.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)10 MoveToDistance\InputBoxBasic.resx">
+      <DependentUpon>InputBoxBasic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)12 SetMark\InputBoxBasic.resx">
+      <DependentUpon>InputBoxBasic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)13 NumberStuff\NumberStuffFamilyChooser.resx">
+      <DependentUpon>NumberStuffFamilyChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)13 NumberStuff\NumberStuffForm.resx">
+      <DependentUpon>NumberStuffForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)18 Treeview test\Treeview test.resx">
+      <DependentUpon>Treeview test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)22 PressureLossCalc\03 PressureLossCalcForm.resx">
+      <DependentUpon>03 PressureLossCalcForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)24 SelectByGuid\InputBox.resx">
+      <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)MEPUtils.resx">
+      <DependentUpon>MEPUtils.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
+  </ItemGroup>
+</Project>
