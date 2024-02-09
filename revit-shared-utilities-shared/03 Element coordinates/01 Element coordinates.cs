@@ -16,6 +16,7 @@ using dbg = Shared.Dbg;
 using fi = Shared.Filter;
 using mp = Shared.MepUtils;
 using tr = Shared.Transformation;
+using System.Text;
 
 namespace Shared.Tools
 {
@@ -50,13 +51,26 @@ namespace Shared.Tools
                 message += e.Name + "\n";
 
                 Cons cons = mp.GetConnectors(e);
-                message += PCF_Functions.EndWriter.WriteEP1(cons.Primary, decimals);
-                message += PCF_Functions.EndWriter.WriteEP1(cons.Secondary, decimals);
+                message += WriteEP1(cons.Primary, decimals);
+                message += WriteEP1(cons.Secondary, decimals);
             }
 
             Shared.BuildingCoder.BuildingCoderUtilities.InfoMsg(message);
 
             return Result.Succeeded;
+        }
+
+        public static StringBuilder WriteEP1(Connector connector, int decimals)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            XYZ connectorOrigin = connector.Origin;
+            double connectorSize = connector.Radius;
+            sbEndWriter.Append("    END-POINT ");
+            sbEndWriter.Append(PointStringMm(connectorOrigin, decimals));
+            sbEndWriter.Append(" ");
+            sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
         }
 
         internal static string PointStringMm(XYZ p, int precision)

@@ -21,6 +21,10 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "revit-shared-utilities-shar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-pcf-exporter-2024", "revit-pcf-exporter-2024\revit-pcf-exporter-2024.csproj", "{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-shared-utilities-2022", "revit-shared-utilities-2022\revit-shared-utilities-2022.csproj", "{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-shared-utilities-2024", "revit-shared-utilities-2024\revit-shared-utilities-2024.csproj", "{2CF27EC9-0609-4011-A863-57CA26E8C61E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,22 @@ Global
 		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Release|x64.ActiveCfg = Release|Any CPU
 		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Release|x64.Build.0 = Release|Any CPU
+		{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}.Debug|x64.Build.0 = Debug|Any CPU
+		{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}.Release|x64.ActiveCfg = Release|Any CPU
+		{CAF14E9F-C14C-44D2-8A3D-C3DD28C284E2}.Release|x64.Build.0 = Release|Any CPU
+		{2CF27EC9-0609-4011-A863-57CA26E8C61E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF27EC9-0609-4011-A863-57CA26E8C61E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF27EC9-0609-4011-A863-57CA26E8C61E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2CF27EC9-0609-4011-A863-57CA26E8C61E}.Debug|x64.Build.0 = Debug|Any CPU
+		{2CF27EC9-0609-4011-A863-57CA26E8C61E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF27EC9-0609-4011-A863-57CA26E8C61E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF27EC9-0609-4011-A863-57CA26E8C61E}.Release|x64.ActiveCfg = Release|Any CPU
+		{2CF27EC9-0609-4011-A863-57CA26E8C61E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,8 +113,12 @@ Global
 		SolutionGuid = {24E6DE43-4408-4406-A4D9-C4B46169961D}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{2cf27ec9-0609-4011-a863-57ca26e8c61e}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{37ce9a72-66e2-4a2d-a756-6e8158c9df5a}*SharedItemsImports = 13
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{5c3bdad7-6fce-42a5-bfb9-9c057a7ce6f8}*SharedItemsImports = 13
+		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{c1a26c8f-c1cc-4791-a86a-70dbf7dba438}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{c1a26c8f-c1cc-4791-a86a-70dbf7dba438}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{caf14e9f-c14c-44d2-8a3d-c3dd28c284e2}*SharedItemsImports = 4
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{f03f8ee7-ceb9-4f1d-af2f-628b44e77ae3}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{f03f8ee7-ceb9-4f1d-af2f-628b44e77ae3}*SharedItemsImports = 4
 	EndGlobalSection
