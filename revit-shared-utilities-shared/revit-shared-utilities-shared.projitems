@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>37ce9a72-66e2-4a2d-a756-6e8158c9df5a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>revit_shared_utilities_shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\BaseFormTableLayoutPanel_BasicList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\BaseFormTableLayoutPanel_BasicList.Designer.cs">
+      <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\RadioBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Shared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Utils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)02 Connector position validation\01 SpatialValidation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)02 Connector position validation\connectorSpatialGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)02 Connector position validation\ValidationTypeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)02 Connector position validation\ValidationTypeSelector.Designer.cs">
+      <DependentUpon>ValidationTypeSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 Element coordinates\01 Element coordinates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)04 Get element by UCI\01 Get e by UCI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)04 Get element by UCI\InputBoxBasic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)04 Get element by UCI\InputBoxBasic.Designer.cs">
+      <DependentUpon>InputBoxBasic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)05 Get elements UCI\01 Get es UCI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Tools.designer.cs">
+      <DependentUpon>Tools.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ToolsClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)01 Shared code\BaseFormTableLayoutPanel_BasicList.resx">
+      <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)02 Connector position validation\ValidationTypeSelector.resx">
+      <DependentUpon>ValidationTypeSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)04 Get element by UCI\InputBoxBasic.resx">
+      <DependentUpon>InputBoxBasic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\AnalysisTools16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\AnalysisTools32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Tools.resx">
+      <DependentUpon>Tools.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

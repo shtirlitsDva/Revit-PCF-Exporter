@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29920.165
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-pcf-exporter", "revit-pcf-exporter\revit-pcf-exporter.csproj", "{037B382D-9BC9-4D7A-B76D-55BE5964E44D}"
 EndProject
@@ -12,6 +12,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-shared-utilities", "revit-shared-utilities\revit-shared-utilities.csproj", "{A8BF8252-E12B-4339-9E05-404BF7B2CBE3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-mep-system-traversal", "revit-mep-system-traversal\revit-mep-system-traversal.csproj", "{7DF61751-7DD4-4130-AB37-FDA26C23E5A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-pcf-exporter-2022", "revit-pcf-exporter-2022\revit-pcf-exporter-2022.csproj", "{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "revit-pcf-exporter-shared", "revit-pcf-exporter-shared\revit-pcf-exporter-shared.shproj", "{5C3BDAD7-6FCE-42A5-BFB9-9C057A7CE6F8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "revit-shared-utilities-shared", "revit-shared-utilities-shared\revit-shared-utilities-shared.shproj", "{37CE9A72-66E2-4A2D-A756-6E8158C9DF5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-pcf-exporter-2024", "revit-pcf-exporter-2024\revit-pcf-exporter-2024.csproj", "{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,11 +69,33 @@ Global
 		{7DF61751-7DD4-4130-AB37-FDA26C23E5A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7DF61751-7DD4-4130-AB37-FDA26C23E5A3}.Release|x64.ActiveCfg = Release|Any CPU
 		{7DF61751-7DD4-4130-AB37-FDA26C23E5A3}.Release|x64.Build.0 = Release|Any CPU
+		{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}.Debug|x64.Build.0 = Debug|Any CPU
+		{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}.Release|x64.ActiveCfg = Release|Any CPU
+		{C1A26C8F-C1CC-4791-A86A-70DBF7DBA438}.Release|x64.Build.0 = Release|Any CPU
+		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Debug|x64.Build.0 = Debug|Any CPU
+		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Release|x64.ActiveCfg = Release|Any CPU
+		{F03F8EE7-CEB9-4F1D-AF2F-628B44E77AE3}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24E6DE43-4408-4406-A4D9-C4B46169961D}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{37ce9a72-66e2-4a2d-a756-6e8158c9df5a}*SharedItemsImports = 13
+		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{5c3bdad7-6fce-42a5-bfb9-9c057a7ce6f8}*SharedItemsImports = 13
+		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{f03f8ee7-ceb9-4f1d-af2f-628b44e77ae3}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{f03f8ee7-ceb9-4f1d-af2f-628b44e77ae3}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal
