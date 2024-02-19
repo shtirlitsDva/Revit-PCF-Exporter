@@ -33,5 +33,7 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)NTR_Exporter_form.resx">
       <DependentUpon>NTR_Exporter_form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgNtrExport16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgNtrExport32.png" />
   </ItemGroup>
 </Project>
