@@ -49,6 +49,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFExporter-2024", "PDFExpo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RibbonPanel-2024", "RibbonPanel-2024\RibbonPanel-2024.csproj", "{7CE9C758-1FE9-47D3-9E2B-9723930092DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{0E0A3BB8-97F4-4659-A681-E744DA2457E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelessForms", "ModelessForms\ModelessForms.csproj", "{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Data-SHARED", "Data-SHARED\Data-SHARED.shproj", "{B67C53A5-3A99-40C5-BFE6-BD000A80BBDA}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModelessForms-SHARED", "ModelessForms-SHARED\ModelessForms-SHARED.shproj", "{18F8030B-E17E-4689-A026-259383DB16DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelessForms-2022", "ModelessForms-2022\ModelessForms-2022.csproj", "{6F1054A6-10A6-4257-B856-AD52D6431D5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelessForms-2024", "ModelessForms-2024\ModelessForms-2024.csproj", "{2892F238-1116-4057-B444-F8A47FEC33F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +213,38 @@ Global
 		{7CE9C758-1FE9-47D3-9E2B-9723930092DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7CE9C758-1FE9-47D3-9E2B-9723930092DE}.Release|x64.ActiveCfg = Release|Any CPU
 		{7CE9C758-1FE9-47D3-9E2B-9723930092DE}.Release|x64.Build.0 = Release|Any CPU
+		{0E0A3BB8-97F4-4659-A681-E744DA2457E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E0A3BB8-97F4-4659-A681-E744DA2457E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E0A3BB8-97F4-4659-A681-E744DA2457E6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E0A3BB8-97F4-4659-A681-E744DA2457E6}.Debug|x64.Build.0 = Debug|Any CPU
+		{0E0A3BB8-97F4-4659-A681-E744DA2457E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E0A3BB8-97F4-4659-A681-E744DA2457E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E0A3BB8-97F4-4659-A681-E744DA2457E6}.Release|x64.ActiveCfg = Release|Any CPU
+		{0E0A3BB8-97F4-4659-A681-E744DA2457E6}.Release|x64.Build.0 = Release|Any CPU
+		{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}.Debug|x64.Build.0 = Debug|Any CPU
+		{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}.Release|x64.ActiveCfg = Release|Any CPU
+		{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}.Release|x64.Build.0 = Release|Any CPU
+		{6F1054A6-10A6-4257-B856-AD52D6431D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F1054A6-10A6-4257-B856-AD52D6431D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F1054A6-10A6-4257-B856-AD52D6431D5C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6F1054A6-10A6-4257-B856-AD52D6431D5C}.Debug|x64.Build.0 = Debug|Any CPU
+		{6F1054A6-10A6-4257-B856-AD52D6431D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F1054A6-10A6-4257-B856-AD52D6431D5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F1054A6-10A6-4257-B856-AD52D6431D5C}.Release|x64.ActiveCfg = Release|Any CPU
+		{6F1054A6-10A6-4257-B856-AD52D6431D5C}.Release|x64.Build.0 = Release|Any CPU
+		{2892F238-1116-4057-B444-F8A47FEC33F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2892F238-1116-4057-B444-F8A47FEC33F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2892F238-1116-4057-B444-F8A47FEC33F9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2892F238-1116-4057-B444-F8A47FEC33F9}.Debug|x64.Build.0 = Debug|Any CPU
+		{2892F238-1116-4057-B444-F8A47FEC33F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2892F238-1116-4057-B444-F8A47FEC33F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2892F238-1116-4057-B444-F8A47FEC33F9}.Release|x64.ActiveCfg = Release|Any CPU
+		{2892F238-1116-4057-B444-F8A47FEC33F9}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,7 +254,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{03f00fd4-e636-4a10-aec7-706e13c7b1ab}*SharedItemsImports = 13
+		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{18f8030b-e17e-4689-a026-259383db16dd}*SharedItemsImports = 13
 		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{1dd9d402-aeb0-4c17-96f6-2c0fbbf840bb}*SharedItemsImports = 13
+		Data-SHARED\Data-SHARED.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
+		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
+		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{2cf27ec9-0609-4011-a863-57ca26e8c61e}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{37ce9a72-66e2-4a2d-a756-6e8158c9df5a}*SharedItemsImports = 13
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{5c3bdad7-6fce-42a5-bfb9-9c057a7ce6f8}*SharedItemsImports = 13
@@ -218,9 +267,14 @@ Global
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{5f9a5a37-c644-4d4e-9976-ba1e58c46108}*SharedItemsImports = 4
 		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{6323e000-2df4-45af-9873-88842d24f7b7}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{6323e000-2df4-45af-9873-88842d24f7b7}*SharedItemsImports = 4
+		Data-SHARED\Data-SHARED.projitems*{6f1054a6-10a6-4257-b856-ad52d6431d5c}*SharedItemsImports = 4
+		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{6f1054a6-10a6-4257-b856-ad52d6431d5c}*SharedItemsImports = 4
+		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{6f1054a6-10a6-4257-b856-ad52d6431d5c}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{6f1054a6-10a6-4257-b856-ad52d6431d5c}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{7ce9c758-1fe9-47d3-9e2b-9723930092de}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{832c9d7c-0339-44df-a8ee-04e4dc045e7b}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{b35f4ebb-90f8-4f1f-b2cc-5229a671f142}*SharedItemsImports = 13
+		Data-SHARED\Data-SHARED.projitems*{b67c53a5-3a99-40c5-bfe6-bd000a80bbda}*SharedItemsImports = 13
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{c1a26c8f-c1cc-4791-a86a-70dbf7dba438}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{c1a26c8f-c1cc-4791-a86a-70dbf7dba438}*SharedItemsImports = 4
 		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{c580bb5d-73d8-4904-9485-1eaf19fc4b4a}*SharedItemsImports = 4
