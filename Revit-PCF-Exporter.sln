@@ -61,6 +61,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelessForms-2022", "Model
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelessForms-2024", "ModelessForms-2024\ModelessForms-2024.csproj", "{2892F238-1116-4057-B444-F8A47FEC33F9}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "revit-ntr-exporter-SHARED", "revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.shproj", "{A2702701-D0A0-49C9-9E85-30A96A53829C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-ntr-exporter-2022", "revit-ntr-exporter-2022\revit-ntr-exporter-2022.csproj", "{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-ntr-exporter-2024", "revit-ntr-exporter-2024\revit-ntr-exporter-2024.csproj", "{E983E879-15DE-49E3-A46A-A03540DD01A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -245,6 +251,22 @@ Global
 		{2892F238-1116-4057-B444-F8A47FEC33F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2892F238-1116-4057-B444-F8A47FEC33F9}.Release|x64.ActiveCfg = Release|Any CPU
 		{2892F238-1116-4057-B444-F8A47FEC33F9}.Release|x64.Build.0 = Release|Any CPU
+		{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}.Debug|x64.Build.0 = Debug|Any CPU
+		{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}.Release|x64.ActiveCfg = Release|Any CPU
+		{5AA5B612-9906-47A6-82C2-B17DF5CDEF3A}.Release|x64.Build.0 = Release|Any CPU
+		{E983E879-15DE-49E3-A46A-A03540DD01A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E983E879-15DE-49E3-A46A-A03540DD01A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E983E879-15DE-49E3-A46A-A03540DD01A4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E983E879-15DE-49E3-A46A-A03540DD01A4}.Debug|x64.Build.0 = Debug|Any CPU
+		{E983E879-15DE-49E3-A46A-A03540DD01A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E983E879-15DE-49E3-A46A-A03540DD01A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E983E879-15DE-49E3-A46A-A03540DD01A4}.Release|x64.ActiveCfg = Release|Any CPU
+		{E983E879-15DE-49E3-A46A-A03540DD01A4}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,6 +284,8 @@ Global
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{2cf27ec9-0609-4011-a863-57ca26e8c61e}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{37ce9a72-66e2-4a2d-a756-6e8158c9df5a}*SharedItemsImports = 13
+		revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.projitems*{5aa5b612-9906-47a6-82c2-b17df5cdef3a}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{5aa5b612-9906-47a6-82c2-b17df5cdef3a}*SharedItemsImports = 4
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{5c3bdad7-6fce-42a5-bfb9-9c057a7ce6f8}*SharedItemsImports = 13
 		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{5f9a5a37-c644-4d4e-9976-ba1e58c46108}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{5f9a5a37-c644-4d4e-9976-ba1e58c46108}*SharedItemsImports = 4
@@ -273,6 +297,7 @@ Global
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{6f1054a6-10a6-4257-b856-ad52d6431d5c}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{7ce9c758-1fe9-47d3-9e2b-9723930092de}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{832c9d7c-0339-44df-a8ee-04e4dc045e7b}*SharedItemsImports = 4
+		revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.projitems*{a2702701-d0a0-49c9-9e85-30a96a53829c}*SharedItemsImports = 13
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{b35f4ebb-90f8-4f1f-b2cc-5229a671f142}*SharedItemsImports = 13
 		Data-SHARED\Data-SHARED.projitems*{b67c53a5-3a99-40c5-bfe6-bd000a80bbda}*SharedItemsImports = 13
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{c1a26c8f-c1cc-4791-a86a-70dbf7dba438}*SharedItemsImports = 4
@@ -282,6 +307,8 @@ Global
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{caf14e9f-c14c-44d2-8a3d-c3dd28c284e2}*SharedItemsImports = 4
 		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{d2b1c176-390a-4c3e-9eb1-9fb4ae787dc1}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{d2b1c176-390a-4c3e-9eb1-9fb4ae787dc1}*SharedItemsImports = 4
+		revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.projitems*{e983e879-15de-49e3-a46a-a03540dd01a4}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{e983e879-15de-49e3-a46a-a03540dd01a4}*SharedItemsImports = 4
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{f03f8ee7-ceb9-4f1d-af2f-628b44e77ae3}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{f03f8ee7-ceb9-4f1d-af2f-628b44e77ae3}*SharedItemsImports = 4
 	EndGlobalSection
