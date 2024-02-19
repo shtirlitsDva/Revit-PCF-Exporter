@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
+
 using NTR_Functions;
+
 using Shared;
+
 using dw = NTR_Functions.DataWriter;
 
 namespace NTR_Exporter
 {
+#if REVIT2024 || REVIT2023
     internal class NTR_Steel
     {
         private Document doc;
@@ -325,4 +330,5 @@ namespace NTR_Exporter
             Host = ams;
         }
     }
+#endif
 }

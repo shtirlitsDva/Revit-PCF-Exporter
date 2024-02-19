@@ -275,7 +275,7 @@ namespace NTR_Exporter
                                         Connector FirstSideConStart = matchedPipeConnectors.First();
 
                                         //Assume that supports will always be placed on pipes
-                                        Connector FirstSideConEnd = 
+                                        Connector FirstSideConEnd =
                                             (from Connector c in FirstSideConStart.ConnectorManager.Connectors
                                              where c.Id != FirstSideConStart.Id && (int)c.ConnectorType == 1
                                              select c).FirstOrDefault();
@@ -349,7 +349,7 @@ namespace NTR_Exporter
                                         pipeList.UnionWith(createdPipes);
                                     }
                                     else { }//Implement other possibilities later
-                                    
+
                                     //This, I think, is needed to be able to interact with temporary pipes
                                     doc.Regenerate();
                                 }
@@ -378,11 +378,13 @@ namespace NTR_Exporter
                     //Requires that the Support Pipe Accessories which the structure support are filtered in the above section
                     if (iv.IncludeSteelStructure)
                     {
+#if REVIT2024
                         StringBuilder sbSteel = new NTR_Steel(doc).ExportSteel();
                         outputBuilder.Append(sbSteel);
 
                         StringBuilder sbBoundaryConds = new NTR_Steel(doc).ExportBoundaryConditions();
                         outputBuilder.Append(sbBoundaryConds);
+#endif
                     }
 
                     #region Debug
