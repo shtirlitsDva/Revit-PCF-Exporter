@@ -48,22 +48,32 @@ namespace MEPUtils.FamilyTools.AddParameters
                 {
                     tx.Start("Add parameters");
 
-                    List<(string Group, string ParName)> parNamesToAdd = new List<(string Group, string ParName)>
+                    List<(string Group, string ParName, BuiltInParameterGroup gp)> parNamesToAdd = 
+                        new List<(string Group, string ParName, BuiltInParameterGroup gp)>
                     {
-                        ("900 SCHEDULE", "DRI.Management.Schedule DN-Number"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule DN-Number2"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Funktion"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Aktuator"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Betjening"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Tilslutning"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Type"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Tryktrin"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Fabrikat"),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Produkt"),
-                        ("100 MECHANICAL", "Component Name"),
-                        ("100 MECHANICAL", "Component Class1"),
-                        ("100 MECHANICAL", "Component Class2"),
-                        ("100 MECHANICAL", "Component Class3"),
+                        ("900 SCHEDULE", "DRI.Management.Schedule DN-Number", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule DN-Number2", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Funktion", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Aktuator", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Betjening", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Tilslutning", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Type", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Tryktrin", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Fabrikat", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Produkt", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("100 MECHANICAL", "Component Name", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("100 MECHANICAL", "Component Class1", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("100 MECHANICAL", "Component Class2", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("100 MECHANICAL", "Component Class3", BuiltInParameterGroup.PG_IDENTITY_DATA),
+                        ("800 PED", "PED_ELEM_DIMO", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("800 PED", "PED_ELEM_DIMO1", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("800 PED", "PED_ELEM_MATERIAL", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("800 PED", "PED_ELEM_MODEL", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("800 PED", "PED_ELEM_SCHEDULE", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("800 PED", "PED_ELEM_STANDARD", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("800 PED", "PED_ELEM_TYPE", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("800 PED", "PED_ELEM_THKT", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("800 PED", "PED_ELEM_THKT1", BuiltInParameterGroup.PG_CONSTRAINTS),
                     };
 
                     foreach (var pair in parNamesToAdd)
@@ -75,7 +85,7 @@ namespace MEPUtils.FamilyTools.AddParameters
                         {
                             var parameter = fm.get_Parameter(pair.ParName);
                             if (parameter != null) continue;
-                            fm.AddParameter(def, BuiltInParameterGroup.PG_IDENTITY_DATA, false);
+                            fm.AddParameter(def, pair.gp, false);
                         }
                         catch (Exception ex)
                         {
