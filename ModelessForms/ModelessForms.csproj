@@ -183,12 +183,6 @@
     <EmbeddedResource Include="Resources\ImgSetTags16.png" />
     <EmbeddedResource Include="Resources\ImgSetTags32.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{0e0a3bb8-97f4-4659-a681-e744da2457e6}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)"=="Release" (
