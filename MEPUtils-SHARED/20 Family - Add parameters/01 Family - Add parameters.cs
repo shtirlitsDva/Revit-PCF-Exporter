@@ -44,36 +44,39 @@ namespace MEPUtils.FamilyTools.AddParameters
                 DefinitionFile defFile = uidoc.Application.Application.OpenSharedParameterFile();
                 DefinitionGroups groups = defFile.Groups;
 
+                var idGp = BuiltInParameterGroup.PG_IDENTITY_DATA;
+                var dimGp = BuiltInParameterGroup.PG_GEOMETRY;
+
                 using (Transaction tx = new Transaction(doc))
                 {
                     tx.Start("Add parameters");
 
-                    List<(string Group, string ParName, BuiltInParameterGroup gp)> parNamesToAdd = 
-                        new List<(string Group, string ParName, BuiltInParameterGroup gp)>
+                    List<(string Group, string ParName, BuiltInParameterGroup gp, bool isInstance)> parNamesToAdd = 
+                        new List<(string Group, string ParName, BuiltInParameterGroup gp, bool isInstance)>
                     {
-                        ("900 SCHEDULE", "DRI.Management.Schedule DN-Number", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule DN-Number2", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Funktion", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Aktuator", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Betjening", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Tilslutning", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Type", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Tryktrin", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Fabrikat", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("900 SCHEDULE", "DRI.Management.Schedule Produkt", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("100 MECHANICAL", "Component Name", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("100 MECHANICAL", "Component Class1", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("100 MECHANICAL", "Component Class2", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("100 MECHANICAL", "Component Class3", BuiltInParameterGroup.PG_IDENTITY_DATA),
-                        ("800 PED", "PED_ELEM_DIMO", BuiltInParameterGroup.PG_CONSTRAINTS),
-                        ("800 PED", "PED_ELEM_DIMO1", BuiltInParameterGroup.PG_CONSTRAINTS),
-                        ("800 PED", "PED_ELEM_MATERIAL", BuiltInParameterGroup.PG_CONSTRAINTS),
-                        ("800 PED", "PED_ELEM_MODEL", BuiltInParameterGroup.PG_CONSTRAINTS),
-                        ("800 PED", "PED_ELEM_SCHEDULE", BuiltInParameterGroup.PG_CONSTRAINTS),
-                        ("800 PED", "PED_ELEM_STANDARD", BuiltInParameterGroup.PG_CONSTRAINTS),
-                        ("800 PED", "PED_ELEM_TYPE", BuiltInParameterGroup.PG_CONSTRAINTS),
-                        ("800 PED", "PED_ELEM_THKT", BuiltInParameterGroup.PG_CONSTRAINTS),
-                        ("800 PED", "PED_ELEM_THKT1", BuiltInParameterGroup.PG_CONSTRAINTS),
+                        ("900 SCHEDULE", "DRI.Management.Schedule DN-Number", idGp, true),
+                        ("900 SCHEDULE", "DRI.Management.Schedule DN-Number2", idGp, true),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Funktion", idGp, false),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Aktuator", idGp, false),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Betjening", idGp, false),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Tilslutning", idGp, false),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Type", idGp, false),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Tryktrin", idGp, false),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Fabrikat", idGp, false),
+                        ("900 SCHEDULE", "DRI.Management.Schedule Produkt", idGp, false),
+                        ("100 MECHANICAL", "Component Name", idGp, false),
+                        ("100 MECHANICAL", "Component Class1", idGp, false),
+                        ("100 MECHANICAL", "Component Class2", idGp, false),
+                        ("100 MECHANICAL", "Component Class3", idGp, false),
+                        ("800 PED", "PED_ELEM_DIMO", idGp, true),
+                        ("800 PED", "PED_ELEM_DIMO1", idGp, true),
+                        ("800 PED", "PED_ELEM_MATERIAL", idGp, false),
+                        ("800 PED", "PED_ELEM_MODEL", idGp, false),
+                        ("800 PED", "PED_ELEM_SCHEDULE", idGp, false),
+                        ("800 PED", "PED_ELEM_STANDARD", idGp, false),
+                        ("800 PED", "PED_ELEM_TYPE", idGp, false),
+                        ("800 PED", "PED_ELEM_THKT", idGp, true),
+                        ("800 PED", "PED_ELEM_THKT1", idGp, true),
                     };
 
                     foreach (var pair in parNamesToAdd)
@@ -85,7 +88,7 @@ namespace MEPUtils.FamilyTools.AddParameters
                         {
                             var parameter = fm.get_Parameter(pair.ParName);
                             if (parameter != null) continue;
-                            fm.AddParameter(def, pair.gp, false);
+                            fm.AddParameter(def, pair.gp, pair.isInstance);
                         }
                         catch (Exception ex)
                         {
