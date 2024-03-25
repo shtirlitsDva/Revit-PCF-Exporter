@@ -35,28 +35,6 @@ namespace MEPUtils
                 //Or if more than two -- connect to each other
                 if ((selection.Count == 0 || selection.Count > 2) && !ctrl)
                 {
-                    //Argh! It seems Revit2019 doesn't break when connecting pipes at angle!!!
-                    ////To filter out PCF_ELEM_EXCL set to true
-                    ////Collecting pipes, fittings, accessories
-                    ////Filtering out those with "true" value
-                    ////The Guid below is for PCF_ELEM_EXCL
-                    //var exclFilter = fi.ParameterValueGenericFilter(doc, 0, new Guid("CC8EC292-226C-4677-A32D-10B9736BFC1A"));
-
-                    //FilteredElementCollector col1 = new FilteredElementCollector(doc);
-                    //col1.WherePasses(
-                    //        new LogicalOrFilter(
-                    //            new List<ElementFilter>
-                    //            {
-                    //                new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting),
-                    //                new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory),
-                    //                new ElementClassFilter(typeof (Pipe))
-                    //            }));//.WherePasses(exclFilter);
-                    //var col2 = mp.GetElementsOfBuiltInCategory(doc, BuiltInCategory.OST_MechanicalEquipment);
-
-                    //HashSet<Element> elements = new HashSet<Element>();
-                    //elements.UnionWith(col1);
-                    //elements.UnionWith(col2);
-
                     //When selection is 0
                     IList<Connector> allConnectors;
                     if (selection.Count == 0)
@@ -67,8 +45,9 @@ namespace MEPUtils
                             .ToList();
                     }
                     //Selection is more than 2
-                    else allConnectors = mp.GetALLConnectorsFromElements((from ElementId id in selection select doc.GetElement(id)).ToHashSet()).ToList();
-
+                    else allConnectors = mp.GetALLConnectorsFromElements(
+                        (from ElementId id in selection select doc.GetElement(id))
+                        .ToHashSet()).ToList();
 
                     //Employ reverse iteration to be able to modify the collection while iterating over it
                     for (int i = allConnectors.Count - 1; i > 0; i--)
@@ -78,6 +57,7 @@ namespace MEPUtils
                         allConnectors.RemoveAt(i);
                         if (c1.IsConnected) continue; //Need: connectors connected in this loop are still in collection
                         Connector c2 = (from Connector c in allConnectors where c.Equalz(c1, Extensions._1mmTol) select c).FirstOrDefault();
+                        if (c2 == null) continue;
                         try
                         {
                             if (c1?.Owner.Id == c2?.Owner.Id) continue;
