@@ -10,6 +10,7 @@ using fi = Shared.Filter;
 using op = Shared.Output;
 using mp = Shared.MepUtils;
 using Shared;
+using System.Diagnostics;
 
 //using mySettings = GeneralStability.Properties.Settings;
 
@@ -39,10 +40,18 @@ namespace MEPUtils
                     IList<Connector> allConnectors;
                     if (selection.Count == 0)
                     {
-                        allConnectors = mp.GetALLConnectorsInDocument(doc, true)
+                        FilteredElementCollector col = fi.GetElementsWithConnectors(doc, false);
+                        //IEnumerable<Element> els = col.ToElements();
+
+                        allConnectors = col.GetConnectors()
                             .Where(c => !c.IsConnected)
                             .ExceptWhere(c => c.MEPSystemAbbreviation(doc, true) == "ARGD")
                             .ToList();
+
+                        //allConnectors = mp.GetALLConnectorsInDocument(doc, true)
+                        //    .Where(c => !c.IsConnected)
+                        //    .ExceptWhere(c => c.MEPSystemAbbreviation(doc, true) == "ARGD")
+                        //    .ToList();
                     }
                     //Selection is more than 2
                     else allConnectors = mp.GetALLConnectorsFromElements(

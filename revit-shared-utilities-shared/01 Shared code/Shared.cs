@@ -464,7 +464,9 @@ namespace Shared
 
         public static HashSet<Connector> GetALLConnectorsInDocument(Document doc, bool includeMechEquipment = false)
         {
-            return (from e in Filter.GetElementsWithConnectors(doc, includeMechEquipment) from Connector c in GetConnectorSet(e) select c).ToHashSet();
+            return (from e in Filter.GetElementsWithConnectors(
+                doc, includeMechEquipment) from Connector c in GetConnectorSet(e) select c)
+                .ToHashSet();
         }
 
         /// <summary>
@@ -1250,6 +1252,17 @@ namespace Shared
         /// </summary>
         public static double Length(this Pipe pipe) =>
             pipe.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble().FtToMtrs();
+        public static IEnumerable<Connector> GetConnectors(this IEnumerable<Element> col)
+        {
+            foreach (var item in col)
+            {
+                ConnectorSet cset = MepUtils.GetConnectorSet(item);
+                foreach (Connector c in cset)
+                {
+                    yield return c;
+                }
+            }
+        }
     }
 
     public static class Transformation
