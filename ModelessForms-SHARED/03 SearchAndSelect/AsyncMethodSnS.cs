@@ -32,7 +32,7 @@ namespace ModelessForms.SearchAndSelect
             //Nlog configuration
             var nlogConfig = new NLog.Config.LoggingConfiguration();
             //Targets
-            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "X:\\GitHub\\log.txt", DeleteOldFileOnStartup = true };
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = "C:\\Temp\\log.txt", DeleteOldFileOnStartup = true };
             //Rules
             nlogConfig.AddRule(LogLevel.Info, LogLevel.Fatal, logfile);
             //Apply config

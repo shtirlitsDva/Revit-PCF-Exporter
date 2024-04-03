@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using mySettings = ModelessForms.Properties.Settings;
 using NLog;
 using Data;
+using System.IO;
+using System.Reflection;
 
 namespace ModelessForms.SearchAndSelect
 {
@@ -41,8 +43,9 @@ namespace ModelessForms.SearchAndSelect
             treeView1.PathSeparator = ".";
 
             //Log
-            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(
-                "X:\\Github\\shtirlitsDva\\MyRevitAddins\\MyRevitAddins\\SetTagsModeless\\NLog.config");
+            string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var configFilePath = Path.Combine(assemblyFolder, "NLog.config");
+            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(configFilePath);
 
             //Setup a rudimentary list with categories
             string[] cats = { "Pipes", "Pipe Fittings", "Pipe Accessories", "Generic Models" };

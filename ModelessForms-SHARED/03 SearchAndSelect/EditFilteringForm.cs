@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using NLog;
 using Data;
+using System.IO;
+using System.Reflection;
 
 namespace ModelessForms.SearchAndSelect
 {
@@ -29,8 +31,9 @@ namespace ModelessForms.SearchAndSelect
             temporaryGrouping = grouping;
 
             //Log
-            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(
-                "X:\\Github\\shtirlitsDva\\MyRevitAddins\\MyRevitAddins\\SetTagsModeless\\NLog.config");
+            string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var configFilePath = Path.Combine(assemblyFolder, "NLog.config");
+            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(configFilePath);
 
             BindingList<ParameterImpression> BuiltInParameters = new BindingList<ParameterImpression>
                 (allParametersList.Where(x => x.IsBuiltIn == true).OrderBy(x => x.Name).ToList());
@@ -200,7 +203,7 @@ namespace ModelessForms.SearchAndSelect
         {
             SelectedIndexChangedDisabled = true;
 
-            if (temporaryGrouping != null && ! temporaryGrouping.ParameterList.Contains(null))
+            if (temporaryGrouping != null && !temporaryGrouping.ParameterList.Contains(null))
             {
                 for (int i = 0; i < temporaryGrouping.ParameterList.Count; i++)
                 {

@@ -12,6 +12,8 @@ using mySettings = ModelessForms.Properties.Settings;
 using NLog;
 using Autodesk.Revit.DB;
 using ModelessForms.SearchAndSelect;
+using System.IO;
+using System.Reflection;
 
 namespace ModelessForms.GeometryValidator
 {
@@ -42,9 +44,9 @@ namespace ModelessForms.GeometryValidator
             treeView1.PathSeparator = ".";
 
             //Log
-            LogManager.Configuration = 
-                new NLog.Config.XmlLoggingConfiguration(
-                    "X:\\Github\\shtirlitsDva\\MyRevitAddins\\MyRevitAddins\\SetTagsModeless\\NLog.config");
+            string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var configFilePath = Path.Combine(assemblyFolder, "NLog.config");
+            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(configFilePath);
 
             AsyncGetSystemAbbreviations agsas = new AsyncGetSystemAbbreviations();
             agsas.SysAbbrs = sysAbbrs;
