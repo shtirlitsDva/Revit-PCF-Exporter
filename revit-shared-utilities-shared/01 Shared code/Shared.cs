@@ -465,7 +465,9 @@ namespace Shared
         public static HashSet<Connector> GetALLConnectorsInDocument(Document doc, bool includeMechEquipment = false)
         {
             return (from e in Filter.GetElementsWithConnectors(
-                doc, includeMechEquipment) from Connector c in GetConnectorSet(e) select c)
+                doc, includeMechEquipment)
+                    from Connector c in GetConnectorSet(e)
+                    select c)
                 .ToHashSet();
         }
 
@@ -661,7 +663,7 @@ namespace Shared
                         Process.Start("notepad.exe", path);
                         throw new Exception($"Element {element.Id.ToString()} has {Count} connectors and no secondary!");
                     }
-                        
+
 
                     if (element is FamilyInstance)
                     {
@@ -743,39 +745,66 @@ namespace Shared
             DataSet dataSet;
             using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
             using (var reader = ExcelReaderFactory.CreateReader(stream))
-            { dataSet = reader.AsDataSet(new ExcelDataSetConfiguration()
             {
-                ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                dataSet = reader.AsDataSet(new ExcelDataSetConfiguration()
                 {
-                    // Gets or sets a value indicating the prefix of generated column names.
-                    EmptyColumnNamePrefix = "Column",
+                    ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                    {
+                        // Gets or sets a value indicating the prefix of generated column names.
+                        EmptyColumnNamePrefix = "Column",
 
-                    // Gets or sets a value indicating whether to use a row from the 
-                    // data as column names.
-                    UseHeaderRow = dataHasHeaders,
+                        // Gets or sets a value indicating whether to use a row from the 
+                        // data as column names.
+                        UseHeaderRow = dataHasHeaders,
 
-                    // Gets or sets a callback to determine which row is the header row. 
-                    // Only called when UseHeaderRow = true.
-                    ReadHeaderRow = (rowReader) => {
-                        // F.ex skip the first row and use the 2nd row as column headers:
-                        // rowReader.Read();
-                    },
+                        // Gets or sets a callback to determine which row is the header row. 
+                        // Only called when UseHeaderRow = true.
+                        ReadHeaderRow = (rowReader) =>
+                        {
+                            // F.ex skip the first row and use the 2nd row as column headers:
+                            // rowReader.Read();
+                        },
 
-                    // Gets or sets a callback to determine whether to include the 
-                    // current row in the DataTable.
-                    //FilterRow = (rowReader) => {
-                    //    return true;
-                    //},
+                        // Gets or sets a callback to determine whether to include the 
+                        // current row in the DataTable.
+                        //FilterRow = (rowReader) => {
+                        //    return true;
+                        //},
 
-                    // Gets or sets a callback to determine whether to include the specific
-                    // column in the DataTable. Called once per column after reading the 
-                    // headers.
-                    //FilterColumn = (rowReader, columnIndex) => {
-                    //    return true;
-                    //}
-                }
-            }); }
+                        // Gets or sets a callback to determine whether to include the specific
+                        // column in the DataTable. Called once per column after reading the 
+                        // headers.
+                        //FilterColumn = (rowReader, columnIndex) => {
+                        //    return true;
+                        //}
+                    }
+                });
+            }
             return dataSet;
+        }
+
+        public static DataSet ConvertToDataSetOfStrings(DataSet sourceDataSet)
+        {
+            var result = new DataSet();
+            result.Tables.AddRange(
+                sourceDataSet.Tables.Cast<DataTable>().Select(srcDataTable =>
+                {
+                    var destDataTable = new DataTable(srcDataTable.TableName, srcDataTable.Namespace);
+                    // Copy each source column as System.String...
+                    destDataTable.Columns.AddRange(
+                        srcDataTable.Columns.Cast<DataColumn>()
+                            .Select(col => new DataColumn(col.ColumnName, typeof(String)))
+                            .ToArray()
+                            );
+                    // Implicitly convert all source cells to System.String using DataTable.ImportRow()
+                    srcDataTable.Rows.OfType<DataRow>()
+                    .ToList()
+                    .ForEach(row => destDataTable.ImportRow(row));
+                    return destDataTable;
+                })
+                .ToArray()
+                );
+            return result;
         }
 
         static string[] GetExcelSheetNames(string connectionString)
@@ -805,9 +834,11 @@ namespace Shared
         public static DataTable ReadDataTable(DataSet ds, string tableName)
         {
             DataTableCollection dataTableCollection = ds.Tables;
-            DataTable tbl = 
-                (from DataTable dtbl in dataTableCollection where dtbl.TableName == 
-                 tableName select dtbl).FirstOrDefault();
+            DataTable tbl =
+                (from DataTable dtbl in dataTableCollection
+                 where dtbl.TableName ==
+                 tableName
+                 select dtbl).FirstOrDefault();
             if (tbl == null)
                 throw new Exception(
                     $"DataSet does not have table named {tableName}!");
@@ -1010,7 +1041,7 @@ namespace Shared
             int truncSize = (int)(l * 2 * _foot_to_mm);
             string size = string.Format(
                 "{0}", Math.Round(l * 2 * _foot_to_mm));
-            
+
             if (øDimToDn.ContainsKey(truncSize))
                 size = øDimToDn[truncSize].ToString();
 
