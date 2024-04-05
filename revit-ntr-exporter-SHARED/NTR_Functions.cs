@@ -54,7 +54,7 @@ namespace NTR_Functions
 
         public ConfigurationData()
         {
-            DataSet dataSet = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "NO");
+            DataSet dataSet = Shared.DataHandler.ReadExcelToDataSet(iv.ExcelPath, true);
 
             DataTableCollection dataTableCollection = dataSet.Tables;
 
@@ -65,7 +65,7 @@ namespace NTR_Functions
             _05_DN = ReadNtrConfigurationData(dataTableCollection, "DN", "C Definition of pipe dimensions");
             _06_ISO = ReadNtrConfigurationData(dataTableCollection, "IS", "C Definition of insulation type");
 
-            DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
+            DataSet dataSetWithHeaders = Shared.DataHandler.ReadExcelToDataSet(iv.ExcelPath, true);
             Pipelines = ReadDataTable(dataSetWithHeaders.Tables, "PIPELINES");
             Elements = ReadDataTable(dataSetWithHeaders.Tables, "ELEMENTS");
             Supports = ReadDataTable(dataSetWithHeaders.Tables, "SUPPORTS");
@@ -476,7 +476,8 @@ namespace NTR_Functions
                 .AsValueString()).OrderBy(x => x.Key);
 
             //Read existing values
-            DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
+            //DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
+            DataSet dataSetWithHeaders = Shared.DataHandler.ReadExcelToDataSet(iv.ExcelPath, true);
             DataTable Elements = ConfigurationData.ReadDataTable(dataSetWithHeaders.Tables, "ELEMENTS");
             DataTable Supports = ConfigurationData.ReadDataTable(dataSetWithHeaders.Tables, "SUPPORTS");
             DataTable Pipelines = ConfigurationData.ReadDataTable(dataSetWithHeaders.Tables, "PIPELINES");
