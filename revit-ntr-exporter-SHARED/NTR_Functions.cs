@@ -471,7 +471,9 @@ namespace NTR_Functions
             //    group e by e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
             //    .AsValueString();
 
-            var elGr = filteredElements.GroupBy(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString()).OrderBy(x => x.Key);
+            var elGr = filteredElements.GroupBy(
+                x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM)
+                .AsValueString()).OrderBy(x => x.Key);
 
             //Read existing values
             DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(iv.ExcelPath, "YES");
