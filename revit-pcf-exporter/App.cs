@@ -86,7 +86,8 @@ namespace PCF_Exporter
         {
             try
             {
-                PCF_Exporter_form fm = new PCF_Exporter_form(commandData, message);
+                //PCF_Exporter_form fm = new PCF_Exporter_form(commandData, message);
+                Dark_PCF_Exporter_form fm = new Dark_PCF_Exporter_form(commandData, message);
                 fm.ShowDialog();
                 PCF_Exporter.Properties.Settings.Default.Save();
                 fm.Close();

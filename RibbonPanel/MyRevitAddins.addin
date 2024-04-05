@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Assembly>D:\GitHub\shtirlitsDva\MyRevitAddins\MyRevitAddins\RibbonPanel\bin\Release\MyRibbonPanel.dll</Assembly>
+    <ClientId>973C4F18-300B-41A4-A998-C289820D1969</ClientId>
+    <FullClassName>MyRibbonPanel.App</FullClassName>
+    <Name>MyAddIns</Name>
+    <VendorId>MGTek</VendorId>
+    <VendorDescription>app@mgtek.dk</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Assembly>D:\GitHub\shtirlitsDva\MyRevitAddins\MyRevitAddins\SetTagsModeless\bin\Release\ModelessForms.dll</Assembly>
+    <ClientId>1A1D1ECF-9569-4F1C-81EF-52D560369FBE</ClientId>
+    <FullClassName>ModelessForms.Application</FullClassName>
+    <Name>SetTags</Name>
+    <VendorId>MGTek</VendorId>
+    <VendorDescription>app@mgtek.dk</VendorDescription>
+  </AddIn>
+</RevitAddIns>

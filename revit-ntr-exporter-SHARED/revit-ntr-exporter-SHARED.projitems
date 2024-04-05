@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>a2702701-d0a0-49c9-9e85-30a96a53829c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>revit_ntr_exporter_SHARED</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Accessories.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Exporter_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Exporter_form.Designer.cs">
+      <DependentUpon>NTR_Exporter_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Fittings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Functions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_GenericModels.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Main.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Output.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Pipes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NTR_Steel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)NTR_Exporter_form.resx">
+      <DependentUpon>NTR_Exporter_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgNtrExport16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgNtrExport32.png" />
+  </ItemGroup>
+</Project>

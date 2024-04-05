@@ -129,6 +129,65 @@ namespace Shared
             return collector;
         }
 
+        public static FilteredElementCollector GetElementsWithConnectors(Document doc, ElementId viewId, bool includeMechEquipment = false)
+        {
+            // what categories of family instances
+            // are we interested in?
+            // From here: http://thebuildingcoder.typepad.com/blog/2010/06/retrieve-mep-elements-and-connectors.html
+
+            IList<BuiltInCategory> bics = new List<BuiltInCategory>(3)
+            {
+                //BuiltInCategory.OST_CableTray,
+                //BuiltInCategory.OST_CableTrayFitting,
+                //BuiltInCategory.OST_Conduit,
+                //BuiltInCategory.OST_ConduitFitting,
+                //BuiltInCategory.OST_DuctCurves,
+                //BuiltInCategory.OST_DuctFitting,
+                //BuiltInCategory.OST_DuctTerminal,
+                //BuiltInCategory.OST_ElectricalEquipment,
+                //BuiltInCategory.OST_ElectricalFixtures,
+                //BuiltInCategory.OST_LightingDevices,
+                //BuiltInCategory.OST_LightingFixtures,
+                //BuiltInCategory.OST_MechanicalEquipment,
+                BuiltInCategory.OST_PipeAccessory,
+                BuiltInCategory.OST_PipeCurves,
+                BuiltInCategory.OST_PipeFitting,
+                //BuiltInCategory.OST_PlumbingFixtures,
+                //BuiltInCategory.OST_SpecialityEquipment,
+                //BuiltInCategory.OST_Sprinklers,
+                //BuiltInCategory.OST_Wire
+            };
+
+            if (includeMechEquipment) bics.Add(BuiltInCategory.OST_MechanicalEquipment);
+
+            IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
+
+            foreach (BuiltInCategory bic in bics) a.Add(new ElementCategoryFilter(bic));
+
+            LogicalOrFilter categoryFilter = new LogicalOrFilter(a);
+
+            LogicalAndFilter familyInstanceFilter = new LogicalAndFilter(categoryFilter, new ElementClassFilter(typeof(FamilyInstance)));
+
+            //IList<ElementFilter> b = new List<ElementFilter>(6);
+            IList<ElementFilter> b = new List<ElementFilter>
+            {
+
+                //b.Add(new ElementClassFilter(typeof(CableTray)));
+                //b.Add(new ElementClassFilter(typeof(Conduit)));
+                //b.Add(new ElementClassFilter(typeof(Duct)));
+                new ElementClassFilter(typeof(Pipe)),
+
+                familyInstanceFilter
+            };
+            LogicalOrFilter classFilter = new LogicalOrFilter(b);
+
+            FilteredElementCollector collector = new FilteredElementCollector(doc, viewId);
+
+            collector.WherePasses(classFilter);
+
+            return collector;
+        }
+
         /// <summary>
         /// Get the collection of elements of the specified type additionally filtered
         /// by a string value of specified BuiltInParameter.
@@ -281,7 +340,7 @@ namespace Shared
 
     public static class MepUtils
     {
-        public static List<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc)
+        public static List<string> GetDistinctPhysicalPipingSystemTypeNames(Document doc, bool ordered = false)
         {
             FilteredElementCollector collector = new FilteredElementCollector(doc);
             HashSet<PipingSystem> pipingSystems = collector.OfClass(typeof(PipingSystem)).Cast<PipingSystem>().ToHashSet();
@@ -309,7 +368,8 @@ namespace Shared
                       .Select(pst => pst.Abbreviation).ToHashSet();
             }
 
-            return abbreviations.Distinct().ToList();
+            if (ordered) return abbreviations.Distinct().OrderBy(x => x).ToList();
+            else return abbreviations.Distinct().ToList();
         }
 
         /// <summary>
@@ -945,10 +1005,12 @@ namespace Shared
 
         public static string PipeSizeToMm(double l)
         {
-            string size = string.Format("{0}", Math.Round(l * 2 * _foot_to_mm));
-            int intSize = Convert.ToInt32(size);
-            if (øDimToDn.ContainsKey(intSize))
-                size = øDimToDn[intSize].ToString();
+            int truncSize = (int)(l * 2 * _foot_to_mm);
+            string size = string.Format(
+                "{0}", Math.Round(l * 2 * _foot_to_mm));
+            
+            if (øDimToDn.ContainsKey(truncSize))
+                size = øDimToDn[truncSize].ToString();
 
             return size;
         }
@@ -980,24 +1042,26 @@ namespace Shared
                 { 21, 15 },
                 { 26, 20 },
                 { 33, 25 },
+                { 34, 25 },
                 { 42, 32 },
                 { 48, 40 },
                 { 60, 50 },
                 { 76, 65 },
-                { 89, 80 },
+                { 88, 80 },
                 { 114, 100 },
-                { 140, 125 },
+                { 139, 125 },
                 { 168, 150 },
                 { 219, 200 },
                 { 273, 250 },
-                { 324, 300 },
-                { 356, 350 },
+                { 323, 300 },
+                { 355, 350 },
                 { 406, 400 },
                 { 457, 450 },
                 { 508, 500 },
                 { 559, 550 },
                 { 610, 600 },
                 { 711, 700 },
+                { 813, 800 },
             };
     }
 

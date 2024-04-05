@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <NsPath>X:\AutoCAD DRI - Revit\Addins\2024\ModelessForms</NsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+			None
+		</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{25A5F61C-F9AE-463A-A1A1-9C1EDA4EDAB9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ModelessForms</RootNamespace>
+    <AssemblyName>ModelessForms</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.7.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="RevitAPI">
+      <HintPath>X:\Revit API\2024\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>X:\Revit API\2024\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="02 MepUtils\AsyncMethodMepUtils.cs" />
+    <Compile Include="02 MepUtils\MEPUtilsModeless.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="02 MepUtils\MEPUtilsModeless.Designer.cs">
+      <DependentUpon>MEPUtilsModeless.cs</DependentUpon>
+    </Compile>
+    <Compile Include="03 SearchAndSelect\01 SearchAndSelect.cs" />
+    <Compile Include="03 SearchAndSelect\AsyncMethodSnS.cs" />
+    <Compile Include="03 SearchAndSelect\EditFilteringForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="03 SearchAndSelect\EditFilteringForm.Designer.cs">
+      <DependentUpon>EditFilteringForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="03 SearchAndSelect\EditGroupingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="03 SearchAndSelect\EditGroupingForm.Designer.cs">
+      <DependentUpon>EditGroupingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="03 SearchAndSelect\SelectionInformationContainer.cs" />
+    <Compile Include="03 SearchAndSelect\SnS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="03 SearchAndSelect\SnS.Designer.cs">
+      <DependentUpon>SnS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="03 SearchAndSelect\TreeViewUtils.cs" />
+    <Compile Include="04 GeometryValidator\AsyncValidateConnectorGeometry.cs" />
+    <Compile Include="04 GeometryValidator\GeometryValidator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="04 GeometryValidator\GeometryValidator.Designer.cs">
+      <DependentUpon>GeometryValidator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="04 GeometryValidator\ConnectorValidationContainer.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="01 SetTags\AsyncMethodSetTags.cs" />
+    <Compile Include="01 SetTags\BasicChooserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="01 SetTags\BasicChooserForm.Designer.cs">
+      <DependentUpon>BasicChooserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="03 SearchAndSelect\Data.cs" />
+    <Compile Include="EventHandler.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.DistinctBy.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="01 SetTags\SetTagsInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="01 SetTags\SetTagsInterface.Designer.cs">
+      <DependentUpon>SetTagsInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="01 SetTags\BasicChooserForm.resx">
+      <DependentUpon>BasicChooserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="01 SetTags\SetTagsInterface.resx">
+      <DependentUpon>SetTagsInterface.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ImgGeometryValidator16.png" />
+    <EmbeddedResource Include="04 GeometryValidator\GeometryValidator.resx">
+      <DependentUpon>GeometryValidator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ImgGeometryValidator32.png" />
+    <EmbeddedResource Include="03 SearchAndSelect\EditFilteringForm.resx">
+      <DependentUpon>EditFilteringForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="03 SearchAndSelect\EditGroupingForm.resx">
+      <DependentUpon>EditGroupingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ImgSnS16.png" />
+    <EmbeddedResource Include="Resources\ImgSnS32.png" />
+    <EmbeddedResource Include="02 MepUtils\MEPUtilsModeless.resx">
+      <DependentUpon>MEPUtilsModeless.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="03 SearchAndSelect\SnS.resx">
+      <DependentUpon>SnS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ImgMEPUtils32.png" />
+    <EmbeddedResource Include="Resources\ImgMEPUtils16.png" />
+    <None Include="app.config" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ImgSetTags16.png" />
+    <EmbeddedResource Include="Resources\ImgSetTags32.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)"=="Release" (
+    for /D %25%25i in ("$(TargetDir)*") do (
+        if /I not "%25%25~nxi"=="NetReload" (
+            xcopy "%25%25i" "$(NsPath)\%25%25~nxi\" /E /Y /D
+        )
+    )
+    for %25%25i in ("$(TargetDir)*.*") do (
+        if /I not "%25%25~dpxi"=="$(TargetDir)NetReload\" (
+            xcopy "%25%25i" "$(NsPath)\" /Y /D
+        )
+    )
+)
+		</PostBuildEvent>
+  </PropertyGroup>
+</Project>

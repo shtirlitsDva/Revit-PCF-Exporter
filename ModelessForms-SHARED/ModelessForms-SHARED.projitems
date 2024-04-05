@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>18f8030b-e17e-4689-a026-259383db16dd</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ModelessForms_SHARED</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)01 SetTags\AsyncMethodSetTags.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)01 SetTags\BasicChooserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 SetTags\BasicChooserForm.Designer.cs">
+      <DependentUpon>BasicChooserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 SetTags\SetTagsInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 SetTags\SetTagsInterface.Designer.cs">
+      <DependentUpon>SetTagsInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)02 MepUtils\AsyncMethodMepUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)02 MepUtils\MEPUtilsModeless.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)02 MepUtils\MEPUtilsModeless.Designer.cs">
+      <DependentUpon>MEPUtilsModeless.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\01 SearchAndSelect.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\AsyncMethodSnS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\Data.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\EditFilteringForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\EditFilteringForm.Designer.cs">
+      <DependentUpon>EditFilteringForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\EditGroupingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\EditGroupingForm.Designer.cs">
+      <DependentUpon>EditGroupingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\SelectionInformationContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\SnS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\SnS.Designer.cs">
+      <DependentUpon>SnS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\TreeViewUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)04 GeometryValidator\AsyncValidateConnectorGeometry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)04 GeometryValidator\ConnectorValidationContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)04 GeometryValidator\GeometryValidator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)04 GeometryValidator\GeometryValidator.Designer.cs">
+      <DependentUpon>GeometryValidator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Application.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)01 SetTags\BasicChooserForm.resx">
+      <DependentUpon>BasicChooserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)01 SetTags\SetTagsInterface.resx">
+      <DependentUpon>SetTagsInterface.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)02 MepUtils\MEPUtilsModeless.resx">
+      <DependentUpon>MEPUtilsModeless.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\EditFilteringForm.resx">
+      <DependentUpon>EditFilteringForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\EditGroupingForm.resx">
+      <DependentUpon>EditGroupingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)03 SearchAndSelect\SnS.resx">
+      <DependentUpon>SnS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)04 GeometryValidator\GeometryValidator.resx">
+      <DependentUpon>GeometryValidator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgGeometryValidator16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgGeometryValidator32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgMEPUtils16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgMEPUtils32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSetTags16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSetTags32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSnS16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSnS32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>b35f4ebb-90f8-4f1f-b2cc-5229a671f142</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>RibbonPanel_SHARED</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgConnectConnectors16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgConnectConnectors32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgMEPUtils16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgMEPUtils32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgPDF16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgPDF32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgPED16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgPED32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgPipeInsulationVisibility16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgPipeInsulationVisibility32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgPlaceSupport16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgPlaceSupport32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSetMark16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSetMark32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgTotalLineLength16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgTotalLineLength32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)MyRevitAddins.addin" />
+  </ItemGroup>
+</Project>
