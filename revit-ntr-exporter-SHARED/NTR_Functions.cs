@@ -54,7 +54,7 @@ namespace NTR_Functions
 
         public ConfigurationData()
         {
-            DataSet dataSet = Shared.DataHandler.ReadExcelToDataSet(iv.ExcelPath, true);
+            DataSet dataSet = Shared.DataHandler.ReadExcelToDataSet(iv.ExcelPath, false);
 
             DataTableCollection dataTableCollection = dataSet.Tables;
 
