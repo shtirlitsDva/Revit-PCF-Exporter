@@ -40,7 +40,7 @@ namespace MEPUtils
                     IList<Connector> allConnectors;
                     if (selection.Count == 0)
                     {
-                        FilteredElementCollector col = fi.GetElementsWithConnectors(doc, doc.ActiveView.Id, false);
+                        FilteredElementCollector col = fi.GetElementsWithConnectors(doc, doc.ActiveView.Id, true);
                         //IEnumerable<Element> els = col.ToElements();
 
                         allConnectors = col.GetConnectors()
