@@ -15,8 +15,9 @@ using op = Shared.Output;
 using tr = Shared.Transformation;
 using mp = Shared.MepUtils;
 using dh = Shared.DataHandler;
+using System.Diagnostics;
 
-namespace MEPUtils
+namespace MEPUtils.InsulationHandler
 {
     public class InsulationHandler
     {
@@ -50,8 +51,42 @@ namespace MEPUtils
             fittings = fittings.Where(e => e.GroupId.IntegerValue == -1).ToHashSet();
             accessories = accessories.Where(e => e.GroupId.IntegerValue == -1).ToHashSet();
 
-            var insPar = GetInsulationParameters();
-            var insSet = GetInsulationSettings(doc);
+            Settings.InsulationParameters = GetInsulationParameters();
+            Settings.InsulationSettings = GetInsulationSettings(doc);
+
+            HashSet<IW> wrapper = new HashSet<IW>();
+            foreach (Element e in pipes) wrapper.Add(IWFactory.CreateIW(e));
+
+            #region Filter out nondefined SysAbbrs
+            //Filter out items with where sysAbbr is not defined in the settings file
+            HashSet<string> nonDefinedSysAbbrs = new HashSet<string>();
+            int withoutSysAbbr = 0;
+            FilterAndReportSysAbbr(pipes);
+            FilterAndReportSysAbbr(fittings);
+            FilterAndReportSysAbbr(accessories);
+
+            void FilterAndReportSysAbbr(HashSet<Element> els)
+            {
+                HashSet<Element> toRemove = new HashSet<Element>();
+
+                foreach (var e in els)
+                {
+                    string sysAbbr = e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
+                    if (sysAbbr.IsNoE()) { withoutSysAbbr++; continue; }
+
+                    if (!insPar.AsEnumerable().Any(row => row.Field<string>("System") == sysAbbr))
+                    {
+                        nonDefinedSysAbbrs.Add(sysAbbr);
+                        toRemove.Add(e);
+                    }
+                }
+
+                els.ExceptWith(toRemove);
+            }
+            Debug.WriteLine($"Number of Elements without SysAbbr (Undefined): {withoutSysAbbr}");
+            Debug.WriteLine($"Following SysAbbrs not defined in settings and thus not insulated:\n" +
+                $"{string.Join("\n", nonDefinedSysAbbrs)}");
+            #endregion
 
             using (Transaction tx = new Transaction(doc))
             {
@@ -82,7 +117,6 @@ namespace MEPUtils
 
             return Result.Succeeded;
         }
-
         private static DataTable GetInsulationSettings(Document doc)
         {
             //Manage Insulation creation settings
@@ -110,7 +144,6 @@ namespace MEPUtils
                     "Insulation creation settings file does not exist! Run configuration routine first!");
             return settings;
         }
-
         private static DataTable GetInsulationParameters()
         {
             //Manage Insulation parameters settings
@@ -127,7 +160,6 @@ namespace MEPUtils
             DataTable insulationData = CsvReader.ReadInsulationCsv(pathToInsulationCsv);
             return insulationData;
         }
-
         private static void InsulatePipe(Document doc, Element e, DataTable insPar)
         {
             #region Initialization
@@ -181,9 +213,6 @@ namespace MEPUtils
         private static void InsulateFitting(Document doc, Element e, DataTable insPar, DataTable insSet)
         {
             #region Initialization
-            //Read configuration data
-            //var insPar = GetInsulationParameters();
-
             //Read common configuration values
             string sysAbbr = e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
 

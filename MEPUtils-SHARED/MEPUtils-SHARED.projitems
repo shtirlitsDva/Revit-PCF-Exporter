@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)01 InsulationHandler\InsulationSettingsWindow.Designer.cs">
       <DependentUpon>InsulationSettingsWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 InsulationHandler\InsulationWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)02 FlangeCreator\FlangeCreator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)02 FlangeCreator\FlangeCreatorChooser.cs">
       <SubType>Form</SubType>
