@@ -53,9 +53,9 @@ namespace MEPUtils
             //Place methods to execute in this dict
             methodDict = new Dictionary<int, Func<UIApplication, Result>>
             {
-                {0, InsulationHandler.CreateAllInsulation },
-                {1, InsulationHandler.DeleteAllPipeInsulation },
-                {2, new InsulationHandler().ExecuteInsulationSettings },
+                {0, InsulationHandler.InsulationHandler.CreateAllInsulation },
+                {1, InsulationHandler.InsulationHandler.DeleteAllPipeInsulation },
+                {2, new InsulationHandler.InsulationHandler().ExecuteInsulationSettings },
                 {3, PipeCreator.CreatePipeFromConnector },
                 {4, FlangeCreator.CreateFlangeForElements },
                 {5, TotalLineLength.TotalLineLengths },

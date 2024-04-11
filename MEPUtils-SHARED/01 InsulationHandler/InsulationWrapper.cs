@@ -4,9 +4,14 @@ using Autodesk.Revit.DB.Plumbing;
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Data;
 using System.Text;
+
+using Shared;
+using fi = Shared.Filter;
+using mp = Shared.MepUtils;
+using dh = Shared.DataHandler;
+using System.Linq;
 
 namespace MEPUtils.InsulationHandler
 {
@@ -18,12 +23,12 @@ namespace MEPUtils.InsulationHandler
     public interface IW
     {
         string sysAbbr { get; }
+        void Insulate(Document doc);
     }
     public static class IWFactory
     {
         private static BuiltInCategory PACat = BuiltInCategory.OST_PipeAccessory;
         private static BuiltInCategory FitCat = BuiltInCategory.OST_PipeFitting;
-
         public static IW CreateIW(Element e)
         {
             if (e is Pipe) return new IWPipe(e);
@@ -31,8 +36,8 @@ namespace MEPUtils.InsulationHandler
             {
                 if (e.Category.Id.IntegerValue == (int)PACat)
                 {
-                    if (e.LookupParameter("Insulation Projected") == null) new IWPipeAccessoryGeneral(e);
-                    else return new IWPipeAccessoryCustom(e);
+                    if (e.LookupParameter("Insulation Projected") == null) new IWFamilyInstanceGeneral(e);
+                    else return new IWFamilyInstanceCustom(e);
                 }
                 if (e.Category.Id.IntegerValue == (int)FitCat)
                 {
@@ -43,11 +48,11 @@ namespace MEPUtils.InsulationHandler
 
                     if (mf.PartType == PartType.Tee)
                     {
-                        if (fi.LookupParameter("Insulation Projected") == null) return new IWTeeGeneral(e);
-                        else return new IWTeeCustom(e);
+                        if (fi.LookupParameter("Insulation Projected") == null) return new IWFamilyInstanceGeneral(e);
+                        else return new IWFamilyInstanceCustom(e);
                     }
 
-                    return new IWFittingGeneral(e);
+                    return new IWFamilyInstanceGeneral(e);
                 }
             }
             return null;
@@ -55,62 +60,220 @@ namespace MEPUtils.InsulationHandler
     }
     public abstract class InsulationWrapper : IW
     {
-        public string sysAbbr
+        public string sysAbbr { get; }
+        protected string famAndType => e.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString();
+        protected bool insulationAllowed { get; set; }
+        protected readonly Element e;
+        public InsulationWrapper(Element element)
         {
-            get
-            {
-                Parameter par = e.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM);
-                if (par == null) return "";
-                return par.AsString();
-            }
+            this.e = element;
+            sysAbbr = this.e.get_Parameter(
+                BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)?.AsString() ?? "";
+
+            var query = Settings.InsulationSettings.AsEnumerable()
+            .Where(row => row.Field<string>("FamilyAndType") == famAndType)
+            .Select(row => row.Field<string>("AddInsulation")).FirstOrDefault();
+
+            //this to set the insulationAllowed property to false if query is null
+            insulationAllowed = bool.TryParse(query, out bool temp) ? temp : false;
         }
 
-        private Element e;
-        public InsulationWrapper(Element e)
+        public abstract void Insulate(Document doc);
+        protected double ReadThickness(double dia)
         {
-            this.e = e;
+            string insThicknessAsReadFromDataTable = dh.ReadParameterFromDataTable(
+                sysAbbr, Settings.InsulationParameters, dia.ToString());
+            if (insThicknessAsReadFromDataTable == null) return 0;
+            return double.Parse(insThicknessAsReadFromDataTable).Round(0).MmToFt();
         }
     }
     public class IWPipe : InsulationWrapper
     {
-        public IWPipe(Element e) : base(e)
+        public IWPipe(Element e) : base(e) { }
+
+        public override void Insulate(Document doc)
         {
+            //Declare insulation thickness vars
+            var dia = ((Pipe)e).Diameter.FtToMm().Round(0);
+            double specifiedInsulationThickness = ReadThickness(dia); //In feet already
+
+            //Retrieve insulation type parameter and see if the pipe is already insulated
+            Parameter parInsTypeCheck = e.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_TYPE);
+            if (parInsTypeCheck.HasValue)
+            {
+                //Case: If the pipe is already insulated, check to see if insulation is correct
+                Parameter parInsThickness = e.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_THICKNESS);
+                double existingInsulationThickness = parInsThickness.AsDouble(); //In feet
+
+                //Test if existing thickness is as specified
+                //If ok -> do nothing, if not -> fix it
+                if (!specifiedInsulationThickness.Equalz(existingInsulationThickness, 1.0e-9))
+                {
+                    ElementId id = InsulationLiningBase.GetInsulationIds(doc, e.Id).FirstOrDefault();
+                    if (id == null) return;
+                    if (specifiedInsulationThickness.Equalz(0, Extensions._epx)) { doc.Delete(id); return; }
+                    PipeInsulation insulation = doc.GetElement(id) as PipeInsulation;
+                    if (insulation == null) return;
+                    insulation.Thickness = specifiedInsulationThickness;
+                }
+            }
+            else
+            {
+                //Case: If no insulation -> add insulation
+                //Read pipeinsulation type and get the type
+                string pipeInsulationName = dh.ReadParameterFromDataTable(
+                    sysAbbr, Settings.InsulationParameters, "Type");
+                if (pipeInsulationName == null) return;
+                PipeInsulationType pipeInsulationType =
+                    fi.GetElements<PipeInsulationType, BuiltInParameter>(
+                        doc, BuiltInParameter.ALL_MODEL_TYPE_NAME, pipeInsulationName).FirstOrDefault();
+                if (pipeInsulationType == null) throw new Exception($"No pipe insulation type named {pipeInsulationName}!");
+
+                //Test to see if the specified insulation is 0
+                if (specifiedInsulationThickness.Equalz(0, Extensions._epx)) return;
+
+                //Create insulation
+                PipeInsulation.Create(doc, e.Id, pipeInsulationType.Id, specifiedInsulationThickness);
+            }
         }
     }
-    public class IWPipeAccessoryGeneral : InsulationWrapper
+    public class IWFamilyInstanceGeneral : InsulationWrapper
     {
-        public IWPipeAccessoryGeneral(Element e) : base(e)
+        public IWFamilyInstanceGeneral(Element e) : base(e) { }
+
+        public override void Insulate(Document doc)
         {
+            var cons = mp.GetConnectors(e);
+            double dia = (cons.Primary.Radius * 2).FtToMm().Round(0);
+
+            double specifiedInsulationThickness = ReadThickness(dia);
+
+            //Logic for adding insulation
+            //Retrieve insulation type parameter and see if the accessory is already insulated
+            Parameter parInsTypeCheck = e.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_TYPE);
+            if (parInsTypeCheck.HasValue)
+            {
+                //If not allowed (false is read) negate the false to true to trigger the following if
+                //Delete any existing insulation and return
+                if (!insulationAllowed || specifiedInsulationThickness == 0)
+                {
+                    doc.Delete(InsulationLiningBase.GetInsulationIds(doc, e.Id));
+                    return;
+                }
+
+                //Case: If the accessory is already insulated, check to see if insulation is correct
+                Parameter parInsThickness = e.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_THICKNESS);
+                double existingInsulationThickness = parInsThickness.AsDouble(); //In feet
+
+                //Test if existing thickness is as specified
+                //If ok -> do nothing, if not -> fix it
+                if (!specifiedInsulationThickness.Equalz(existingInsulationThickness, 1.0e-9))
+                {
+                    ElementId id = InsulationLiningBase.GetInsulationIds(doc, e.Id).FirstOrDefault();
+                    if (id == null) return;
+                    PipeInsulation insulation = doc.GetElement(id) as PipeInsulation;
+                    if (insulation == null) return;
+                    insulation.Thickness = specifiedInsulationThickness;
+                }
+            }
+            else
+            {
+                //Case: If no insulation -> add insulation if allowed
+                if (!insulationAllowed || specifiedInsulationThickness == 0) return;
+
+                //Read pipeinsulation type and get the type
+                string pipeInsulationName = dh.ReadParameterFromDataTable(
+                    sysAbbr, Settings.InsulationParameters, "Type");
+                if (pipeInsulationName == null) return;
+                PipeInsulationType pipeInsulationType =
+                    fi.GetElements<PipeInsulationType, BuiltInParameter>(
+                        doc, BuiltInParameter.ALL_MODEL_TYPE_NAME, pipeInsulationName).FirstOrDefault();
+                if (pipeInsulationType == null) throw new Exception($"No pipe insulation type named {pipeInsulationName}!");
+
+                //Create insulation
+                PipeInsulation.Create(doc, e.Id, pipeInsulationType.Id, specifiedInsulationThickness);
+            }
         }
     }
-    public class IWPipeAccessoryCustom : InsulationWrapper
+    public class IWFamilyInstanceCustom : InsulationWrapper
     {
-        public IWPipeAccessoryCustom(Element e) : base(e)
+        public IWFamilyInstanceCustom(Element e) : base(e) { }
+
+        public override void Insulate(Document doc)
         {
-        }
-    }
-    public class IWTeeGeneral : InsulationWrapper
-    {
-        public IWTeeGeneral(Element e) : base(e)
-        {
-        }
-    }
-    public class IWTeeCustom : InsulationWrapper
-    {
-        public IWTeeCustom(Element e) : base(e)
-        {
+            Parameter insulationProjectedPar =
+                e.LookupParameter("Insulation Projected"); //existence should be guaranteed by factory
+            Parameter insulationVisibilityPar = e.LookupParameter("Dummy Insulation Visible");
+            if (insulationVisibilityPar == null)
+                throw new Exception($"Insulation visibility parameter (Dummy Insulation Visible) not found for element {e.Id}!");
+
+            //Retrieve insulation type parameter and see if the accessory is already insulated
+            Parameter parInsTypeCheck = e.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_TYPE);
+            if (parInsTypeCheck.HasValue)
+                //Delete any existing insulation and return
+                doc.Delete(InsulationLiningBase.GetInsulationIds(doc, e.Id));
+
+            //Add insulation
+            var cons = mp.GetConnectors(e);
+            double dia = (cons.Primary.Radius * 2).FtToMm().Round(0);
+
+            double specifiedInsulationThickness = ReadThickness(dia);
+            if (specifiedInsulationThickness.Equalz(0, 1.0e-6)) insulationAllowed = false;
+            double existingInsulationThickness = insulationProjectedPar.AsDouble();
+
+            if (insulationAllowed)
+            {
+                //Turn on insulation visibility if insulation is allowed
+                insulationVisibilityPar.Set(1);
+
+                //Case: Existing insulation does not equal specified
+                if (!existingInsulationThickness.Equalz(specifiedInsulationThickness, 1.0e-6))
+                    insulationProjectedPar.Set(specifiedInsulationThickness);
+            }
+            else
+            {
+                //Turn off insulation visibility if insulation is not allowed
+                insulationVisibilityPar.Set(0);
+                insulationProjectedPar.Set(0);
+            }
         }
     }
     public class IWTransition : InsulationWrapper
     {
-        public IWTransition(Element e) : base(e)
+        public IWTransition(Element e) : base(e) {}
+        public override void Insulate(Document doc)
         {
-        }
-    }
-    public class IWFittingGeneral : InsulationWrapper
-    {
-        public IWFittingGeneral(Element e) : base(e)
-        {
+            //Retrieve insulation type parameter and see if the accessory is already insulated
+            Parameter parInsTypeCheck = e.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_TYPE);
+            if (parInsTypeCheck.HasValue)
+                //Delete any existing insulation and return
+                doc.Delete(InsulationLiningBase.GetInsulationIds(doc, e.Id));
+
+            //Add insulation
+            var cons = mp.GetConnectors(e);
+
+            //Insulate after the larger diameter
+            double primDia = (cons.Primary.Radius * 2).FtToMm().Round(0);
+            double secDia = (cons.Secondary.Radius * 2).FtToMm().Round(0);
+
+            double dia = primDia > secDia ? primDia : secDia;
+
+            double specifiedInsulationThickness = ReadThickness(dia);
+            if (specifiedInsulationThickness.Equalz(0, 1.0e-6)) insulationAllowed = false;
+            double existingInsulationThickness = e.get_Parameter(
+                BuiltInParameter.RBS_REFERENCE_INSULATION_THICKNESS).AsDouble();
+
+            if (insulationAllowed)
+            {
+                //Case: Existing insulation does not equal specified
+                if (!existingInsulationThickness.Equalz(specifiedInsulationThickness, 1.0e-6))
+                    e.get_Parameter(BuiltInParameter.RBS_REFERENCE_INSULATION_THICKNESS).Set(specifiedInsulationThickness);
+            }
+            else
+            {
+                //Delete any existing insulation and return
+                doc.Delete(InsulationLiningBase.GetInsulationIds(doc, e.Id));
+            }
         }
     }
 }

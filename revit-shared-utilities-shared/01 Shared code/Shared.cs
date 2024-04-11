@@ -847,19 +847,10 @@ namespace Shared
 
         public static string ReadParameterFromDataTable(string key, DataTable table, string parameter)
         {
-            //Test if value exists
-            if (table.AsEnumerable().Any(row => row.Field<string>(0) == key))
-            {
-                var query = from row in table.AsEnumerable()
-                            where row.Field<string>(0) == key
-                            select row.Field<string>(parameter);
-
-                string value = query.FirstOrDefault();
-
-                //if (value.IsNullOrEmpty()) return null;
-                return value;
-            }
-            else return null;
+            return table.AsEnumerable()
+                .Where(row => row.Field<string>(0) == key && row.Table.Columns.Contains(parameter))
+                .Select(row => row[parameter]?.ToString())
+                .FirstOrDefault();
         }
         /// <summary>
         /// Looks up value from data table.
