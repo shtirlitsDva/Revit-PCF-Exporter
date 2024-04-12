@@ -58,6 +58,8 @@ namespace MEPUtils.InsulationHandler
             //Create the wrapper objects
             HashSet<IW> iws = new HashSet<IW>();
             foreach (Element e in pipes) iws.Add(IWFactory.CreateIW(e));
+            foreach (Element e in fittings) iws.Add(IWFactory.CreateIW(e));
+            foreach (Element e in accessories) iws.Add(IWFactory.CreateIW(e));
 
             Debug.WriteLine($"Number of all elements P/PA/PF unfiltered: {pipes.Count}");
 
