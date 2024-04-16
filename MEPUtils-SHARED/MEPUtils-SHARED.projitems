@@ -134,6 +134,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\01 CheckOrCreatePipingSystemFilters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\02 AddAllPipingSystemTypesFiltersToView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\03 IsolateSelectedPipingSystems.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)28 WriteRoomNumbersToContainedElements\01 WriteRoomNumbersToCE.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)26 CopyElementsToAnotherDoc\01 CopyElementsToAnotherDoc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)27 CopyPSTParameterValuesToElements\01 CopyPSTParameterValuesToElements.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MEPUtils.cs">
