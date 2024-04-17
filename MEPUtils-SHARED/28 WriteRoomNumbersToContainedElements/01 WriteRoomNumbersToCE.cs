@@ -60,7 +60,7 @@ namespace MEPUtils.WriteRoomNumbersToContainedElements
             Document roomDoc = dict[docTitle];
             if (roomDoc == null) { Debug.WriteLine("Room source document not found!"); return Result.Cancelled; }
 
-            var roomFC = new FilteredElementCollector
+            //var roomFC = new FilteredElementCollector
 
             //using (Transaction tx = new Transaction(doc, "Determine room number!"))
             //{

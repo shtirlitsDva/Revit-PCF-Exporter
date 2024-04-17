@@ -15,6 +15,7 @@ using op = Shared.Output;
 using tr = Shared.Transformation;
 using mp = Shared.MepUtils;
 using MEPUtils;
+using MEPUtils.InsulationHandler;
 
 namespace ModelessForms
 {
