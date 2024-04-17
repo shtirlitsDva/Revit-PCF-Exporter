@@ -23,6 +23,9 @@ using mp = Shared.MepUtils;
 using tr = Shared.Transformation;
 using Autodesk.Revit.Attributes;
 using System.Diagnostics;
+using Autodesk.Revit.DB.Architecture;
+using sl = Shared.SimpleLogger;
+using System.Security.Cryptography;
 
 namespace MEPUtils.WriteRoomNumbersToContainedElements
 {
@@ -34,6 +37,8 @@ namespace MEPUtils.WriteRoomNumbersToContainedElements
             UIApplication uiApp = commandData.Application;
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = uiApp.ActiveUIDocument;
+
+            sl.clrLog();
 
             DocumentSet documents = uiApp.Application.Documents;
 
@@ -60,23 +65,65 @@ namespace MEPUtils.WriteRoomNumbersToContainedElements
             Document roomDoc = dict[docTitle];
             if (roomDoc == null) { Debug.WriteLine("Room source document not found!"); return Result.Cancelled; }
 
-            //var roomFC = new FilteredElementCollector
+            //RoomFilter roomFilter = new RoomFilter();
+            //var roomFC = new FilteredElementCollector(roomDoc)
+            //    .WherePasses(roomFilter)
+            //    .Cast<Room>();
 
-            //using (Transaction tx = new Transaction(doc, "Determine room number!"))
-            //{
-            //    tx.Start();
-            //    try
-            //    {
-                    
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        tx.RollBack();
-            //        Debug.WriteLine(ex.ToString());
-            //        throw;
-            //    }
-            //    tx.Commit();
-            //}
+            //var rooms = roomFC.ToHashSet();
+
+            var els = fi.GetElementsWithConnectors(doc, true).ToHashSet();
+            sl.log("Number of elements with connectors: " + els.Count);
+            //sl.log("Number of rooms: " + rooms.Count);
+
+            using (Transaction tx = new Transaction(doc, "Determine room number!"))
+            {
+                tx.Start();
+                try
+                {
+                    Parameter par;
+                    XYZ mid = default;
+
+                    int failCount = 0;
+                    int successCount = 0;
+
+                    foreach (var el in els)
+                    {
+                        if (el is Pipe pipe)
+                        {
+                            Cons cons = new Cons(el);
+                            mid = (cons.Primary.Origin + cons.Secondary.Origin) / 2;
+                            sl.log(cons.Primary.Origin.ToString() + " " + cons.Secondary.Origin.ToString() + " " + mid.ToString());
+                        }
+                        else if (el is FamilyInstance fi)
+                        {
+                            mid = ((LocationPoint)fi.Location).Point;
+                            sl.log(mid.ToString());
+                        }
+
+                        if (mid == null) continue;
+
+                        Room room = roomDoc.GetRoomAtPoint(mid);
+                        if (room == null) { failCount++; continue; }
+                        else successCount++;
+
+                        //par = el.LookupParameter("MC System Code");
+                        //if (par == null) continue;
+
+                        //par.Set(room.Number);
+                    }
+
+                    sl.log("Success: " + successCount);
+                    sl.log("Fails: " + failCount);
+                }
+                catch (Exception ex)
+                {
+                    tx.RollBack();
+                    Debug.WriteLine(ex.ToString());
+                    throw;
+                }
+                tx.Commit();
+            }
 
             return Result.Succeeded;
         }

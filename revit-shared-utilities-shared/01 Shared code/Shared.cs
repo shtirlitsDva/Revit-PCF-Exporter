@@ -1443,6 +1443,7 @@ namespace Shared
         }
         public static void log(string msg)
         {
+            Debug.WriteLine(msg);
             File.AppendAllLines(LogFileName, new string[] { $"{DateTime.Now}: {msg}" });
         }
     }
