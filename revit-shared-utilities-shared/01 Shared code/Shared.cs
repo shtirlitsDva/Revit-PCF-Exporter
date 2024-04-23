@@ -423,7 +423,7 @@ namespace Shared
         public static HashSet<Connector> GetAllConnectorsFromConnectorSet(ConnectorSet conSet)
         {
             IList<Connector> list = new List<Connector>();
-            foreach (Connector con in conSet) list.Add(con);
+            foreach (Connector con in conSet) if (con.Domain == Domain.DomainPiping) list.Add(con);
             return list.ToHashSet();
         }
 
@@ -454,12 +454,14 @@ namespace Shared
 
         public static HashSet<Connector> GetALLConnectorsFromElements(HashSet<Element> elements)
         {
-            return (from e in elements from Connector c in GetConnectorSet(e) select c).ToHashSet();
+            return (from e in elements from Connector c in GetConnectorSet(e) select c)
+                .Where(c => c.Domain == Domain.DomainPiping).ToHashSet();
         }
 
         public static HashSet<Connector> GetALLConnectorsFromElements(Element element)
         {
-            return (from Connector c in GetConnectorSet(element) select c).ToHashSet();
+            return (from Connector c in GetConnectorSet(element) select c)
+                .Where(c => c.Domain == Domain.DomainPiping).ToHashSet();
         }
 
         public static HashSet<Connector> GetALLConnectorsInDocument(Document doc, bool includeMechEquipment = false)
@@ -467,8 +469,8 @@ namespace Shared
             return (from e in Filter.GetElementsWithConnectors(
                 doc, includeMechEquipment)
                     from Connector c in GetConnectorSet(e)
-                    select c)
-                .ToHashSet();
+                    select c).Where(c => c.Domain == Domain.DomainPiping)
+                    .ToHashSet();
         }
 
         /// <summary>
@@ -482,7 +484,8 @@ namespace Shared
 
         public static HashSet<Connector> GetALLConnectorsFromElements(HashSet<Element> elements, IEqualityComparer<Connector> comparer)
         {
-            return (from e in elements from Connector c in Shared.MepUtils.GetConnectorSet(e) select c).ToHashSet(comparer);
+            return (from e in elements from Connector c in Shared.MepUtils.GetConnectorSet(e) select c)
+                .Where(c => c.Domain == Domain.DomainPiping).ToHashSet(comparer);
         }
 
         public static bool IsTheElementACap(Element element)
