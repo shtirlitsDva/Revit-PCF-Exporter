@@ -140,14 +140,50 @@
       <Link>Dark_PCF_Exporter_form.Designer.cs</Link>
       <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Accessories.cs">
+      <Link>PCF_Accessories.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_EndsAndConnections.cs">
+      <Link>PCF_EndsAndConnections.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Filtering.cs">
+      <Link>PCF_Filtering.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Fittings.cs">
+      <Link>PCF_Fittings.cs</Link>
+    </Compile>
     <Compile Include="..\revit-pcf-exporter-shared\PCF_Functions.cs">
       <Link>PCF_Functions.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Main.cs">
+      <Link>PCF_Main.cs</Link>
     </Compile>
     <Compile Include="..\revit-pcf-exporter-shared\PCF_Output.cs">
       <Link>PCF_Output.cs</Link>
     </Compile>
     <Compile Include="..\revit-pcf-exporter-shared\PCF_ParameterData.cs">
       <Link>PCF_ParameterData.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Parameters.cs">
+      <Link>PCF_Parameters.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Pipeline.cs">
+      <Link>PCF_Pipeline.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Pipeline_Filename.cs">
+      <Link>PCF_Pipeline_Filename.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Pipes.cs">
+      <Link>PCF_Pipes.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Supports.cs">
+      <Link>PCF_Supports.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\PCF_Taps.cs">
+      <Link>PCF_Taps.cs</Link>
+    </Compile>
+    <Compile Include="..\revit-pcf-exporter-shared\Settings.Designer.cs">
+      <Link>Settings.Designer.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
