@@ -26,36 +26,9 @@ namespace PCF_Parameters
         public void ExportUndefinedElements(UIApplication uiApp, Document doc, string excelPath)
         {
             //Read existing values
-            //DataSet dataSetWithHeaders = Shared.DataHandler.ImportExcelToDataSet(excelPath, "YES");
             DataSet dataSetWithHeaders = DataHandler.ReadExcelToDataSet(excelPath);
 
             DataTable Elements = Shared.DataHandler.ReadDataTable(dataSetWithHeaders, "Elements");
-            //DataTable Pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders.Tables, "Pipelines");
-
-
-            #region Pipelines
-            ////Collect all pipelines
-            //FilteredElementCollector colPL = new FilteredElementCollector(doc);
-            //var systems = new HashSet<Element>(colPL.OfCategory(BuiltInCategory.OST_PipingSystem));
-            //var names = new HashSet<string>(systems.DistinctBy(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString())
-            //                   .Select(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_AND_TYPE_PARAM).AsValueString()));
-
-            ////Process pipelines
-            //worksheet = excel.ActiveSheet as xel.Worksheet;
-            //worksheet.Name = "MISSING_PIPELINES";
-            //worksheet.Columns.ColumnWidth = 20;
-
-            ////Compare values and write those who are not in configuration workbook
-            //int row = 1;
-            //int col = 1;
-            //foreach (string name in names)
-            //{
-            //    //See if record already is defined
-            //    if (Pipelines.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == name)) continue;
-            //    worksheet.Cells[row, col] = name;
-            //    row++;
-            //}
-            #endregion
 
             #region Elements
             //Collect all elements
@@ -158,7 +131,6 @@ namespace PCF_Parameters
             }
             #endregion
         }
-
         internal Result ExecuteMyCommand(UIApplication uiApp)
         {
             Document doc = uiApp.ActiveUIDocument.Document;
@@ -271,6 +243,43 @@ namespace PCF_Parameters
 
             collector.Dispose();
             return Result.Succeeded;
+        }
+        public void ExportUndefinedPipelines(UIApplication uiApp, Document doc, string excelPath)
+        {
+            //Read existing values
+            DataSet dataSetWithHeaders = DataHandler.ReadExcelToDataSet(excelPath);
+
+            DataTable pipelines = Shared.DataHandler.ReadDataTable(dataSetWithHeaders, "Pipelines");
+
+            string projId = iv.PCF_PROJECT_IDENTIFIER;
+
+            if (projId.IsNullOrEmpty())
+            {
+
+            }
+
+            #region Pipelines
+            //Collect all pipelines
+            var psts = new FilteredElementCollector(doc).OfClass(typeof(PipingSystemType))
+                .Cast<PipingSystemType>();
+            var abbrs = psts.Select(pst => pst.Abbreviation).ToHashSet();
+
+            ////Process pipelines
+            //worksheet = excel.ActiveSheet as xel.Worksheet;
+            //worksheet.Name = "MISSING_PIPELINES";
+            //worksheet.Columns.ColumnWidth = 20;
+
+            ////Compare values and write those who are not in configuration workbook
+            //int row = 1;
+            //int col = 1;
+            //foreach (string name in names)
+            //{
+            //    //See if record already is defined
+            //    if (Pipelines.AsEnumerable().Any(dataRow => dataRow.Field<string>(0) == name)) continue;
+            //    worksheet.Cells[row, col] = name;
+            //    row++;
+            //}
+            #endregion
         }
     }
 
