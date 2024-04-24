@@ -13,7 +13,7 @@ namespace PCF_Output
         {
             ////Clear the output file
             //System.IO.File.WriteAllBytes(filename, new byte[0]);
-
+            ;
             // Write to output file
 
             if (mySettings.Default.radioButton17UTF8_BOM)

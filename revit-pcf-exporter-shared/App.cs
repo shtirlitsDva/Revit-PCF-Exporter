@@ -99,7 +99,7 @@ namespace PCF_Exporter
             catch (Exception ex)
             {
                 Trace.WriteLine(ex.ToString());
-                throw new Exception(ex.ToString());
+                throw;
             }
         }
     }
