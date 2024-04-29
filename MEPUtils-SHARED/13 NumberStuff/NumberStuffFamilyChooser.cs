@@ -79,6 +79,12 @@ namespace MEPUtils
                 .Select(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString())
                 .Distinct().OrderBy(x => x).ToList();
 
+            var fittings = fi.GetElements<Element, BuiltInCategory>(doc, BuiltInCategory.OST_PipeFitting)
+                .Select(x => x.get_Parameter(BuiltInParameter.ELEM_FAMILY_PARAM).AsValueString())
+                .Distinct().OrderBy(x => x);
+
+            familyNames.AddRange(fittings);
+
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.RowCount = familyNames.Count;
 
