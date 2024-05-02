@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MoreLinq;
 using System.Data;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
@@ -14,6 +13,7 @@ using fi = Shared.Filter;
 using op = Shared.Output;
 using tr = Shared.Transformation;
 using mp = Shared.MepUtils;
+using Shared.BuildingCoder;
 
 namespace MEPUtils
 {
@@ -39,7 +39,17 @@ namespace MEPUtils
                 //Collect the family symbol of the flange
                 Element flangeFamilySymbol =
                     fi.GetElements<FamilySymbol, BuiltInParameter>(
-                        doc, BuiltInParameter.SYMBOL_FAMILY_AND_TYPE_NAMES_PARAM, familyAndTypeName).First();
+                        doc, BuiltInParameter.SYMBOL_FAMILY_AND_TYPE_NAMES_PARAM, familyAndTypeName).FirstOrDefault();
+
+                if (flangeFamilySymbol == null) 
+                {
+                    BuildingCoderUtilities.ErrorMsg(
+                        $"NO FamilySymbol with Family and Type name:\n" +
+                        $"{flangeFamilySymbol}\n" +
+                        $"found!"
+                        );
+                    return Result.Failed;
+                }
 
                 using (Transaction trans = new Transaction(doc))
                 {
@@ -96,7 +106,7 @@ namespace MEPUtils
                 if (result.Item2 > -1e-6) levelsWithDist.Add(result);
             }
 
-            var minimumLevel = levelsWithDist.MinBy(x => x.dist).FirstOrDefault();
+            var minimumLevel = levelsWithDist.MinBy(x => x.dist);
             if (minimumLevel.Equals(default))
             {
                 throw new Exception($"Element {pipeaccessory.Id.ToString()} is below all levels!");
