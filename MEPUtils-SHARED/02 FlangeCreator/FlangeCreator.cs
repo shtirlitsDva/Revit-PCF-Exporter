@@ -121,6 +121,11 @@ namespace MEPUtils
             //Set the diameter of the flange
             double diaValue = placementConOnPipeAccessory.Radius * 2;
             Parameter dia = flange.LookupParameter("Nominal Diameter 1");
+            if (dia == null)
+            {
+                throw new Exception("Parameter 'Nominal Diameter 1' not found in the flange family!\n" +
+                    "The program expects the flange diameter to use parameter Nominal Diameter 1.");
+            }
             dia.Set(diaValue);
 
             doc.Regenerate();
