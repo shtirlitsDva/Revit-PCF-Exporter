@@ -78,9 +78,9 @@ namespace MEPUtils
 
                 return Result.Succeeded;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                throw;
             }
         }
 
