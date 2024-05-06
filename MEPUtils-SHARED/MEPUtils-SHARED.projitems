@@ -70,7 +70,9 @@
       <DependentUpon>SupportUpdater.cs</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)09 CreateInstrumentation\01 CreateInstrumentation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)09 CreateInstrumentation\01 CreateInstrumentation_NN_2022.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)09 CreateInstrumentation\03 ListsAndDicts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)09 CreateInstrumentation\04 NN_Schedule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)10 MoveToDistance\01 MoveToDistance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)10 MoveToDistance\InputBoxBasic.cs">
       <SubType>Form</SubType>
