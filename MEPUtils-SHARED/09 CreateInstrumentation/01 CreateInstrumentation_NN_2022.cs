@@ -152,7 +152,7 @@ namespace MEPUtils.CreateInstrumentation
                                 doc.Regenerate();
 
                                 //"DN15-SM-EL: SM-EL"
-                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022") ??
+                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 Element instr = createNextElement(doc, cpValve, "Sitrans_P200_2022: Sitrans_P200_2022") ??
@@ -171,7 +171,7 @@ namespace MEPUtils.CreateInstrumentation
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
-                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022") ??
+                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 Element instr = createNextElement(doc, cpValve, "WIKA.Manometer.233.50.100: Standard") ??
@@ -190,7 +190,7 @@ namespace MEPUtils.CreateInstrumentation
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
-                                Element cpValve = createNextElement(doc, olet, "WIKA.Termolomme.TW55-6: L200.U65.G1/2.9") ??
+                                Element cpValve = createNextElement(doc, olet, "WIKA.Termolomme.TW55-6: L200.U65.G1/2.9", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 //TODO: Places the instrument at wrong angle!!!!
@@ -210,7 +210,7 @@ namespace MEPUtils.CreateInstrumentation
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
-                                Element cpValve = createNextElement(doc, olet, "WIKA.Termolomme.TW55-6: L200.U65.G1/2.9") ??
+                                Element cpValve = createNextElement(doc, olet, "WIKA.Termolomme.TW55-6: L200.U65.G1/2.9", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 //TODO: Places the instrument at wrong angle!!!!
@@ -230,7 +230,7 @@ namespace MEPUtils.CreateInstrumentation
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
-                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022") ??
+                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 Element instr = createNextElement(doc, cpValve, "Danfoss_pressostat_017-519166: Standard") ??
