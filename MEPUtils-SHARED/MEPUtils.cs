@@ -60,12 +60,13 @@ namespace MEPUtils
                 {4, FlangeCreator.CreateFlangeForElements },
                 {5, TotalLineLength.TotalLineLengths },
                 {6, CreateInstrumentation.StartCreatingInstrumentation.StartCreating },
-                {7, SupportTools.SupportToolsMain.CallForm },
-                {8, MoveToDistance.MoveToDistance.Move },
-                {9, new CountWelds.CountWelds().CountWeldsMethod },
-                {10, new NumberStuff.NumberStuff().NumberStuffMethod },
-                {11, new PipingSystemsAndFilters.AddAllPipingSystemTypesFiltersToView().Execute },
-                {12, new PipingSystemsAndFilters.IsolatePipingSystemsOfSelectedElements().Execute },
+                {7, CreateInstrumentation.StartCreatingInstrumentationNN.StartCreating },
+                {8, SupportTools.SupportToolsMain.CallForm },
+                {9, MoveToDistance.MoveToDistance.Move },
+                {10, new CountWelds.CountWelds().CountWeldsMethod },
+                {11, new NumberStuff.NumberStuff().NumberStuffMethod },
+                {12, new PipingSystemsAndFilters.AddAllPipingSystemTypesFiltersToView().Execute },
+                {13, new PipingSystemsAndFilters.IsolatePipingSystemsOfSelectedElements().Execute },
             };
 
             //Place names for methods in this dict
@@ -78,12 +79,13 @@ namespace MEPUtils
                 {4, "Create flanges" },
                 {5, "Total length of lines" },
                 {6, "Create Instrument!" },
-                {7, "Support tools menu" },
-                {8, "Move e to distance" },
-                {9, "(ctrl) Count welds" },
-                {10, "(ctrl) (Re-)Number" },
-                {11, "ViewFilters for PS" },
-                {12, "Isolate selected PS" },
+                {7, "Crte Instr! NN" },
+                {8, "Support tools menu" },
+                {9, "Move e to distance" },
+                {10, "(ctrl) Count welds" },
+                {11, "(ctrl) (Re-)Number" },
+                {12, "ViewFilters for PS" },
+                {13, "Isolate selected PS" },
             };
 
             for (int i = 0; i < methodDict.Count; i++)

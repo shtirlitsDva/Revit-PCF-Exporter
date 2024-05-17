@@ -2,12 +2,16 @@
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
+
 using MoreLinq;
+
 using Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+
 using dbg = Shared.Dbg;
 using fi = Shared.Filter;
 using lad = MEPUtils.CreateInstrumentation.ListsAndDicts;
@@ -16,7 +20,7 @@ using tr = Shared.Transformation;
 
 namespace MEPUtils.CreateInstrumentation
 {
-    public class StartCreatingInstrumentation
+    public class StartCreatingInstrumentationNN
     {
         public static Result StartCreating(UIApplication UiApp)
         {
@@ -30,6 +34,7 @@ namespace MEPUtils.CreateInstrumentation
                 {
                     txGp.Start("Create Instrumentation!");
 
+                    ISchedule schedule = null;
                     Pipe selectedPipe = null;
                     XYZ iP = null;
                     string operation = string.Empty;
@@ -66,6 +71,16 @@ namespace MEPUtils.CreateInstrumentation
                             trans1.Commit();
                         }
 
+                        //Select the schedule to use
+                        BaseFormTableLayoutPanel_Basic sch = new BaseFormTableLayoutPanel_Basic(
+                            Cursor.Position.X, Cursor.Position.Y,
+                            NN_Schedule.Schedules.Select(x => x.Key.ToString()).ToList());
+                        sch.ShowDialog();
+                        Schedule s;
+                        if (!Enum.TryParse(sch.strTR, out s))
+                        { txGp.RollBack(); return Result.Cancelled; }
+                        schedule = NN_Schedule.Schedules[s];
+
                         //Select operation to perform
                         BaseFormTableLayoutPanel_Basic op = new BaseFormTableLayoutPanel_Basic(
                             Cursor.Position.X, Cursor.Position.Y, lad.Operations());
@@ -77,7 +92,6 @@ namespace MEPUtils.CreateInstrumentation
                             Cursor.Position.X, Cursor.Position.Y, lad.Directions());
                         ds.ShowDialog();
                         direction = ds.strTR;
-                        //ut.InfoMsg(ds.strTR); 
                     }
 
                     switch (operation)
@@ -87,22 +101,23 @@ namespace MEPUtils.CreateInstrumentation
                             {
                                 trans2.Start("Auto ML");
                                 Element dummyPipe;
-                                (olet, dummyPipe) = CreateOlet(doc, iP, direction, selectedPipe, 15, "Stålrør, sømløse sockolet");
+                                (olet, dummyPipe) = CreateOlet(
+                                    doc, iP, direction, selectedPipe, 15, schedule.PipeTypeTap);
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
                                 //"DN15-SM-EL: SM-EL"
-                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL: SM-EL") ??
+                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022") ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
-                                Element union1 = createNextElement(doc, cpValve,
-                                    "PIF_Cast Iron 281 hex nipple RH and LH thread ISO EN N8 R-L_GF: DN10 - DN50, Galvanised",
-                                    "connection_diameter1", 15.0) ?? 
-                                    throw new Exception("Creation of union1 failed for some reason!");
+                                //Element union1 = createNextElement(doc, cpValve,
+                                //    "PIF_Cast Iron 281 hex nipple RH and LH thread ISO EN N8 R-L_GF: DN10 - DN50, Galvanised",
+                                //    "connection_diameter1", 15.0) ??
+                                //    throw new Exception("Creation of union1 failed for some reason!");
                                 doc.Regenerate();
 
-                                Element mlValve = createNextElement(doc, union1, "SpiroTop_AB050-R004: Standard") ??
-                                    throw new Exception("Creation of mlValve failed for some reason!");
+                                //Element mlValve = createNextElement(doc, union1, "SpiroTop_AB050-R004: Standard") ??
+                                //    throw new Exception("Creation of mlValve failed for some reason!");
 
                                 trans2.Commit();
                             }
@@ -131,15 +146,16 @@ namespace MEPUtils.CreateInstrumentation
                                 trans3.Start("PT");
 
                                 Element dummyPipe;
-                                (olet, dummyPipe) = CreateOlet(doc, iP, direction, selectedPipe, 15, "Stålrør, sømløse sockolet");
+                                (olet, dummyPipe) = CreateOlet(
+                                    doc, iP, direction, selectedPipe, 15, schedule.PipeTypeTap);
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
                                 //"DN15-SM-EL: SM-EL"
-                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL: SM-EL") ??
+                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
-                                Element instr = createNextElement(doc, cpValve, "Sitrans_P200: Standard") ??
+                                Element instr = createNextElement(doc, cpValve, "Sitrans_P200_2022: Sitrans_P200_2022") ??
                                     throw new Exception("Creation of instrument failed for some reason!");
 
                                 trans3.Commit();
@@ -150,11 +166,12 @@ namespace MEPUtils.CreateInstrumentation
                             {
                                 trans4.Start("Manometer");
                                 Element dummyPipe;
-                                (olet, dummyPipe) = CreateOlet(doc, iP, direction, selectedPipe, 15, "Stålrør, sømløse sockolet");
+                                (olet, dummyPipe) = CreateOlet(
+                                    doc, iP, direction, selectedPipe, 15, schedule.PipeTypeTap);
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
-                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL: SM-EL") ??
+                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 Element instr = createNextElement(doc, cpValve, "WIKA.Manometer.233.50.100: Standard") ??
@@ -168,11 +185,12 @@ namespace MEPUtils.CreateInstrumentation
                             {
                                 trans5.Start("Temperaturtransmitter");
                                 Element dummyPipe;
-                                (olet, dummyPipe) = CreateOlet(doc, iP, direction, selectedPipe, 15, "Stålrør, sømløse, termolomme");
+                                (olet, dummyPipe) = CreateOlet(
+                                    doc, iP, direction, selectedPipe, 15, schedule.PipeTypeTap);
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
-                                Element cpValve = createNextElement(doc, olet, "WIKA.Termolomme.TW55-6: L200.U65.G1/2.9") ??
+                                Element cpValve = createNextElement(doc, olet, "WIKA.Termolomme.TW55-6: L200.U65.G1/2.9", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 //TODO: Places the instrument at wrong angle!!!!
@@ -187,11 +205,12 @@ namespace MEPUtils.CreateInstrumentation
                             {
                                 trans6.Start("Termometer");
                                 Element dummyPipe;
-                                (olet, dummyPipe) = CreateOlet(doc, iP, direction, selectedPipe, 15, "Stålrør, sømløse, termolomme");
+                                (olet, dummyPipe) = CreateOlet(
+                                    doc, iP, direction, selectedPipe, 15, schedule.PipeTypeTap);
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
-                                Element cpValve = createNextElement(doc, olet, "WIKA.Termolomme.TW55-6: L200.U65.G1/2.9") ??
+                                Element cpValve = createNextElement(doc, olet, "WIKA.Termolomme.TW55-6: L200.U65.G1/2.9", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 //TODO: Places the instrument at wrong angle!!!!
@@ -206,11 +225,12 @@ namespace MEPUtils.CreateInstrumentation
                             {
                                 trans7.Start("Pressostat");
                                 Element dummyPipe;
-                                (olet, dummyPipe) = CreateOlet(doc, iP, direction, selectedPipe, 15, "Stålrør, sømløse sockolet");
+                                (olet, dummyPipe) = CreateOlet(
+                                    doc, iP, direction, selectedPipe, 15, schedule.PipeTypeTap);
                                 doc.Delete(dummyPipe.Id);
                                 doc.Regenerate();
 
-                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL: SM-EL") ??
+                                Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022", true) ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
                                 Element instr = createNextElement(doc, cpValve, "Danfoss_pressostat_017-519166: Standard") ??
@@ -221,79 +241,37 @@ namespace MEPUtils.CreateInstrumentation
                             break;
                         case "Pipe":
                             #region "Case PIPE"
-                            //Select type of Olet
-                            BaseFormTableLayoutPanel_Basic oletSelector = new BaseFormTableLayoutPanel_Basic(Cursor.Position.X, Cursor.Position.Y, lad.PipeTypeByOlet());
-                            oletSelector.ShowDialog();
-                            if (oletSelector.strTR.IsNullOrEmpty()) return Result.Cancelled;
-                            PipeTypeName = oletSelector.strTR;
                             //ut.InfoMsg(PipeTypeName);
-                            pipeType = fi.GetElements<PipeType, BuiltInParameter>(doc, BuiltInParameter.SYMBOL_NAME_PARAM, PipeTypeName).First();
+                            pipeType = fi.GetElements<PipeType, BuiltInParameter>(
+                                doc, BuiltInParameter.SYMBOL_NAME_PARAM, schedule.PipeTypeTap).First();
 
-                            //Limit sizes for Olets
-                            List<string> sizeListing;
-                            switch (oletSelector.strTR)
-                            {
-                                case "Stålrør, sømløse, termolomme":
-                                case "Stålrør, sømløse sockolet":
-                                    sizeListing = lad.SockoletList();
-                                    break;
-                                case "Stålrør, sømløse weldolet":
-                                    sizeListing = lad.WeldoletList();
-                                    break;
-                                default:
-                                    sizeListing = lad.SizeList();
-                                    break;
-                            }
-
-                            if (oletSelector.strTR != "Stålrør, sømløse")
-                            {
-                                BaseFormTableLayoutPanel_Basic sizeSelector = new BaseFormTableLayoutPanel_Basic(Cursor.Position.X, Cursor.Position.Y, sizeListing);
-                                sizeSelector.ShowDialog();
-                                size = double.Parse(sizeSelector.strTR);
-                            }
-                            else size = selectedPipe.Diameter.FtToMm().Round(0);
+                            size = selectedPipe.Diameter.FtToMm().Round(0);
 
                             curLvlId = selectedPipe.ReferenceLevel.Id;
                             curPipingSysTypeId = selectedPipe.MEPSystem.GetTypeId();
                             curPipeTypeId = pipeType.Id;
 
-                            if (oletSelector.strTR != "Stålrør, sømløse")
+                            BaseFormTableLayoutPanel_Basic op = new BaseFormTableLayoutPanel_Basic(
+                            Cursor.Position.X, Cursor.Position.Y, new List<string>() { "TEE", "OLET/STUB-IN" });
+                            op.ShowDialog();
+                            string type = op.strTR;
+
+                            using (Transaction trans2 = new Transaction(doc))
                             {
-                                using (Transaction trans2 = new Transaction(doc))
+                                trans2.Start("Create pipe!");
+
+                                Pipe dummyPipe;
+                                dummyPipe = CreateTee(doc, iP, direction, selectedPipe, size,
+                                    type == "TEE" ? schedule.PipeTypeNormal : schedule.PipeTypeTap);
+                                if (dummyPipe == null)
                                 {
-                                    trans2.Start("Create Olet");
+                                    txGp.RollBack();
+                                    return Result.Cancelled;
+                                };
 
-                                    Element dummyPipe;
-                                    (olet, dummyPipe) = CreateOlet(doc, iP, direction, selectedPipe, size, oletSelector.strTR);
-                                    if (olet == null || dummyPipe == null)
-                                    {
-                                        txGp.RollBack();
-                                        return Result.Cancelled;
-                                    };
+                                //dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", offsetPoint, dirPoint);
 
-                                    //dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", offsetPoint, dirPoint);
-
-                                    trans2.Commit();
-                                }
-                            }
-                            else if (oletSelector.strTR == "Stålrør, sømløse")
-                            {
-                                using (Transaction trans2 = new Transaction(doc))
-                                {
-                                    trans2.Start("Create Tee");
-
-                                    Pipe dummyPipe;
-                                    dummyPipe = CreateTee(doc, iP, direction, selectedPipe, size, oletSelector.strTR);
-                                    if (dummyPipe == null)
-                                    {
-                                        txGp.RollBack();
-                                        return Result.Cancelled;
-                                    };
-
-                                    //dbg.PlaceAdaptiveFamilyInstance(doc, "Marker Line: Red", offsetPoint, dirPoint);
-
-                                    trans2.Commit();
-                                }
+                                trans2.Commit();
                             }
                             #endregion
                             break;
@@ -309,9 +287,9 @@ namespace MEPUtils.CreateInstrumentation
 
             catch (Autodesk.Revit.Exceptions.OperationCanceledException) { return Result.Cancelled; }
 
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -477,7 +455,7 @@ namespace MEPUtils.CreateInstrumentation
             if (testRotation.DotProduct(dirToAlignTo) < 0.00001)
                 rotationAngle = -rotationAngle;
 
-            Line axis = Line.CreateBound(placementPoint, placementPoint + normal);
+            Line axis = Line.CreateBound(placementPoint, placementPoint + normal * 100);
 
             ElementTransformUtils.RotateElement(element.Document, element.Id, axis, rotationAngle);
 
@@ -543,7 +521,8 @@ namespace MEPUtils.CreateInstrumentation
         private static (FamilyInstance, Pipe) CreateOlet(Document doc, XYZ iP, string direction,
                                                          Pipe selectedPipe, double size, string PipeTypeName)
         {
-            PipeType pipeType = fi.GetElements<PipeType, BuiltInParameter>(doc, BuiltInParameter.SYMBOL_NAME_PARAM, PipeTypeName).FirstOrDefault();
+            PipeType pipeType = fi.GetElements<PipeType, BuiltInParameter>(
+                doc, BuiltInParameter.SYMBOL_NAME_PARAM, PipeTypeName).FirstOrDefault();
             if (pipeType == null) throw new Exception(PipeTypeName + " does not exist in current project!");
 
             ElementId curLvlId = selectedPipe.ReferenceLevel.Id;
@@ -619,7 +598,7 @@ namespace MEPUtils.CreateInstrumentation
         {
             //Select the pipe to operate on
             var selectedPipe = Shared.BuildingCoder.BuildingCoderUtilities.SelectSingleElementOfType(uidoc, typeof(Pipe),
-                "Select a pipe where to place a support!", false);
+                "Select a pipe!", false);
             //Get end connectors
             var conQuery = (from Connector c in mp.GetALLConnectorsFromElements(selectedPipe)
                             where (int)c.ConnectorType == 1
