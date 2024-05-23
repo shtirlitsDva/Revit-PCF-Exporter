@@ -236,6 +236,7 @@ Global
 		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{6f1054a6-10a6-4257-b856-ad52d6431d5c}*SharedItemsImports = 4
 		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{6f1054a6-10a6-4257-b856-ad52d6431d5c}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{6f1054a6-10a6-4257-b856-ad52d6431d5c}*SharedItemsImports = 4
+		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{7a6fc3f4-9fce-45c3-8def-ecee853ee5c9}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{7a6fc3f4-9fce-45c3-8def-ecee853ee5c9}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{7ce9c758-1fe9-47d3-9e2b-9723930092de}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{832c9d7c-0339-44df-a8ee-04e4dc045e7b}*SharedItemsImports = 4

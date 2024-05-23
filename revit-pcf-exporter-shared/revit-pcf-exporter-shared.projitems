@@ -10,23 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DarkRadioBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Dark_PCF_Exporter_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Dark_PCF_Exporter_form.Designer.cs">
-      <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Accessories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_EndsAndConnections.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Exporter_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Exporter_form.Designer.cs">
-      <DependentUpon>PCF_Exporter_form.cs</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Filtering.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Fittings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Functions.cs" />
@@ -39,25 +24,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Supports.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Taps.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)SharedStagingArea.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Dark_PCF_Exporter_form.resx">
-      <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgPcfExport16.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgPcfExport32.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgSupports16.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgSupports32.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgTapCon16.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgTapCon32.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)PCF_Exporter_form.resx">
-      <DependentUpon>PCF_Exporter_form.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)LDT.xlsx" />

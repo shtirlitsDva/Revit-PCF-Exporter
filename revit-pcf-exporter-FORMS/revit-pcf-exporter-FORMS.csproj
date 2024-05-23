@@ -7,8 +7,8 @@
     <ProjectGuid>{7A6FC3F4-9FCE-45C3-8DEF-ECEE853EE5C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>revit_pcf_exporter_FORMS</RootNamespace>
-    <AssemblyName>revit-pcf-exporter-FORMS</AssemblyName>
+    <RootNamespace>PCF_Exporter</RootNamespace>
+    <AssemblyName>PCF-Exporter</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -128,71 +128,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\revit-pcf-exporter-shared\DarkRadioBox.cs">
-      <Link>DarkRadioBox.cs</Link>
+    <Compile Include="DarkRadioBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\Dark_PCF_Exporter_form.cs">
-      <Link>Dark_PCF_Exporter_form.cs</Link>
+    <Compile Include="Dark_PCF_Exporter_form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\Dark_PCF_Exporter_form.Designer.cs">
-      <Link>Dark_PCF_Exporter_form.Designer.cs</Link>
+    <Compile Include="Dark_PCF_Exporter_form.Designer.cs">
       <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Accessories.cs">
-      <Link>PCF_Accessories.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_EndsAndConnections.cs">
-      <Link>PCF_EndsAndConnections.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Filtering.cs">
-      <Link>PCF_Filtering.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Fittings.cs">
-      <Link>PCF_Fittings.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Functions.cs">
-      <Link>PCF_Functions.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Main.cs">
-      <Link>PCF_Main.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Output.cs">
-      <Link>PCF_Output.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_ParameterData.cs">
-      <Link>PCF_ParameterData.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Parameters.cs">
-      <Link>PCF_Parameters.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Pipeline.cs">
-      <Link>PCF_Pipeline.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Pipeline_Filename.cs">
-      <Link>PCF_Pipeline_Filename.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Pipes.cs">
-      <Link>PCF_Pipes.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Supports.cs">
-      <Link>PCF_Supports.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\PCF_Taps.cs">
-      <Link>PCF_Taps.cs</Link>
-    </Compile>
-    <Compile Include="..\revit-pcf-exporter-shared\Settings.Designer.cs">
-      <Link>Settings.Designer.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\revit-pcf-exporter-shared\Dark_PCF_Exporter_form.resx">
-      <Link>Dark_PCF_Exporter_form.resx</Link>
+    <EmbeddedResource Include="Dark_PCF_Exporter_form.resx">
       <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="..\revit-shared-utilities-shared\revit-shared-utilities-shared.projitems" Label="Shared" />
+  <Import Project="..\revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
