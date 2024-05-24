@@ -15,9 +15,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\BaseFormTableLayoutPanel_BasicList.Designer.cs">
       <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\FolderBrowserDialog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\FolderSelectDialog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\RadioBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Reflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Shared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Utils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)02 Connector position validation\01 SpatialValidation.cs" />

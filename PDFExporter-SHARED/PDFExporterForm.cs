@@ -18,10 +18,10 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using mySettings = PDFExporter.Properties.Settings;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using Shared;
 using fi = Shared.Filter;
 using PdfSharp.Pdf;
+using Shared.BuildingCoder;
 
 namespace PDFExporter
 {
@@ -113,16 +113,26 @@ namespace PDFExporter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog(); //https://stackoverflow.com/a/41511598/6073998
-            if (string.IsNullOrEmpty(pathToExport)) dialog.InitialDirectory = Environment.ExpandEnvironmentVariables("%userprofile%");
-            else dialog.InitialDirectory = pathToExport;
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            BuildingCoderUtilities.InfoMsg($"TEST!");
+
+            var dialog = new Shared.FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                pathToExport = dialog.FileName + "\\";
-                mySettings.Default.selectedFolderToExportTo = pathToExport;
-                textBox2.Text = pathToExport;
+                BuildingCoderUtilities.InfoMsg($"Selected path: {dialog.SelectedPath}");
             }
+
+            //FolderSelectDialog fsd = new FolderSelectDialog()
+            //{
+            //    Title = "Choose folder where view frame drawings are stored: ",
+            //    //InitialDirectory = @"C:\"
+            //};
+            //if (!string.IsNullOrEmpty(pathToExport)) fsd.InitialDirectory = pathToExport;
+            //if (fsd.ShowDialog(IntPtr.Zero))
+            //{
+            //    pathToExport = fsd.FileName + "\\";
+            //    mySettings.Default.selectedFolderToExportTo = pathToExport;
+            //    textBox2.Text = pathToExport;
+            //}
         }
 
         /// <summary>
