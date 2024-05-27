@@ -110,14 +110,14 @@ namespace MEPUtils.CreateInstrumentation
                                 Element cpValve = createNextElement(doc, olet, "DN15-SM-EL_2022: DN15-SM-EL_2022") ??
                                     throw new Exception("Creation of cpValve failed for some reason!");
 
-                                //Element union1 = createNextElement(doc, cpValve,
-                                //    "PIF_Cast Iron 281 hex nipple RH and LH thread ISO EN N8 R-L_GF: DN10 - DN50, Galvanised",
-                                //    "connection_diameter1", 15.0) ??
-                                //    throw new Exception("Creation of union1 failed for some reason!");
+                                Element union1 = createNextElement(doc, cpValve,
+                                    "PIF_Cast Iron 281 hex nipple RH and LH thread ISO EN N8 R-L_GF: DN10 - DN50, Galvanised",
+                                    "connection_diameter1", 15.0) ??
+                                    throw new Exception("Creation of union1 failed for some reason!");
                                 doc.Regenerate();
 
-                                //Element mlValve = createNextElement(doc, union1, "SpiroTop_AB050-R004: Standard") ??
-                                //    throw new Exception("Creation of mlValve failed for some reason!");
+                                Element mlValve = createNextElement(doc, union1, "Flexvent Super 1-2: Standard") ??
+                                    throw new Exception("Creation of mlValve failed for some reason!");
 
                                 trans2.Commit();
                             }
@@ -237,6 +237,23 @@ namespace MEPUtils.CreateInstrumentation
                                     throw new Exception("Creation of instrument failed for some reason!");
 
                                 trans7.Commit();
+                            }
+                            break;
+                        case "Drænventil":
+                            using (Transaction trans8 = new Transaction(doc))
+                            {
+                                trans8.Start("Drænventil");
+
+                                Element dummyPipe;
+                                (olet, dummyPipe) = CreateOlet(
+                                    doc, iP, direction, selectedPipe, 25, schedule.PipeTypeTap);
+                                doc.Delete(dummyPipe.Id);
+                                doc.Regenerate();
+
+                                Element drainValve = createNextElement(doc, olet, "Broen svejse-nippel ventil DN25: Standard", true) ??
+                                    throw new Exception("Creation of drainValve failed for some reason!");
+
+                                trans8.Commit();
                             }
                             break;
                         case "Pipe":

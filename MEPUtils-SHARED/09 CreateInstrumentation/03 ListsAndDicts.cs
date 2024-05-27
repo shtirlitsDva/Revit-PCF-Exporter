@@ -24,6 +24,8 @@ namespace MEPUtils.CreateInstrumentation
                 "TT (Temp. transmitter)",
                 "TI (Termometer)",
                 "PS (Pressostat)",
+                "FS (Flow switch)",
+                "Drænventil",
                 "Pipe" };
         }
 
