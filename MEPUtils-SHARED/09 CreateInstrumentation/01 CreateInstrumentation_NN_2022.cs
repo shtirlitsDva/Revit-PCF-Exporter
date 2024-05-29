@@ -239,6 +239,23 @@ namespace MEPUtils.CreateInstrumentation
                                 trans7.Commit();
                             }
                             break;
+                        case "FS (Flow switch)":
+                            using (Transaction trans9 = new Transaction(doc))
+                            {
+                                trans9.Start("Flow Switch");
+
+                                Element dummyPipe;
+                                (olet, dummyPipe) = CreateOlet(
+                                    doc, iP, direction, selectedPipe, 15, schedule.PipeTypeTap);
+                                doc.Delete(dummyPipe.Id);
+                                doc.Regenerate();
+
+                                Element flowSwitch = createNextElement(doc, olet, "FlowSwitch: Standard", true) ??
+                                    throw new Exception("Creation of flowSwitch failed for some reason!");
+
+                                trans9.Commit();
+                            }
+                            break;
                         case "Drænventil":
                             using (Transaction trans8 = new Transaction(doc))
                             {
