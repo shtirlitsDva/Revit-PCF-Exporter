@@ -12,6 +12,7 @@ using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
 using pdw = PCF_Functions.ParameterDataWriter;
 using mp = Shared.MepUtils;
+using System.Diagnostics;
 
 namespace PCF_Accessories
 {
@@ -86,6 +87,14 @@ namespace PCF_Accessories
                         case ("MISC-COMPONENT"):
                         case ("VALVE"):
                             goto case ("INSTRUMENT");
+                        case ("VALVE-3WAY"):
+                            //Process endpoints of the component
+                            sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
+                            sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
+                            sbAccessories.Append(EndWriter.WriteEP3(element, cons.Tertiary));
+                            sbAccessories.Append(EndWriter.WriteCP(familyInstance));
+                            sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
+                            break;
 
                         case ("VALVE-ANGLE"):
                             //Process endpoints of the component
