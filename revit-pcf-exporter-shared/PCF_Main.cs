@@ -403,8 +403,8 @@ namespace PCF_Exporter
                 }
 
                 #region Materials
-                StringBuilder sbMaterials = composer.MaterialsSection(materialGroups);
-                sbCollect.Append(sbMaterials);
+                //StringBuilder sbMaterials = composer.MaterialsSection(materialGroups);
+                //sbCollect.Append(sbMaterials);
                 #endregion
 
                 #region Output
