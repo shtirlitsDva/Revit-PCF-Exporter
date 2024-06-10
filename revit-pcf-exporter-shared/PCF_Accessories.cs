@@ -50,7 +50,7 @@ namespace PCF_Accessories
                     }
 
                     //Write Plant3DIso entries if turned on
-                    if (InputVars.ExportToIsogen) sbAccessories.Append(Composer.Plant3DIsoWriter(element, doc));
+                    if (!InputVars.ExportToIsogen) sbAccessories.Append(Composer.Plant3DIsoWriter(element, doc));
 
                     //Cast the elements gathered by the collector to FamilyInstances
                     FamilyInstance familyInstance = (FamilyInstance)element;

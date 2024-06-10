@@ -38,7 +38,7 @@ namespace PCF_Fittings
                 }
 
                 //Write Plant3DIso entries if turned on
-                if (iv.ExportToIsogen) sbFittings.Append(Composer.Plant3DIsoWriter(element, doc));
+                if (!iv.ExportToIsogen) sbFittings.Append(Composer.Plant3DIsoWriter(element, doc));
 
                 //Cast the elements gathered by the collector to FamilyInstances
                 FamilyInstance familyInstance = (FamilyInstance)element;
