@@ -3,9 +3,12 @@ using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
+
 using MoreLinq;
+
 using Shared;
 using Shared.BuildingCoder;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +19,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
@@ -437,6 +441,18 @@ namespace PCF_Functions
             return sbEndWriter;
         }
 
+        internal static object WriteCP(Connector primary, Connector secondary)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            sbEndWriter.Append("    CENTRE-POINT ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(
+                Conversion.PointStringMm((primary.Origin + secondary.Origin) / 2));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(
+                Conversion.PointStringInch((primary.Origin + secondary.Origin) / 2));
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
+
         /// <summary>
         /// Special case for tapping Olets to add the tapped elemend size to record.
         /// </summary>
@@ -510,7 +526,6 @@ namespace PCF_Functions
             sbEndWriter.AppendLine();
             return sbEndWriter;
         }
-
     }
 
     public class ScheduleCreator

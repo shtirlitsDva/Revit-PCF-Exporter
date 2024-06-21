@@ -13,6 +13,7 @@ using plst = PCF_Functions.ParameterList;
 using pdw = PCF_Functions.ParameterDataWriter;
 using mp = Shared.MepUtils;
 using System.Diagnostics;
+using Shared.BuildingCoder;
 
 namespace PCF_Accessories
 {
@@ -79,7 +80,8 @@ namespace PCF_Accessories
                             //Process endpoints of the component
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
-                            sbAccessories.Append(EndWriter.WriteCP(familyInstance));
+                            //sbAccessories.Append(EndWriter.WriteCP(familyInstance));
+                            sbAccessories.Append(EndWriter.WriteCP(cons.Primary, cons.Secondary));
                             sbAccessories.Append(pdw.ParameterValue("TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, element));
 
                             break;
