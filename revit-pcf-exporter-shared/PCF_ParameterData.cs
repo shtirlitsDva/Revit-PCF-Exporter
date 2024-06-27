@@ -51,7 +51,7 @@ namespace PCF_Functions
         public static readonly pdef PCF_ELEM_TYPE = new pdef("PCF_ELEM_TYPE", "ELEM", "U", pd.Text, new Guid("bfc7b779-786d-47cd-9194-8574a5059ec8"));
         public static readonly pdef PCF_ELEM_SKEY = new pdef("PCF_ELEM_SKEY", "ELEM", "U", pd.Text, new Guid("3feebd29-054c-4ce8-bc64-3cff75ed6121"), "SKEY");
         public static readonly pdef PCF_ELEM_SPEC = new pdef("PCF_ELEM_SPEC", "ELEM", "U", pd.Text, new Guid("90be8246-25f7-487d-b352-554f810fcaa7"), "PIPING-SPEC");
-        //public static readonly pdef PCF_ELEM_CATEGORY = new pdef("PCF_ELEM_CATEGORY", "ELEM", "U", pd.Text, new Guid("35efc6ed-2f20-4aca-bf05-d81d3b79dce2"), "CATEGORY");
+        public static readonly pdef PCF_ELEM_CATEGORY = new pdef("PCF_ELEM_CATEGORY", "ELEM", "U", pd.Text, new Guid("35efc6ed-2f20-4aca-bf05-d81d3b79dce2"), "CATEGORY");
         public static readonly pdef PCF_ELEM_END1 = new pdef("PCF_ELEM_END1", "ELEM", "U", pd.Text, new Guid("cbc10825-c0a1-471e-9902-075a41533738"));
         public static readonly pdef PCF_ELEM_END2 = new pdef("PCF_ELEM_END2", "ELEM", "U", pd.Text, new Guid("ecaf3f8a-c28b-4a89-8496-728af3863b09"));
         public static readonly pdef PCF_ELEM_END3 = new pdef("PCF_ELEM_END3", "ELEM", "U", pd.Text, new Guid("501E24A0-C23A-43EE-94A0-F6D17960CB78"));
@@ -193,7 +193,7 @@ namespace PCF_Functions
             LPAll.Add(PCF_ELEM_TYPE);
             LPAll.Add(PCF_ELEM_SKEY);
             LPAll.Add(PCF_ELEM_SPEC);
-            //ListParametersAll.Add(PCF_ELEM_CATEGORY);
+            LPAll.Add(PCF_ELEM_CATEGORY);
             LPAll.Add(PCF_ELEM_END1);
             LPAll.Add(PCF_ELEM_END2);
             LPAll.Add(PCF_ELEM_END3);

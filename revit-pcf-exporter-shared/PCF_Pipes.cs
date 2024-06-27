@@ -39,7 +39,7 @@ namespace PCF_Pipes
                 ConnectorSet connectorSet = pipe.ConnectorManager.Connectors;
                 //Filter out non-end types of connectors
                 IList<Connector> connectorEnd = (from Connector connector in connectorSet
-                                                 where connector.ConnectorType.ToString().Equals("End")
+                                                 where connector.ConnectorType == ConnectorType.End
                                                  select connector).ToList();
 
                 sbPipes.Append(EndWriter.WriteEP1(element, connectorEnd.First()));
@@ -47,6 +47,11 @@ namespace PCF_Pipes
 
                 Composer elemParameterComposer = new Composer();
                 sbPipes.Append(elemParameterComposer.ElemParameterWriter(element));
+
+                sbPipes.Append(
+                    SpecManager.SpecManager.GetWALLTHICKNESS(
+                        element.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString(),
+                        Shared.Conversion.PipeSizeToMm(connectorEnd.First().Radius)));
 
                 #region CII export
 

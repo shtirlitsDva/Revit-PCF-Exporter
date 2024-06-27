@@ -21,10 +21,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Parameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipeline.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipeline_Filename.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipeline_StartPoint.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Supports.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Taps.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SharedStagingArea.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)spec-manager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgPcfExport16.png" />

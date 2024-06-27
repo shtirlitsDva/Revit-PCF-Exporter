@@ -42,6 +42,9 @@ namespace PCF_Exporter
                 //Declare an object to hold collected elements from collector
                 HashSet<Element> colElements = new HashSet<Element>();
 
+                //Declare a collection for startpoints
+                Dictionary<string, Element> startPoints = new Dictionary<string, Element>();
+
                 //Collection to hold filtered elements
                 HashSet<Element> elements = new HashSet<Element>();
 
@@ -107,6 +110,32 @@ namespace PCF_Exporter
                     colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
                 }
 
+                #region Sub: Startpoints
+                //Detect any startpoints in the selection
+                //If any, pull them out and store in a separate collection
+                var startPointsQuery = colElements.Where(x => x.FamilyAndTypeName() == "StartPoint: StartPoint");
+                if (startPointsQuery.Count() > 0)
+                {
+                    var startPointSysAbbrGrouping = startPointsQuery.GroupBy(x => x.MEPSystemAbbreviation());
+
+                    if (startPointSysAbbrGrouping.Any(x => x.Count() > 1))
+                    {
+                        var mList = string.Join(
+                            "\n", startPointSysAbbrGrouping.Where(
+                                x => x.Count() > 1).Select(x => x.Key));
+                        BuildingCoderUtilities.ErrorMsg(
+                            "Multiple startpoints for the same system detected! Systems:\n" + mList);
+                        throw new Exception("Multiple startpoints for the same system detected! Systems:\n" + mList);
+                    }
+
+                    foreach (Element e in startPointsQuery)
+                    {
+                        startPoints.Add(e.MEPSystemAbbreviation(), e);
+                    }
+
+                    colElements = colElements.Except(startPointsQuery).ToHashSet();
+                }
+                #endregion
 
                 #region Sub: Filtering
                 try
@@ -261,6 +290,7 @@ namespace PCF_Exporter
 
                         StringBuilder sbPipeline = new PCF_Pipeline.PCF_Pipeline_Export().Export(gp.Key, doc);
                         StringBuilder sbFilename = PCF_Pipeline.Filename.BuildAndWriteFilename(doc);
+                        StringBuilder sbStartPoint = PCF_Pipeline.StartPoint.WriteStartPoint(gp.Key, startPoints);
                         StringBuilder sbEndsAndConnections = PCF_Pipeline.EndsAndConnections
                             .DetectAndWriteEndsAndConnections(gp.Key, pipeList, fittingList, accessoryList, doc);
 
@@ -394,7 +424,7 @@ namespace PCF_Exporter
                         StringBuilder sbFittings = new PCF_Fittings.PCF_Fittings_Export().Export(gp.Key, fittingList, doc);
                         StringBuilder sbAccessories = new PCF_Accessories.PCF_Accessories_Export().Export(gp.Key, accessoryList, doc);
 
-                        sbCollect.Append(sbPipeline); sbCollect.Append(sbFilename); sbCollect.Append(sbEndsAndConnections);
+                        sbCollect.Append(sbPipeline); sbCollect.Append(sbFilename); sbCollect.Append(sbStartPoint); sbCollect.Append(sbEndsAndConnections);
                         sbCollect.Append(sbPipes); sbCollect.Append(sbFittings); sbCollect.Append(sbAccessories);
                     }
                     #endregion 
