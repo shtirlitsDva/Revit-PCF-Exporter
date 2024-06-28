@@ -364,8 +364,10 @@ namespace PCF_Parameters
                          where p.Domain == "ELEM"
                          select p;
 
-            //Debugging
-            //StringBuilder sbParameters = new StringBuilder();
+            //Query for the element type to be used with elbows
+            var eQuery = dataTable.AsEnumerable()
+                .Where(x => x.Field<string>(0) == eFamilyType)
+                .Select(x => x.Field<string>("PCF_ELEM_TYPE"));
 
             using (Transaction trans = new Transaction(doc, "Initialize PCF parameters"))
             {
@@ -405,6 +407,21 @@ namespace PCF_Parameters
                                 return Result.Failed;
                             }
 
+                            #region Create a unique description for each elbow angle
+                            //Handle the elbow angles
+                            //The idea is to create a unique description with each differing angle
+                            //So we get a description and the angle of the elbow
+                            if (parameterName == "PCF_MAT_DESCR" &&
+                                eQuery.First() == "ELBOW")
+                            {
+                                Parameter par = element.LookupParameter("Angle");
+                                if (par == null) par = element.LookupParameter("angle");
+                                if (par == null) throw new Exception($"Angle parameter on elbow {element.Id.IntegerValue} does not exist or is named differently!");
+                                parameterValue = parameterValue + $", " +
+                                    $"{Conversion.RadianToDegree(par.AsDouble()).ToString("0")}°";
+                            } 
+                            #endregion
+
                             //Writing the parameter data
                             //Implementing Overwrite or Append here
                             if (iv.Overwrite) element.get_Parameter(parGuid).Set(parameterValue);
@@ -415,14 +432,7 @@ namespace PCF_Parameters
                                 else continue;
                             }
                         }
-
-                        //sbParameters.Append(eFamilyType);
-                        //sbParameters.AppendLine();
                     }
-
-                    //sbParameters.Append(eFamilyType);
-                    //sbParameters.AppendLine();
-
 
                     sbFeedback.Append(pNumber + " Pipes initialized.\n" + fNumber + " Pipe fittings initialized.\n" + aNumber + " Pipe accessories initialized.");
                     BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());

@@ -22,7 +22,8 @@ namespace SpecManager
         {
             ISpec spec = _repository.GetSpec(specName);
             if (spec == null) return "";
-            if (spec.HasSize(size)) return $"    WALL-THICKNESS {spec.GetWallThickness(size)}\n";
+            //if (spec.HasSize(size)) return $"    WALL-THICKNESS {spec.GetWallThickness(size)}\n";
+            if (spec.HasSize(size)) return $"    COMPONENT-ATTRIBUTE1 {spec.GetWallThickness(size)}\n";
             else return "";
         }
     }
