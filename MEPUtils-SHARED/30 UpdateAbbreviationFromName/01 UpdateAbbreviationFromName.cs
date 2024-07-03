@@ -44,9 +44,7 @@ namespace MEPUtils.PipingSystemsAndFilters
                         .OfClass(typeof(PipingSystemType));
 
                     foreach (PipingSystemType pst in psts)
-                    {
-                        pst.Abbreviation = pst.Name;
-                    }
+                        if (pst.Abbreviation != pst.Name) pst.Abbreviation = pst.Name;
                 }
                 catch (Exception ex)
                 {
