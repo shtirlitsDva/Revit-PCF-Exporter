@@ -66,6 +66,7 @@ namespace PCF_Functions
         //public static readonly pdef PCF_ELEM_MISC3 = new pdef("PCF_ELEM_MISC3", "ELEM", "U", pd.Text, new Guid("0e065f3e-83c8-44c8-a1cb-babaf20476b9"), "MISC-SPEC3");
         //public static readonly pdef PCF_ELEM_MISC4 = new pdef("PCF_ELEM_MISC4", "ELEM", "U", pd.Text, new Guid("3229c505-3802-416c-bf04-c109f41f3ab7"), "MISC-SPEC4");
         //public static readonly pdef PCF_ELEM_MISC5 = new pdef("PCF_ELEM_MISC5", "ELEM", "U", pd.Text, new Guid("692e2e97-3b9c-4616-8a03-dfd493b01762"), "MISC-SPEC5");
+        public static readonly pdef PCF_ELEM_SPKEY = new pdef("PCF_ELEM_SPKEY", "ELEM", "U", pd.Text, new Guid("C9AA8C12-F605-4B56-A912-C3B5870E52FA"), "SPINDLE-KEY");
 
         //Material
         public static readonly pdef PCF_MAT_DESCR = new pdef("PCF_MAT_DESCR", "ELEM", "U", pd.Text, new Guid("d39418f2-fcb3-4dd1-b0be-3d647486ebe6"));
@@ -208,6 +209,7 @@ namespace PCF_Functions
             //ListParametersAll.Add(PCF_ELEM_MISC3);
             //ListParametersAll.Add(PCF_ELEM_MISC4);
             //ListParametersAll.Add(PCF_ELEM_MISC5);
+            LPAll.Add(PCF_ELEM_SPKEY);
 
             LPAll.Add(PCF_MAT_DESCR);
 

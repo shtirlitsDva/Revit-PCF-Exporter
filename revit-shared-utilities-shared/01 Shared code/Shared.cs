@@ -575,6 +575,33 @@ namespace Shared
                 [600] = 610.0
             };
         }
+        public static string MapToCardinalDirection(XYZ direction)
+        {
+            string viewCubeDirection = GetDirectionText(direction);
+            switch (viewCubeDirection)
+            {
+                case "FRONT": return "NORTH";
+                case "BACK": return "SOUTH";
+                case "RIGHT": return "EAST";
+                case "LEFT": return "WEST";
+                case "UP": return "UP";
+                case "DOWN": return "DOWN";
+                default: return "UNKNOWN";
+            }
+        }
+        private static string GetDirectionText(XYZ direction)
+        {
+            double tolerance = Math.Cos(Math.PI / 4); // 45 degrees tolerance
+            direction = direction.Normalize();
+
+            if (Math.Abs(direction.Z) > tolerance)
+                return direction.Z > 0 ? "UP" : "DOWN";
+            if (Math.Abs(direction.Y) > tolerance)
+                return direction.Y > 0 ? "FRONT" : "BACK";
+            if (Math.Abs(direction.X) > tolerance)
+                return direction.X > 0 ? "RIGHT" : "LEFT";
+            return "UNKNOWN";
+        }
     }
 
     /// <summary>
@@ -1448,6 +1475,16 @@ namespace Shared
         {
             Debug.WriteLine(msg);
             File.AppendAllLines(LogFileName, new string[] { $"{DateTime.Now}: {msg}" });
+        }
+        public static void log(object obj)
+        {
+            Debug.WriteLine(obj.ToString());
+            File.AppendAllLines(LogFileName, new string[] { $"{DateTime.Now}: {obj.ToString()}" });
+        }
+        public static void log()
+        {
+            Debug.WriteLine("\n");
+            File.AppendAllLines(LogFileName, new string[] { $"{DateTime.Now}: \n " });
         }
     }
 }

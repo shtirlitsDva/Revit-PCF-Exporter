@@ -7,6 +7,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using PCF_Functions;
 using PCF_Taps;
+using Shared;
 
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.ParameterList;
@@ -30,6 +31,15 @@ namespace PCF_Accessories
                 ThenBy(e => e.get_Parameter(plst.PCF_ELEM_SKEY.Guid).AsString()).ToList();
 
             StringBuilder sbAccessories = new StringBuilder();
+
+            #region Prepare elements for spindle direction
+            var spDict = new FilteredElementCollector(doc)
+                        .OfCategory(BuiltInCategory.OST_GenericModel)
+                        .OfClass(typeof(FamilyInstance))
+                        .Cast<FamilyInstance>()
+                        .Where(x => x.FamilyAndTypeName() == "Spindle direction: Spindle direction")
+                        .ToDictionary(x => x.SuperComponent.Id, x => x);
+            #endregion
 
             //This is a workaround to try to determine what element caused an exception
             Element element = null;
@@ -202,6 +212,17 @@ namespace PCF_Accessories
                     #region CII export
                     if (InputVars.ExportToCII && !string.Equals(element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString(), "SUPPORT"))
                         sbAccessories.Append(Composer.CIIWriter(doc, key));
+                    #endregion
+
+                    #region Write spindle direction
+                    if (spDict.ContainsKey(element.Id))
+                    {
+                        FamilyInstance sd = spDict[element.Id];
+                        Transform trf = sd.GetTransform();
+                        XYZ direction = trf.BasisZ;
+
+                        sbAccessories.AppendLine($"    SPINDLE-DIRECTION {mp.MapToCardinalDirection(direction)}");
+                    }
                     #endregion
 
                     sbAccessories.Append("    UNIQUE-COMPONENT-IDENTIFIER ");

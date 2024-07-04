@@ -141,6 +141,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)28 WriteRoomNumbersToContainedElements\02 RoomsFromLinkToMass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)26 CopyElementsToAnotherDoc\01 CopyElementsToAnotherDoc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)27 CopyPSTParameterValuesToElements\01 CopyPSTParameterValuesToElements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)31 TestSpindleOrientation\01 TestSpindleOrientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)30 UpdateAbbreviationFromName\01 UpdateAbbreviationFromName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)29 CreatePSLegend\01 CreatePSLegend.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MEPUtils.cs">
