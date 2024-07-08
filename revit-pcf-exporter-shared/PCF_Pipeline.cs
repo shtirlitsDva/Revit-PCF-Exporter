@@ -8,7 +8,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Shared.BuildingCoder;
 using pdef = PCF_Functions.ParameterDefinition;
-using plst = PCF_Functions.ParameterList;
+using plst = PCF_Functions.Parameters;
 using mySettings = PCF_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
 using Shared;

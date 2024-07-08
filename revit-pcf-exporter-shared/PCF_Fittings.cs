@@ -9,7 +9,7 @@ using PCF_Functions;
 using Shared;
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
-using plst = PCF_Functions.ParameterList;
+using plst = PCF_Functions.Parameters;
 using mp = Shared.MepUtils;
 
 namespace PCF_Fittings

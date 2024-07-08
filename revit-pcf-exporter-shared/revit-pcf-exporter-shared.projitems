@@ -10,6 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\Interfaces\IPcfElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PcfPhysicalElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_Pipe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Accessories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_EndsAndConnections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Filtering.cs" />
@@ -46,5 +49,8 @@
     <Content Include="$(MSBuildThisFileDirectory)license.txt" />
     <Content Include="$(MSBuildThisFileDirectory)PCF_DEVELOPEMENT_01.xlsx" />
     <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\" />
   </ItemGroup>
 </Project>
