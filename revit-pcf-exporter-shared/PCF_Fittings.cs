@@ -21,9 +21,11 @@ namespace PCF_Fittings
             Document doc = document;
             string key = pipeLineAbbreviation;
             //The list of fittings, sorted by TYPE then SKEY
-            IList<Element> fittingsList = elements.
+            List<Element> fittingsList = elements.
                 OrderBy(e => e.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString()).
                 ThenBy(e => e.get_Parameter(plst.PCF_ELEM_SKEY.Guid).AsString()).ToList();
+
+            List<GasketPcfItem> gaskets = new List<GasketPcfItem>();
 
             StringBuilder sbFittings = new StringBuilder();
             foreach (Element element in fittingsList)
@@ -99,9 +101,24 @@ namespace PCF_Fittings
                         //Secondary goes first because it is the weld neck point and the primary second because it is the flanged end
                         //(dunno if it is significant); It is not, it should be specified the type of end, BW, PL, FL etc. to work correctly.
 
-                        sbFittings.Append(EndWriter.WriteEP1(element, cons.Secondary));
-                        sbFittings.Append(EndWriter.WriteEP2(element, cons.Primary));
+                        var pakning = element.LookupParameter("Pakning");
+                        if (pakning != null && pakning.AsInteger() == 1)
+                        {
+                            sbFittings.Append(EndWriter.WriteEP1(element, cons.Secondary));
 
+                            XYZ pE = cons.Primary.Origin;
+                            XYZ dir = pE - cons.Secondary.Origin;
+                            dir = dir.Normalize();
+                            XYZ modifiedPosition = cons.Primary.Origin + dir * 1.5.MmToFt();
+                            var text = EndWriter.WriteEP1(element, cons.Primary, modifiedPosition);
+
+                            gaskets.Add(new GasketPcfItem(element, modifiedPosition, pE));
+                        }
+                        else
+                        {
+                            sbFittings.Append(EndWriter.WriteEP1(element, cons.Secondary));
+                            sbFittings.Append(EndWriter.WriteEP2(element, cons.Primary));
+                        }
                         break;
 
                     case ("FLANGE-BLIND"):
@@ -145,6 +162,11 @@ namespace PCF_Fittings
                         }
 
                         sbFittings.Append(EndWriter.WriteEP2(element, endPointAnalyzed, connectorSizeFlangeBlind));
+
+                        pakning = element.LookupParameter("Pakning");
+                        if (pakning != null && pakning.AsInteger() == 1)
+                            throw new Exception("Pakninger er ikke implementeret for blind flanger endnu!");
+                            //gaskets.Add(new GasketPcfItem(element));
 
                         break;
 
@@ -511,6 +533,15 @@ namespace PCF_Fittings
                 }
             }
 
+            if (gaskets.Count > 0)
+            {
+                foreach (var g in gaskets)
+                {
+                    sbFittings.AppendLine("GASKET");
+
+                }
+            }
+
             //// Clear the output file
             //File.WriteAllBytes(InputVars.OutputDirectoryFilePath + "Fittings.pcf", new byte[0]);
 
@@ -523,5 +554,14 @@ namespace PCF_Fittings
 
             return sbFittings;
         }
+    }
+
+    public class GasketPcfItem
+    {
+        public Element Flange { get; set; }
+        XYZ End1 { get; set; }
+        XYZ End2 { get; set; }
+        public GasketPcfItem(Element element, XYZ p1, XYZ p2) 
+        { Flange = element; End1 = p1; End2 = p2; }
     }
 }
