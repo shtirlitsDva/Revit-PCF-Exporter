@@ -33,7 +33,7 @@ namespace PCF_Accessories
             StringBuilder sbAccessories = new StringBuilder();
 
             #region Prepare elements for spindle direction
-            var spDict = new FilteredElementCollector(doc)
+            Dictionary<ElementId, FamilyInstance> spDict = new FilteredElementCollector(doc)
                         .OfCategory(BuiltInCategory.OST_GenericModel)
                         .OfClass(typeof(FamilyInstance))
                         .Cast<FamilyInstance>()
@@ -73,7 +73,7 @@ namespace PCF_Accessories
                     //Switch to different element type configurations
                     switch (element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString())
                     {
-                        case ("FILTER"):
+                        case ("FILTER"): //done
                             //Process endpoints of the component
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));

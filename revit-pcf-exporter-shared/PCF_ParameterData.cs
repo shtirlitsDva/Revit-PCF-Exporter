@@ -51,6 +51,14 @@ namespace PCF_Functions
         public string Keyword { get; }
         public ExportingTo ExportingTo { get; } //CII export to CII, LDT export to ISOGEN
         public BuiltInParameterGroup ParameterGroup { get; } = BuiltInParameterGroup.PG_ANALYTICAL_MODEL;
+        public string GetValue(Element e)
+        {
+            Parameter p = e.get_Parameter(this.Guid);
+            if (p == null) throw new Exception(
+                $"Element {e.Id} does not have {Name} parameter attached!\n" +
+                $"Run Import PCF Parameters.");
+            return p.AsString();
+        }
     }
     public enum ParameterDomain
     {
@@ -77,13 +85,17 @@ namespace PCF_Functions
     {
         UNDEFINED,
         /// <summary>
-        /// User assigned data
+        /// User assigned data, read automatically
         /// </summary>
         USER,
         /// <summary>
         /// Programatically assigned data
         /// </summary>
-        PROGRAMMATIC
+        PROGRAMMATIC,
+        /// <summary>
+        /// Parameters with a special destiny
+        /// </summary>
+        SPECIAL
     }
     public enum ExportingTo
     {
@@ -101,7 +113,7 @@ namespace PCF_Functions
     {
         #region Parameter Definition
         //Element parameters user defined
-        public static readonly pdef PCF_ELEM_TYPE = new pdef("PCF_ELEM_TYPE", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("bfc7b779-786d-47cd-9194-8574a5059ec8"));
+        public static readonly pdef PCF_ELEM_TYPE = new pdef("PCF_ELEM_TYPE", ParameterDomain.ELEM, ParameterUsage.SPECIAL, pd.Text, new Guid("bfc7b779-786d-47cd-9194-8574a5059ec8"));
         public static readonly pdef PCF_ELEM_SKEY = new pdef("PCF_ELEM_SKEY", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("3feebd29-054c-4ce8-bc64-3cff75ed6121"), "SKEY");
         public static readonly pdef PCF_ELEM_SPEC = new pdef("PCF_ELEM_SPEC", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("90be8246-25f7-487d-b352-554f810fcaa7"), "PIPING-SPEC");
         public static readonly pdef PCF_ELEM_CATEGORY = new pdef("PCF_ELEM_CATEGORY", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("35efc6ed-2f20-4aca-bf05-d81d3b79dce2"), "CATEGORY");
@@ -128,8 +140,8 @@ namespace PCF_Functions
         public static readonly pdef PCF_ELEM_TAP1 = new pdef("PCF_ELEM_TAP1", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("5fda303c-5536-429b-9fcc-afb40d14c7b3"));
         public static readonly pdef PCF_ELEM_TAP2 = new pdef("PCF_ELEM_TAP2", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("e1e9bc3b-ce75-4f3a-ae43-c270f4fde937"));
         public static readonly pdef PCF_ELEM_TAP3 = new pdef("PCF_ELEM_TAP3", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("12693653-8029-4743-be6a-310b1fbc0620"));
-        public static readonly pdef PCF_ELEM_COMPID = new pdef("PCF_ELEM_COMPID", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("4EAB3C7A-C0BF-4E9A-B7B9-978407C12800"));
-        public static readonly pdef PCF_MAT_ID = new pdef("PCF_MAT_ID", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("DE851B73-AFEA-4B38-9BCB-EFC8CBA78B16"), "MATERIAL-IDENTIFIER");
+        public static readonly pdef PCF_ELEM_COMPID = new pdef("PCF_ELEM_COMPID", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("4EAB3C7A-C0BF-4E9A-B7B9-978407C12800"), "COMPONENT-IDENTIFIER");
+        public static readonly pdef PCF_MAT_ID = new pdef("PCF_MAT_ID", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("DE851B73-AFEA-4B38-9BCB-EFC8CBA78B16"), "MATERIAL-IDENTIFIER");
 
         //Pipeline parameters
         public static readonly pdef PCF_PIPL_LINEID = new pdef("PCF_LINEID", ParameterDomain.PIPL, ParameterUsage.USER, pd.Text, new Guid("A12D0564-A8D9-451A-9800-5704EB1E7B75"), "LINE-ID");
@@ -246,17 +258,13 @@ namespace PCF_Functions
             .Where(f => f.IsInitOnly && f.FieldType == typeof(ParameterDefinition)) 
             .Select(f => (ParameterDefinition)f.GetValue(null));
     }
-
     public static class ParameterData
     {
         #region Parameter Data Entry
-
         //general values
         public static ForgeTypeId Text = SpecTypeId.String.Text;
         public static ForgeTypeId Integer = SpecTypeId.Int.Integer;
         public static ForgeTypeId YesNo = SpecTypeId.Boolean.YesNo;
         #endregion
-
-        //public static IList<string> parameterNames = new List<string>();
     }
 }

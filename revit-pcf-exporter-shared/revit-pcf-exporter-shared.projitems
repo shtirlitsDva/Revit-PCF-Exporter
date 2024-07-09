@@ -10,9 +10,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DocumentManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\Interfaces\IPcfElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PcfElementFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PcfPhysicalElement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_Pipe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_FLOOR-SYMBOL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_SUPPORT.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_INSTRUMENT-DIAL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_VALVE-ANGLE.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2_EP3_CPCONS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2_CPCONS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2_CPFI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_ELBOW.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_TEE-STUB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_FLANGE-BLIND.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_FLANGE.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_PIPE.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_REDUCER-ECCENTRIC.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_TEE.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Accessories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_EndsAndConnections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Filtering.cs" />

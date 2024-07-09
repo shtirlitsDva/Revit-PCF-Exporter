@@ -53,7 +53,7 @@ namespace PCF_Fittings
                 //Switch to different element type configurations
                 switch (element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString())
                 {
-                    case ("ELBOW"):
+                    case ("ELBOW"): //done
                         sbFittings.Append(EndWriter.WriteEP1(element, cons.Primary));
                         sbFittings.Append(EndWriter.WriteEP2(element, cons.Secondary));
                         sbFittings.Append(EndWriter.WriteCP(familyInstance));
@@ -73,7 +73,7 @@ namespace PCF_Fittings
                     //    sbFittings.Append(EndWriter.WriteCP(familyInstance));
                     //    break;
 
-                    case ("TEE"):
+                    case ("TEE"): //done
                         //Process endpoints of the component
                         sbFittings.Append(EndWriter.WriteEP1(element, cons.Primary));
                         sbFittings.Append(EndWriter.WriteEP2(element, cons.Secondary));
@@ -82,7 +82,7 @@ namespace PCF_Fittings
 
                         break;
 
-                    case "UNION":
+                    case "UNION": //done
                     case ("REDUCER-CONCENTRIC"):
                         sbFittings.Append(EndWriter.WriteEP1(element, cons.Primary));
                         sbFittings.Append(EndWriter.WriteEP2(element, cons.Secondary));
@@ -91,9 +91,9 @@ namespace PCF_Fittings
 
                     case ("REDUCER-ECCENTRIC"):
                         sbFittings.AppendLine("    FLAT-DIRECTION DOWN");
-                        goto case ("REDUCER-CONCENTRIC");
+                        goto case ("REDUCER-CONCENTRIC"); //done
 
-                    case ("COUPLING"):
+                    case ("COUPLING"): //done
                         goto case ("REDUCER-CONCENTRIC");
 
                     case ("FLANGE"):
@@ -170,10 +170,10 @@ namespace PCF_Fittings
 
                         break;
 
-                    case ("CAP"):
-                        goto case ("FLANGE-BLIND");
+                    case ("CAP"): //done
+                        goto case ("FLANGE-BLIND"); //done
 
-                    case ("TEE-STUB"):
+                    case ("TEE-STUB"): //done
                         {
                             XYZ endPointOriginOletPrimary = cons.Primary.Origin;
                             XYZ endPointOriginOletSecondary = cons.Secondary.Origin;
@@ -189,11 +189,11 @@ namespace PCF_Fittings
                                 //Find the target pipe
 
                                 IList<BuiltInCategory> bics = new List<BuiltInCategory>(3)
-                            {
-                                BuiltInCategory.OST_PipeAccessory,
-                                BuiltInCategory.OST_PipeCurves,
-                                BuiltInCategory.OST_PipeFitting
-                            };
+                                {
+                                    BuiltInCategory.OST_PipeAccessory,
+                                    BuiltInCategory.OST_PipeCurves,
+                                    BuiltInCategory.OST_PipeFitting
+                                };
 
                                 IList<ElementFilter> a = new List<ElementFilter>(bics.Count());
 

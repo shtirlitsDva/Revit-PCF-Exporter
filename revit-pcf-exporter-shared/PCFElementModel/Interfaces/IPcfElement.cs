@@ -6,6 +6,6 @@ namespace PCF_Model
 {
     internal interface IPcfElement
     {
-
+        StringBuilder ToPCFString();
     }
 }

@@ -5,45 +5,128 @@ using System.Text;
 using Autodesk.Revit.DB;
 
 using PCF_Functions;
+using PCF_Exporter;
 
 using plst = PCF_Functions.Parameters;
 using pdef = PCF_Functions.ParameterDefinition;
-using pd = PCF_Functions.ParameterData;
+using System.Linq;
+using Shared;
+using mp = Shared.MepUtils;
 
 namespace PCF_Model
 {
     public abstract class PcfPhysicalElement : IPcfElement
     {
-        public Element Element { get; set; }
-
-        #region Parameters read from Revit
-        public pdef PCF_ELEM_TYPE = plst.PCF_ELEM_TYPE;
-        
-        #endregion
-
-        #region Parameters defined programmatically
-        public pdef PCF_ELEM_COMPID = plst.PCF_ELEM_COMPID;
-
-        #endregion
-
+        protected static Document doc => DocumentManager.Instance.Doc;
+        protected Element Element { get; set; }
+        protected Cons Cons;
+        protected static Dictionary<ElementId, FamilyInstance> SpindleDict = 
+            new FilteredElementCollector(doc)
+            .OfCategory(BuiltInCategory.OST_GenericModel)
+            .OfClass(typeof(FamilyInstance))
+            .Cast<FamilyInstance>()
+            .Where(x => x.FamilyAndTypeName() == "Spindle direction: Spindle direction")
+            .ToDictionary(x => x.SuperComponent.Id, x => x);
         public PcfPhysicalElement(Element element) { 
-            Element = element; }
+            Element = element; Cons = new Cons(Element); }
 
         #region Writing to string
-        public string WriteToString()
+        public StringBuilder ToPCFString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(PCF_ELEM_TYPE);
-            sb.AppendLine("    COMPONENT-IDENTIFIER " + PCF_ELEM_COMPID);
-
-            if (Specification == "EXISTING-INCLUDE")
+            try
             {
-                sb.AppendLine("    STATUS DOTTED-UNDIMENSIONED");
-                sb.AppendLine("    MATERIAL-LIST EXCLUDE");
+                sb.AppendLine(plst.PCF_ELEM_TYPE.GetValue(Element));
+
+                var Specification = plst.PCF_ELEM_SPEC.GetValue(Element);
+                if (Specification == "EXISTING-INCLUDE")
+                {
+                    sb.AppendLine("    STATUS DOTTED-UNDIMENSIONED");
+                    sb.AppendLine("    MATERIAL-LIST EXCLUDE");
+                }
+
+                sb.Append(WriteSpecificData());
+
+                sb.Append(ParameterDataWriter.ParameterValue(
+                    "TAG", new[] { "TAG 1", "TAG 2", "TAG 3" }, Element));
+
+                sb.Append(WritePcfElemParameters());
+
+                sb.Append(WriteSpindle());
+
+                sb.Append(WriteTaps());
+
+                sb.AppendLine($"    UCI {Element.UniqueId}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error in {this.GetType().Name} for element {Element.Id}\n" + ex.ToString());
             }
 
-            return sb.ToString();
+            return sb;
         }
+        protected abstract StringBuilder WriteSpecificData();
         #endregion
+        private StringBuilder WritePcfElemParameters()
+        {
+            var pQuery = plst.LPAll()
+                .Where(p => p.Keyword.IsNotNoE() && p.Domain == ParameterDomain.ELEM);
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (pdef p in pQuery)
+            {
+                if (Element.get_Parameter(p.Guid) == null) continue;
+                StorageType storageType = Element.get_Parameter(p.Guid).StorageType;
+                //We only use strings to store PCF data
+                switch (storageType)
+                {
+                    case StorageType.String:
+                        string value = Element.get_Parameter(p.Guid).AsString();
+                        if (value.IsNoE()) continue;
+                        sb.AppendLine($"    {p.Keyword} {Element.get_Parameter(p.Guid).AsString()}");
+                        break;
+                    default:
+                        throw new Exception($"Unsupported storage type!\n" + 
+                            $"Element {Element.Id} for parameter {p.Name} returned\n" + 
+                            $"unsupported storage type: {storageType}");
+                }
+            }
+
+            return sb;
+        }
+        private StringBuilder WriteTaps()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (plst.PCF_ELEM_TAP1.GetValue(Element).IsNotNoE())
+            {
+                PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(Element, "PCF_ELEM_TAP1", doc);
+                sb.Append(tapsWriter.tapsWriter);
+            }
+            if (plst.PCF_ELEM_TAP2.GetValue(Element).IsNotNoE())
+            {
+                PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(Element, "PCF_ELEM_TAP2", doc);
+                sb.Append(tapsWriter.tapsWriter);
+            }
+            if (plst.PCF_ELEM_TAP3.GetValue(Element).IsNotNoE())
+            {
+                PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(Element, "PCF_ELEM_TAP3", doc);
+                sb.Append(tapsWriter.tapsWriter);
+            }
+
+            return sb;
+        }
+        private StringBuilder WriteSpindle()
+        {
+            StringBuilder sb = new StringBuilder();
+            FamilyInstance sd = SpindleDict[Element.Id];
+            Transform trf = sd.GetTransform();
+            XYZ direction = trf.BasisZ;
+
+            sb.AppendLine($"    SPINDLE-DIRECTION {mp.MapToCardinalDirection(direction)}");
+        
+            return sb;
+        }
     }
 }

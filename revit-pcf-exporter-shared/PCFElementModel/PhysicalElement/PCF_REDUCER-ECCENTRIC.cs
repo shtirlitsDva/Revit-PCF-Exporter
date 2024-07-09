@@ -10,23 +10,17 @@ using System.Text;
 
 namespace PCF_Model
 {
-    internal class PCF_PIPE : PCF_EP1_EP2
+    internal class PCF_REDUCER_ECCENTRIC : PCF_EP1_EP2
     {
-        public PCF_PIPE(Element element) : base(element) { }
+        public PCF_REDUCER_ECCENTRIC(Element element) : base(element) { }
         protected override StringBuilder WriteSpecificData()
         {
             StringBuilder sb = new StringBuilder();
 
             sb.Append(base.WriteSpecificData());
 
-            var spec = plst.PCF_ELEM_SPEC.GetValue(Element);
-            if (spec.IsNotNoE())
-            {
-                sb.Append(
-                    SpecManager.SpecManager.GetWALLTHICKNESS(
-                        spec, Conversion.PipeSizeToMm(Cons.Primary.Radius)));
-            }
-
+            //Temporary hack
+            sb.AppendLine("    FLAT-DIRECTION DOWN");
             return sb;
         }
     }

@@ -661,13 +661,13 @@ namespace Shared
                     if (pipeConnectorsOrdered)
                     {
                         filteredCons = connectors
-                            .Where(c => c.ConnectorType.ToString() == "End")
+                            .Where(c => c.ConnectorType == ConnectorType.End)
                             .OrderBy(c => c.Origin.X.Round(1))
                             .ThenBy(c => c.Origin.Y.Round(1))
                             .ThenBy(c => c.Origin.Z.Round(1))
                             .ToList();
                     }
-                    else filteredCons = connectors.Where(c => c.ConnectorType.ToString() == "End").ToList();
+                    else filteredCons = connectors.Where(c => c.ConnectorType == ConnectorType.End).ToList();
 
                     Primary = filteredCons.First();
                     Secondary = filteredCons.Last();
