@@ -10,7 +10,7 @@ namespace PCF_Model
 {
     internal static class PcfElementFactory
     {
-        public static IPcfElement Create(Element e)
+        public static IPcfElement CreatePhysicalElements(Element e)
         {
             var type = plst.PCF_ELEM_TYPE.GetValue(e);
 
@@ -54,6 +54,19 @@ namespace PCF_Model
                     return new PCF_FLOOR_SYMBOL(e);
                 default:
                     throw new NotImplementedException($"Element type {type} is not implemented!");
+            }
+        }
+        public static IEnumerable<IPcfElement> CreateDependentVirtualElements(IPcfElement e)
+        {
+            switch (e)
+            {
+                case PCF_FLANGE flange:
+                    {
+                        Parameter par = 
+                    }
+                    break;
+                default:
+                    yield break;
             }
         }
     }

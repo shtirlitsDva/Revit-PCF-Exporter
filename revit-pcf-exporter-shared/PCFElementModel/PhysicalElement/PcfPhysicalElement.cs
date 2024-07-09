@@ -12,13 +12,14 @@ using pdef = PCF_Functions.ParameterDefinition;
 using System.Linq;
 using Shared;
 using mp = Shared.MepUtils;
+using Autodesk.Revit.DB.Structure;
 
 namespace PCF_Model
 {
     public abstract class PcfPhysicalElement : IPcfElement
     {
         protected static Document doc => DocumentManager.Instance.Doc;
-        protected Element Element { get; set; }
+        public Element Element { get; }
         protected Cons Cons;
         protected static Dictionary<ElementId, FamilyInstance> SpindleDict = 
             new FilteredElementCollector(doc)
@@ -29,6 +30,29 @@ namespace PCF_Model
             .ToDictionary(x => x.SuperComponent.Id, x => x);
         public PcfPhysicalElement(Element element) { 
             Element = element; Cons = new Cons(Element); }
+        public string GetParameterValue(pdef pdef) => pdef.GetValue(Element);
+        public object GetParameterValue(string name)
+        {
+            Parameter par = Element.LookupParameter(name);
+            if (par == null) return null;
+            StorageType sT = par.StorageType;
+            switch (sT)
+            {
+                case StorageType.None:
+                    return null;
+                case StorageType.Integer:
+                    return par.AsInteger();
+                case StorageType.Double:
+                    return par.AsDouble();
+                case StorageType.String:
+                    return par.AsString();
+                case StorageType.ElementId:
+                    return par.AsElementId();
+                default:
+                    return null;
+            }
+        }
+        public void SetParameterValue(pdef pdef, string value) => pdef.SetValue(Element, value);
 
         #region Writing to string
         public StringBuilder ToPCFString()

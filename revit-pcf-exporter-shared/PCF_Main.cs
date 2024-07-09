@@ -3,6 +3,9 @@ using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using MoreLinq;
 using PCF_Functions;
+
+using PCF_Model;
+
 using PCF_Output;
 using Shared;
 using Shared.BuildingCoder;
@@ -37,7 +40,7 @@ namespace PCF_Exporter
                 ElementParameterFilter sysAbbr = Shared.Filter.ParameterValueGenericFilter(doc, InputVars.SysAbbr, InputVars.SysAbbrParam);
 
                 // Declare pipeline grouping object
-                IEnumerable<IGrouping<string, Element>> pipelineGroups;
+                IEnumerable<IGrouping<string, Element>> pipelineGroupsOld;
 
                 //Declare an object to hold collected elements from collector
                 HashSet<Element> colElements = new HashSet<Element>();
@@ -192,7 +195,7 @@ namespace PCF_Exporter
                     elements = filter.GetFilteredElements(doc, filterOptions);
 
                     //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
-                    pipelineGroups = from e in elements
+                    pipelineGroupsOld = from e in elements
                                      group e by e.get_Parameter(
                                          BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
                                      .AsString();
@@ -205,6 +208,21 @@ namespace PCF_Exporter
                 }
                 #endregion
                 #endregion
+
+                //Using new OOP model for PCF elements from here
+                //Wrap Revit elements to PCF elements
+                var pipelineGroups = new Dictionary<string, HashSet<IPcfElement>>();
+                foreach (IGrouping<string, Element> group in pipelineGroupsOld)
+                    pipelineGroups.Add(group.Key, group.Select(
+                        x => PcfElementFactory.CreatePhysicalElements(x))
+                        .ToHashSet());
+
+                //Create dependent virtual elements for each group
+                foreach (var group in pipelineGroups)
+                    group.Value.UnionWith(group.Value.SelectMany(
+                        x => PcfElementFactory.CreateDependentVirtualElements(x)));
+
+
 
                 #region Initialize Material Data
                 //TEST: Do not write material data to elements with EXISTING-INCLUDE spec

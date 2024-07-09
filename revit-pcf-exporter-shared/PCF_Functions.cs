@@ -264,7 +264,6 @@ namespace PCF_Functions
             }
             return testedDiameter >= diameterLimit;
         }
-
         public static bool PipingSystemAllowed(this Element elem, Document doc)
         {
             Element pipingSystemType = doc.GetElement(elem.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId());
@@ -274,6 +273,9 @@ namespace PCF_Functions
             if (pipingExclParameter.AsInteger() == 0) return true;
             else return false;
         }
+        public static Element PipingSystemType(this Element e, Document doc) 
+            => doc.GetElement(e.get_Parameter(
+                BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId());
     }
 
     public static class EndWriter

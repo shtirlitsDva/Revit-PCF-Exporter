@@ -59,6 +59,14 @@ namespace PCF_Functions
                 $"Run Import PCF Parameters.");
             return p.AsString();
         }
+        internal void SetValue(Element e, string value)
+        {
+            Parameter p = e.get_Parameter(this.Guid);
+            if (p == null) throw new Exception(
+                $"Element {e.Id} does not have {Name} parameter attached!\n" +
+                $"Run Import PCF Parameters.");
+            p.Set(value);
+        }
     }
     public enum ParameterDomain
     {

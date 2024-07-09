@@ -30,6 +30,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_REDUCER-ECCENTRIC.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_TEE.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PcfVirtualElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_NN_GASKET.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Accessories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_EndsAndConnections.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCF_Filtering.cs" />
@@ -66,8 +68,5 @@
     <Content Include="$(MSBuildThisFileDirectory)license.txt" />
     <Content Include="$(MSBuildThisFileDirectory)PCF_DEVELOPEMENT_01.xlsx" />
     <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\" />
   </ItemGroup>
 </Project>
