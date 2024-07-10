@@ -4,6 +4,8 @@ using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.UI;
 using MoreLinq;
+using PCF_Model;
+
 using Shared;
 using Shared.BuildingCoder;
 using System;
@@ -24,14 +26,10 @@ namespace PCF_Pipeline
 {
     public static class EndsAndConnections
     {
-        public static StringBuilder DetectAndWriteEndsAndConnections(
-            string key, HashSet<Element> pipes, HashSet<Element> fittings, HashSet<Element> accessories, Document doc)
+        internal static StringBuilder DetectAndWriteEndsAndConnections(
+            string key, KeyValuePair<string, HashSet<IPcfElement>> gp, Document doc)
         {
             StringBuilder sb = new StringBuilder();
-
-            HashSet<Element> all = new HashSet<Element>(pipes);
-            all.UnionWith(fittings);
-            all.UnionWith(accessories);
 
             //Iterate over all elements and check their connected counterparts
             //If they satisfy certain conditions -> write end continuation property
@@ -41,23 +39,9 @@ namespace PCF_Pipeline
             //2) Belongs to MechanicalEquipment -> Equipment continuation -> write tags
             //3) Free end -> Null connection
 
-            foreach (Element elem in all)
+            foreach (IPcfElement elem in gp.Value)
             {
-                HashSet<Connector> cons = new HashSet<Connector>();
-
-                switch (elem)
-                {
-                    case Pipe pipe:
-                        var consPipe = new Cons(elem);
-                        cons.Add(consPipe.Primary);
-                        cons.Add(consPipe.Secondary);
-                        break;
-                    case FamilyInstance fi:
-                        cons = MepUtils.GetALLConnectorsFromElements(elem);
-                        break;
-                    default:
-                        continue;
-                }
+                HashSet<Connector> cons = elem.AllConectors;
 
                 foreach (Connector con in cons)
                 {
@@ -66,8 +50,8 @@ namespace PCF_Pipeline
                     {
                         var allRefsNotFiltered = MepUtils.GetAllConnectorsFromConnectorSet(con.AllRefs);
                         var correspondingCon = allRefsNotFiltered
-                            .Where(x => x.Domain == Domain.DomainPiping)
-                            .Where(x => x.Owner.Id.IntegerValue != elem.Id.IntegerValue).FirstOrDefault();
+                            .Where(x => x.Domain == Domain.DomainPiping).FirstOrDefault();
+                            //.Where(x => x.Owner.Id.IntegerValue != elem.Id.IntegerValue).FirstOrDefault(); ???
 
                         //CASE: Free end -> Do nothing yet, for simplicity
                         //This also catches empty cons on multicons accessories
@@ -78,34 +62,36 @@ namespace PCF_Pipeline
                         //Even if same pipeline
                         if (iv.ExportSelection)
                         {
-                            bool inElementsList = !all.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
-                            //bool inDiscardedPipes = !discardedPipes.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
+                            throw new NotImplementedException(
+                                "Continuation (END Messages) are not implemented for Export Selection!");
+                            //bool inElementsList = !all.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
+                            ////bool inDiscardedPipes = !discardedPipes.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
 
-                            if (inElementsList)// && inDiscardedPipes)
-                            {
-                                //CASE: Con belongs to MechanicalEquipment
-                                if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
-                                {
-                                    sb.AppendLine("END-CONNECTION-EQUIPMENT");
-                                    sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
-                                    sb.Append(PCF_Functions.ParameterDataWriter
-                                        .ParameterValue("CONNECTION-REFERENCE", new[] { "TAG 1", "TAG 2", "TAG 3", "TAG 4" }, correspondingCon.Owner));
+                            //if (inElementsList)// && inDiscardedPipes)
+                            //{
+                            //    //CASE: Con belongs to MechanicalEquipment
+                            //    if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
+                            //    {
+                            //        sb.AppendLine("END-CONNECTION-EQUIPMENT");
+                            //        sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                            //        sb.Append(PCF_Functions.ParameterDataWriter
+                            //            .ParameterValue("CONNECTION-REFERENCE", new[] { "TAG 1", "TAG 2", "TAG 3", "TAG 4" }, correspondingCon.Owner));
 
-                                    continue;
-                                }
-                                //CASE: Any other component
-                                else
-                                {
-                                    sb.AppendLine("END-CONNECTION-PIPELINE");
-                                    sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
-                                    sb.AppendLine("    PIPELINE-REFERENCE " + correspondingCon.MEPSystemAbbreviation(doc));
+                            //        continue;
+                            //    }
+                            //    //CASE: Any other component
+                            //    else
+                            //    {
+                            //        sb.AppendLine("END-CONNECTION-PIPELINE");
+                            //        sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                            //        sb.AppendLine("    PIPELINE-REFERENCE " + correspondingCon.MEPSystemAbbreviation(doc));
 
-                                    continue;
-                                }
-                            }
-                            //CASE: None of the above hit -> continue with loop execution
-                            //To prevent from falling through to non selection cases.
-                            continue;
+                            //        continue;
+                            //    }
+                            //}
+                            ////CASE: None of the above hit -> continue with loop execution
+                            ////To prevent from falling through to non selection cases.
+                            //continue;
                         }
 
                         //CASE: Con belongs to MechanicalEquipment

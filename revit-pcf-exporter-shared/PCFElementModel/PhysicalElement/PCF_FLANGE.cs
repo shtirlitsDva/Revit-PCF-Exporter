@@ -17,11 +17,11 @@ namespace PCF_Model
         {
             StringBuilder sb = new StringBuilder();
 
+            sb.Append(EndWriter.WriteEP1(Element, Cons.Secondary));
+
             var pakning = Element.LookupParameter("Pakning");
             if (pakning != null && pakning.AsInteger() == 1)
             {
-                sb.Append(EndWriter.WriteEP1(Element, Cons.Secondary));
-
                 XYZ dir = -Cons.Primary.CoordinateSystem.BasisZ.Normalize();
                 XYZ modifiedPosition = Cons.Primary.Origin + dir * 1.5.MmToFt();
                 
@@ -29,7 +29,6 @@ namespace PCF_Model
             }
             else
             {
-                sb.Append(EndWriter.WriteEP1(Element, Cons.Secondary));
                 sb.Append(EndWriter.WriteEP2(Element, Cons.Primary));
             }
 

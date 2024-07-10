@@ -12,7 +12,6 @@ using pdef = PCF_Functions.ParameterDefinition;
 using System.Linq;
 using Shared;
 using mp = Shared.MepUtils;
-using Autodesk.Revit.DB.Structure;
 
 namespace PCF_Model
 {
@@ -20,6 +19,7 @@ namespace PCF_Model
     {
         protected static Document doc => DocumentManager.Instance.Doc;
         public Element Element { get; }
+        public HashSet<Connector> AllConectors => getAllConnectors();
         protected Cons Cons;
         protected static Dictionary<ElementId, FamilyInstance> SpindleDict = 
             new FilteredElementCollector(doc)
@@ -53,7 +53,7 @@ namespace PCF_Model
             }
         }
         public void SetParameterValue(pdef pdef, string value) => pdef.SetValue(Element, value);
-
+        private HashSet<Connector> getAllConnectors() => mp.GetALLConnectorsFromElements(Element);
         #region Writing to string
         public StringBuilder ToPCFString()
         {

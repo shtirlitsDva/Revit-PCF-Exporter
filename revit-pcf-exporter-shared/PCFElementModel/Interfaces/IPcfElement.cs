@@ -10,7 +10,7 @@ namespace PCF_Model
 {
     internal interface IPcfElement
     {
-        Element Element { get; }
+        HashSet<Connector> AllConectors { get; }
         string GetParameterValue(ParameterDefinition pdef);
         object GetParameterValue(string name);
         void SetParameterValue(ParameterDefinition pdef, string value);

@@ -62,7 +62,11 @@ namespace PCF_Model
             {
                 case PCF_FLANGE flange:
                     {
-                        Parameter par = 
+                        Parameter par = flange.Element.LookupParameter("Pakning");
+                        if (par == null) yield break;
+                        if (par.AsInteger() == 1)
+                            yield return new PCF_VIRTUAL_NN_GASKET(flange.Element);
+                        else yield break;
                     }
                     break;
                 default:

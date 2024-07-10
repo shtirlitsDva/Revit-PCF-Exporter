@@ -6,6 +6,8 @@ using Autodesk.Revit.UI;
 
 using MoreLinq;
 
+using PCF_Model;
+
 using Shared;
 using Shared.BuildingCoder;
 
@@ -113,7 +115,7 @@ namespace PCF_Functions
         #endregion
 
         #region Materials section
-        public StringBuilder MaterialsSection(IEnumerable<IGrouping<string, Element>> elementGroups)
+        internal StringBuilder MaterialsSection(IEnumerable<IGrouping<string, IPcfElement>> elementGroups)
         {
             StringBuilder sbMaterials = new StringBuilder();
             int groupNumber = 0;
@@ -149,8 +151,10 @@ namespace PCF_Functions
             //                           where string.Equals(st.Abbreviation, systemAbbreviation)
             //                           select st).FirstOrDefault();
 
-            var query = from p in plst.LPAll
-                        where string.Equals(p.Domain, "PIPL") && string.Equals(p.ExportingTo, "CII")
+            var query = from p in plst.LPAll()
+                        where 
+                        p.Domain == ParameterDomain.PIPL &&
+                        p.ExportingTo == ExportingTo.CII
                         select p;
 
             foreach (pdef p in query.ToList())
@@ -200,8 +204,10 @@ namespace PCF_Functions
         {
             StringBuilder sbElemParameters = new StringBuilder();
 
-            var pQuery = from p in plst.LPAll
-                         where !string.IsNullOrEmpty(p.Keyword) && string.Equals(p.Domain, "ELEM")
+            var pQuery = from p in plst.LPAll()
+                         where 
+                         !string.IsNullOrEmpty(p.Keyword) && 
+                         p.Domain == ParameterDomain.ELEM
                          select p;
 
             foreach (pdef p in pQuery)
@@ -610,9 +616,13 @@ namespace PCF_Functions
                     schedAll.Definition.AddSortGroupField(sortGroupField);
                 }
 
-                string curUsage = "U";
-                string curDomain = "ELEM";
-                var query = from p in plst.LPAll where p.Usage == curUsage && p.Domain == curDomain select p;
+                ParameterUsage curUsage = ParameterUsage.USER;
+                ParameterDomain curDomain = ParameterDomain.ELEM;
+                var query = from p in plst.LPAll()
+                            where
+                            p.Usage == curUsage &&
+                            p.Domain == curDomain 
+                            select p;
 
                 foreach (pdef pDef in query.ToList())
                 {

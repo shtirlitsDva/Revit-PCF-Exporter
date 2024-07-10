@@ -142,7 +142,7 @@ namespace PCF_Functions
         public static readonly pdef PCF_ELEM_SPKEY = new pdef("PCF_ELEM_SPKEY", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C9AA8C12-F605-4B56-A912-C3B5870E52FA"), "SPINDLE-KEY");
 
         //Material
-        public static readonly pdef PCF_MAT_DESCR = new pdef("PCF_MAT_DESCR", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("d39418f2-fcb3-4dd1-b0be-3d647486ebe6"));
+        public static readonly pdef PCF_MAT_DESCR = new pdef("PCF_MAT_DESCR", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("d39418f2-fcb3-4dd1-b0be-3d647486ebe6"));
 
         //Programattically defined
         public static readonly pdef PCF_ELEM_TAP1 = new pdef("PCF_ELEM_TAP1", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("5fda303c-5536-429b-9fcc-afb40d14c7b3"));
@@ -265,6 +265,8 @@ namespace PCF_Functions
             .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
             .Where(f => f.IsInitOnly && f.FieldType == typeof(ParameterDefinition)) 
             .Select(f => (ParameterDefinition)f.GetValue(null));
+        public static Dictionary<string, ParameterDefinition> LPDict =
+            LPAll().ToDictionary(x => x.Name, x => x);
     }
     public static class ParameterData
     {

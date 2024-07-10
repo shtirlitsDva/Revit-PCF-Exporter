@@ -12,6 +12,7 @@ using plst = PCF_Functions.Parameters;
 using mySettings = PCF_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
 using Shared;
+using PCF_Functions;
 
 namespace PCF_Pipeline
 {
@@ -32,10 +33,10 @@ namespace PCF_Pipeline
                                                      where string.Equals(st.Abbreviation, key)
                                                      select st).FirstOrDefault();
 
-                IEnumerable<pdef> query = from p in plst.LPAll
-                                          where string.Equals(p.Domain, "PIPL") &&
-                                          !string.Equals(p.ExportingTo, "CII") &&
-                                          !string.Equals(p.ExportingTo, "LDT")
+                IEnumerable<pdef> query = from p in plst.LPAll()
+                                          where p.Domain == ParameterDomain.PIPL &&
+                                          p.ExportingTo != ExportingTo.CII &&
+                                          p.ExportingTo != ExportingTo.LDT
                                           select p;
 
                 sbPipeline.Append("PIPELINE-REFERENCE ");
@@ -74,7 +75,7 @@ namespace PCF_Pipeline
 
                         //var lineId = pipingSystemType.get_Parameter(Plst.PCF_PIPL_LINEID.Guid).AsString();
 
-                        var LdtPars = plst.LPAll.Where(x => x.ExportingTo == "LDT");
+                        var LdtPars = plst.LPAll().Where(x => x.ExportingTo == ExportingTo.LDT);
                         foreach (pdef par in LdtPars)
                         {
                             parName = par.Name;

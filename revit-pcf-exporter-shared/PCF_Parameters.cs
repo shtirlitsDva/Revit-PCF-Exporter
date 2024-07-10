@@ -168,9 +168,10 @@ namespace PCF_Parameters
             worksheet.Cells[1, 1] = "Family and Type";
 
             //Change domain for query
-            string curDomain = "PIPL", curUsage = "U";
+            ParameterDomain curDomain = ParameterDomain.PIPL;
+            ParameterUsage curUsage = ParameterUsage.USER;
 
-            var query = from p in plst.LPAll
+            var query = from p in plst.LPAll()
                         where p.Domain == curDomain && p.Usage == curUsage
                         select p;
 
@@ -218,7 +219,7 @@ namespace PCF_Parameters
             worksheet.Cells[1, 1] = "Family and Type";
 
             //Query parameters
-            curDomain = "ELEM";
+            curDomain = ParameterDomain.ELEM;
 
             //Formatting must occur here, because it depends on query
             worksheet.Range["A1", BuildingCoderUtilities.GetColumnName(query.Count()) + "1"].Font.Bold = true;
@@ -360,8 +361,8 @@ namespace PCF_Parameters
                                                     where value.Field<string>(0) == eFamilyType
                                                     select value.Field<string>(columnName);
 
-            var pQuery = from p in plst.LPAll
-                         where p.Domain == "ELEM"
+            var pQuery = from p in plst.LPAll()
+                         where p.Domain == ParameterDomain.ELEM
                          select p;
 
             //Query for the element type to be used with elbows
@@ -517,9 +518,9 @@ namespace PCF_Parameters
                                                     select value.Field<string>(columnName) ?? "";
 
             //Get a query for pipeline parameters
-            var pQuery = from p in plst.LPAll
-                         where p.Domain == "PIPL" &&
-                               p.ExportingTo != "LDT" //<- LDT parameters are read directly from EXCEL to PCF file.
+            var pQuery = from p in plst.LPAll()
+                         where p.Domain == ParameterDomain.PIPL &&
+                               p.ExportingTo != ExportingTo.LDT //<- LDT parameters are read directly from EXCEL to PCF file.
                          select p;
 
             //Debugging
@@ -632,8 +633,8 @@ namespace PCF_Parameters
 
             StringBuilder sbFeedback = new StringBuilder();
             //Parameter query
-            var query = from p in plst.LPAll
-                        where p.Domain == "ELEM" ||
+            var query = from p in plst.LPAll()
+                        where p.Domain == ParameterDomain.ELEM ||
                               p.Name == "PCF_ELEM_EXCL"
                         select p;
 
@@ -720,8 +721,11 @@ namespace PCF_Parameters
             StringBuilder sbFeedback = new StringBuilder();
 
             //Parameter query
-            var query = from p in plst.LPAll
-                        where (p.Domain == "PIPL" || p.Name == "PCF_PIPL_EXCL") && p.ExportingTo != "LDT"
+            var query = from p in plst.LPAll()
+                        where 
+                        (p.Domain == ParameterDomain.PIPL ||
+                        p.Name == "PCF_PIPL_EXCL") &&
+                        p.ExportingTo != ExportingTo.LDT
                         select p;
 
             //Create parameter bindings
@@ -778,7 +782,7 @@ namespace PCF_Parameters
             {
                 Transaction trans = new Transaction(doc, "Delete PCF parameters");
                 trans.Start();
-                foreach (pdef parameter in plst.LPAll.ToList())
+                foreach (pdef parameter in plst.LPAll())
                     RemoveSharedParameterBinding(doc.Application, parameter.Name, parameter.Type);
                 trans.Commit();
                 BuildingCoderUtilities.InfoMsg(sbFeedback.ToString());
