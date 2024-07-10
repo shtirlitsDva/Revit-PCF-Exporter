@@ -16,24 +16,25 @@ namespace PCF_Model
         protected Dictionary<string, string> pcfData = new Dictionary<string, string>();
         protected HashSet<(string, string)> endData = new HashSet<(string, string)>();
         protected string PCF_ELEM_TYPE { get; set; }
-        protected string PCF_ELEM_DESCR { get; set; }
+        protected string PCF_MAT_DESCR { get; set; }
         public abstract HashSet<Connector> AllConectors { get; }
+        public abstract ElementId ElementId { get; }
         public PcfVirtualElement(string type) { PCF_ELEM_TYPE = type; }
         public string GetParameterValue(ParameterDefinition pdef)
         {
-            if (pdef.Name == "PCF_ELEM_DESCR") return PCF_ELEM_DESCR;
+            if (pdef.Name == "PCF_MAT_DESCR") return PCF_MAT_DESCR;
             else if (pdef.Name == "PCF_ELEM_TYPE") return PCF_ELEM_TYPE;
             return pcfData.ContainsKey(pdef.Name) ? pcfData[pdef.Name] : null;
         }
         public object GetParameterValue(string name)
         {
-            if (name == "PCF_ELEM_DESCR") return PCF_ELEM_DESCR;
+            if (name == "PCF_MAT_DESCR") return PCF_MAT_DESCR;
             else if (name == "PCF_ELEM_TYPE") return PCF_ELEM_TYPE;
             return pcfData.ContainsKey(name) ? pcfData[name] : null;
         }
         public void SetParameterValue(ParameterDefinition pdef, string value)
         {
-            if (pdef.Name == "PCF_ELEM_DESCR") PCF_ELEM_DESCR = value;
+            if (pdef.Name == "PCF_MAT_DESCR") PCF_MAT_DESCR = value;
             else if (pdef.Name == "PCF_ELEM_TYPE") PCF_ELEM_TYPE = value;
             else pcfData[pdef.Name] = value;
         }
@@ -53,6 +54,5 @@ namespace PCF_Model
 
             return sb;
         }
-
     }
 }

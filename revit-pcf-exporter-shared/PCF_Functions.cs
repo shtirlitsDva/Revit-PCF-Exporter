@@ -120,7 +120,7 @@ namespace PCF_Functions
             StringBuilder sbMaterials = new StringBuilder();
             int groupNumber = 0;
             sbMaterials.Append("MATERIALS");
-            foreach (IGrouping<string, Element> group in elementGroups)
+            foreach (IGrouping<string, IPcfElement> group in elementGroups)
             {
                 groupNumber++;
                 sbMaterials.AppendLine();
@@ -370,7 +370,28 @@ namespace PCF_Functions
             sbEndWriter.AppendLine();
             return sbEndWriter;
         }
-
+        /// <summary>
+        /// Write end-point, but modify coordinates to another location
+        /// </summary>
+        internal static object WriteEP2(Element element, Connector connector, XYZ modifiedPosition)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            XYZ connectorOrigin = modifiedPosition;
+            double connectorSize = connector.Radius;
+            sbEndWriter.Append("    END-POINT ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
+            sbEndWriter.Append(" ");
+            if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
+            if (InputVars.UNITS_BORE_INCH) sbEndWriter.Append(Conversion.PipeSizeToInch(connectorSize));
+            if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_END2").AsString()) == false)
+            {
+                sbEndWriter.Append(" ");
+                sbEndWriter.Append(element.LookupParameter("PCF_ELEM_END2").AsString());
+            }
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
         public static StringBuilder WriteEP2(Element element, Connector connector)
         {
             StringBuilder sbEndWriter = new StringBuilder();

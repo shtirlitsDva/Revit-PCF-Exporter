@@ -19,6 +19,7 @@ namespace PCF_Model
     {
         protected static Document doc => DocumentManager.Instance.Doc;
         public Element Element { get; }
+        public ElementId ElementId => Element.Id;
         public HashSet<Connector> AllConectors => getAllConnectors();
         protected Cons Cons;
         protected static Dictionary<ElementId, FamilyInstance> SpindleDict = 
@@ -144,12 +145,14 @@ namespace PCF_Model
         private StringBuilder WriteSpindle()
         {
             StringBuilder sb = new StringBuilder();
-            FamilyInstance sd = SpindleDict[Element.Id];
-            Transform trf = sd.GetTransform();
-            XYZ direction = trf.BasisZ;
+            if (SpindleDict.ContainsKey(Element.Id))
+            {
+                FamilyInstance sd = SpindleDict[Element.Id];
+                Transform trf = sd.GetTransform();
+                XYZ direction = trf.BasisZ;
 
-            sb.AppendLine($"    SPINDLE-DIRECTION {mp.MapToCardinalDirection(direction)}");
-        
+                sb.AppendLine($"    SPINDLE-DIRECTION {mp.MapToCardinalDirection(direction)}");
+            }
             return sb;
         }
     }

@@ -25,7 +25,7 @@ namespace PCF_Model
                 XYZ dir = -Cons.Primary.CoordinateSystem.BasisZ.Normalize();
                 XYZ modifiedPosition = Cons.Primary.Origin + dir * 1.5.MmToFt();
                 
-                sb.Append(EndWriter.WriteEP1(Element, Cons.Primary, modifiedPosition));
+                sb.Append(EndWriter.WriteEP2(Element, Cons.Primary, modifiedPosition));
             }
             else
             {

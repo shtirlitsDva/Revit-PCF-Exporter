@@ -15,6 +15,7 @@ namespace PCF_Model
     internal class PCF_VIRTUAL_NN_GASKET : PcfVirtualElement
     {
         private Element Element;
+        public override ElementId ElementId => Element.Id;
         private Dictionary<string, string> specDescrDict = new Dictionary<string, string>() 
         {
             { "C02", "Pakning, Flat ring, EN 1514-1, 1,5 MM, Klinger PSM-B" },
@@ -26,9 +27,10 @@ namespace PCF_Model
         { 
             this.Element = element;
             var ptype = Element.PipingSystemType(doc);
-            var spec = plst.PCF_PIPL_SPEC.GetValue(Element);
+            var spec = plst.PCF_PIPL_SPEC.GetValue(ptype);
+            if (specDescrDict.ContainsKey(spec)) PCF_MAT_DESCR = specDescrDict[spec];
 
-            if (specDescrDict.ContainsKey(spec)) PCF_ELEM_DESCR = specDescrDict[spec];
+            pcfData.Add("PCF_ELEM_CATEGORY", "ERECTION");
 
             #region Write end point sizes
             Cons cons = new Cons(Element);

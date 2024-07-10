@@ -219,8 +219,8 @@ namespace PCF_Exporter
 
                 //Create dependent virtual elements for each group
                 foreach (var group in pipelineGroups)
-                    group.Value.UnionWith(group.Value.SelectMany(
-                        x => PcfElementFactory.CreateDependentVirtualElements(x)));
+                    group.Value.UnionWith(group.Value.Select(
+                        x => PcfElementFactory.CreateDependentVirtualElements(x)).Aggregate( (x,y) => x.Union(y)));
 
                 #region Initialize Material Data
                 //TEST: Do not write material data to elements with EXISTING-INCLUDE spec
@@ -418,6 +418,7 @@ namespace PCF_Exporter
                         #endregion
 
                         sbCollect.Append(sbPipeline); sbCollect.Append(sbFilename); sbCollect.Append(sbStartPoint); sbCollect.Append(sbEndsAndConnections);
+                        //Write the elements
                         sbCollect.Append(gp.Value.OrderBy(x => x.GetParameterValue("PCF_ELEM_TYPE"))
                             .Select(x => x.ToPCFString()).Aggregate((x, y) => x.Append(y)));
                     }

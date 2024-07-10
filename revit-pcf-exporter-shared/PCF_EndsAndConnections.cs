@@ -18,6 +18,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
+
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
 using plst = PCF_Functions.Parameters;
@@ -39,7 +41,8 @@ namespace PCF_Pipeline
             //2) Belongs to MechanicalEquipment -> Equipment continuation -> write tags
             //3) Free end -> Null connection
 
-            foreach (IPcfElement elem in gp.Value)
+            //Filtering virtual elements for now as they have same end as master physical element
+            foreach (IPcfElement elem in gp.Value.OfType<PcfPhysicalElement>())
             {
                 HashSet<Connector> cons = elem.AllConectors;
 
@@ -50,8 +53,8 @@ namespace PCF_Pipeline
                     {
                         var allRefsNotFiltered = MepUtils.GetAllConnectorsFromConnectorSet(con.AllRefs);
                         var correspondingCon = allRefsNotFiltered
-                            .Where(x => x.Domain == Domain.DomainPiping).FirstOrDefault();
-                            //.Where(x => x.Owner.Id.IntegerValue != elem.Id.IntegerValue).FirstOrDefault(); ???
+                            .Where(x => x.Domain == Domain.DomainPiping)//.FirstOrDefault();
+                            .Where(x => x.Owner.Id != elem.ElementId).FirstOrDefault(); //???
 
                         //CASE: Free end -> Do nothing yet, for simplicity
                         //This also catches empty cons on multicons accessories

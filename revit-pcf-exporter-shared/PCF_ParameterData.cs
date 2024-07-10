@@ -139,7 +139,7 @@ namespace PCF_Functions
         //public static readonly pdef PCF_ELEM_MISC3 = new pdef("PCF_ELEM_MISC3", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("0e065f3e-83c8-44c8-a1cb-babaf20476b9"), "MISC-SPEC3");
         //public static readonly pdef PCF_ELEM_MISC4 = new pdef("PCF_ELEM_MISC4", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("3229c505-3802-416c-bf04-c109f41f3ab7"), "MISC-SPEC4");
         //public static readonly pdef PCF_ELEM_MISC5 = new pdef("PCF_ELEM_MISC5", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("692e2e97-3b9c-4616-8a03-dfd493b01762"), "MISC-SPEC5");
-        public static readonly pdef PCF_ELEM_SPKEY = new pdef("PCF_ELEM_SPKEY", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C9AA8C12-F605-4B56-A912-C3B5870E52FA"), "SPINDLE-KEY");
+        public static readonly pdef PCF_ELEM_SPKEY = new pdef("PCF_ELEM_SPKEY", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C9AA8C12-F605-4B56-A912-C3B5870E52FA"), "SPINDLE-SKEY");
 
         //Material
         public static readonly pdef PCF_MAT_DESCR = new pdef("PCF_MAT_DESCR", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("d39418f2-fcb3-4dd1-b0be-3d647486ebe6"));
