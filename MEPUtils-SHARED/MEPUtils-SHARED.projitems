@@ -135,6 +135,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\00 StaticVariables.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\01 CheckOrCreatePipingSystemFilters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\02 AddAllPipingSystemTypesFiltersToView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\04 HideSelectedPipingSystems.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\03 IsolateSelectedPipingSystems.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)28 WriteRoomNumbersToContainedElements\03 WriteRoomNumbersFromGE.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)28 WriteRoomNumbersToContainedElements\01 WriteRoomNumbersToCE.cs" />
