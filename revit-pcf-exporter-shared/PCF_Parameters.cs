@@ -305,7 +305,7 @@ namespace PCF_Parameters
             Element elementRefForFeedback = null;
 
             FilteredElementCollector collector = new FilteredElementCollector(doc);
-            HashSet<Element> colElements;
+            HashSet<Element> colElements = null;
 
             if (InputVars.ExportAllOneFile)
             {
@@ -379,7 +379,7 @@ namespace PCF_Parameters
                 {
                     //Reporting the number of different elements initialized
                     int pNumber = 0, fNumber = 0, aNumber = 0;
-                    foreach (Element element in collector)
+                    foreach (Element element in colElements)
                     {
                         //Feedback
                         elementRefForFeedback = element;
@@ -459,9 +459,12 @@ namespace PCF_Parameters
                 {
                     msg = ex.Message;
                     BuildingCoderUtilities.ErrorMsg($"Population of parameters failed with the following exception: \n" + ex.ToString() +
-                                                    $"\n For element {elementRefForFeedback.Id.IntegerValue}.");
-                    uiApp.ActiveUIDocument.Selection.SetElementIds(
-                        new ElementId[1] { elementRefForFeedback.Id });
+                                                    $"\n For element {elementRefForFeedback?.Id}.");
+                    if (elementRefForFeedback != null)
+                    {
+                        uiApp.ActiveUIDocument.Selection.SetElementIds(
+                            new ElementId[1] { elementRefForFeedback.Id });
+                    }
                     trans.RollBack();
                     return Result.Failed;
                 }

@@ -34,6 +34,8 @@ namespace PCF_Model
                 case "UNION":
                 case "PIPE-BLOCK-FIXED":
                     return new PCF_EP1_EP2(e);
+                case "REDUCER-ECCENTRIC":
+                    return new PCF_REDUCER_ECCENTRIC(e);
                 case "FLANGE-BLIND":
                 case "CAP":
                     return new PCF_FLANGE_BLIND(e);
