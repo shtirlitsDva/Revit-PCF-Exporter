@@ -65,36 +65,36 @@ namespace PCF_Pipeline
                         //Even if same pipeline
                         if (iv.ExportSelection)
                         {
-                            throw new NotImplementedException(
-                                "Continuation (END Messages) are not implemented for Export Selection!");
-                            //bool inElementsList = !all.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
-                            ////bool inDiscardedPipes = !discardedPipes.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
+                            //throw new NotImplementedException(
+                            //    "Continuation (END Messages) are not implemented for Export Selection!");
+                            bool inElementsList = !gp.Value.Any(x => x.ElementId == correspondingCon.Owner.Id);
+                            //bool inDiscardedPipes = !discardedPipes.Any(x => x.Id.IntegerValue == correspondingCon.Owner.Id.IntegerValue);
 
-                            //if (inElementsList)// && inDiscardedPipes)
-                            //{
-                            //    //CASE: Con belongs to MechanicalEquipment
-                            //    if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
-                            //    {
-                            //        sb.AppendLine("END-CONNECTION-EQUIPMENT");
-                            //        sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
-                            //        sb.Append(PCF_Functions.ParameterDataWriter
-                            //            .ParameterValue("CONNECTION-REFERENCE", new[] { "TAG 1", "TAG 2", "TAG 3", "TAG 4" }, correspondingCon.Owner));
+                            if (inElementsList)// && inDiscardedPipes)
+                            {
+                                //CASE: Con belongs to MechanicalEquipment
+                                if (correspondingCon.Owner.Category.Id.IntegerValue == (int)BuiltInCategory.OST_MechanicalEquipment)
+                                {
+                                    sb.AppendLine("END-CONNECTION-EQUIPMENT");
+                                    sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                                    sb.Append(PCF_Functions.ParameterDataWriter
+                                        .ParameterValue("CONNECTION-REFERENCE", new[] { "TAG 1", "TAG 2", "TAG 3", "TAG 4" }, correspondingCon.Owner));
 
-                            //        continue;
-                            //    }
-                            //    //CASE: Any other component
-                            //    else
-                            //    {
-                            //        sb.AppendLine("END-CONNECTION-PIPELINE");
-                            //        sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
-                            //        sb.AppendLine("    PIPELINE-REFERENCE " + correspondingCon.MEPSystemAbbreviation(doc));
+                                    continue;
+                                }
+                                //CASE: Any other component
+                                else
+                                {
+                                    sb.AppendLine("END-CONNECTION-PIPELINE");
+                                    sb.Append(PCF_Functions.EndWriter.WriteCO(correspondingCon.Origin));
+                                    sb.AppendLine("    PIPELINE-REFERENCE " + correspondingCon.MEPSystemAbbreviation(doc));
 
-                            //        continue;
-                            //    }
-                            //}
-                            ////CASE: None of the above hit -> continue with loop execution
-                            ////To prevent from falling through to non selection cases.
-                            //continue;
+                                    continue;
+                                }
+                            }
+                            //CASE: None of the above hit -> continue with loop execution
+                            //To prevent from falling through to non selection cases.
+                            continue;
                         }
 
                         //CASE: Con belongs to MechanicalEquipment
