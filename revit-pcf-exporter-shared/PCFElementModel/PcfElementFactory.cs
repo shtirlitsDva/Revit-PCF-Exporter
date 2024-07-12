@@ -1,5 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 
+using Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +15,9 @@ namespace PCF_Model
         public static IPcfElement CreatePhysicalElements(Element e)
         {
             var type = plst.PCF_ELEM_TYPE.GetValue(e);
+
+            if (type.IsNoE())
+                throw new ArgumentException($"Element {e.Id} TYPE is null or empty!");
 
             switch (type)
             {
