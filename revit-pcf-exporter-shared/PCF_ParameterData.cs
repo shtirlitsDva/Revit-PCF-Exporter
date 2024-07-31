@@ -148,6 +148,7 @@ namespace PCF_Functions
         public static readonly pdef PCF_ELEM_TAP1 = new pdef("PCF_ELEM_TAP1", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("5fda303c-5536-429b-9fcc-afb40d14c7b3"));
         public static readonly pdef PCF_ELEM_TAP2 = new pdef("PCF_ELEM_TAP2", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("e1e9bc3b-ce75-4f3a-ae43-c270f4fde937"));
         public static readonly pdef PCF_ELEM_TAP3 = new pdef("PCF_ELEM_TAP3", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("12693653-8029-4743-be6a-310b1fbc0620"));
+        public static readonly pdef PCF_ELEM_TAPS = new pdef("PCF_ELEM_TAPS", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("38CE9E37-C6D0-4233-9B6B-CB2E26BF849F"));
         public static readonly pdef PCF_ELEM_COMPID = new pdef("PCF_ELEM_COMPID", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("4EAB3C7A-C0BF-4E9A-B7B9-978407C12800"), "COMPONENT-IDENTIFIER");
         public static readonly pdef PCF_MAT_ID = new pdef("PCF_MAT_ID", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("DE851B73-AFEA-4B38-9BCB-EFC8CBA78B16"), "MATERIAL-IDENTIFIER");
 

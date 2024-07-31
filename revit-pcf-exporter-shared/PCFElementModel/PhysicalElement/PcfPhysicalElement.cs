@@ -126,18 +126,32 @@ namespace PCF_Model
 
             if (plst.PCF_ELEM_TAP1.GetValue(Element).IsNotNoE())
             {
-                PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(Element, "PCF_ELEM_TAP1", doc);
-                sb.Append(tapsWriter.tapsWriter);
+                sb.Append(
+                    PCF_Taps.TapsWriter.WriteSpecificTap(Element, "PCF_ELEM_TAP1", doc));
             }
             if (plst.PCF_ELEM_TAP2.GetValue(Element).IsNotNoE())
             {
-                PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(Element, "PCF_ELEM_TAP2", doc);
-                sb.Append(tapsWriter.tapsWriter);
+                sb.Append(
+                    PCF_Taps.TapsWriter.WriteSpecificTap(Element, "PCF_ELEM_TAP2", doc));
             }
             if (plst.PCF_ELEM_TAP3.GetValue(Element).IsNotNoE())
             {
-                PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(Element, "PCF_ELEM_TAP3", doc);
-                sb.Append(tapsWriter.tapsWriter);
+                sb.Append(
+                    PCF_Taps.TapsWriter.WriteSpecificTap(Element, "PCF_ELEM_TAP3", doc));
+            }
+
+            //Write the TAP taps
+            if (plst.PCF_ELEM_TAPS.GetValue(Element).IsNotNoE())
+            {
+                string raw = plst.PCF_ELEM_TAPS.GetValue(Element);
+                var contents = raw.Split(';').Select(x => x.ToLower()).ToList();
+                foreach (string uci in contents)
+                {
+                    Element tap = doc.GetElement(uci);
+                    if (tap == null) continue;
+                    sb.Append(
+                        PCF_Taps.TapsWriter.WriteGenericTap(tap, uci, doc));
+                }
             }
 
             return sb;

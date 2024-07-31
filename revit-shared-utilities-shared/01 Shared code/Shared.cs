@@ -1315,6 +1315,15 @@ namespace Shared
                 }
             }
         }
+        /// <summary>
+        /// WARNING: Modifies the original HashSet by removing the extracted items.
+        /// </summary>
+        public static HashSet<T> ExtractBy<T>(this HashSet<T> source, Func<T, bool> predicate)
+        {
+            var extractedItems = new HashSet<T>(source.Where(predicate));
+            source.ExceptWith(extractedItems);
+            return extractedItems;
+        }
     }
 
     public static class Transformation

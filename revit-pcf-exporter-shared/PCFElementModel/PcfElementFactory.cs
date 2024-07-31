@@ -59,6 +59,8 @@ namespace PCF_Model
                     return new PCF_SUPPORT(e);
                 case "FLOOR-SYMBOL":
                     return new PCF_FLOOR_SYMBOL(e);
+                case "TAP":
+                    return new PCF_TAP(e);
                 default:
                     throw new NotImplementedException($"Element type {type} is not implemented!");
             }

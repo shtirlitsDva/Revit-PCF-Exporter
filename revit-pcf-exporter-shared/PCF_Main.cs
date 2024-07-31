@@ -417,9 +417,30 @@ namespace PCF_Exporter
 
                         #endregion
 
-                        sbCollect.Append(sbPipeline); sbCollect.Append(sbFilename); sbCollect.Append(sbStartPoint); sbCollect.Append(sbEndsAndConnections);
+                        sbCollect.Append(sbPipeline); sbCollect.Append(sbFilename); 
+                        sbCollect.Append(sbStartPoint); sbCollect.Append(sbEndsAndConnections);
+
+                        #region Process TAPS
+                        //Handle the new TAP-CONNECTION elements
+                        //Find the TAP-CONNECTION elements in the group
+                        //Extract the TAP-CONNECTION elements from the group
+                        //Write TAP-CONNECTION data to the affected elements
+                        //ASSUMPTIONS:
+                        //1. TAPS are always set on pipes -> cannot be connected to fittings/accessories
+                        //this can be circumvented by using the old TAP method
+                        //2. TAPS are always part of the same pipeline -> cannot be connected to other pipelines
+                        var PCFelementsToProcess = gp.Value;
+                        using (Transaction tx = new Transaction(doc))
+                        {
+                            tx.Start("Process TAP-CONNECTION elements");
+                            var taps = PCFelementsToProcess.ExtractBy(x => x is PCF_TAP);
+                            foreach (PCF_TAP tap in taps) tap.ProcessTaps();
+                            tx.Commit();
+                        } 
+                        #endregion
+
                         //Write the elements
-                        sbCollect.Append(gp.Value.OrderBy(x => x.GetParameterValue("PCF_ELEM_TYPE"))
+                        sbCollect.Append(PCFelementsToProcess.OrderBy(x => x.GetParameterValue("PCF_ELEM_TYPE"))
                             .Select(x => x.ToPCFString()).Aggregate((x, y) => x.Append(y)));
                     }
                     #endregion 
