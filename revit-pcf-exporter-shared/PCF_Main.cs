@@ -214,21 +214,16 @@ namespace PCF_Exporter
 
                 #region Sub: Taps
                 //Extract taps
+                //So they do not mess up the material data
                 var taps = oopElements.ExtractBy(x => x is PCF_TAP);
                 #endregion
-
-                //Using new OOP model for PCF elements from here
-                //Wrap Revit elements to PCF elements
-                var pipelineGroups = oopElements
-                    .GroupBy(x => x.SystemAbbreviation)
-                    .ToDictionary(x => x.Key, x => x.ToHashSet());
 
                 #region Initialize Material Data
                 //TEST: Do not write material data to elements with EXISTING-INCLUDE spec
                 //HashSet<Element> existInclElements = elements.Where(x =>
                 //    x.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
                 ////Remember the clearing of previous run data in transaction below
-                
+
                 //elements = elements.ExceptWhere(x =>
                 //    x.get_Parameter(plst.PCF_ELEM_SPEC.Guid).AsString() == "EXISTING-INCLUDE").ToHashSet();
 
@@ -248,8 +243,8 @@ namespace PCF_Exporter
                 }
 
                 //Initialize material group numbers on the elements
-                IEnumerable<IGrouping<string, IPcfElement>> materialGroups = 
-                    pipelineGroups.SelectMany(x => x.Value)
+                IEnumerable<IGrouping<string, IPcfElement>> materialGroups =
+                    oopElements
                     .GroupBy(x => x.GetParameterValue(plst.PCF_MAT_DESCR));
 
                 using (Transaction trans = new Transaction(doc, "Set PCF_ELEM_COMPID and PCF_MAT_ID"))
@@ -278,6 +273,12 @@ namespace PCF_Exporter
                 }
 
                 #endregion
+
+                //Using new OOP model for PCF elements from here
+                //Wrap Revit elements to PCF elements
+                var pipelineGroups = oopElements
+                    .GroupBy(x => x.SystemAbbreviation)
+                    .ToDictionary(x => x.Key, x => x.ToHashSet());
 
                 using (TransactionGroup txGp = new TransactionGroup(doc))
                 {
@@ -423,8 +424,6 @@ namespace PCF_Exporter
 
                         #region Process TAPS
                         //Handle the new TAP-CONNECTION elements
-                        //Find the TAP-CONNECTION elements in the group
-                        //Extract the TAP-CONNECTION elements from the group
                         //Write TAP-CONNECTION data to the affected elements
                         //ASSUMPTIONS:
                         //1. TAPS are always set on pipes -> cannot be connected to fittings/accessories
