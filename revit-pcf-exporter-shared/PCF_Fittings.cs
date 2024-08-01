@@ -514,23 +514,23 @@ namespace PCF_Fittings
                 sbFittings.Append(element.UniqueId);
                 sbFittings.AppendLine();
 
-                //Process tap entries of the element if any
-                //Diameter Limit nullifies the tapsWriter output if the tap diameter is less than the limit so it doesn't get exported
-                if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP1").AsString()) == false)
-                {
-                    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP1", doc);
-                    sbFittings.Append(tapsWriter.tapsWriter);
-                }
-                if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP2").AsString()) == false)
-                {
-                    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP2", doc);
-                    sbFittings.Append(tapsWriter.tapsWriter);
-                }
-                if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP3").AsString()) == false)
-                {
-                    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP3", doc);
-                    sbFittings.Append(tapsWriter.tapsWriter);
-                }
+                ////Process tap entries of the element if any
+                ////Diameter Limit nullifies the tapsWriter output if the tap diameter is less than the limit so it doesn't get exported
+                //if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP1").AsString()) == false)
+                //{
+                //    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP1", doc);
+                //    sbFittings.Append(tapsWriter.tapsWriter);
+                //}
+                //if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP2").AsString()) == false)
+                //{
+                //    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP2", doc);
+                //    sbFittings.Append(tapsWriter.tapsWriter);
+                //}
+                //if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP3").AsString()) == false)
+                //{
+                //    PCF_Taps.TapsWriter tapsWriter = new PCF_Taps.TapsWriter(element, "PCF_ELEM_TAP3", doc);
+                //    sbFittings.Append(tapsWriter.tapsWriter);
+                //}
             }
 
             if (gaskets.Count > 0)
