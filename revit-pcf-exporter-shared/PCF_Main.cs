@@ -112,8 +112,9 @@ namespace PCF_Exporter
                     ICollection<ElementId> selection = uiApp.ActiveUIDocument.Selection.GetElementIds();
                     colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
                 }
+                #endregion
 
-                #region Sub: Startpoints
+                #region Startpoints
                 //Detect any startpoints in the selection
                 //If any, pull them out and store in a separate collection
                 var startPointsQuery = colElements.Where(x => x.FamilyAndTypeName() == "StartPoint: StartPoint");
@@ -140,7 +141,7 @@ namespace PCF_Exporter
                 }
                 #endregion
 
-                #region Sub: Filtering
+                #region Filtering
                 try
                 {
                     FilterOptions filterOptions = new FilterOptions()
@@ -193,12 +194,6 @@ namespace PCF_Exporter
 
                     PCF_Filtering filter = new PCF_Filtering(colElements);
                     elements = filter.GetFilteredElements(doc, filterOptions);
-
-                    //Create a grouping of elements based on the Pipeline identifier (System Abbreviation)
-                    pipelineGroupsOld = from e in elements
-                                     group e by e.get_Parameter(
-                                         BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM)
-                                     .AsString();
                 }
                 catch (Exception ex)
                 {
@@ -207,20 +202,26 @@ namespace PCF_Exporter
                         "1. See if parameter PCF_ELEM_EXCL exists, if not, rerun parameter import.");
                 }
                 #endregion
+
+                //Create collection of OOP elements model
+                var oopElements = elements.Select(
+                    x => PcfElementFactory.CreatePhysicalElements(x))
+                    .ToHashSet();
+
+                oopElements.UnionWith(oopElements.Select(
+                    x => PcfElementFactory.CreateDependentVirtualElements(x))
+                    .Aggregate((x, y) => x.Union(y)));
+
+                #region Sub: Taps
+                //Extract taps
+                var taps = oopElements.ExtractBy(x => x is PCF_TAP);
                 #endregion
 
                 //Using new OOP model for PCF elements from here
                 //Wrap Revit elements to PCF elements
-                var pipelineGroups = new Dictionary<string, HashSet<IPcfElement>>();
-                foreach (IGrouping<string, Element> group in pipelineGroupsOld)
-                    pipelineGroups.Add(group.Key, group.Select(
-                        x => PcfElementFactory.CreatePhysicalElements(x))
-                        .ToHashSet());
-
-                //Create dependent virtual elements for each group
-                foreach (var group in pipelineGroups)
-                    group.Value.UnionWith(group.Value.Select(
-                        x => PcfElementFactory.CreateDependentVirtualElements(x)).Aggregate( (x,y) => x.Union(y)));
+                var pipelineGroups = oopElements
+                    .GroupBy(x => x.SystemAbbreviation)
+                    .ToDictionary(x => x.Key, x => x.ToHashSet());
 
                 #region Initialize Material Data
                 //TEST: Do not write material data to elements with EXISTING-INCLUDE spec
@@ -429,18 +430,17 @@ namespace PCF_Exporter
                         //1. TAPS are always set on pipes -> cannot be connected to fittings/accessories
                         //this can be circumvented by using the old TAP method
                         //2. TAPS are always part of the same pipeline -> cannot be connected to other pipelines
-                        var PCFelementsToProcess = gp.Value;
                         using (Transaction tx = new Transaction(doc))
                         {
                             tx.Start("Process TAP-CONNECTION elements");
-                            var taps = PCFelementsToProcess.ExtractBy(x => x is PCF_TAP);
-                            foreach (PCF_TAP tap in taps) tap.ProcessTaps();
+                            foreach (PCF_TAP tap in taps
+                                .Where(x => x.SystemAbbreviation == gp.Key)) tap.ProcessTaps();
                             tx.Commit();
                         } 
                         #endregion
 
                         //Write the elements
-                        sbCollect.Append(PCFelementsToProcess.OrderBy(x => x.GetParameterValue("PCF_ELEM_TYPE"))
+                        sbCollect.Append(gp.Value.OrderBy(x => x.GetParameterValue("PCF_ELEM_TYPE"))
                             .Select(x => x.ToPCFString()).Aggregate((x, y) => x.Append(y)));
                     }
                     #endregion 

@@ -21,6 +21,10 @@ namespace PCF_Model
         public Element Element { get; }
         public ElementId ElementId => Element.Id;
         public HashSet<Connector> AllConectors => getAllConnectors();
+
+        public string SystemAbbreviation => 
+            Element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsValueString();
+
         protected Cons Cons;
         protected static Dictionary<ElementId, FamilyInstance> SpindleDict = 
             new FilteredElementCollector(doc)

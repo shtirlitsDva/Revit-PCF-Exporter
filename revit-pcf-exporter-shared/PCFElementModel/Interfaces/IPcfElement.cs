@@ -12,6 +12,7 @@ namespace PCF_Model
     {
         HashSet<Connector> AllConectors { get; }
         ElementId ElementId { get; }
+        string SystemAbbreviation { get; }
         string GetParameterValue(ParameterDefinition pdef);
         object GetParameterValue(string name);
         void SetParameterValue(ParameterDefinition pdef, string value);

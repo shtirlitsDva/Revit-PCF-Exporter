@@ -19,6 +19,8 @@ namespace PCF_Model
         protected string PCF_MAT_DESCR { get; set; }
         public abstract HashSet<Connector> AllConectors { get; }
         public abstract ElementId ElementId { get; }
+        public string SystemAbbreviation =>
+            doc.GetElement(ElementId).get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsValueString();
         public PcfVirtualElement(string type) { PCF_ELEM_TYPE = type; }
         public string GetParameterValue(ParameterDefinition pdef)
         {
