@@ -188,7 +188,9 @@ namespace NTR_Exporter
 
                         //SpudAdjustable -> Olets
                         //Find fittings of this type:
-                        IEnumerable<IGrouping<int, Element>> spudAdjQry = fittingList.Where(x => x.OfPartType(PartType.SpudAdjustable)).GroupBy(x => x.OletRefOwnerIdAsInt());
+                        IEnumerable<IGrouping<int, Element>> spudAdjQry = 
+                            fittingList.Where(x => x.OfPartType(
+                                PartType.SpudAdjustable)).GroupBy(x => x.OletRefOwnerIdAsInt());
 
                         IList<NonBreakInElement> nbifList = new List<NonBreakInElement>();
 
