@@ -142,9 +142,10 @@ namespace PCF_Taps
 
             catch (NullReferenceException ex)
             {
-                TaskDialog.Show("Tap error!", "An object in the Taps module returned: " + ex.Message + " Check if taps are correctly defined.");
+                throw new Exception(
+                    "Tap error! An object in the Taps module returned: " + ex.Message + " " +
+                    "Check if taps are correctly defined.");
             }
-            return tapsWriter;
         }
 
         internal static StringBuilder WriteGenericTap(Element tap, string uci, Document doc)
@@ -164,11 +165,16 @@ namespace PCF_Taps
 
                 Cons cons = new Cons(tappingElement);
 
-                Connector end1 = cons.Primary; Connector end2 = cons.Secondary;
-                double dist1 = elementOrigin.DistanceTo(end1.Origin); double dist2 = elementOrigin.DistanceTo(end2.Origin);
                 Connector tapConnector = null;
-
-                tapConnector = dist1 > dist2 ? end2 : end1;
+                if (cons.Secondary == null) tapConnector = cons.Primary;
+                else
+                {
+                    Connector end1 = cons.Primary;
+                    Connector end2 = cons.Secondary;
+                    double dist1 = elementOrigin.DistanceTo(end1.Origin);
+                    double dist2 = elementOrigin.DistanceTo(end2.Origin);
+                    tapConnector = dist1 > dist2 ? end2 : end1;
+                }
 
                 XYZ connectorOrigin = tapConnector.Origin;
                 double connectorSize = tapConnector.Radius;
@@ -188,9 +194,10 @@ namespace PCF_Taps
 
             catch (NullReferenceException ex)
             {
-                TaskDialog.Show("Tap error!", "An object in the Taps module returned: " + ex.Message + " Check if taps are correctly defined.");
+                throw new Exception(
+                    "Tap error! An object in the Taps module returned: " + ex.Message + " " +
+                    "Check if taps are correctly defined.");
             }
-            return tapsWriter;
         }
     }
 }
