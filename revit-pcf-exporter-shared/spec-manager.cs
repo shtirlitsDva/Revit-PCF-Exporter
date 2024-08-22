@@ -1,6 +1,5 @@
-using Autodesk.Revit.DB.Plumbing;
-
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Data;
 
@@ -9,14 +8,26 @@ namespace SpecManager
     public static class SpecManager
     {
         private static ISpecRepository _repository;
-        static SpecManager() => LoadPipeTypeData(@"X:\AC - Iso\PipeSpecs\");
-        private static void LoadPipeTypeData(string pathToPipeTypesStore)
+        static SpecManager() => LoadPipeTypeData();
+        private static void LoadPipeTypeData()
         {
-            var csvs = System.IO.Directory.EnumerateFiles(
-                pathToPipeTypesStore, "*.csv", System.IO.SearchOption.TopDirectoryOnly);
+            var paths = new List<string>()
+            {
+                @"X:\AC - Iso\PipeSpecs",
+                @"C:\1\Norsyn\AC - Iso\PipeSpecs"
+            };
 
-            _repository = new SpecRepository();
-            _repository.Initialize(new SpecDataLoaderCSV().Load(csvs));
+            foreach (var path in paths)
+            {
+                if (Directory.Exists(path))
+                {
+                    var csvs = Directory.EnumerateFiles(
+                        path, "*.csv", SearchOption.TopDirectoryOnly);
+
+                    _repository = new SpecRepository();
+                    _repository.Initialize(new SpecDataLoaderCSV().Load(csvs));
+                }
+            }
         }
         public static string GetWALLTHICKNESS(string specName, string size)
         {
