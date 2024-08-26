@@ -17,7 +17,7 @@ namespace PCF_Model
         protected HashSet<(string, string)> endData = new HashSet<(string, string)>();
         protected string PCF_ELEM_TYPE { get; set; }
         protected string PCF_MAT_DESCR { get; set; }
-        public abstract HashSet<Connector> AllConectors { get; }
+        public abstract HashSet<Connector> AllConnectors { get; }
         public abstract ElementId ElementId { get; }
         public string SystemAbbreviation =>
             doc.GetElement(ElementId).get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsValueString();

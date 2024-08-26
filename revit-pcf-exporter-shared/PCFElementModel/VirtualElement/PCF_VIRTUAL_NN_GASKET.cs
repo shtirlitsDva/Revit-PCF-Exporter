@@ -45,7 +45,7 @@ namespace PCF_Model
             WriteEndPoint(modifiedPosition, connectorSize); 
             #endregion
         }
-        public override HashSet<Connector> AllConectors => mp.GetALLConnectorsFromElements(Element);
+        public override HashSet<Connector> AllConnectors => mp.GetALLConnectorsFromElements(Element);
         private void WriteEndPoint(XYZ location, double size)
         {
             endData.Add(($"END-POINT", $" {ew.PointStringMm(location)} {Conversion.PipeSizeToMm(size)} FL"));

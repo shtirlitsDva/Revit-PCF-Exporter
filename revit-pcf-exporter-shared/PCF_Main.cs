@@ -208,9 +208,14 @@ namespace PCF_Exporter
                     x => PcfElementFactory.CreatePhysicalElements(x))
                     .ToHashSet();
 
-                oopElements.UnionWith(oopElements.Select(
+                var virtuals = oopElements.Select(
                     x => PcfElementFactory.CreateDependentVirtualElements(x))
-                    .Aggregate((x, y) => x.Union(y)));
+                    .Aggregate((x, y) => x.Union(y));
+
+                var specials = PcfElementFactory.CreateSpecialVirtualElements(oopElements);
+                
+                //oopElements.UnionWith(specials);
+                oopElements.UnionWith(virtuals);
 
                 #region Sub: Taps
                 //Extract taps
@@ -441,6 +446,8 @@ namespace PCF_Exporter
                         //Write the elements
                         sbCollect.Append(gp.Value.OrderBy(x => x.GetParameterValue("PCF_ELEM_TYPE"))
                             .Select(x => x.ToPCFString()).Aggregate((x, y) => x.Append(y)));
+
+
                     }
                     #endregion 
 

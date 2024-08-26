@@ -141,6 +141,9 @@ namespace PCF_Functions
         //public static readonly pdef PCF_ELEM_MISC5 = new pdef("PCF_ELEM_MISC5", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("692e2e97-3b9c-4616-8a03-dfd493b01762"), "MISC-SPEC5");
         public static readonly pdef PCF_ELEM_SPKEY = new pdef("PCF_ELEM_SPKEY", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C9AA8C12-F605-4B56-A912-C3B5870E52FA"), "SPINDLE-SKEY");
 
+        //Special (for special purposes like creating fieldwelds or splitpoints)
+        public static readonly pdef PCF_ELEM_SPECIAL = new pdef("PCF_ELEM_SPECIAL", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("175E7E0D-E20F-4163-B770-A32BADD800D2"));
+
         //Material
         public static readonly pdef PCF_MAT_DESCR = new pdef("PCF_MAT_DESCR", ParameterDomain.ELEM, ParameterUsage.PROGRAMMATIC, pd.Text, new Guid("d39418f2-fcb3-4dd1-b0be-3d647486ebe6"));
 

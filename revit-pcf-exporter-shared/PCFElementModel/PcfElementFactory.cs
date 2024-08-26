@@ -1,9 +1,11 @@
 ﻿using Autodesk.Revit.DB;
 
 using Shared;
+using GroupByCluster;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using plst = PCF_Functions.Parameters;
@@ -80,6 +82,74 @@ namespace PCF_Model
                     break;
                 default:
                     yield break;
+            }
+        }
+
+        internal static HashSet<IPcfElement> CreateSpecialVirtualElements(HashSet<IPcfElement> oopElements)
+        {
+            var set = new HashSet<IPcfElement>();
+
+            var specials = oopElements.Where(
+                x => x.GetParameterValue(plst.PCF_ELEM_SPECIAL).IsNotNoE());
+
+            var typegps = specials.GroupBy(x => x.GetParameterValue(plst.PCF_ELEM_SPECIAL));
+
+            foreach (var group in typegps)
+            {
+                //Assumed:
+                //we are always looking for elements adjacent to each other
+                //so cluster them now by adjacency
+
+                var clusters = group.GroupByCluster(
+                    (x, y) => MinDistBetweenCons(x, y), 1.25.MmToFt());
+
+                foreach (var cluster in clusters)
+                {
+                    if (cluster.Count() > 2 || cluster.Count() < 2)
+                        throw new Exception(
+                            "Cluster count is not 2! (CreateSpecialVirtualElements)\n" +
+                            string.Join("\n", cluster.Select(x => x.ElementId.ToString())));
+
+                    var first = cluster.First();
+                    var second = cluster.Last();
+
+                    var cons1 = first.AllConnectors;
+                    var cons2 = second.AllConnectors;
+
+                    (Connector c1, Connector c2) adjacentCons = cons1
+                        .SelectMany(c1 => cons2
+                            .Select(c2 => (c1, c2)))
+                        .OrderBy(x => x.c1.Origin.DistanceTo(x.c2.Origin))
+                        .First();
+
+                    var type = group.Key;
+
+                    switch (type)
+                    {
+                        case "FW":
+                            set.Add(new PCF_VIRTUAL_FIELDWELD(adjacentCons));
+                            break;
+                        case "SP":
+                            set.Add(new PCF_VIRTUAL_ISOSPLITPOINT(adjacentCons));
+                            break;
+                        default:
+                            throw new Exception("CreateSpecialVirtualElements encountered a not-implemented value:\n" +
+                                type);
+                    }
+                }
+            }
+
+            return set;
+
+            double MinDistBetweenCons(IPcfElement e1, IPcfElement e2)
+            {
+                var cons1 = e1.AllConnectors;
+                var cons2 = e2.AllConnectors;
+
+                return cons1
+                    .Select(c1 => cons2.Min(
+                        c2 => c1.Origin.DistanceTo(c2.Origin)))
+                    .Min();
             }
         }
     }

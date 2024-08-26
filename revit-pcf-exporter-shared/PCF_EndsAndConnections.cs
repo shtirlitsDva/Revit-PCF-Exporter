@@ -44,7 +44,7 @@ namespace PCF_Pipeline
             //Filtering virtual elements for now as they have same end as master physical element
             foreach (IPcfElement elem in gp.Value.OfType<PcfPhysicalElement>())
             {
-                HashSet<Connector> cons = elem.AllConectors;
+                HashSet<Connector> cons = elem.AllConnectors;
 
                 foreach (Connector con in cons)
                 {

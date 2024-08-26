@@ -20,7 +20,7 @@ namespace PCF_Model
         protected static Document doc => DocumentManager.Instance.Doc;
         public Element Element { get; }
         public ElementId ElementId => Element.Id;
-        public HashSet<Connector> AllConectors => getAllConnectors();
+        public HashSet<Connector> AllConnectors => getAllConnectors();
 
         public string SystemAbbreviation => 
             Element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsValueString();
