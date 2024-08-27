@@ -28,10 +28,12 @@ namespace PCF_Model
             Element = cons.c1.Owner;
             Element2 = cons.c2.Owner;
 
-            pcfData.Add(plst.PCF_ELEM_SKEY.Name, "WS");
+            pcfData.Add(plst.PCF_ELEM_SKEY, "WS");
+            pcfData.Add(plst.PCF_ELEM_CATEGORY, "ERECTION");
+            pcfData.Add(plst.PCF_MAT_DESCR, "Field Weld");
 
-            endData.Add(($"END-POINT", $" {ew.PointStringMm(cons.c1.Origin)} {Conversion.PipeSizeToMm(cons.c1.Radius)}"));
-            endData.Add(($"END-POINT", $" {ew.PointStringMm(cons.c2.Origin)} {Conversion.PipeSizeToMm(cons.c2.Radius)}"));
+            endData.Add($"    END-POINT {ew.PointStringMm(cons.c1.Origin)} {Conversion.PipeSizeToMm(cons.c1.Radius)} BW");
+            endData.Add($"    END-POINT {ew.PointStringMm(cons.c2.Origin)} {Conversion.PipeSizeToMm(cons.c2.Radius)} BW");
         }
     }
 }

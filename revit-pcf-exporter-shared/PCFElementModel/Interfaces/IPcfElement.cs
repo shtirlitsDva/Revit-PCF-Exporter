@@ -14,8 +14,8 @@ namespace PCF_Model
         ElementId ElementId { get; }
         string SystemAbbreviation { get; }
         string GetParameterValue(ParameterDefinition pdef);
-        object GetParameterValue(string name);
         void SetParameterValue(ParameterDefinition pdef, string value);
+        bool ParticipateInMaterialTable { get; }
         StringBuilder ToPCFString();
     }
 }

@@ -17,7 +17,7 @@ namespace PCF_Model
 
         public override ElementId ElementId => Element.Id;
         public override HashSet<Connector> AllConnectors => new HashSet<Connector>() { Cons.c1, Cons.c2 };
-
+        public override bool ParticipateInMaterialTable => false;
         public PCF_VIRTUAL_ISOSPLITPOINT((Connector c1, Connector c2) cons) : base("ISO-SPLIT-POINT")
         {
             this.Cons = cons;
@@ -25,11 +25,9 @@ namespace PCF_Model
             Element = cons.c1.Owner;
             Element2 = cons.c2.Owner;
 
-            pcfData.Add(plst.PCF_ELEM_SKEY.Name, "WS");
-
             var centre = (cons.c1.Origin + cons.c2.Origin) / 2;
 
-            endData.Add(($"CO-ORDS", $" {ew.PointStringMm(centre)}"));
+            endData.Add($"    CO-ORDS {ew.PointStringMm(centre)}");
         }
     }
 }

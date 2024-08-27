@@ -28,9 +28,9 @@ namespace PCF_Model
             this.Element = element;
             var ptype = Element.PipingSystemType(doc);
             var spec = plst.PCF_PIPL_SPEC.GetValue(ptype);
-            if (specDescrDict.ContainsKey(spec)) PCF_MAT_DESCR = specDescrDict[spec];
+            if (specDescrDict.ContainsKey(spec)) pcfData.Add(plst.PCF_MAT_DESCR, specDescrDict[spec]);
 
-            pcfData.Add("PCF_ELEM_CATEGORY", "ERECTION");
+            pcfData.Add(plst.PCF_ELEM_CATEGORY, "ERECTION");
 
             #region Write end point sizes
             Cons cons = new Cons(Element);
@@ -48,7 +48,7 @@ namespace PCF_Model
         public override HashSet<Connector> AllConnectors => mp.GetALLConnectorsFromElements(Element);
         private void WriteEndPoint(XYZ location, double size)
         {
-            endData.Add(($"END-POINT", $" {ew.PointStringMm(location)} {Conversion.PipeSizeToMm(size)} FL"));
+            endData.Add(($"    END-POINT {ew.PointStringMm(location)} {Conversion.PipeSizeToMm(size)} FL"));
         }
     }
 }

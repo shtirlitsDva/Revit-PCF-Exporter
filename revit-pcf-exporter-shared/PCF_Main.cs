@@ -214,7 +214,7 @@ namespace PCF_Exporter
 
                 var specials = PcfElementFactory.CreateSpecialVirtualElements(oopElements);
                 
-                //oopElements.UnionWith(specials);
+                oopElements.UnionWith(specials);
                 oopElements.UnionWith(virtuals);
 
                 #region Sub: Taps
@@ -250,6 +250,7 @@ namespace PCF_Exporter
                 //Initialize material group numbers on the elements
                 IEnumerable<IGrouping<string, IPcfElement>> materialGroups =
                     oopElements
+                    .Where(x => x.ParticipateInMaterialTable) //<-- TAKE NOTICE!
                     .GroupBy(x => x.GetParameterValue(plst.PCF_MAT_DESCR));
 
                 using (Transaction trans = new Transaction(doc, "Set PCF_ELEM_COMPID and PCF_MAT_ID"))
@@ -444,10 +445,8 @@ namespace PCF_Exporter
                         #endregion
 
                         //Write the elements
-                        sbCollect.Append(gp.Value.OrderBy(x => x.GetParameterValue("PCF_ELEM_TYPE"))
+                        sbCollect.Append(gp.Value.OrderBy(x => x.GetParameterValue(plst.PCF_ELEM_TYPE))
                             .Select(x => x.ToPCFString()).Aggregate((x, y) => x.Append(y)));
-
-
                     }
                     #endregion 
 
