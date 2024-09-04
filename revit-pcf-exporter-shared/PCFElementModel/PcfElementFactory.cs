@@ -1,7 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 
 using Shared;
-using GroupByCluster;
 
 using System;
 using System.Collections.Generic;
@@ -98,39 +97,28 @@ namespace PCF_Model
             {
                 //Assumed:
                 //we are always looking for elements adjacent to each other
-                //so cluster them now by adjacency
+                //so cluster their connectors by adjacency
 
-                var clusters = group.GroupByCluster(
-                    (x, y) => MinDistBetweenCons(x, y), 1.25.MmToFt());
+                var clusters = group
+                    .SelectMany((e1, index) => group
+                        .Skip(index + 1)
+                        .SelectMany(e2 => e1.AllConnectors
+                            .SelectMany(c1 => e2.AllConnectors
+                                .Where(c2 => c1 != c2 && c1.Origin.DistanceTo(c2.Origin) < 1.25.MmToFt())
+                                .Select(c2 => (c1, c2)))))
+                        .Distinct();
 
                 foreach (var cluster in clusters)
                 {
-                    if (cluster.Count() > 2 || cluster.Count() < 2)
-                        throw new Exception(
-                            "Cluster count is not 2! (CreateSpecialVirtualElements)\n" +
-                            string.Join("\n", cluster.Select(x => x.ElementId.ToString())));
-
-                    var first = cluster.First();
-                    var second = cluster.Last();
-
-                    var cons1 = first.AllConnectors;
-                    var cons2 = second.AllConnectors;
-
-                    (Connector c1, Connector c2) adjacentCons = cons1
-                        .SelectMany(c1 => cons2
-                            .Select(c2 => (c1, c2)))
-                        .OrderBy(x => x.c1.Origin.DistanceTo(x.c2.Origin))
-                        .First();
-
                     var type = group.Key;
 
                     switch (type)
                     {
                         case "FW":
-                            set.Add(new PCF_VIRTUAL_FIELDWELD(adjacentCons));
+                            set.Add(new PCF_VIRTUAL_FIELDWELD(cluster));
                             break;
                         case "SP":
-                            set.Add(new PCF_VIRTUAL_ISOSPLITPOINT(adjacentCons));
+                            set.Add(new PCF_VIRTUAL_ISOSPLITPOINT(cluster));
                             break;
                         default:
                             throw new Exception("CreateSpecialVirtualElements encountered a not-implemented value:\n" +
@@ -140,17 +128,6 @@ namespace PCF_Model
             }
 
             return set;
-
-            double MinDistBetweenCons(IPcfElement e1, IPcfElement e2)
-            {
-                var cons1 = e1.AllConnectors;
-                var cons2 = e2.AllConnectors;
-
-                return cons1
-                    .Select(c1 => cons2.Min(
-                        c2 => c1.Origin.DistanceTo(c2.Origin)))
-                    .Min();
-            }
         }
     }
 }
