@@ -46,7 +46,7 @@ namespace PCF_Exporter
                 HashSet<Element> colElements = new HashSet<Element>();
 
                 //Declare a collection for startpoints
-                Dictionary<string, Element> startPoints = new Dictionary<string, Element>();
+                HashSet<IPcfElement> startPoints = new HashSet<IPcfElement>();
 
                 //Collection to hold filtered elements
                 HashSet<Element> elements = new HashSet<Element>();
@@ -111,33 +111,6 @@ namespace PCF_Exporter
                 {
                     ICollection<ElementId> selection = uiApp.ActiveUIDocument.Selection.GetElementIds();
                     colElements = selection.Select(s => doc.GetElement(s)).ToHashSet();
-                }
-                #endregion
-
-                #region Startpoints
-                //Detect any startpoints in the selection
-                //If any, pull them out and store in a separate collection
-                var startPointsQuery = colElements.Where(x => x.FamilyAndTypeName() == "StartPoint: StartPoint");
-                if (startPointsQuery.Count() > 0)
-                {
-                    var startPointSysAbbrGrouping = startPointsQuery.GroupBy(x => x.MEPSystemAbbreviation());
-
-                    if (startPointSysAbbrGrouping.Any(x => x.Count() > 1))
-                    {
-                        var mList = string.Join(
-                            "\n", startPointSysAbbrGrouping.Where(
-                                x => x.Count() > 1).Select(x => x.Key));
-                        BuildingCoderUtilities.ErrorMsg(
-                            "Multiple startpoints for the same system detected! Systems:\n" + mList);
-                        throw new Exception("Multiple startpoints for the same system detected! Systems:\n" + mList);
-                    }
-
-                    foreach (Element e in startPointsQuery)
-                    {
-                        startPoints.Add(e.MEPSystemAbbreviation(), e);
-                    }
-
-                    colElements = colElements.Except(startPointsQuery).ToHashSet();
                 }
                 #endregion
 
@@ -213,7 +186,17 @@ namespace PCF_Exporter
                     .Aggregate((x, y) => x.Union(y));
 
                 var specials = PcfElementFactory.CreateSpecialVirtualElements(oopElements);
-                
+
+                specials.RemoveWhere(e =>
+                {
+                    if (e is PCF_VIRTUAL_STARTPOINT sp)
+                    {
+                        startPoints.Add(sp);
+                        return true;
+                    }
+                    return false;
+                });
+
                 oopElements.UnionWith(specials);
                 oopElements.UnionWith(virtuals);
 

@@ -1,5 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 
+using PCF_Exporter;
+
 using Shared;
 
 using System;
@@ -86,21 +88,75 @@ namespace PCF_Model
 
         internal static HashSet<IPcfElement> CreateSpecialVirtualElements(HashSet<IPcfElement> oopElements)
         {
+            Document doc = DocumentManager.Instance.Doc;
+
             var set = new HashSet<IPcfElement>();
 
             var specials = oopElements.Where(
-                x => x.GetParameterValue(plst.PCF_ELEM_SPECIAL).IsNotNoE());
+                x => x.GetParameterValue(plst.PCF_ELEM_SPECIAL).IsNotNoE())
+                .SelectMany(x => x.GetParameterValue(plst.PCF_ELEM_SPECIAL)
+                    .Split(';')
+                    .Select(
+                        value => new { Element = x, Value = value.Trim() }
+                        ));
 
-            var typegps = specials.GroupBy(x => x.GetParameterValue(plst.PCF_ELEM_SPECIAL));
+            var typegps = specials.GroupBy(x => x.Value);
 
             foreach (var group in typegps)
             {
                 //Assumed:
                 //we are always looking for elements adjacent to each other
                 //so cluster their connectors by adjacency
+                //Now except for start points which are always alone
+                
+                // Extract elements from the group
+                var elementsInGroup = group.Select(x => x.Element).ToList();
+                var type = group.Key;
 
-                var clusters = group
-                    .SelectMany((e1, index) => group
+                if (type == "START")
+                {
+                    foreach (var element in elementsInGroup)
+                    {
+                        XYZ sp = XYZ.Zero;
+
+                        var cons = element.AllConnectors;
+
+                        foreach (Connector con in cons)
+                        {
+                            if (!con.IsConnected)
+                            {
+                                sp = con.Origin;
+                                break;
+                            }
+
+                            var thisAbbr = con.MEPSystemAbbreviation(doc);
+
+                            var refCon = con.GetRefConnnector(doc.GetElement(element.ElementId));
+                            if (refCon == null) continue;
+
+                            var refAbbr = refCon.MEPSystemAbbreviation(doc);
+
+                            if (thisAbbr != refAbbr)
+                            {
+                                sp = con.Origin;
+                                break;
+                            }
+                        }
+
+                        if (sp == XYZ.Zero) continue;
+
+                        set.Add(new PCF_VIRTUAL_STARTPOINT(doc.GetElement(element.ElementId), sp));
+                        break;
+                    }
+
+                    //Prevent fall through if we have a start point
+                    continue;
+                }
+
+                #region FW and SP
+                //Fall through to other types of virtual elements
+                var clusters = elementsInGroup
+                    .SelectMany((e1, index) => elementsInGroup
                         .Skip(index + 1)
                         .SelectMany(e2 => e1.AllConnectors
                             .SelectMany(c1 => e2.AllConnectors
@@ -110,8 +166,6 @@ namespace PCF_Model
 
                 foreach (var cluster in clusters)
                 {
-                    var type = group.Key;
-
                     switch (type)
                     {
                         case "FW":
@@ -124,7 +178,8 @@ namespace PCF_Model
                             throw new Exception("CreateSpecialVirtualElements encountered a not-implemented value:\n" +
                                 type);
                     }
-                }
+                } 
+                #endregion
             }
 
             return set;

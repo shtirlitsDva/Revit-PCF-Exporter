@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_TEE.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PcfVirtualElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_STARTPOINT.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_FIELDWELD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_ISOSPLITPOINT.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_NN_GASKET.cs" />
