@@ -145,6 +145,7 @@ namespace PCF_Model
 
                         if (sp == XYZ.Zero) continue;
 
+                        //Create a virtual start point
                         set.Add(new PCF_VIRTUAL_STARTPOINT(doc.GetElement(element.ElementId), sp));
                         break;
                     }
