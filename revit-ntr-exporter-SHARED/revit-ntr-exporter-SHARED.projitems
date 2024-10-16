@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DocumentManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NTR_Accessories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NTR_Exporter_form.cs">
       <SubType>Form</SubType>

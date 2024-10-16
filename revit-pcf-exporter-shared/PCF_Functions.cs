@@ -740,9 +740,6 @@ namespace PCF_Functions
                 BuildingCoderUtilities.InfoMsg(e.Message);
                 return Result.Failed;
             }
-
-
-
         }
     }
 
