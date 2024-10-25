@@ -22,7 +22,7 @@ namespace PCF_Model
             { "C03", "Pakning, Flat ring, EN 1514-1, 1,5 mm, Klinger PSM-B" },
             { "C08", "Pakning, Flat ring, EN 1514-1, 1,5 mm, Klinger C-4430" },
             { "S02", "Pakning, EN 1514-1-Type IBC-B, 1,5 mm, EPDM" },
-            { "S03", "Pakning, EN 1514-1-Type IBC-B, 1,5 mm, C-4430" }
+            { "S03", "Pakning, EN 1514-1-Type IBC-B, 1,5 mm, Klinger C-4430" }
         };
         public PCF_VIRTUAL_NN_GASKET(Element element) : base("GASKET") 
         { 
