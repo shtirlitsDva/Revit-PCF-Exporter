@@ -10,6 +10,7 @@ using Autodesk.Revit.DB;
 using Microsoft.Office.Interop.Excel;
 
 using NTR_Functions;
+
 using dw = NTR_Functions.DataWriter;
 
 namespace NTR_Exporter
@@ -52,6 +53,16 @@ namespace NTR_Exporter
                             sbAccessories.Append(dw.PointCoords("PM", element));
                             sbAccessories.Append(dw.DnWriter("DN1", cons.Primary));
                             sbAccessories.Append(dw.DnWriter("DN2", cons.Secondary));
+                            sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "GEW"));
+                            break;
+                        case "ARM3W":
+                            sbAccessories.Append(dw.PointCoords("P1", cons.Primary));
+                            sbAccessories.Append(dw.PointCoords("P2", cons.Secondary));
+                            sbAccessories.Append(dw.PointCoords("P3", cons.Tertiary));
+                            sbAccessories.Append(dw.PointCoords("PM", element));
+                            sbAccessories.Append(dw.DnWriter("DN1", cons.Primary));
+                            sbAccessories.Append(dw.DnWriter("DN2", cons.Secondary));
+                            sbAccessories.Append(dw.DnWriter("DN3", cons.Tertiary));
                             sbAccessories.Append(dw.ReadPropertyFromDataTable(fat, conf.Elements, "GEW"));
                             break;
                         // Old SymbolicSupport cases

@@ -424,7 +424,7 @@ namespace NTR_Exporter
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
 
             return Result.Succeeded;
