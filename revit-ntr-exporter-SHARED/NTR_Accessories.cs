@@ -10,10 +10,7 @@ using Autodesk.Revit.DB;
 using Microsoft.Office.Interop.Excel;
 
 using NTR_Functions;
-<<<<<<< HEAD
-=======
 
->>>>>>> fcbd979e45d3b43a83f1ec7a2c84addcf1710c76
 using dw = NTR_Functions.DataWriter;
 
 namespace NTR_Exporter
