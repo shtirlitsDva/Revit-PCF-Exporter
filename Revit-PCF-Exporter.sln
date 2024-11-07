@@ -55,7 +55,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-ntr-exporter-FORMS", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-pcf-exporter-FORMS", "revit-pcf-exporter-FORMS\revit-pcf-exporter-FORMS.csproj", "{7A6FC3F4-9FCE-45C3-8DEF-ECEE853EE5C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{B747E174-D433-49AA-96DF-F212E69BDEB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{B747E174-D433-49AA-96DF-F212E69BDEB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-shared-utilities-FORMS", "revit-shared-utilities-FORMS\revit-shared-utilities-FORMS.csproj", "{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,6 +219,14 @@ Global
 		{B747E174-D433-49AA-96DF-F212E69BDEB9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B747E174-D433-49AA-96DF-F212E69BDEB9}.Release|x64.ActiveCfg = Release|Any CPU
 		{B747E174-D433-49AA-96DF-F212E69BDEB9}.Release|x64.Build.0 = Release|Any CPU
+		{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}.Debug|x64.Build.0 = Debug|Any CPU
+		{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}.Release|x64.ActiveCfg = Release|Any CPU
+		{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

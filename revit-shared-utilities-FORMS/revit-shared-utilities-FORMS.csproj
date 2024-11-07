@@ -2,19 +2,16 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <NsPath>X:\AutoCAD DRI - Revit\Addins\2024\MEPUtils</NsPath>
-  </PropertyGroup>
-  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5F9A5A37-C644-4D4E-9976-BA1E58C46108}</ProjectGuid>
+    <ProjectGuid>{7A6FC3F4-9FBE-45C3-8DEF-ECEE853EE5C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MEPUtils</RootNamespace>
-    <AssemblyName>MEPUtils</AssemblyName>
+    <RootNamespace>Shared.Forms</RootNamespace>
+    <AssemblyName>SharedForms</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>false</Deterministic>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DarkUI, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DarkUI.2.0.2\lib\DarkUI.dll</HintPath>
+    </Reference>
     <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
     </Reference>
@@ -41,6 +41,7 @@
       <HintPath>..\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
@@ -59,21 +60,17 @@
     <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=7.0.4.0, Culture=neutral, PublicKeyToken=8afb38e9204fc0a9, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net48\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.5.2.8\lib\net46\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RevitAPI">
-      <HintPath>X:\Revit API\2024\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Revit API\2024\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>X:\Revit API\2024\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\Revit API\2024\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -113,14 +110,13 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net48\System.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -132,44 +128,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\revit-shared-utilities-forms\InputBoxBasic.cs">
-      <Link>Shared\Forms\InputBoxBasic.cs</Link>
+    <Compile Include="DarkRadioBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="InputBoxBasic.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\revit-shared-utilities-forms\InputBoxBasic.Designer.cs">
-      <Link>Shared\Forms\InputBoxBasic.Designer.cs</Link>
+    <Compile Include="InputBoxBasic.Designer.cs">
       <DependentUpon>InputBoxBasic.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\revit-shared-utilities-forms\InputBoxBasic.resx">
-      <Link>Shared\Forms\InputBoxBasic.resx</Link>
+    <EmbeddedResource Include="InputBoxBasic.resx">
       <DependentUpon>InputBoxBasic.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="..\revit-shared-utilities-shared\revit-shared-utilities-shared.projitems" Label="Shared" />
-  <Import Project="..\MEPUtils-SHARED\MEPUtils-SHARED.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-			if "$(ConfigurationName)"=="Release" (
-			if not exist "$(NsPath)\" mkdir "$(NsPath)\"
-			for /D %%i in ("$(TargetDir)*") do (
-			if /I not "%%~nxi"=="NetReload" (
-			if not exist "$(NsPath)\%%~nxi\" mkdir "$(NsPath)\%%~nxi\"
-			xcopy "%%i" "$(NsPath)\%%~nxi\" /E /Y /D
-			)
-			)
-			for %%i in ("$(TargetDir)*.*") do (
-			if /I not "%%~dpxi"=="$(TargetDir)NetReload\" (
-			xcopy "%%i" "$(NsPath)\" /Y /D
-			)
-			)
-			)
-		</PostBuildEvent>
-  </PropertyGroup>
 </Project>

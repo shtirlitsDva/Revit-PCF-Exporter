@@ -139,10 +139,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\revit-shared-utilities-forms\InputBoxBasic.cs">
+      <Link>Shared\Forms\InputBoxBasic.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\revit-shared-utilities-forms\InputBoxBasic.Designer.cs">
+      <Link>Shared\Forms\InputBoxBasic.Designer.cs</Link>
+      <DependentUpon>InputBoxBasic.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\revit-shared-utilities-forms\InputBoxBasic.resx">
+      <Link>Shared\Forms\InputBoxBasic.resx</Link>
+      <DependentUpon>InputBoxBasic.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="..\Data-SHARED\Data-SHARED.projitems" Label="Shared" />
   <Import Project="..\revit-shared-utilities-shared\revit-shared-utilities-shared.projitems" Label="Shared" />

@@ -146,6 +146,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)31 TestSpindleOrientation\01 TestSpindleOrientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)30 UpdateAbbreviationFromName\01 UpdateAbbreviationFromName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)29 CreatePSLegend\01 CreatePSLegend.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)33 SetParValueAndIncrement\01 SetParValueAndIncrement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MEPUtils.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,5 +211,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)00 Shared\Forms\" />
   </ItemGroup>
 </Project>
