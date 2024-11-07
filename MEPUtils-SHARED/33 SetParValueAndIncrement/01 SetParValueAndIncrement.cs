@@ -23,6 +23,7 @@ using lad = MEPUtils.CreateInstrumentation.ListsAndDicts;
 using mp = Shared.MepUtils;
 using tr = Shared.Transformation;
 using Autodesk.Revit.Attributes;
+using Shared.BuildingCoder;
 
 namespace MEPUtils.SetParValueAndIncrement
 {
@@ -37,35 +38,37 @@ namespace MEPUtils.SetParValueAndIncrement
 
             string parName = string.Empty;
             string prefix = string.Empty;
+            string postfix = string.Empty;
             int startValue = 0;
             string format = string.Empty;
 
-            InputBoxBasic ib = new InputBoxBasic();
-            UI.SetStatusText("Input parameter name to modify:");
+            InputBoxBasic ib = new InputBoxBasic("Input parameter name to modify:");
             ib.ShowDialog();
             if (ib.InputText.IsNoE()) return Result.Cancelled;
             parName = ib.InputText;
 
-            ib = new InputBoxBasic();
-            UI.SetStatusText("Input prefix value:");
+            ib = new InputBoxBasic("Input prefix value:");
             ib.ShowDialog();
-            if (ib.InputText.IsNoE()) return Result.Cancelled;
+            //if (ib.InputText.IsNoE()) return Result.Cancelled;
             prefix = ib.InputText;
 
-            ib = new InputBoxBasic();
-            UI.SetStatusText("Input start value:");
+            ib = new InputBoxBasic("Input postfix value:");
+            ib.ShowDialog();
+            //if (ib.InputText.IsNoE()) return Result.Cancelled;
+            postfix = ib.InputText;
+
+            ib = new InputBoxBasic("Input start value:");
             ib.ShowDialog();
             if (ib.InputText.IsNoE()) return Result.Cancelled;
             string inputValue = ib.InputText;
 
             if (!int.TryParse(inputValue, out startValue))
             {
-                UI.SetStatusText("Start value is not a number (integer).");
+                BuildingCoderUtilities.ErrorMsg("Start value is not a number (integer).");
                 return Result.Cancelled;
             }
 
-            ib = new InputBoxBasic();
-            UI.SetStatusText("Input number format:");
+            ib = new InputBoxBasic("Input number format:");
             ib.ShowDialog();
             if (ib.InputText.IsNoE()) return Result.Cancelled;
             format = ib.InputText;
@@ -73,10 +76,10 @@ namespace MEPUtils.SetParValueAndIncrement
             while (true)
             {
                 Element element = 
-                    Shared.BuildingCoder.BuildingCoderUtilities.SelectSingleElement(
+                    BuildingCoderUtilities.SelectSingleElement(
                         uidoc, " to modify parameter value: ");
 
-                if (element == null) { return Result.Cancelled; }
+                if (element == null) { return Result.Succeeded; }
 
                 using (Transaction t = new Transaction(doc, "Set parameter value"))
                 {
@@ -87,19 +90,19 @@ namespace MEPUtils.SetParValueAndIncrement
                         Parameter par = element.LookupParameter(parName);
                         if (par == null)
                         {
-                            UI.SetStatusText("Parameter not found.");
+                            BuildingCoderUtilities.ErrorMsg("Parameter not found.");
                             t.RollBack();
                             return Result.Cancelled;
                         }
 
                         if (par.StorageType != StorageType.String)
                         {
-                            UI.SetStatusText("Parameters' storage type is not a string.");
+                            BuildingCoderUtilities.ErrorMsg("Parameters' storage type is not a string.");
                             t.RollBack();
                             return Result.Cancelled;
                         }
 
-                        string value = prefix + startValue.ToString(format);
+                        string value = prefix + startValue.ToString(format) + postfix;
                         par.Set(value);
 
                         startValue++;
