@@ -35,31 +35,84 @@ namespace MEPUtils.SetParValueAndIncrement
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = uiApp.ActiveUIDocument;
 
-            InputBox ib = new InputBox();
+            string parName = string.Empty;
+            string prefix = string.Empty;
+            int startValue = 0;
+            string format = string.Empty;
+
+            InputBoxBasic ib = new InputBoxBasic();
+            UI.SetStatusText("Input parameter name to modify:");
             ib.ShowDialog();
+            if (ib.InputText.IsNoE()) return Result.Cancelled;
+            parName = ib.InputText;
 
-            if (!ib.Execute) return Result.Cancelled;
+            ib = new InputBoxBasic();
+            UI.SetStatusText("Input prefix value:");
+            ib.ShowDialog();
+            if (ib.InputText.IsNoE()) return Result.Cancelled;
+            prefix = ib.InputText;
 
-            if (ib.GUID.IsNoE()) return Result.Cancelled;
+            ib = new InputBoxBasic();
+            UI.SetStatusText("Input start value:");
+            ib.ShowDialog();
+            if (ib.InputText.IsNoE()) return Result.Cancelled;
+            string inputValue = ib.InputText;
 
-            var split = ib.GUID.Split(';');
-            List<Element> list = new List<Element>();
-
-            foreach (string s in split)
+            if (!int.TryParse(inputValue, out startValue))
             {
-                //Guid guid = default;
-                //if (Guid.TryParse(s, out guid))
-                //{
-                    list.Add(doc.GetElement(s));
-                //}
+                UI.SetStatusText("Start value is not a number (integer).");
+                return Result.Cancelled;
             }
 
-            Selection selection = uidoc.Selection;
+            ib = new InputBoxBasic();
+            UI.SetStatusText("Input number format:");
+            ib.ShowDialog();
+            if (ib.InputText.IsNoE()) return Result.Cancelled;
+            format = ib.InputText;
 
-            selection.SetElementIds(list.Select(x => x.Id).ToList());
-            uiApp.ActiveUIDocument.ShowElements(list.Select(x => x.Id).ToList());
+            while (true)
+            {
+                Element element = 
+                    Shared.BuildingCoder.BuildingCoderUtilities.SelectSingleElement(
+                        uidoc, " to modify parameter value: ");
 
-            return Result.Succeeded;
+                if (element == null) { return Result.Cancelled; }
+
+                using (Transaction t = new Transaction(doc, "Set parameter value"))
+                {
+                    t.Start();
+
+                    try
+                    {
+                        Parameter par = element.LookupParameter(parName);
+                        if (par == null)
+                        {
+                            UI.SetStatusText("Parameter not found.");
+                            t.RollBack();
+                            return Result.Cancelled;
+                        }
+
+                        if (par.StorageType != StorageType.String)
+                        {
+                            UI.SetStatusText("Parameters' storage type is not a string.");
+                            t.RollBack();
+                            return Result.Cancelled;
+                        }
+
+                        string value = prefix + startValue.ToString(format);
+                        par.Set(value);
+
+                        startValue++;
+                    }
+                    catch (Exception)
+                    {
+                        t.RollBack();
+                        throw;
+                    }
+
+                    t.Commit();
+                }
+            }
         }
     }
 }
