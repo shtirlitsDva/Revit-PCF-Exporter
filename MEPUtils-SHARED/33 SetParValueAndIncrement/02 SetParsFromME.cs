@@ -28,7 +28,7 @@ using Shared.BuildingCoder;
 namespace MEPUtils.TaggingTools
 {
     [Transaction(TransactionMode.Manual)]
-    class SetParValueAndIncrement : IExternalCommand
+    class SetParFromME : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -36,48 +36,11 @@ namespace MEPUtils.TaggingTools
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = uiApp.ActiveUIDocument;
 
-            string parName = string.Empty;
-            string prefix = string.Empty;
-            string postfix = string.Empty;
-            int startValue = 0;
-            string format = string.Empty;
-
-            InputBoxBasic ib = new InputBoxBasic("Input parameter name to modify:");
-            ib.ShowDialog();
-            if (ib.InputText.IsNoE()) return Result.Cancelled;
-            parName = ib.InputText;
-
-            ib = new InputBoxBasic("Input prefix value:");
-            ib.ShowDialog();
-            //if (ib.InputText.IsNoE()) return Result.Cancelled;
-            prefix = ib.InputText;
-
-            ib = new InputBoxBasic("Input postfix value:");
-            ib.ShowDialog();
-            //if (ib.InputText.IsNoE()) return Result.Cancelled;
-            postfix = ib.InputText;
-
-            ib = new InputBoxBasic("Input start value:");
-            ib.ShowDialog();
-            if (ib.InputText.IsNoE()) return Result.Cancelled;
-            string inputValue = ib.InputText;
-
-            if (!int.TryParse(inputValue, out startValue))
-            {
-                BuildingCoderUtilities.ErrorMsg("Start value is not a number (integer).");
-                return Result.Cancelled;
-            }
-
-            ib = new InputBoxBasic("Input number format:");
-            ib.ShowDialog();
-            if (ib.InputText.IsNoE()) return Result.Cancelled;
-            format = ib.InputText;
-
             while (true)
             {
-                Element element = 
+                Element element =
                     BuildingCoderUtilities.SelectSingleElement(
-                        uidoc, " to modify parameter value: ");
+                        uidoc, "ME to read parameter value: ");
 
                 if (element == null) { return Result.Succeeded; }
 
@@ -87,7 +50,7 @@ namespace MEPUtils.TaggingTools
 
                     try
                     {
-                        Parameter par = element.LookupParameter(parName);
+                        Parameter par = element.LookupParameter("TAG 2");
                         if (par == null)
                         {
                             BuildingCoderUtilities.ErrorMsg("Parameter not found.");
@@ -95,17 +58,40 @@ namespace MEPUtils.TaggingTools
                             return Result.Cancelled;
                         }
 
-                        if (par.StorageType != StorageType.String)
+                        string parValue = par.AsString();
+                        string ejTag1 = parValue.Replace("DRC", "EJ");
+                        string ejTag2 = ejTag1.Substring(0, ejTag1.Length - 1) + "2";
+
+                        //First expansion joint 1
+                        Element ej =
+                            BuildingCoderUtilities.SelectSingleElement(
+                                uidoc, "first expansion joint: ");
+
+                        if (ej == null) { t.RollBack(); return Result.Succeeded; }
+
+                        Parameter ejPar = ej.LookupParameter("TAG 2");
+                        if (ejPar == null)
                         {
-                            BuildingCoderUtilities.ErrorMsg("Parameters' storage type is not a string.");
+                            BuildingCoderUtilities.ErrorMsg("Parameter not found.");
                             t.RollBack();
                             return Result.Cancelled;
                         }
+                        ejPar.Set(ejTag1);
 
-                        string value = prefix + startValue.ToString(format) + postfix;
-                        par.Set(value);
+                        //First expansion joint 2
+                        ej = BuildingCoderUtilities.SelectSingleElement(
+                                uidoc, "second expansion joint: ");
 
-                        startValue++;
+                        if (ej == null) { t.RollBack(); return Result.Succeeded; }
+
+                        ejPar = ej.LookupParameter("TAG 2");
+                        if (ejPar == null)
+                        {
+                            BuildingCoderUtilities.ErrorMsg("Parameter not found.");
+                            t.RollBack();
+                            return Result.Cancelled;
+                        }
+                        ejPar.Set(ejTag2);
                     }
                     catch (Exception)
                     {

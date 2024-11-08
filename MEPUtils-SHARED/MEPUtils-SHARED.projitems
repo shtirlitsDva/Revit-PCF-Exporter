@@ -147,6 +147,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)30 UpdateAbbreviationFromName\01 UpdateAbbreviationFromName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)29 CreatePSLegend\01 CreatePSLegend.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)33 SetParValueAndIncrement\01 SetParValueAndIncrement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)33 SetParValueAndIncrement\02 SetParsFromME.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MEPUtils.cs">
       <SubType>Form</SubType>
     </Compile>
