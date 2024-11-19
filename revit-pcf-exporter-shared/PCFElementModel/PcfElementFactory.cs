@@ -64,6 +64,8 @@ namespace PCF_Model
                     return new PCF_FLOOR_SYMBOL(e);
                 case "TAP":
                     return new PCF_TAP(e);
+                case "BOLT":
+                    return new PCF_BOLT(e);
                 default:
                     throw new NotImplementedException($"Element type {type} is not implemented!");
             }
@@ -85,7 +87,6 @@ namespace PCF_Model
                     yield break;
             }
         }
-
         internal static HashSet<IPcfElement> CreateSpecialVirtualElements(HashSet<IPcfElement> oopElements)
         {
             Document doc = DocumentManager.Instance.Doc;
@@ -108,7 +109,7 @@ namespace PCF_Model
                 //we are always looking for elements adjacent to each other
                 //so cluster their connectors by adjacency
                 //Now except for start points which are always alone
-                
+
                 // Extract elements from the group
                 var elementsInGroup = group.Select(x => x.Element).ToList();
                 var type = group.Key;
@@ -179,7 +180,7 @@ namespace PCF_Model
                             throw new Exception("CreateSpecialVirtualElements encountered a not-implemented value:\n" +
                                 type);
                     }
-                } 
+                }
                 #endregion
             }
 

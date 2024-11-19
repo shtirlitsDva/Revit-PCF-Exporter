@@ -140,6 +140,11 @@ namespace PCF_Functions
         //public static readonly pdef PCF_ELEM_MISC4 = new pdef("PCF_ELEM_MISC4", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("3229c505-3802-416c-bf04-c109f41f3ab7"), "MISC-SPEC4");
         //public static readonly pdef PCF_ELEM_MISC5 = new pdef("PCF_ELEM_MISC5", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("692e2e97-3b9c-4616-8a03-dfd493b01762"), "MISC-SPEC5");
         public static readonly pdef PCF_ELEM_SPKEY = new pdef("PCF_ELEM_SPKEY", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C9AA8C12-F605-4B56-A912-C3B5870E52FA"), "SPINDLE-SKEY");
+        public static readonly pdef PCF_ELEM_BOLT_DIA = new pdef("PCF_ELEM_BOLT_DIA", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C1F7A088-1709-42D1-BC70-C645FBC9F1FA"), "BOLT-DIA");
+        public static readonly pdef PCF_ELEM_BOLT_LENGTH = new pdef("PCF_ELEM_BOLT_LENGTH", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C1F7A088-1719-42D1-BC70-C645FBC9F1FA"), "BOLT-LENGTH");
+        public static readonly pdef PCF_ELEM_BOLT_QUANTITY = new pdef("PCF_ELEM_BOLT_QUANTITY", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C1F7A088-1729-42D1-BC70-C645FBC9F1FA"), "BOLT-QUANTITY");
+        public static readonly pdef PCF_ELEM_BOLT_ITEM_CODE = new pdef("PCF_ELEM_BOLT_ITEM_CODE", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("C1F7A088-1739-42D1-BC70-C645FBC9F1FA"), "BOLT-ITEM-CODE");
+
 
         //Special (for special purposes like creating fieldwelds or splitpoints)
         public static readonly pdef PCF_ELEM_SPECIAL = new pdef("PCF_ELEM_SPECIAL", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("175E7E0D-E20F-4163-B770-A32BADD800D2"));
@@ -264,7 +269,7 @@ namespace PCF_Functions
             new pdef("TAG 4", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), BuiltInParameterGroup.PG_MECHANICAL);
         #endregion
 
-        public static IEnumerable<ParameterDefinition> LPAll() =>
+        public static IEnumerable<pdef> LPAll() =>
             typeof(Parameters)
             .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
             .Where(f => f.IsInitOnly && f.FieldType == typeof(ParameterDefinition)) 

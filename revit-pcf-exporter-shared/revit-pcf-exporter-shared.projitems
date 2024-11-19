@@ -15,6 +15,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\Interfaces\IPcfElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PcfElementFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PcfPhysicalElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_CPFI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_BOLT.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_FLOOR-SYMBOL.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_SUPPORT.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_INSTRUMENT-DIAL.cs" />
