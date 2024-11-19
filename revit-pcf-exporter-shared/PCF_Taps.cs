@@ -148,33 +148,21 @@ namespace PCF_Taps
             }
         }
 
-        internal static StringBuilder WriteGenericTap(Element tap, string uci, Document doc)
+        internal static StringBuilder WriteGenericTap(Element tapped, Element tapping, Document doc)
         {
+            //The tap here is the tapping element
             StringBuilder tapsWriter = new StringBuilder();
 
             try
             {
-                FamilyInstance familyInstance = (FamilyInstance)tap;
-                XYZ elementOrigin = ((LocationPoint)familyInstance.Location).Point;
-                string uniqueId = uci;
+                Cons cons1 = new Cons(tapped);
+                var q = MepUtils.GetALLConnectorsFromElements(tapping);
 
-                Element tappingElement = null;
-                if (uniqueId != null) tappingElement = doc.GetElement(uniqueId.ToString());
+                Line line = Line.CreateBound(cons1.Primary.Origin, cons1.Secondary.Origin);
+                var result = line.Project(q.First().Origin);
+                XYZ elementOrigin = result.XYZPoint;
 
-                if (tappingElement == null) return tapsWriter;
-
-                Cons cons = new Cons(tappingElement);
-
-                Connector tapConnector = null;
-                if (cons.Secondary == null) tapConnector = cons.Primary;
-                else
-                {
-                    Connector end1 = cons.Primary;
-                    Connector end2 = cons.Secondary;
-                    double dist1 = elementOrigin.DistanceTo(end1.Origin);
-                    double dist2 = elementOrigin.DistanceTo(end2.Origin);
-                    tapConnector = dist1 > dist2 ? end2 : end1;
-                }
+                Connector tapConnector = q.MinBy(x => x.Origin.DistanceTo(elementOrigin));
 
                 XYZ connectorOrigin = tapConnector.Origin;
                 double connectorSize = tapConnector.Radius;
@@ -188,7 +176,7 @@ namespace PCF_Taps
                 if (InputVars.UNITS_BORE_MM) tapsWriter.Append(Conversion.PipeSizeToMm(connectorSize));
                 if (InputVars.UNITS_BORE_INCH) tapsWriter.Append(Conversion.PipeSizeToInch(connectorSize));
                 tapsWriter.AppendLine();
-                if (!Filters.FilterDL(tappingElement)) tapsWriter = new StringBuilder();
+                if (!Filters.FilterDL(tapping)) tapsWriter = new StringBuilder();
                 return tapsWriter;
             }
 

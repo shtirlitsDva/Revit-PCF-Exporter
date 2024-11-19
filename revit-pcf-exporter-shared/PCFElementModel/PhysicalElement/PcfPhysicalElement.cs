@@ -152,8 +152,8 @@ namespace PCF_Model
                 {
                     Element tap = doc.GetElement(uci);
                     if (tap == null) continue;
-                    sb.Append(
-                        PCF_Taps.TapsWriter.WriteGenericTap(tap, uci, doc));
+                        sb.Append(
+                        PCF_Taps.TapsWriter.WriteGenericTap(Element, tap, doc));
                 }
             }
 
