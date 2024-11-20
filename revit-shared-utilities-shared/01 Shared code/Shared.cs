@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualBasic.FileIO;
 using Autodesk.Revit.UI.Selection;
 using ExcelDataReader;
+using System.Runtime.InteropServices;
 
 namespace Shared
 {
@@ -661,13 +662,13 @@ namespace Shared
                     if (pipeConnectorsOrdered)
                     {
                         filteredCons = connectors
-                            .Where(c => c.ConnectorType.ToString() == "End")
+                            .Where(c => c.ConnectorType == ConnectorType.End)
                             .OrderBy(c => c.Origin.X.Round(1))
                             .ThenBy(c => c.Origin.Y.Round(1))
                             .ThenBy(c => c.Origin.Z.Round(1))
                             .ToList();
                     }
-                    else filteredCons = connectors.Where(c => c.ConnectorType.ToString() == "End").ToList();
+                    else filteredCons = connectors.Where(c => c.ConnectorType == ConnectorType.End).ToList();
 
                     Primary = filteredCons.First();
                     Secondary = filteredCons.Last();
@@ -1315,6 +1316,15 @@ namespace Shared
                 }
             }
         }
+        /// <summary>
+        /// WARNING: Modifies the original HashSet by removing the extracted items.
+        /// </summary>
+        public static HashSet<T> ExtractBy<T>(this HashSet<T> source, Func<T, bool> predicate)
+        {
+            var extractedItems = new HashSet<T>(source.Where(predicate));
+            source.ExceptWith(extractedItems);
+            return extractedItems;
+        }
     }
 
     public static class Transformation
@@ -1424,6 +1434,29 @@ namespace Shared
                 else w.Write(whatToWrite);
                 w.Close();
             }
+        }
+    }
+
+    public static class UI
+    {
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern int SetWindowText(IntPtr hWnd, string lpString);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter,
+            string lpszClass, string lpszWindow);
+
+        public static void SetStatusText(string text)
+        {
+            IntPtr m_mainWndFromHandle = IntPtr.Zero;
+            Process[] pcs = Process.GetProcessesByName("Autodesk Revit");
+
+            if (pcs.Length < 1) return;
+
+            m_mainWndFromHandle = pcs[0].MainWindowHandle;
+            IntPtr statusBar = FindWindowEx(m_mainWndFromHandle, IntPtr.Zero, "msctls_statusbar32", "");
+
+            if (statusBar != IntPtr.Zero) SetWindowText(statusBar, text);
         }
     }
 

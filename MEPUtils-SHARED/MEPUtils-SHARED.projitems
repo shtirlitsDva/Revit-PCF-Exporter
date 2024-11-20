@@ -135,15 +135,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\00 StaticVariables.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\01 CheckOrCreatePipingSystemFilters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\02 AddAllPipingSystemTypesFiltersToView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\04 HideSelectedPipingSystems.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)25 PipeSystemFilters\03 IsolateSelectedPipingSystems.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)28 WriteRoomNumbersToContainedElements\03 WriteRoomNumbersFromGE.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)28 WriteRoomNumbersToContainedElements\01 WriteRoomNumbersToCE.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)28 WriteRoomNumbersToContainedElements\02 RoomsFromLinkToMass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)26 CopyElementsToAnotherDoc\01 CopyElementsToAnotherDoc.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)27 CopyPSTParameterValuesToElements\01 CopyPSTParameterValuesToElements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)32 ReadLinkWorkset\01 ReadLinkWorkset.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)31 TestSpindleOrientation\01 TestSpindleOrientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)30 UpdateAbbreviationFromName\01 UpdateAbbreviationFromName.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)29 CreatePSLegend\01 CreatePSLegend.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)33 SetParValueAndIncrement\01 SetParValueAndIncrement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)33 SetParValueAndIncrement\02 SetParsFromME.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MEPUtils.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -208,5 +212,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)00 Shared\Forms\" />
   </ItemGroup>
 </Project>

@@ -131,6 +131,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\revit-ntr-exporter-SHARED\DocumentManager.cs">
+      <Link>DocumentManager.cs</Link>
+    </Compile>
     <Compile Include="..\revit-ntr-exporter-SHARED\NTR_Accessories.cs">
       <Link>NTR_Accessories.cs</Link>
     </Compile>

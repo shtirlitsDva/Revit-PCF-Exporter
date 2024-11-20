@@ -8,19 +8,27 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Shared.BuildingCoder;
 using Shared;
+using PCF_Model;
 
 namespace PCF_Pipeline
 {
     public static class StartPoint
     {
-        public static StringBuilder WriteStartPoint(
-            string sysAbbr, Dictionary<string, Element> startPoints)
+        internal static StringBuilder WriteStartPoint(
+            string sysAbbr, HashSet<IPcfElement> startPoints)
         {
             StringBuilder sb = new StringBuilder();
-            if (!startPoints.ContainsKey(sysAbbr)) return sb;
-            Element startPoint = startPoints[sysAbbr];
-            XYZ elementLocation = ((LocationPoint)startPoint.Location).Point;
-            sb.AppendLine($"    START-CO-ORDS {PCF_Functions.EndWriter.PointStringMm(elementLocation)}");
+            if (!startPoints.Any(x => x.SystemAbbreviation == sysAbbr)) return sb;
+
+            var sps = startPoints.Where(x => x.SystemAbbreviation == sysAbbr);
+            if (sps.Count() > 1)
+            {
+                throw new Exception($"Multiple start points ({sps.Count()}) for the same system {sysAbbr}!\n" +
+                    $"{string.Join("\n", sps.Select(x => x.ElementId))}");
+            }
+
+            var startPoint = sps.First() as PCF_VIRTUAL_STARTPOINT;
+            sb.AppendLine($"    START-CO-ORDS {PCF_Functions.EndWriter.PointStringMm(startPoint.Location)}");
             return sb;
         }
     }

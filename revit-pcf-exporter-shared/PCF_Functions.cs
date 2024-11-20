@@ -6,6 +6,8 @@ using Autodesk.Revit.UI;
 
 using MoreLinq;
 
+using PCF_Model;
+
 using Shared;
 using Shared.BuildingCoder;
 
@@ -22,7 +24,7 @@ using System.Text.RegularExpressions;
 
 using iv = PCF_Functions.InputVars;
 using pdef = PCF_Functions.ParameterDefinition;
-using plst = PCF_Functions.ParameterList;
+using plst = PCF_Functions.Parameters;
 
 namespace PCF_Functions
 {
@@ -113,12 +115,12 @@ namespace PCF_Functions
         #endregion
 
         #region Materials section
-        public StringBuilder MaterialsSection(IEnumerable<IGrouping<string, Element>> elementGroups)
+        internal StringBuilder MaterialsSection(IEnumerable<IGrouping<string, IPcfElement>> elementGroups)
         {
             StringBuilder sbMaterials = new StringBuilder();
             int groupNumber = 0;
             sbMaterials.Append("MATERIALS");
-            foreach (IGrouping<string, Element> group in elementGroups)
+            foreach (IGrouping<string, IPcfElement> group in elementGroups)
             {
                 groupNumber++;
                 sbMaterials.AppendLine();
@@ -149,8 +151,10 @@ namespace PCF_Functions
             //                           where string.Equals(st.Abbreviation, systemAbbreviation)
             //                           select st).FirstOrDefault();
 
-            var query = from p in plst.LPAll
-                        where string.Equals(p.Domain, "PIPL") && string.Equals(p.ExportingTo, "CII")
+            var query = from p in plst.LPAll()
+                        where 
+                        p.Domain == ParameterDomain.PIPL &&
+                        p.ExportingTo == ExportingTo.CII
                         select p;
 
             foreach (pdef p in query.ToList())
@@ -200,8 +204,10 @@ namespace PCF_Functions
         {
             StringBuilder sbElemParameters = new StringBuilder();
 
-            var pQuery = from p in plst.LPAll
-                         where !string.IsNullOrEmpty(p.Keyword) && string.Equals(p.Domain, "ELEM")
+            var pQuery = from p in plst.LPAll()
+                         where 
+                         !string.IsNullOrEmpty(p.Keyword) && 
+                         p.Domain == ParameterDomain.ELEM
                          select p;
 
             foreach (pdef p in pQuery)
@@ -264,7 +270,6 @@ namespace PCF_Functions
             }
             return testedDiameter >= diameterLimit;
         }
-
         public static bool PipingSystemAllowed(this Element elem, Document doc)
         {
             Element pipingSystemType = doc.GetElement(elem.get_Parameter(BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId());
@@ -274,6 +279,9 @@ namespace PCF_Functions
             if (pipingExclParameter.AsInteger() == 0) return true;
             else return false;
         }
+        public static Element PipingSystemType(this Element e, Document doc) 
+            => doc.GetElement(e.get_Parameter(
+                BuiltInParameter.RBS_PIPING_SYSTEM_TYPE_PARAM).AsElementId());
     }
 
     public static class EndWriter
@@ -362,7 +370,28 @@ namespace PCF_Functions
             sbEndWriter.AppendLine();
             return sbEndWriter;
         }
-
+        /// <summary>
+        /// Write end-point, but modify coordinates to another location
+        /// </summary>
+        internal static object WriteEP2(Element element, Connector connector, XYZ modifiedPosition)
+        {
+            StringBuilder sbEndWriter = new StringBuilder();
+            XYZ connectorOrigin = modifiedPosition;
+            double connectorSize = connector.Radius;
+            sbEndWriter.Append("    END-POINT ");
+            if (InputVars.UNITS_CO_ORDS_MM) sbEndWriter.Append(PointStringMm(connectorOrigin));
+            if (InputVars.UNITS_CO_ORDS_INCH) sbEndWriter.Append(Conversion.PointStringInch(connectorOrigin));
+            sbEndWriter.Append(" ");
+            if (InputVars.UNITS_BORE_MM) sbEndWriter.Append(Conversion.PipeSizeToMm(connectorSize));
+            if (InputVars.UNITS_BORE_INCH) sbEndWriter.Append(Conversion.PipeSizeToInch(connectorSize));
+            if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_END2").AsString()) == false)
+            {
+                sbEndWriter.Append(" ");
+                sbEndWriter.Append(element.LookupParameter("PCF_ELEM_END2").AsString());
+            }
+            sbEndWriter.AppendLine();
+            return sbEndWriter;
+        }
         public static StringBuilder WriteEP2(Element element, Connector connector)
         {
             StringBuilder sbEndWriter = new StringBuilder();
@@ -608,9 +637,13 @@ namespace PCF_Functions
                     schedAll.Definition.AddSortGroupField(sortGroupField);
                 }
 
-                string curUsage = "U";
-                string curDomain = "ELEM";
-                var query = from p in plst.LPAll where p.Usage == curUsage && p.Domain == curDomain select p;
+                ParameterUsage curUsage = ParameterUsage.USER;
+                ParameterDomain curDomain = ParameterDomain.ELEM;
+                var query = from p in plst.LPAll()
+                            where
+                            p.Usage == curUsage &&
+                            p.Domain == curDomain 
+                            select p;
 
                 foreach (pdef pDef in query.ToList())
                 {
@@ -707,9 +740,6 @@ namespace PCF_Functions
                 BuildingCoderUtilities.InfoMsg(e.Message);
                 return Result.Failed;
             }
-
-
-
         }
     }
 

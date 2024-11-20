@@ -71,6 +71,9 @@ namespace NTR_Exporter
         {
             try
             {
+                DocumentManager.Instance.Initialize(
+                    commandData.Application.ActiveUIDocument,
+                    commandData.Application.ActiveUIDocument.Document);
                 NTR_Exporter_form fm = new NTR_Exporter_form(commandData, message);
                 fm.ShowDialog();
                 Properties.Settings.Default.Save();

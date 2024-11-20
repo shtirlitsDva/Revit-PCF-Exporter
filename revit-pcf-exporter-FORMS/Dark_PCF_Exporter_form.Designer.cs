@@ -157,7 +157,7 @@
             this.darkDockPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.darkDockPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkDockPanel1.Location = new System.Drawing.Point(0, 0);
-            this.darkDockPanel1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkDockPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.darkDockPanel1.Name = "darkDockPanel1";
             this.darkDockPanel1.Size = new System.Drawing.Size(675, 637);
             this.darkDockPanel1.TabIndex = 0;
@@ -171,7 +171,7 @@
             this.tableLayoutPanel1.Controls.Add(this.darkSectionPanel7, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -186,7 +186,7 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(1, 1);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(348, 635);
@@ -208,7 +208,7 @@
             this.darkSectionPanel1.Controls.Add(this.tableLayoutPanel2);
             this.darkSectionPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkSectionPanel1.Location = new System.Drawing.Point(0, 0);
-            this.darkSectionPanel1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkSectionPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.darkSectionPanel1.Name = "darkSectionPanel1";
             this.darkSectionPanel1.SectionHeader = null;
             this.darkSectionPanel1.Size = new System.Drawing.Size(340, 609);
@@ -223,15 +223,15 @@
             this.tableLayoutPanel2.Controls.Add(this.darkRadioBox1, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.darkGroupBox3, 0, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(1, 16);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(1, 25);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 275F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(338, 592);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(338, 583);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // darkGroupBox1
@@ -240,9 +240,9 @@
             this.darkGroupBox1.Controls.Add(this.tableLayoutPanel3);
             this.darkGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkGroupBox1.Location = new System.Drawing.Point(1, 1);
-            this.darkGroupBox1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkGroupBox1.Margin = new System.Windows.Forms.Padding(1);
             this.darkGroupBox1.Name = "darkGroupBox1";
-            this.darkGroupBox1.Padding = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkGroupBox1.Padding = new System.Windows.Forms.Padding(1);
             this.darkGroupBox1.Size = new System.Drawing.Size(336, 132);
             this.darkGroupBox1.TabIndex = 0;
             this.darkGroupBox1.TabStop = false;
@@ -256,7 +256,7 @@
             this.tableLayoutPanel3.Controls.Add(this.darkButton2, 0, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(1, 14);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -268,9 +268,9 @@
             // 
             this.darkButton1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton1.Location = new System.Drawing.Point(1, 1);
-            this.darkButton1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkButton1.Margin = new System.Windows.Forms.Padding(1);
             this.darkButton1.Name = "darkButton1";
-            this.darkButton1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.darkButton1.Padding = new System.Windows.Forms.Padding(2);
             this.darkButton1.Size = new System.Drawing.Size(332, 56);
             this.darkButton1.TabIndex = 0;
             this.darkButton1.Text = "Import PCF parameters";
@@ -280,9 +280,9 @@
             // 
             this.darkButton2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton2.Location = new System.Drawing.Point(1, 59);
-            this.darkButton2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkButton2.Margin = new System.Windows.Forms.Padding(1);
             this.darkButton2.Name = "darkButton2";
-            this.darkButton2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.darkButton2.Padding = new System.Windows.Forms.Padding(2);
             this.darkButton2.Size = new System.Drawing.Size(332, 57);
             this.darkButton2.TabIndex = 1;
             this.darkButton2.Text = "Delete PCF parameters";
@@ -294,9 +294,9 @@
             this.darkGroupBox2.Controls.Add(this.tableLayoutPanel4);
             this.darkGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkGroupBox2.Location = new System.Drawing.Point(1, 135);
-            this.darkGroupBox2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkGroupBox2.Margin = new System.Windows.Forms.Padding(1);
             this.darkGroupBox2.Name = "darkGroupBox2";
-            this.darkGroupBox2.Padding = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkGroupBox2.Padding = new System.Windows.Forms.Padding(1);
             this.darkGroupBox2.Size = new System.Drawing.Size(336, 273);
             this.darkGroupBox2.TabIndex = 1;
             this.darkGroupBox2.TabStop = false;
@@ -317,7 +317,7 @@
             this.tableLayoutPanel4.Controls.Add(this.darkTextBox7, 1, 1);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(1, 14);
-            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 4;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -331,9 +331,9 @@
             // 
             this.darkButton4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton4.Location = new System.Drawing.Point(1, 1);
-            this.darkButton4.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkButton4.Margin = new System.Windows.Forms.Padding(1);
             this.darkButton4.Name = "darkButton4";
-            this.darkButton4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.darkButton4.Padding = new System.Windows.Forms.Padding(2);
             this.darkButton4.Size = new System.Drawing.Size(165, 49);
             this.darkButton4.TabIndex = 0;
             this.darkButton4.Text = "Select ELEMENT parameter setup file";
@@ -343,9 +343,9 @@
             // 
             this.darkButton13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton13.Location = new System.Drawing.Point(168, 1);
-            this.darkButton13.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkButton13.Margin = new System.Windows.Forms.Padding(1);
             this.darkButton13.Name = "darkButton13";
-            this.darkButton13.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.darkButton13.Padding = new System.Windows.Forms.Padding(2);
             this.darkButton13.Size = new System.Drawing.Size(165, 49);
             this.darkButton13.TabIndex = 1;
             this.darkButton13.Text = "Select PIPELINE parameter setup file (LDT)";
@@ -355,9 +355,9 @@
             // 
             this.darkExportUndefinedElements_Button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkExportUndefinedElements_Button.Location = new System.Drawing.Point(1, 155);
-            this.darkExportUndefinedElements_Button.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkExportUndefinedElements_Button.Margin = new System.Windows.Forms.Padding(1);
             this.darkExportUndefinedElements_Button.Name = "darkExportUndefinedElements_Button";
-            this.darkExportUndefinedElements_Button.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.darkExportUndefinedElements_Button.Padding = new System.Windows.Forms.Padding(2);
             this.darkExportUndefinedElements_Button.Size = new System.Drawing.Size(165, 49);
             this.darkExportUndefinedElements_Button.TabIndex = 2;
             this.darkExportUndefinedElements_Button.Text = "Export undefined ELEMENTS";
@@ -367,9 +367,9 @@
             // 
             this.darkButton11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton11.Location = new System.Drawing.Point(168, 155);
-            this.darkButton11.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkButton11.Margin = new System.Windows.Forms.Padding(1);
             this.darkButton11.Name = "darkButton11";
-            this.darkButton11.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.darkButton11.Padding = new System.Windows.Forms.Padding(2);
             this.darkButton11.Size = new System.Drawing.Size(165, 49);
             this.darkButton11.TabIndex = 3;
             this.darkButton11.Text = "NA";
@@ -378,9 +378,9 @@
             // 
             this.darkButton3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton3.Location = new System.Drawing.Point(1, 206);
-            this.darkButton3.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkButton3.Margin = new System.Windows.Forms.Padding(1);
             this.darkButton3.Name = "darkButton3";
-            this.darkButton3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.darkButton3.Padding = new System.Windows.Forms.Padding(2);
             this.darkButton3.Size = new System.Drawing.Size(165, 51);
             this.darkButton3.TabIndex = 4;
             this.darkButton3.Text = "Populate PCF parameters ELEMENT";
@@ -390,9 +390,9 @@
             // 
             this.darkButton7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton7.Location = new System.Drawing.Point(168, 206);
-            this.darkButton7.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.darkButton7.Margin = new System.Windows.Forms.Padding(1);
             this.darkButton7.Name = "darkButton7";
-            this.darkButton7.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.darkButton7.Padding = new System.Windows.Forms.Padding(2);
             this.darkButton7.Size = new System.Drawing.Size(165, 51);
             this.darkButton7.TabIndex = 5;
             this.darkButton7.Text = "Populate PCF parameters PIPELINE";
@@ -471,7 +471,7 @@
             this.darkGroupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkGroupBox3.Location = new System.Drawing.Point(3, 472);
             this.darkGroupBox3.Name = "darkGroupBox3";
-            this.darkGroupBox3.Size = new System.Drawing.Size(332, 117);
+            this.darkGroupBox3.Size = new System.Drawing.Size(332, 108);
             this.darkGroupBox3.TabIndex = 3;
             this.darkGroupBox3.TabStop = false;
             this.darkGroupBox3.Text = "Create and export element schedule";
@@ -488,7 +488,7 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(326, 98);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(326, 89);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // darkButton8
@@ -496,8 +496,8 @@
             this.darkButton8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton8.Location = new System.Drawing.Point(3, 3);
             this.darkButton8.Name = "darkButton8";
-            this.darkButton8.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.darkButton8.Size = new System.Drawing.Size(157, 92);
+            this.darkButton8.Padding = new System.Windows.Forms.Padding(5);
+            this.darkButton8.Size = new System.Drawing.Size(157, 83);
             this.darkButton8.TabIndex = 0;
             this.darkButton8.Text = "Create schedules";
             this.darkButton8.Click += new System.EventHandler(this.button8_Click);
@@ -507,8 +507,8 @@
             this.darkButton9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkButton9.Location = new System.Drawing.Point(166, 3);
             this.darkButton9.Name = "darkButton9";
-            this.darkButton9.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.darkButton9.Size = new System.Drawing.Size(157, 92);
+            this.darkButton9.Padding = new System.Windows.Forms.Padding(5);
+            this.darkButton9.Size = new System.Drawing.Size(157, 83);
             this.darkButton9.TabIndex = 1;
             this.darkButton9.Text = "Export schedule to EXCEL";
             this.darkButton9.Click += new System.EventHandler(this.button9_Click);
@@ -519,7 +519,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(339, 608);
+            this.tabPage2.Size = new System.Drawing.Size(340, 609);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Config";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -531,7 +531,7 @@
             this.darkSectionPanel2.Location = new System.Drawing.Point(0, 0);
             this.darkSectionPanel2.Name = "darkSectionPanel2";
             this.darkSectionPanel2.SectionHeader = null;
-            this.darkSectionPanel2.Size = new System.Drawing.Size(339, 608);
+            this.darkSectionPanel2.Size = new System.Drawing.Size(340, 609);
             this.darkSectionPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel6
@@ -541,12 +541,12 @@
             this.tableLayoutPanel6.Controls.Add(this.darkGroupBox4, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.darkGroupBox5, 0, 1);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(1, 16);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(1, 25);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(337, 591);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(338, 583);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // darkGroupBox4
@@ -556,7 +556,7 @@
             this.darkGroupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkGroupBox4.Location = new System.Drawing.Point(3, 3);
             this.darkGroupBox4.Name = "darkGroupBox4";
-            this.darkGroupBox4.Size = new System.Drawing.Size(331, 289);
+            this.darkGroupBox4.Size = new System.Drawing.Size(332, 285);
             this.darkGroupBox4.TabIndex = 0;
             this.darkGroupBox4.TabStop = false;
             this.darkGroupBox4.Text = "PCF File Header";
@@ -577,7 +577,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(325, 270);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(326, 266);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // darkRadioBox2
@@ -588,7 +588,7 @@
             this.darkRadioBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkRadioBox2.Location = new System.Drawing.Point(3, 3);
             this.darkRadioBox2.Name = "darkRadioBox2";
-            this.darkRadioBox2.Size = new System.Drawing.Size(319, 61);
+            this.darkRadioBox2.Size = new System.Drawing.Size(320, 60);
             this.darkRadioBox2.TabIndex = 0;
             this.darkRadioBox2.TabStop = false;
             this.darkRadioBox2.Text = "UNITS-BORE";
@@ -624,9 +624,9 @@
             this.darkRadioBox3.Controls.Add(this.darkRadioButton6);
             this.darkRadioBox3.Controls.Add(this.darkRadioButton5);
             this.darkRadioBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkRadioBox3.Location = new System.Drawing.Point(3, 70);
+            this.darkRadioBox3.Location = new System.Drawing.Point(3, 69);
             this.darkRadioBox3.Name = "darkRadioBox3";
-            this.darkRadioBox3.Size = new System.Drawing.Size(319, 61);
+            this.darkRadioBox3.Size = new System.Drawing.Size(320, 60);
             this.darkRadioBox3.TabIndex = 1;
             this.darkRadioBox3.TabStop = false;
             this.darkRadioBox3.Text = "UNITS-CO-ORDS";
@@ -662,9 +662,9 @@
             this.darkRadioBox4.Controls.Add(this.darkRadioButton8);
             this.darkRadioBox4.Controls.Add(this.darkRadioButton7);
             this.darkRadioBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkRadioBox4.Location = new System.Drawing.Point(3, 137);
+            this.darkRadioBox4.Location = new System.Drawing.Point(3, 135);
             this.darkRadioBox4.Name = "darkRadioBox4";
-            this.darkRadioBox4.Size = new System.Drawing.Size(319, 61);
+            this.darkRadioBox4.Size = new System.Drawing.Size(320, 60);
             this.darkRadioBox4.TabIndex = 2;
             this.darkRadioBox4.TabStop = false;
             this.darkRadioBox4.Text = "UNITS-WEIGHT";
@@ -700,9 +700,9 @@
             this.darkRadioBox5.Controls.Add(this.darkRadioButton10);
             this.darkRadioBox5.Controls.Add(this.darkRadioButton9);
             this.darkRadioBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkRadioBox5.Location = new System.Drawing.Point(3, 204);
+            this.darkRadioBox5.Location = new System.Drawing.Point(3, 201);
             this.darkRadioBox5.Name = "darkRadioBox5";
-            this.darkRadioBox5.Size = new System.Drawing.Size(319, 63);
+            this.darkRadioBox5.Size = new System.Drawing.Size(320, 62);
             this.darkRadioBox5.TabIndex = 3;
             this.darkRadioBox5.TabStop = false;
             this.darkRadioBox5.Text = "UNITS-WEIGHT-LENGTH";
@@ -738,9 +738,9 @@
             this.darkGroupBox5.Controls.Add(this.darkCheckBox2);
             this.darkGroupBox5.Controls.Add(this.darkCheckBox1);
             this.darkGroupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkGroupBox5.Location = new System.Drawing.Point(3, 298);
+            this.darkGroupBox5.Location = new System.Drawing.Point(3, 294);
             this.darkGroupBox5.Name = "darkGroupBox5";
-            this.darkGroupBox5.Size = new System.Drawing.Size(331, 290);
+            this.darkGroupBox5.Size = new System.Drawing.Size(332, 286);
             this.darkGroupBox5.TabIndex = 1;
             this.darkGroupBox5.TabStop = false;
             this.darkGroupBox5.Text = "Export to";
@@ -775,7 +775,7 @@
             this.tabPage3.Controls.Add(this.darkSectionPanel3);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(339, 608);
+            this.tabPage3.Size = new System.Drawing.Size(340, 609);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Export";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -787,7 +787,7 @@
             this.darkSectionPanel3.Location = new System.Drawing.Point(0, 0);
             this.darkSectionPanel3.Name = "darkSectionPanel3";
             this.darkSectionPanel3.SectionHeader = "";
-            this.darkSectionPanel3.Size = new System.Drawing.Size(339, 608);
+            this.darkSectionPanel3.Size = new System.Drawing.Size(340, 609);
             this.darkSectionPanel3.TabIndex = 0;
             // 
             // tableLayoutPanel8
@@ -798,14 +798,14 @@
             this.tableLayoutPanel8.Controls.Add(this.tableLayoutPanel9, 0, 1);
             this.tableLayoutPanel8.Controls.Add(this.darkSectionPanel6, 0, 2);
             this.tableLayoutPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel8.Location = new System.Drawing.Point(1, 16);
+            this.tableLayoutPanel8.Location = new System.Drawing.Point(1, 25);
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 4;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(337, 591);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(338, 583);
             this.tableLayoutPanel8.TabIndex = 0;
             // 
             // darkRadioBox6
@@ -816,7 +816,7 @@
             this.darkRadioBox6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkRadioBox6.Location = new System.Drawing.Point(3, 3);
             this.darkRadioBox6.Name = "darkRadioBox6";
-            this.darkRadioBox6.Size = new System.Drawing.Size(331, 82);
+            this.darkRadioBox6.Size = new System.Drawing.Size(332, 81);
             this.darkRadioBox6.TabIndex = 0;
             this.darkRadioBox6.TabStop = false;
             this.darkRadioBox6.Text = "Output file encoding";
@@ -851,12 +851,12 @@
             this.tableLayoutPanel9.Controls.Add(this.darkSectionPanel4, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.darkSectionPanel5, 0, 1);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 91);
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 90);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 2;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(331, 200);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(332, 198);
             this.tableLayoutPanel9.TabIndex = 1;
             // 
             // darkSectionPanel4
@@ -866,16 +866,16 @@
             this.darkSectionPanel4.Location = new System.Drawing.Point(3, 3);
             this.darkSectionPanel4.Name = "darkSectionPanel4";
             this.darkSectionPanel4.SectionHeader = "Output directory";
-            this.darkSectionPanel4.Size = new System.Drawing.Size(325, 94);
+            this.darkSectionPanel4.Size = new System.Drawing.Size(326, 93);
             this.darkSectionPanel4.TabIndex = 0;
             // 
             // darkButton5
             // 
             this.darkButton5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkButton5.Location = new System.Drawing.Point(1, 16);
+            this.darkButton5.Location = new System.Drawing.Point(1, 25);
             this.darkButton5.Name = "darkButton5";
-            this.darkButton5.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.darkButton5.Size = new System.Drawing.Size(323, 77);
+            this.darkButton5.Padding = new System.Windows.Forms.Padding(5);
+            this.darkButton5.Size = new System.Drawing.Size(324, 67);
             this.darkButton5.TabIndex = 0;
             this.darkButton5.Text = "Select output directory";
             this.darkButton5.Click += new System.EventHandler(this.button5_Click);
@@ -884,10 +884,10 @@
             // 
             this.darkSectionPanel5.Controls.Add(this.darkTextBox5);
             this.darkSectionPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkSectionPanel5.Location = new System.Drawing.Point(3, 103);
+            this.darkSectionPanel5.Location = new System.Drawing.Point(3, 102);
             this.darkSectionPanel5.Name = "darkSectionPanel5";
             this.darkSectionPanel5.SectionHeader = "Selected output path:";
-            this.darkSectionPanel5.Size = new System.Drawing.Size(325, 94);
+            this.darkSectionPanel5.Size = new System.Drawing.Size(326, 93);
             this.darkSectionPanel5.TabIndex = 1;
             // 
             // darkTextBox5
@@ -897,10 +897,10 @@
             this.darkTextBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox5OutputPath", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.darkTextBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkTextBox5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox5.Location = new System.Drawing.Point(1, 16);
+            this.darkTextBox5.Location = new System.Drawing.Point(1, 25);
             this.darkTextBox5.Multiline = true;
             this.darkTextBox5.Name = "darkTextBox5";
-            this.darkTextBox5.Size = new System.Drawing.Size(323, 77);
+            this.darkTextBox5.Size = new System.Drawing.Size(324, 67);
             this.darkTextBox5.TabIndex = 0;
             this.darkTextBox5.Text = global::PCF_Exporter.Properties.Settings.Default.textBox5OutputPath;
             // 
@@ -908,19 +908,19 @@
             // 
             this.darkSectionPanel6.Controls.Add(this.darkButton6);
             this.darkSectionPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkSectionPanel6.Location = new System.Drawing.Point(3, 297);
+            this.darkSectionPanel6.Location = new System.Drawing.Point(3, 294);
             this.darkSectionPanel6.Name = "darkSectionPanel6";
             this.darkSectionPanel6.SectionHeader = "Export PCF data";
-            this.darkSectionPanel6.Size = new System.Drawing.Size(331, 112);
+            this.darkSectionPanel6.Size = new System.Drawing.Size(332, 110);
             this.darkSectionPanel6.TabIndex = 2;
             // 
             // darkButton6
             // 
             this.darkButton6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.darkButton6.Location = new System.Drawing.Point(1, 16);
+            this.darkButton6.Location = new System.Drawing.Point(1, 25);
             this.darkButton6.Name = "darkButton6";
-            this.darkButton6.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.darkButton6.Size = new System.Drawing.Size(329, 95);
+            this.darkButton6.Padding = new System.Windows.Forms.Padding(5);
+            this.darkButton6.Size = new System.Drawing.Size(330, 84);
             this.darkButton6.TabIndex = 0;
             this.darkButton6.Text = "Export PCF";
             this.darkButton6.Click += new System.EventHandler(this.button6_Click);
@@ -930,7 +930,7 @@
             this.tabPage4.Controls.Add(this.darkSectionPanel11);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(339, 608);
+            this.tabPage4.Size = new System.Drawing.Size(340, 609);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Help";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -941,7 +941,7 @@
             this.darkSectionPanel11.Location = new System.Drawing.Point(0, 0);
             this.darkSectionPanel11.Name = "darkSectionPanel11";
             this.darkSectionPanel11.SectionHeader = null;
-            this.darkSectionPanel11.Size = new System.Drawing.Size(339, 608);
+            this.darkSectionPanel11.Size = new System.Drawing.Size(340, 609);
             this.darkSectionPanel11.TabIndex = 0;
             // 
             // darkSectionPanel7
@@ -964,7 +964,7 @@
             this.tableLayoutPanel10.Controls.Add(this.darkSectionPanel9, 0, 2);
             this.tableLayoutPanel10.Controls.Add(this.darkSectionPanel10, 0, 3);
             this.tableLayoutPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel10.Location = new System.Drawing.Point(1, 16);
+            this.tableLayoutPanel10.Location = new System.Drawing.Point(1, 25);
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 5;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
@@ -972,7 +972,7 @@
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 125F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(317, 614);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(317, 605);
             this.tableLayoutPanel10.TabIndex = 2;
             // 
             // darkSectionPanel8
@@ -994,7 +994,7 @@
             this.darkTextBox11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.darkTextBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.darkTextBox11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox11.Location = new System.Drawing.Point(1, 16);
+            this.darkTextBox11.Location = new System.Drawing.Point(1, 25);
             this.darkTextBox11.Name = "darkTextBox11";
             this.darkTextBox11.Size = new System.Drawing.Size(309, 23);
             this.darkTextBox11.TabIndex = 1;
@@ -1114,7 +1114,7 @@
             this.darkTextBox23.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.darkTextBox23.Dock = System.Windows.Forms.DockStyle.Top;
             this.darkTextBox23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox23.Location = new System.Drawing.Point(1, 36);
+            this.darkTextBox23.Location = new System.Drawing.Point(1, 45);
             this.darkTextBox23.Multiline = true;
             this.darkTextBox23.Name = "darkTextBox23";
             this.darkTextBox23.ReadOnly = true;
@@ -1131,7 +1131,7 @@
             this.darkTextBox22.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::PCF_Exporter.Properties.Settings.Default, "textBox22DiameterLimit", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.darkTextBox22.Dock = System.Windows.Forms.DockStyle.Top;
             this.darkTextBox22.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.darkTextBox22.Location = new System.Drawing.Point(1, 16);
+            this.darkTextBox22.Location = new System.Drawing.Point(1, 25);
             this.darkTextBox22.Name = "darkTextBox22";
             this.darkTextBox22.Size = new System.Drawing.Size(309, 20);
             this.darkTextBox22.TabIndex = 0;
@@ -1156,12 +1156,12 @@
             this.tableLayoutPanel11.Controls.Add(this.darkTextBox3, 0, 1);
             this.tableLayoutPanel11.Controls.Add(this.darkGroupBox6, 0, 0);
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel11.Location = new System.Drawing.Point(1, 16);
+            this.tableLayoutPanel11.Location = new System.Drawing.Point(1, 25);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 2;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(309, 102);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(309, 93);
             this.tableLayoutPanel11.TabIndex = 0;
             // 
             // darkTextBox3
@@ -1174,7 +1174,7 @@
             this.darkTextBox3.Multiline = true;
             this.darkTextBox3.Name = "darkTextBox3";
             this.darkTextBox3.ReadOnly = true;
-            this.darkTextBox3.Size = new System.Drawing.Size(303, 51);
+            this.darkTextBox3.Size = new System.Drawing.Size(303, 42);
             this.darkTextBox3.TabIndex = 0;
             this.darkTextBox3.TabStop = false;
             this.darkTextBox3.Text = "Elements with matching values will not be exported. Leave empty to avoid.";
@@ -1220,7 +1220,7 @@
             this.ClientSize = new System.Drawing.Size(675, 637);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.darkDockPanel1);
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "Dark_PCF_Exporter_form";
             this.Text = "Dark_PCF_Exporter_form";
             this.Load += new System.EventHandler(this.Dark_PCF_Exporter_form_Load);
