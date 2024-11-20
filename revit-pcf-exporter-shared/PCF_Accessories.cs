@@ -10,7 +10,7 @@ using PCF_Taps;
 using Shared;
 
 using pdef = PCF_Functions.ParameterDefinition;
-using plst = PCF_Functions.ParameterList;
+using plst = PCF_Functions.Parameters;
 using pdw = PCF_Functions.ParameterDataWriter;
 using mp = Shared.MepUtils;
 using System.Diagnostics;
@@ -33,7 +33,7 @@ namespace PCF_Accessories
             StringBuilder sbAccessories = new StringBuilder();
 
             #region Prepare elements for spindle direction
-            var spDict = new FilteredElementCollector(doc)
+            Dictionary<ElementId, FamilyInstance> spDict = new FilteredElementCollector(doc)
                         .OfCategory(BuiltInCategory.OST_GenericModel)
                         .OfClass(typeof(FamilyInstance))
                         .Cast<FamilyInstance>()
@@ -73,7 +73,7 @@ namespace PCF_Accessories
                     //Switch to different element type configurations
                     switch (element.get_Parameter(plst.PCF_ELEM_TYPE.Guid).AsString())
                     {
-                        case ("FILTER"):
+                        case ("FILTER"): //done
                             //Process endpoints of the component
                             sbAccessories.Append(EndWriter.WriteEP1(element, cons.Primary));
                             sbAccessories.Append(EndWriter.WriteEP2(element, cons.Secondary));
@@ -229,23 +229,23 @@ namespace PCF_Accessories
                     sbAccessories.Append(element.UniqueId);
                     sbAccessories.AppendLine();
 
-                    //Process tap entries of the element if any
-                    //Diameter Limit nullifies the tapsWriter output if the tap diameter is less than the limit so it doesn't get exported
-                    if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP1").AsString()) == false)
-                    {
-                        TapsWriter tapsWriter = new TapsWriter(element, "PCF_ELEM_TAP1", doc);
-                        sbAccessories.Append(tapsWriter.tapsWriter);
-                    }
-                    if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP2").AsString()) == false)
-                    {
-                        TapsWriter tapsWriter = new TapsWriter(element, "PCF_ELEM_TAP2", doc);
-                        sbAccessories.Append(tapsWriter.tapsWriter);
-                    }
-                    if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP3").AsString()) == false)
-                    {
-                        TapsWriter tapsWriter = new TapsWriter(element, "PCF_ELEM_TAP3", doc);
-                        sbAccessories.Append(tapsWriter.tapsWriter);
-                    }
+                    ////Process tap entries of the element if any
+                    ////Diameter Limit nullifies the tapsWriter output if the tap diameter is less than the limit so it doesn't get exported
+                    //if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP1").AsString()) == false)
+                    //{
+                    //    TapsWriter tapsWriter = new TapsWriter(element, "PCF_ELEM_TAP1", doc);
+                    //    sbAccessories.Append(tapsWriter.tapsWriter);
+                    //}
+                    //if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP2").AsString()) == false)
+                    //{
+                    //    TapsWriter tapsWriter = new TapsWriter(element, "PCF_ELEM_TAP2", doc);
+                    //    sbAccessories.Append(tapsWriter.tapsWriter);
+                    //}
+                    //if (string.IsNullOrEmpty(element.LookupParameter("PCF_ELEM_TAP3").AsString()) == false)
+                    //{
+                    //    TapsWriter tapsWriter = new TapsWriter(element, "PCF_ELEM_TAP3", doc);
+                    //    sbAccessories.Append(tapsWriter.tapsWriter);
+                    //}
                 }
             }
             catch (Exception e)

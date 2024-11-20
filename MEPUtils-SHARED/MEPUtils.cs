@@ -67,6 +67,7 @@ namespace MEPUtils
                 {11, new NumberStuff.NumberStuff().NumberStuffMethod },
                 {12, new PipingSystemsAndFilters.AddAllPipingSystemTypesFiltersToView().Execute },
                 {13, new PipingSystemsAndFilters.IsolatePipingSystemsOfSelectedElements().Execute },
+                {14, new PipingSystemsAndFilters.HidePipingSystemsOfSelectedElements().Execute }
             };
 
             //Place names for methods in this dict
@@ -86,6 +87,7 @@ namespace MEPUtils
                 {11, "(ctrl) (Re-)Number" },
                 {12, "ViewFilters for PS" },
                 {13, "Isolate selected PS" },
+                {14, "Hide selected PS" }
             };
 
             for (int i = 0; i < methodDict.Count; i++)

@@ -388,25 +388,32 @@ namespace NTR_Functions
         /// <returns>True if diameter is larger than limit and false if smaller.</returns>
         public static bool FilterDiameterLimit(Element element)
         {
-            double diameterMustBeGreater = iv.DiameterLimitGreaterOrEqThan;
-            double diameterMustBeLess = iv.DiameterLimitLessOrEqThan;
-            double testedDiameter = 0;
-            switch (element)
+            try
             {
-                case MEPCurve pipe:
-                    testedDiameter = pipe.Diameter.FtToMm().Round();
-                    break;
+                double diameterMustBeGreater = iv.DiameterLimitGreaterOrEqThan;
+                double diameterMustBeLess = iv.DiameterLimitLessOrEqThan;
+                double testedDiameter = 0;
+                switch (element)
+                {
+                    case MEPCurve pipe:
+                        testedDiameter = pipe.Diameter.FtToMm().Round();
+                        break;
 
-                case FamilyInstance inst:
-                    Cons cons = Shared.MepUtils.GetConnectors(inst);
-                    Connector testedConnector = cons.Primary;
-                    if (testedConnector == null)
-                        throw new Exception("Element " + inst.Id.IntegerValue + " does not have a primary connector!");
-                    testedDiameter = (testedConnector.Radius * 2).FtToMm().Round(0);
-                    break;
+                    case FamilyInstance inst:
+                        Cons cons = Shared.MepUtils.GetConnectors(inst);
+                        Connector testedConnector = cons.Primary;
+                        if (testedConnector == null)
+                            throw new Exception("Element " + inst.Id.IntegerValue + " does not have a primary connector!");
+                        testedDiameter = (testedConnector.Radius * 2).FtToMm().Round(0);
+                        break;
+                }
+
+                return testedDiameter >= diameterMustBeGreater && testedDiameter <= diameterMustBeLess;
             }
-
-            return testedDiameter >= diameterMustBeGreater && testedDiameter <= diameterMustBeLess;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public static bool OfPartType(this Element e, PartType pt)

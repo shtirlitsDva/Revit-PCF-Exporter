@@ -9,6 +9,7 @@ using Autodesk.Revit.ApplicationServices;
 using PCF_Functions;
 using Shared.BuildingCoder;
 using Shared;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace PCF_Taps
 {
@@ -98,11 +99,12 @@ namespace PCF_Taps
         
     }
 
-    public class TapsWriter
+    public static class TapsWriter
     {
-        public StringBuilder tapsWriter = new StringBuilder();
-        public TapsWriter(Element element, string tapName, Document doc)
+        public static StringBuilder WriteSpecificTap(Element element, string tapName, Document doc)
         {
+            StringBuilder tapsWriter = new StringBuilder();
+
             try
             {
                 FamilyInstance familyInstance = (FamilyInstance)element;
@@ -112,16 +114,10 @@ namespace PCF_Taps
                 Element tappingElement = null;
                 if (uniqueId != null) tappingElement = doc.GetElement(uniqueId.ToString());
 
-                //Pipe tappingPipe = (Pipe)tappingElement;
+                if (tappingElement == null) return tapsWriter;
 
-                //ConnectorSet connectorTapSet = tappingPipe.ConnectorManager.Connectors;
                 Cons cons = new Cons(tappingElement);
-                //Filter out non-end types of connectors. The output is converted to a list to prevent deferred execution (I am afraid
-                //that deferred execution leads to inconsisten returns of connectors from the connector set but am not sure it does).
-                //IList<Connector> connectorTapEnds = (from Connector connector in connectorTapSet
-                //                                     where connector.ConnectorType.ToString().Equals("End")
-                //                                     select connector).ToList();
-
+                
                 Connector end1 = cons.Primary; Connector end2 = cons.Secondary;
                 double dist1 = elementOrigin.DistanceTo(end1.Origin); double dist2 = elementOrigin.DistanceTo(end2.Origin);
                 Connector tapConnector = null;
@@ -140,15 +136,56 @@ namespace PCF_Taps
                 if (InputVars.UNITS_BORE_MM) tapsWriter.Append(Conversion.PipeSizeToMm(connectorSize));
                 if (InputVars.UNITS_BORE_INCH) tapsWriter.Append(Conversion.PipeSizeToInch(connectorSize));
                 tapsWriter.AppendLine();
-                if (!Filters.FilterDL(tappingElement)) tapsWriter = null;
+                if (!Filters.FilterDL(tappingElement)) tapsWriter = new StringBuilder();
+                return tapsWriter;
             }
 
             catch (NullReferenceException ex)
             {
-                TaskDialog.Show("Tap error!", "An object in the Taps module returned: " + ex.Message + " Check if taps are correctly defined.");
+                throw new Exception(
+                    "Tap error! An object in the Taps module returned: " + ex.Message + " " +
+                    "Check if taps are correctly defined.");
             }
-
         }
 
+        internal static StringBuilder WriteGenericTap(Element tapped, Element tapping, Document doc)
+        {
+            //The tap here is the tapping element
+            StringBuilder tapsWriter = new StringBuilder();
+
+            try
+            {
+                Cons cons1 = new Cons(tapped);
+                var q = MepUtils.GetALLConnectorsFromElements(tapping);
+
+                Line line = Line.CreateBound(cons1.Primary.Origin, cons1.Secondary.Origin);
+                var result = line.Project(q.First().Origin);
+                XYZ elementOrigin = result.XYZPoint;
+
+                Connector tapConnector = q.MinBy(x => x.Origin.DistanceTo(elementOrigin));
+
+                XYZ connectorOrigin = tapConnector.Origin;
+                double connectorSize = tapConnector.Radius;
+
+                tapsWriter.Append("    TAP-CONNECTION");
+                tapsWriter.AppendLine();
+                tapsWriter.Append("    CO-ORDS ");
+                if (InputVars.UNITS_CO_ORDS_MM) tapsWriter.Append(EndWriter.PointStringMm(connectorOrigin));
+                if (InputVars.UNITS_CO_ORDS_INCH) tapsWriter.Append(Conversion.PointStringInch(connectorOrigin));
+                tapsWriter.Append(" ");
+                if (InputVars.UNITS_BORE_MM) tapsWriter.Append(Conversion.PipeSizeToMm(connectorSize));
+                if (InputVars.UNITS_BORE_INCH) tapsWriter.Append(Conversion.PipeSizeToInch(connectorSize));
+                tapsWriter.AppendLine();
+                if (!Filters.FilterDL(tapping)) tapsWriter = new StringBuilder();
+                return tapsWriter;
+            }
+
+            catch (NullReferenceException ex)
+            {
+                throw new Exception(
+                    "Tap error! An object in the Taps module returned: " + ex.Message + " " +
+                    "Check if taps are correctly defined.");
+            }
+        }
     }
 }

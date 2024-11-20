@@ -28,7 +28,7 @@ namespace PCF_Exporter
         BitmapImage NewBitmapImage(Assembly a, string imageName)
         {
             Stream s = a.GetManifestResourceStream(imageName);
-            
+
             BitmapImage img = new BitmapImage();
 
             img.BeginInit();
@@ -37,7 +37,7 @@ namespace PCF_Exporter
 
             return img;
         }
-        
+
         // get the absolute path of this assembly
         static string ExecutingAssemblyPath = Assembly.GetExecutingAssembly().Location;
         // get ref to assembly
@@ -53,13 +53,13 @@ namespace PCF_Exporter
         {
             return Result.Succeeded;
         }
-        
+
         private void AddMenu(UIControlledApplication application)
         {
             //Assembly exe = Assembly.GetExecutingAssembly();
 
             RibbonPanel rvtRibbonPanel = application.CreateRibbonPanel("PCF Tools");
-            PushButtonData data = new PushButtonData("PCFExporter","PCF",ExecutingAssemblyPath,"PCF_Exporter.FormCaller");
+            PushButtonData data = new PushButtonData("PCFExporter", "PCF", ExecutingAssemblyPath, "PCF_Exporter.FormCaller");
             data.ToolTip = pcfExporterButtonToolTip;
             data.Image = NewBitmapImage(exe, "PCF_Exporter.ImgPcfExport16.png");
             data.LargeImage = NewBitmapImage(exe, "PCF_Exporter.ImgPcfExport32.png");
@@ -86,7 +86,7 @@ namespace PCF_Exporter
         {
             try
             {
-                //PCF_Exporter_form fm = new PCF_Exporter_form(commandData, message);
+                DocumentManager.Instance.Initialize(commandData.Application.ActiveUIDocument.Document);
                 Dark_PCF_Exporter_form fm = new Dark_PCF_Exporter_form(commandData, message);
                 fm.ShowDialog();
                 PCF_Exporter.Properties.Settings.Default.Save();
