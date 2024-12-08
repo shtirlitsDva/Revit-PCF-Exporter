@@ -70,6 +70,11 @@
     <None Include="$(MSBuildThisFileDirectory)packages.config">
       <SubType>Designer</SubType>
     </None>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\C02.csv" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\C03.csv" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\C08.csv" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\S02.csv" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\S03.csv" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)license.txt" />
