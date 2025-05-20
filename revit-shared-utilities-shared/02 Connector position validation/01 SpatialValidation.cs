@@ -3,14 +3,14 @@ using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
-//using MoreLinq;
 using Shared;
+using Shared.BuildingCoder;
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using MoreLinq;
+//using MoreLinq;
 using System.Runtime.Serialization;
 using System.Windows.Input;
 using System.Runtime.Serialization.Json;
@@ -58,7 +58,8 @@ namespace Shared.Tools
                            .SelectMany((fst, i) => g.Connectors.Skip(i + 1)
                            .Select(snd => (fst, snd, fst.Origin.DistanceTo(snd.Origin))))
                            .ToList();
-                g.longestPair = g.pairs.MaxBy(x => x.dist).FirstOrDefault();
+
+                g.longestPair = g.pairs.MaxBy(x => x.dist);
 
                 g.longestDist = g.longestPair.dist.FtToMm().Round(4);
             }
