@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEPUtils-2025", "MEPUtils-2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelessForms-2025", "ModelessForms-2025\ModelessForms-2025.csproj", "{6EDBC8EB-51B1-43EA-9B20-AC8B2C058D08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFExporter-2025", "PDFExporter-2025\PDFExporter-2025.csproj", "{64A89BE0-C11F-4691-ADF0-EC3E7CDBCD50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -157,6 +159,10 @@ Global
 		{6EDBC8EB-51B1-43EA-9B20-AC8B2C058D08}.Debug|x64.Build.0 = Debug|Any CPU
 		{6EDBC8EB-51B1-43EA-9B20-AC8B2C058D08}.Release|x64.ActiveCfg = Release|Any CPU
 		{6EDBC8EB-51B1-43EA-9B20-AC8B2C058D08}.Release|x64.Build.0 = Release|Any CPU
+		{64A89BE0-C11F-4691-ADF0-EC3E7CDBCD50}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{64A89BE0-C11F-4691-ADF0-EC3E7CDBCD50}.Debug|x64.Build.0 = Debug|Any CPU
+		{64A89BE0-C11F-4691-ADF0-EC3E7CDBCD50}.Release|x64.ActiveCfg = Release|Any CPU
+		{64A89BE0-C11F-4691-ADF0-EC3E7CDBCD50}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,6 +180,10 @@ Global
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{37ce9a72-66e2-4a2d-a756-6e8158c9df5a}*SharedItemsImports = 13
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{5c3bdad7-6fce-42a5-bfb9-9c057a7ce6f8}*SharedItemsImports = 13
+		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{6323e000-2df4-45af-9873-88842d24f7b7}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{6323e000-2df4-45af-9873-88842d24f7b7}*SharedItemsImports = 4
+		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{64a89be0-c11f-4691-adf0-ec3e7cdbcd50}*SharedItemsImports = 5
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{64a89be0-c11f-4691-adf0-ec3e7cdbcd50}*SharedItemsImports = 5
 		Data-SHARED\Data-SHARED.projitems*{6edbc8eb-51b1-43ea-9b20-ac8b2c058d08}*SharedItemsImports = 5
 		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{6edbc8eb-51b1-43ea-9b20-ac8b2c058d08}*SharedItemsImports = 5
 		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{6edbc8eb-51b1-43ea-9b20-ac8b2c058d08}*SharedItemsImports = 5
@@ -181,5 +191,7 @@ Global
 		revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.projitems*{a2702701-d0a0-49c9-9e85-30a96a53829c}*SharedItemsImports = 13
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{b35f4ebb-90f8-4f1f-b2cc-5229a671f142}*SharedItemsImports = 13
 		Data-SHARED\Data-SHARED.projitems*{b67c53a5-3a99-40c5-bfe6-bd000a80bbda}*SharedItemsImports = 13
+		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{c580bb5d-73d8-4904-9485-1eaf19fc4b4a}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{c580bb5d-73d8-4904-9485-1eaf19fc4b4a}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal
