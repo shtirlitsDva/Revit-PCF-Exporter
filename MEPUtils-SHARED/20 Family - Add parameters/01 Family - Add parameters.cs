@@ -44,6 +44,10 @@ namespace MEPUtils.FamilyTools.AddParameters
                 DefinitionFile defFile = uidoc.Application.Application.OpenSharedParameterFile();
                 DefinitionGroups groups = defFile.Groups;
 
+#if REVIT2025
+                var idGp = GroupTypeId.IdentityData;
+                var dimGp = GroupTypeId.Geometry;
+#else
                 var idGp = BuiltInParameterGroup.PG_IDENTITY_DATA;
                 var dimGp = BuiltInParameterGroup.PG_GEOMETRY;
 
@@ -51,7 +55,7 @@ namespace MEPUtils.FamilyTools.AddParameters
                 {
                     tx.Start("Add parameters");
 
-                    List<(string Group, string ParName, BuiltInParameterGroup gp, bool isInstance)> parNamesToAdd = 
+                    List<(string Group, string ParName, BuiltInParameterGroup gp, bool isInstance)> parNamesToAdd =
                         new List<(string Group, string ParName, BuiltInParameterGroup gp, bool isInstance)>
                     {
                         ("900 SCHEDULE", "DRI.Management.Schedule DN-Number", idGp, true),
@@ -95,10 +99,10 @@ namespace MEPUtils.FamilyTools.AddParameters
                             throw new Exception(ex.Message);
                         }
                     }
-
                     tx.Commit();
                     return Result.Succeeded;
                 }
+#endif
             }
 
             catch (Autodesk.Revit.Exceptions.OperationCanceledException) { return Result.Cancelled; }

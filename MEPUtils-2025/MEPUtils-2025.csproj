@@ -36,6 +36,10 @@
 	<PropertyGroup>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);REVIT2025</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Include="..\revit-shared-utilities-forms\InputBoxBasic.cs" Link="Shared\Forms\InputBoxBasic.cs">
