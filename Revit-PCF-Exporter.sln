@@ -190,8 +190,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{03f00fd4-e636-4a10-aec7-706e13c7b1ab}*SharedItemsImports = 13
-		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{13b7f27f-1ebf-4db8-a7f2-70040d01a8d4}*SharedItemsImports = 4
-		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{13b7f27f-1ebf-4db8-a7f2-70040d01a8d4}*SharedItemsImports = 4
+		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{13b7f27f-1ebf-4db8-a7f2-70040d01a8d4}*SharedItemsImports = 5
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{13b7f27f-1ebf-4db8-a7f2-70040d01a8d4}*SharedItemsImports = 5
 		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{18f8030b-e17e-4689-a026-259383db16dd}*SharedItemsImports = 13
 		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{1dd9d402-aeb0-4c17-96f6-2c0fbbf840bb}*SharedItemsImports = 13
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{37ce9a72-66e2-4a2d-a756-6e8158c9df5a}*SharedItemsImports = 13

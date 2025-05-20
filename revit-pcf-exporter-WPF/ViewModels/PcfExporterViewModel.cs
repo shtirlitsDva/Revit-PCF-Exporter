@@ -2,7 +2,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using PCF_Functions;
 using PCF_Parameters;
 using System.Data;
@@ -12,26 +11,33 @@ using System.Windows;
 using mySettings = PCF_Exporter.Properties.Settings;
 using iv = PCF_Functions.InputVars;
 using dh = Shared.DataHandler;
+using Microsoft.Win32;
+using System.Windows.Forms;
 
 namespace PCF_Exporter.ViewModels
 {
     public partial class PcfExporterViewModel : ObservableObject
     {
-        private readonly UIApplication _uiapp;
-        private readonly UIDocument _uidoc;
-        private readonly Document _doc;
-        private readonly string _message;
+        private UIApplication? _uiapp;
+        public UIApplication UIApp
+        {
+            get => _uiapp;
+            set
+            {
+                _uiapp = value;
+                _uidoc = value?.ActiveUIDocument;
+                _doc = value?.ActiveUIDocument?.Document;
+            }
+        }
+        private UIDocument? _uidoc;
+        private Document? _doc;
+        private string? _message;
 
         private DataTable? _elementsTable;
         private DataTable? _pipelinesTable;
 
-        public PcfExporterViewModel(ExternalCommandData cData, string message)
+        public PcfExporterViewModel()
         {
-            _uiapp = cData.Application;
-            _uidoc = _uiapp.ActiveUIDocument;
-            _doc = _uidoc.Document;
-            _message = message;
-
             ExcelPath = mySettings.Default.excelPath;
             if (File.Exists(ExcelPath))
             {
@@ -61,9 +67,9 @@ namespace PCF_Exporter.ViewModels
         }
 
         [ObservableProperty]
-        private string _ldtPath = string.Empty;
+        private string _lDTPath = string.Empty;
 
-        partial void OnLdtPathChanged(string value)
+        partial void OnLDTPathChanged(string value)
         {
             mySettings.Default.LDTPath = value;
         }
@@ -99,8 +105,12 @@ namespace PCF_Exporter.ViewModels
         [RelayCommand]
         private void SelectExcelPath()
         {
-            var dialog = new CommonOpenFileDialog { Filters = { new CommonFileDialogFilter("Excel","*.xlsx;*.xls") } };
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            var dialog = new System.Windows.Forms.OpenFileDialog
+            {
+                Filter = "Excel Files (.xlsx;.xls)|.xlsx;.xls",
+                Title = "Select Excel File for Elements"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
                 ExcelPath = dialog.FileName;
                 var ds = dh.ReadExcelToDataSet(ExcelPath);
@@ -111,8 +121,12 @@ namespace PCF_Exporter.ViewModels
         [RelayCommand]
         private void SelectLdtPath()
         {
-            var dialog = new CommonOpenFileDialog { Filters = { new CommonFileDialogFilter("Excel","*.xlsx;*.xls") } };
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            var dialog = new System.Windows.Forms.OpenFileDialog
+            {
+                Filter = "Excel Files (.xlsx;.xls)|.xlsx;.xls",
+                Title = "Select Excel File for LDT (Pipelines)"
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
                 LDTPath = dialog.FileName;
                 var ds = dh.ReadExcelToDataSet(LDTPath);
@@ -123,10 +137,16 @@ namespace PCF_Exporter.ViewModels
         [RelayCommand]
         private void SelectOutputDirectory()
         {
-            var dialog = new CommonOpenFileDialog { IsFolderPicker = true };
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            using var dialog = new FolderBrowserDialog
             {
-                OutputDirectory = dialog.FileName;
+                Description = "Select Output Folder",
+                UseDescriptionForTitle = true,
+                ShowNewFolderButton = true
+            };
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                OutputDirectory = dialog.SelectedPath;
             }
         }
 
