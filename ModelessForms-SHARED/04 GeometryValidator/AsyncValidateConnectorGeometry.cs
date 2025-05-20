@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MoreLinq;
+//using MoreLinq;
 using System.Text;
 
 using Autodesk.Revit.DB;
@@ -61,7 +61,7 @@ namespace ModelessForms.GeometryValidator
                            .ToList();
                 if (g.Connectors.Count > 1)
                 {
-                    g.longestPair = g.pairs.MaxBy(x => x.dist).FirstOrDefault();
+                    g.longestPair = g.pairs.MaxBy(x => x.dist);
                     g.longestDist = g.longestPair.dist.FtToMm().Round(4);
                 }
             }
