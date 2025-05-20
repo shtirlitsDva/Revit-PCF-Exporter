@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <NsPath>X:\AutoCAD DRI - Revit\Addins\2024\MEPUtils</NsPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MEPUtils</RootNamespace>
+    <AssemblyName>MEPUtils</AssemblyName>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="RevitAPI">
+      <HintPath>X:\Revit API\2024\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>X:\Revit API\2024\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="9.0.5" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.5" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="8.0.0-preview.7.23375.6" />
+    <PackageReference Include="MoreLinq.Source.MoreEnumerable.DistinctBy" Version="1.0.2" />
+    <PackageReference Include="MoreLinq.Source.MoreEnumerable.MinBy" Version="1.0.2" />
+    <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+			if "$(ConfigurationName)"=="Release" (
+			if not exist "$(NsPath)\" mkdir "$(NsPath)\"
+			for /D %%i in ("$(TargetDir)*") do (
+			if /I not "%%~nxi"=="NetReload" (
+			if not exist "$(NsPath)\%%~nxi\" mkdir "$(NsPath)\%%~nxi\"
+			xcopy "%%i" "$(NsPath)\%%~nxi\" /E /Y /D
+			)
+			)
+			for %%i in ("$(TargetDir)*.*") do (
+			if /I not "%%~dpxi"=="$(TargetDir)NetReload\" (
+			xcopy "%%i" "$(NsPath)\" /Y /D
+			)
+			)
+			)
+		</PostBuildEvent>
+  </PropertyGroup>
+</Project>
