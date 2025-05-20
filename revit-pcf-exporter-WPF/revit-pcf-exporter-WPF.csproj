@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,6 +62,8 @@
       <HintPath>..\packages\WindowsAPICodePack.7.0.4\lib\net48\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="CommunityToolkit.Mvvm" />
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\Revit API\2024\RevitAPI.dll</HintPath>
       <Private>False</Private>
@@ -137,6 +140,10 @@
     <Compile Include="Dark_PCF_Exporter_form.Designer.cs">
       <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
     </Compile>
+    <Compile Include="PcfExporterWindow.xaml.cs">
+      <DependentUpon>PcfExporterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\PcfExporterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -148,6 +155,8 @@
     <EmbeddedResource Include="Dark_PCF_Exporter_form.resx">
       <DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
     </EmbeddedResource>
+    <Page Include="PcfExporterWindow.xaml" />
+    <Page Include="Themes\Dark.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">
