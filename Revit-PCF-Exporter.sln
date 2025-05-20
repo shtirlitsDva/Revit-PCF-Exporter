@@ -270,6 +270,8 @@ Global
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{7a6fc3f4-9fce-45c3-8def-ecee853ee5c9}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{7ce9c758-1fe9-47d3-9e2b-9723930092de}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{832c9d7c-0339-44df-a8ee-04e4dc045e7b}*SharedItemsImports = 4
+		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{966efef8-343d-4cbe-9223-422d1d0864a3}*SharedItemsImports = 5
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{966efef8-343d-4cbe-9223-422d1d0864a3}*SharedItemsImports = 5
 		revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.projitems*{a2702701-d0a0-49c9-9e85-30a96a53829c}*SharedItemsImports = 13
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{b35f4ebb-90f8-4f1f-b2cc-5229a671f142}*SharedItemsImports = 13
 		Data-SHARED\Data-SHARED.projitems*{b67c53a5-3a99-40c5-bfe6-bd000a80bbda}*SharedItemsImports = 13

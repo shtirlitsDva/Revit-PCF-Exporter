@@ -7,6 +7,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Structure.StructuralSections;
 using Shared;
+using Shared.BuildingCoder;
 using fi = Shared.Filter;
 using op = Shared.Output;
 using tr = Shared.Transformation;
@@ -157,7 +158,7 @@ namespace MEPUtils.SupportTools
                                 List<(Level lvl, double dist)> levelsWithDist = new List<(Level lvl, double dist)>(levels.Count);
 
                                 //Normalize all level elevations based on the lowest
-                                var query = levels.MinBy(x => x.ProjectElevation).FirstOrDefault();
+                                var query = levels.MinBy2(x => x.ProjectElevation);
                                 if (query == null) throw new Exception("No levels found in the project!");
                                 double lowestElevation = query.ProjectElevation;
 

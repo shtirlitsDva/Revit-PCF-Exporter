@@ -38,10 +38,10 @@ namespace MoreLinq
         /// <returns>A sequence consisting of distinct elements from the source sequence,
         /// comparing them by the specified key projection.</returns>
 
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
+        public static IEnumerable<TSource> DistinctBy2<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector)
         {
-            return source.DistinctBy(keySelector, null);
+            return source.DistinctBy2(keySelector, null);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace MoreLinq
         /// <returns>A sequence consisting of distinct elements from the source sequence,
         /// comparing them by the specified key projection.</returns>
 
-        public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
+        public static IEnumerable<TSource> DistinctBy2<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));

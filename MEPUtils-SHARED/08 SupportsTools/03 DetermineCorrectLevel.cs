@@ -7,6 +7,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Structure;
 using Shared;
+using Shared.BuildingCoder;
 using fi = Shared.Filter;
 using op = Shared.Output;
 using tr = Shared.Transformation;
@@ -52,7 +53,7 @@ namespace MEPUtils.SupportTools
                                 if (result.Item2 > -1e-6) levelsWithDist.Add(result);
                             }
 
-                            var minimumLevel = levelsWithDist.MinBy(x => x.dist).FirstOrDefault();
+                            var minimumLevel = levelsWithDist.MinBy2(x => x.dist);
                             if (minimumLevel.Equals(default))
                             {
                                 throw new Exception($"Element {support.Id.ToString()} is below all levels!");

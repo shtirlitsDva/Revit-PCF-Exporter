@@ -106,7 +106,7 @@ namespace MEPUtils
                 if (result.Item2 > -1e-6) levelsWithDist.Add(result);
             }
 
-            var minimumLevel = levelsWithDist.MinBy(x => x.dist);
+            var minimumLevel = levelsWithDist.MinBy2(x => x.dist);
             if (minimumLevel.Equals(default))
             {
                 throw new Exception($"Element {pipeaccessory.Id.ToString()} is below all levels!");

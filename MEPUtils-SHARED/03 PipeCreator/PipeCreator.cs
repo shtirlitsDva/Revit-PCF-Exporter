@@ -11,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Forms;
+using Shared.BuildingCoder;
 using fi = Shared.Filter;
 using lad = MEPUtils.CreateInstrumentation.ListsAndDicts;
 using mp = Shared.MepUtils;
@@ -69,7 +70,7 @@ namespace MEPUtils
                     foreach (Connector c1 in firstCons) foreach (Connector c2 in secondCons)
                             listToCompare.Add((c1, c2, c1.Origin.DistanceTo(c2.Origin)));
 
-                    var (firstCon, secondCon, Distance) = listToCompare.MinBy(x => x.Distance).FirstOrDefault();
+                    var (firstCon, secondCon, Distance) = listToCompare.MinBy2(x => x.Distance);
                     if (firstCon == null || secondCon == null) throw new Exception("No connectors found!");
 
                     using (Transaction tx = new Transaction(doc))

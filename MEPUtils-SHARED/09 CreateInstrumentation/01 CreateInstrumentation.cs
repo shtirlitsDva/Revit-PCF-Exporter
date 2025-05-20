@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Shared.BuildingCoder;
 using dbg = Shared.Dbg;
 using fi = Shared.Filter;
 using lad = MEPUtils.CreateInstrumentation.ListsAndDicts;
@@ -343,7 +344,7 @@ namespace MEPUtils.CreateInstrumentation
                 if (result.Item2 > -1e-6) levelsWithDist.Add(result);
             }
 
-            var minimumLevel = levelsWithDist.MinBy(x => x.dist).FirstOrDefault();
+            var minimumLevel = levelsWithDist.MinBy2(x => x.dist);
             if (minimumLevel.Equals(default))
             {
                 throw new Exception($"Element {prevElem.Id.ToString()} is below all levels!");
@@ -396,7 +397,7 @@ namespace MEPUtils.CreateInstrumentation
                 if (result.Item2 > -1e-6) levelsWithDist.Add(result);
             }
 
-            var minimumLevel = levelsWithDist.MinBy(x => x.dist).FirstOrDefault();
+            var minimumLevel = levelsWithDist.MinBy2(x => x.dist);
             if (minimumLevel.Equals(default))
             {
                 minimumLevel = (levels.FirstOrDefault(), 0);

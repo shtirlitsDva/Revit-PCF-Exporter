@@ -8,6 +8,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Structure;
 using Shared;
+using Shared.BuildingCoder;
 using fi = Shared.Filter;
 using tr = Shared.Transformation;
 using mp = Shared.MepUtils;
@@ -54,7 +55,7 @@ namespace MEPUtils.MoveToDistance
 
                     foreach (Connector c1 in toMoveCons) foreach (Connector c2 in moveToCons) listToCompare.Add((c1, c2, c1.Origin.DistanceTo(c2.Origin)));
 
-                    var (toMoveCon, MoveToCon, Distance) = listToCompare.MinBy(x => x.Distance).FirstOrDefault();
+                    var (toMoveCon, MoveToCon, Distance) = listToCompare.MinBy2(x => x.Distance);
                     if (toMoveCon == null || MoveToCon == null) throw new Exception("No connectors found to move!");
 
                     XYZ moveVector = (MoveToCon.Origin - toMoveCon.Origin) * (1 - distanceToKeep / Distance);
