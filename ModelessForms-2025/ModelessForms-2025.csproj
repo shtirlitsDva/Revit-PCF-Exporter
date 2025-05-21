@@ -95,6 +95,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Shared\Forms\" />
+		<Folder Include="Shared\Forms\" />
 	</ItemGroup>
 	<Import Project="..\Data-SHARED\Data-SHARED.projitems" Label="Shared" />
 	<Import Project="..\ModelessForms-SHARED\ModelessForms-SHARED.projitems" Label="Shared" />

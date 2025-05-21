@@ -57,6 +57,20 @@
 			<Link>DarkRadioBox.cs</Link>
 			<SubType>Component</SubType>
 		</Compile>
+		<Compile Include="..\revit-pcf-exporter-FORMS\Dark_PCF_Exporter_form.cs">
+			<Link>Dark_PCF_Exporter_form.cs</Link>
+			<SubType>Form</SubType>
+		</Compile>
+		<Compile Include="..\revit-pcf-exporter-FORMS\Dark_PCF_Exporter_form.Designer.cs">
+			<Link>Dark_PCF_Exporter_form.Designer.cs</Link>
+			<DependentUpon>Dark_PCF_Exporter_form.cs</DependentUpon>
+		</Compile>
+		<Compile Include="..\revit-pcf-exporter-FORMS\Properties\Settings.Designer.cs">
+			<Link>Properties\Settings.Designer.cs</Link>
+			<DependentUpon>Settings.settings</DependentUpon>
+			<AutoGen>True</AutoGen>
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 		<COMReference Include="Microsoft.Office.Interop.Excel">
@@ -70,7 +84,7 @@
 		</COMReference>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="DarkUI" Version="2.0.2" />
+		<PackageReference Include="DarkModeUI" Version="3.1.0" />
 		<PackageReference Include="ExcelDataReader" Version="3.6.0" />
 		<PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
@@ -80,4 +94,6 @@
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
 	</ItemGroup>
+	<Import Project="..\revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems" Label="Shared" />
+	<Import Project="..\revit-shared-utilities-shared\revit-shared-utilities-shared.projitems" Label="Shared" />	
 </Project>

@@ -38,16 +38,6 @@
 		<DebugType>full</DebugType>
 	</PropertyGroup>
 	<ItemGroup>
-		<Reference Include="RevitAPI">
-			<HintPath>X:\Revit API\2025\RevitAPI.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-		<Reference Include="RevitAPIUI">
-			<HintPath>X:\Revit API\2025\RevitAPIUI.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
-	</ItemGroup>
-	<ItemGroup>
 		<COMReference Include="Microsoft.Office.Interop.Excel">
 			<WrapperTool>tlbimp</WrapperTool>
 			<VersionMinor>9</VersionMinor>
@@ -70,6 +60,16 @@
 		<PackageReference Include="Microsoft.NETCore.Platforms" Version="8.0.0-preview.7.23375.6" />
 		<PackageReference Include="System.Data.OleDb" Version="9.0.5" />
 		<PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="RevitAPI">
+	    <HintPath>..\..\..\..\Revit API\2025\RevitAPI.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="RevitAPIUI">
+	    <HintPath>..\..\..\..\Revit API\2025\RevitAPIUI.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
 	</ItemGroup>
 	<Import Project="..\revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.projitems" Label="Shared" />
 	<Import Project="..\revit-shared-utilities-shared\revit-shared-utilities-shared.projitems" Label="Shared" />

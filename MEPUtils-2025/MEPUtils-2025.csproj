@@ -96,6 +96,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Shared\Forms\" />
+	  <Folder Include="Shared\Forms\" />
 	</ItemGroup>
 	<Import Project="..\revit-shared-utilities-shared\revit-shared-utilities-shared.projitems" Label="Shared" />
 	<Import Project="..\MEPUtils-SHARED\MEPUtils-SHARED.projitems" Label="Shared" />
