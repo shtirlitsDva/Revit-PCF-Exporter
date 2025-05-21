@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-pcf-exporter-WPF", "r
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-shared-utilities-2025", "revit-shared-utilities-2025\revit-shared-utilities-2025.csproj", "{DD9CC584-FD78-DBE6-77CD-BAAD921CCEA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RibbonPanel-2025", "RibbonPanel-2025\RibbonPanel-2025.csproj", "{B3A0A9E5-1514-6131-72F1-035F476FA303}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -187,6 +189,10 @@ Global
 		{DD9CC584-FD78-DBE6-77CD-BAAD921CCEA3}.Debug|x64.Build.0 = Debug|Any CPU
 		{DD9CC584-FD78-DBE6-77CD-BAAD921CCEA3}.Release|x64.ActiveCfg = Release|Any CPU
 		{DD9CC584-FD78-DBE6-77CD-BAAD921CCEA3}.Release|x64.Build.0 = Release|Any CPU
+		{B3A0A9E5-1514-6131-72F1-035F476FA303}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B3A0A9E5-1514-6131-72F1-035F476FA303}.Debug|x64.Build.0 = Debug|Any CPU
+		{B3A0A9E5-1514-6131-72F1-035F476FA303}.Release|x64.ActiveCfg = Release|Any CPU
+		{B3A0A9E5-1514-6131-72F1-035F476FA303}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,13 +204,11 @@ Global
 		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{03f00fd4-e636-4a10-aec7-706e13c7b1ab}*SharedItemsImports = 13
 		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{18f8030b-e17e-4689-a026-259383db16dd}*SharedItemsImports = 13
 		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{1dd9d402-aeb0-4c17-96f6-2c0fbbf840bb}*SharedItemsImports = 13
-		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{2cf27ec9-0609-4011-a863-57ca26e8c61e}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{37ce9a72-66e2-4a2d-a756-6e8158c9df5a}*SharedItemsImports = 13
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{5c3bdad7-6fce-42a5-bfb9-9c057a7ce6f8}*SharedItemsImports = 13
+		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{7ce9c758-1fe9-47d3-9e2b-9723930092de}*SharedItemsImports = 4
 		revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.projitems*{a2702701-d0a0-49c9-9e85-30a96a53829c}*SharedItemsImports = 13
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{b35f4ebb-90f8-4f1f-b2cc-5229a671f142}*SharedItemsImports = 13
 		Data-SHARED\Data-SHARED.projitems*{b67c53a5-3a99-40c5-bfe6-bd000a80bbda}*SharedItemsImports = 13
-		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{caf14e9f-c14c-44d2-8a3d-c3dd28c284e2}*SharedItemsImports = 4
-		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{dd9cc584-fd78-dbe6-77cd-baad921ccea3}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
