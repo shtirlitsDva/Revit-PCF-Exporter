@@ -213,7 +213,4 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)00 Shared\Forms\" />
-  </ItemGroup>
 </Project>
