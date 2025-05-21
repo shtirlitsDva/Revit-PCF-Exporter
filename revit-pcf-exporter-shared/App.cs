@@ -12,7 +12,6 @@ using PCF_Functions;
 //using mySettings = PCF_Functions.Properties.Settings;
 using PCF_Taps;
 using System.Diagnostics;
-using PCF_Exporter.ViewModels;
 
 namespace PCF_Exporter
 {
@@ -88,10 +87,10 @@ namespace PCF_Exporter
             try
             {
                 DocumentManager.Instance.Initialize(commandData.Application.ActiveUIDocument.Document);
-                var vm = new ViewModels.PcfExporterViewModel(commandData, message);
-                var win = new PcfExporterWindow(vm);
-                win.ShowDialog();
+                Dark_PCF_Exporter_form fm = new Dark_PCF_Exporter_form(commandData, message);
+                fm.ShowDialog();
                 PCF_Exporter.Properties.Settings.Default.Save();
+                fm.Close();
                 return Result.Succeeded;
             }
 
