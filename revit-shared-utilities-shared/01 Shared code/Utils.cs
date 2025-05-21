@@ -2373,14 +2373,14 @@ const T f = ( ay * bx ) - ( ax * by );
     {
         // (C) Jonathan Skeet
         // from https://github.com/morelinq/MoreLINQ/blob/master/MoreLinq/MinBy.cs
-        public static tsource MinBy<tsource, tkey>(
+        public static tsource MinBy2<tsource, tkey>(
             this IEnumerable<tsource> source,
             Func<tsource, tkey> selector)
         {
-            return source.MinBy(selector, Comparer<tkey>.Default);
+            return source.MinBy2(selector, Comparer<tkey>.Default);
         }
 
-        public static tsource MinBy<tsource, tkey>(
+        public static tsource MinBy2<tsource, tkey>(
             this IEnumerable<tsource> source,
             Func<tsource, tkey> selector,
             IComparer<tkey> comparer)

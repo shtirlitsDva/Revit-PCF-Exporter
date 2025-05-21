@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 
 namespace SpecManager
 {
@@ -11,23 +12,23 @@ namespace SpecManager
         static SpecManager() => LoadPipeTypeData();
         private static void LoadPipeTypeData()
         {
-            var paths = new List<string>()
-            {
-                @"X:\AC - Iso\PipeSpecs",
-                @"C:\1\Norsyn\AC - Iso\PipeSpecs"
-            };
+            // Access the embedded resources in the assembly
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceNames = assembly.GetManifestResourceNames(); // Lists all embedded resources
 
-            foreach (var path in paths)
+            // Filter to only CSV resources in the "PipeSpecs" folder
+            var csvResources = new List<string>();
+            foreach (var resourceName in resourceNames)
             {
-                if (Directory.Exists(path))
+                if (resourceName.Contains(".PipeSpecs.") && resourceName.EndsWith(".csv"))
                 {
-                    var csvs = Directory.EnumerateFiles(
-                        path, "*.csv", SearchOption.TopDirectoryOnly);
-
-                    _repository = new SpecRepository();
-                    _repository.Initialize(new SpecDataLoaderCSV().Load(csvs));
+                    csvResources.Add(resourceName);
                 }
             }
+
+            // Load the CSV data from embedded resources
+            _repository = new SpecRepository();
+            _repository.Initialize(new SpecDataLoaderCSV().Load(csvResources));
         }
         public static string GetWALLTHICKNESS(string specName, string size)
         {
@@ -60,17 +61,43 @@ namespace SpecManager
     }
     public class SpecDataLoaderCSV
     {
-        public Dictionary<string, ISpec> Load(IEnumerable<string> paths)
+        public Dictionary<string, ISpec> Load(IEnumerable<string> resourceNames)
         {
             Dictionary<string, ISpec> dict = new Dictionary<string, ISpec>();
-            foreach (var path in paths)
+            var assembly = Assembly.GetExecutingAssembly();
+
+            foreach (var resourceName in resourceNames)
             {
-                string name = System.IO.Path.GetFileNameWithoutExtension(path);
-                DataTable table = Shared.DataHandler.ReadCsvToDataTable(path, name);
-                dict.Add(name, new Spec(name, table));
+                if (string.IsNullOrEmpty(resourceName)) continue;
+
+                // Read the embedded resource stream
+                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                {
+                    if (stream == null) continue;
+
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string csvContent = reader.ReadToEnd();
+                        string name = GetResourceFileNameWithoutExtension(resourceName); // Extract name
+
+                        // Convert CSV content to a DataTable
+                        DataTable table = Shared.DataHandler.ReadCsvToDataTable(csvContent, name);
+                        dict.Add(name, new Spec(name, table));
+                    }
+                }
             }
 
             return dict;
+        }
+
+        private static string GetResourceFileNameWithoutExtension(string resourceName)
+        {
+            // Extract the file name from the resource name by splitting on dots
+            var parts = resourceName.Split('.');
+
+            // Assume the last part is the file extension, the second-to-last is the file name
+            string fileName = parts[parts.Length - 2];
+            return fileName;
         }
     }
     public interface ISpec{
