@@ -34,7 +34,7 @@ namespace PCF_Functions
         public ParameterDefinition(
             string pName, ParameterDomain pDomain, ParameterUsage pUsage, 
             ForgeTypeId pType, Guid pGuid,
-            BuiltInParameterGroup pGroup) :
+            ForgeTypeId pGroup) :
             this(pName, pDomain, pUsage, pType, pGuid)
         {
             ParameterGroup = pGroup;
@@ -50,7 +50,7 @@ namespace PCF_Functions
         /// </summary>
         public string Keyword { get; }
         public ExportingTo ExportingTo { get; } //CII export to CII, LDT export to ISOGEN
-        public BuiltInParameterGroup ParameterGroup { get; } = BuiltInParameterGroup.PG_ANALYTICAL_MODEL;
+        public ForgeTypeId ParameterGroup { get; } = GroupTypeId.AnalyticalModel;
         public string GetValue(Element e)
         {
             Parameter p = e.get_Parameter(this.Guid);
@@ -260,13 +260,17 @@ namespace PCF_Functions
 
         //Parameters TAGS
         public static readonly pdef TAG_1 =
-            new pdef("TAG 1", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("a93679f7-ca9e-4a1e-bb44-0d890a5b4ba1"), BuiltInParameterGroup.PG_MECHANICAL);
+            new pdef("TAG 1", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text,
+                new Guid("a93679f7-ca9e-4a1e-bb44-0d890a5b4ba1"), GroupTypeId.Mechanical);
         public static readonly pdef TAG_2 =
-            new pdef("TAG 2", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("3b2afba4-447f-422a-8280-fd394718ad4e"), BuiltInParameterGroup.PG_MECHANICAL);
+            new pdef("TAG 2", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text,
+                new Guid("3b2afba4-447f-422a-8280-fd394718ad4e"), GroupTypeId.Mechanical);
         public static readonly pdef TAG_3 =
-            new pdef("TAG 3", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("5c238fab-f1b0-4946-9c92-c3037b8d3b68"), BuiltInParameterGroup.PG_MECHANICAL);
+            new pdef("TAG 3", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, 
+                new Guid("5c238fab-f1b0-4946-9c92-c3037b8d3b68"), GroupTypeId.Mechanical);
         public static readonly pdef TAG_4 =
-            new pdef("TAG 4", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text, new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), BuiltInParameterGroup.PG_MECHANICAL);
+            new pdef("TAG 4", ParameterDomain.ELEM, ParameterUsage.USER, pd.Text,
+                new Guid("f96a5688-8dbe-427d-aa62-f8744a6bc3ee"), GroupTypeId.Mechanical);
         #endregion
 
         public static IEnumerable<pdef> LPAll() =>

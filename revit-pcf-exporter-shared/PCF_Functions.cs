@@ -84,7 +84,12 @@ namespace PCF_Functions
         #region Element parameter definition
         //Shared parameter group
         //public const string PCF_GROUP_NAME = "PCF"; OBSOLETE
+#if REVIT2024 || REVIT2022
         public const BuiltInParameterGroup PCF_BUILTIN_GROUP_NAME = BuiltInParameterGroup.PG_ANALYTICAL_MODEL;
+#else
+        public ForgeTypeId PCF_BUILTIN_GROUP_NAME = GroupTypeId.AnalyticalModel;
+#endif
+
         #endregion
     }
 
