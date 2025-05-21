@@ -87,7 +87,7 @@ namespace PCF_Functions
 #if REVIT2024 || REVIT2022
         public const BuiltInParameterGroup PCF_BUILTIN_GROUP_NAME = BuiltInParameterGroup.PG_ANALYTICAL_MODEL;
 #else
-        public ForgeTypeId PCF_BUILTIN_GROUP_NAME = GroupTypeId.AnalyticalModel;
+        public static ForgeTypeId PCF_BUILTIN_GROUP_NAME = GroupTypeId.AnalyticalModel;
 #endif
 
         #endregion
