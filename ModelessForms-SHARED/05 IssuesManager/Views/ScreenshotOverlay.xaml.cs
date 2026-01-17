@@ -157,18 +157,26 @@ namespace ModelessForms.IssuesManager.Views
             _isSelecting = false;
             OverlayCanvas.ReleaseMouseCapture();
 
-            var width = (int)SelectionRectangle.Width;
-            var height = (int)SelectionRectangle.Height;
+            var widthDip = SelectionRectangle.Width;
+            var heightDip = SelectionRectangle.Height;
 
-            if (width < 10 || height < 10)
+            if (widthDip < 10 || heightDip < 10)
             {
                 RaiseScreenshotCaptured(null);
                 Close();
                 return;
             }
 
-            var screenX = (int)(Left + Canvas.GetLeft(SelectionRectangle));
-            var screenY = (int)(Top + Canvas.GetTop(SelectionRectangle));
+            var dpiScale = GetDpiScale();
+            var selectionLeft = Canvas.GetLeft(SelectionRectangle);
+            var selectionTop = Canvas.GetTop(SelectionRectangle);
+
+            var topLeftWpf = OverlayCanvas.PointToScreen(new Point(selectionLeft, selectionTop));
+
+            var screenX = (int)topLeftWpf.X;
+            var screenY = (int)topLeftWpf.Y;
+            var width = (int)(widthDip * dpiScale);
+            var height = (int)(heightDip * dpiScale);
 
             Hide();
 
@@ -177,6 +185,14 @@ namespace ModelessForms.IssuesManager.Views
             var imageData = _screenshotService.CaptureRegion(screenX, screenY, width, height);
             RaiseScreenshotCaptured(imageData);
             Close();
+        }
+
+        private double GetDpiScale()
+        {
+            var source = PresentationSource.FromVisual(this);
+            if (source?.CompositionTarget != null)
+                return source.CompositionTarget.TransformToDevice.M11;
+            return 1.0;
         }
 
         private void RaiseScreenshotCaptured(byte[] data)
