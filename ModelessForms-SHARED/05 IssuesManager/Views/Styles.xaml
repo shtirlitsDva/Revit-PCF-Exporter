@@ -1,0 +1,154 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="BackgroundDarkColor">#1E1E1E</Color>
+    <Color x:Key="BackgroundMediumColor">#252526</Color>
+    <Color x:Key="BackgroundLightColor">#333337</Color>
+    <Color x:Key="BorderColor">#3F3F46</Color>
+    <Color x:Key="ForegroundLightColor">#F1F1F1</Color>
+    <Color x:Key="ForegroundDimColor">#A0A0A0</Color>
+    <Color x:Key="AccentBlueColor">#007ACC</Color>
+    <Color x:Key="AccentGreenColor">#2D5A2D</Color>
+    <Color x:Key="AccentRedColor">#6E1E1E</Color>
+    <Color x:Key="AccentPurpleColor">#5B2C6F</Color>
+
+    <SolidColorBrush x:Key="BackgroundDark" Color="{StaticResource BackgroundDarkColor}"/>
+    <SolidColorBrush x:Key="BackgroundMedium" Color="{StaticResource BackgroundMediumColor}"/>
+    <SolidColorBrush x:Key="BackgroundLight" Color="{StaticResource BackgroundLightColor}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="ForegroundLight" Color="{StaticResource ForegroundLightColor}"/>
+    <SolidColorBrush x:Key="ForegroundDim" Color="{StaticResource ForegroundDimColor}"/>
+    <SolidColorBrush x:Key="AccentBlue" Color="{StaticResource AccentBlueColor}"/>
+    <SolidColorBrush x:Key="AccentGreen" Color="{StaticResource AccentGreenColor}"/>
+    <SolidColorBrush x:Key="AccentRed" Color="{StaticResource AccentRedColor}"/>
+    <SolidColorBrush x:Key="AccentPurple" Color="{StaticResource AccentPurpleColor}"/>
+
+    <Style x:Key="DarkButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource BackgroundLight}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="2">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource AccentBlue}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#005A9E"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="#2D2D2D"/>
+                            <Setter Property="Foreground" Value="#666666"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GreenButton" TargetType="Button" BasedOn="{StaticResource DarkButton}">
+        <Setter Property="Background" Value="{StaticResource AccentGreen}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#3D7A3D"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="RedButton" TargetType="Button" BasedOn="{StaticResource DarkButton}">
+        <Setter Property="Background" Value="{StaticResource AccentRed}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#8E2E2E"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="PurpleButton" TargetType="Button" BasedOn="{StaticResource DarkButton}">
+        <Setter Property="Background" Value="{StaticResource AccentPurple}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#7B4C8F"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DarkTextBox" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource BackgroundLight}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="CaretBrush" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource AccentBlue}"/>
+    </Style>
+
+    <Style x:Key="DarkComboBox" TargetType="ComboBox">
+        <Setter Property="Background" Value="{StaticResource BackgroundLight}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="6,4"/>
+    </Style>
+
+    <Style x:Key="DarkListBox" TargetType="ListBox">
+        <Setter Property="Background" Value="{StaticResource BackgroundMedium}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <Style x:Key="DarkListBoxItem" TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="Padding" Value="8,6"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="0,0,0,1">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BackgroundLight}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource AccentBlue}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DarkLabel" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style x:Key="DimLabel" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundDim}"/>
+        <Setter Property="FontSize" Value="11"/>
+    </Style>
+
+    <Style x:Key="HeaderLabel" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource ForegroundLight}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+</ResourceDictionary>

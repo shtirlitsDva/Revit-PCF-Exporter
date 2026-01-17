@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34322.80
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11408.102 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "revit-cii-neutral-exporter", "revit-cii-neutral-exporter\revit-cii-neutral-exporter.csproj", "{50023005-3134-4277-A8BE-69476807B787}"
 EndProject
@@ -208,6 +208,10 @@ Global
 		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{1dd9d402-aeb0-4c17-96f6-2c0fbbf840bb}*SharedItemsImports = 13
 		revit-ntr-exporter-SHARED\revit-ntr-exporter-SHARED.projitems*{227b9872-26fc-4b03-b229-7274dc922590}*SharedItemsImports = 5
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{227b9872-26fc-4b03-b229-7274dc922590}*SharedItemsImports = 5
+		Data-SHARED\Data-SHARED.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
+		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
+		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{2892f238-1116-4057-b444-f8a47fec33f9}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{37ce9a72-66e2-4a2d-a756-6e8158c9df5a}*SharedItemsImports = 13
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{5c3bdad7-6fce-42a5-bfb9-9c057a7ce6f8}*SharedItemsImports = 13
 		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{5f9a5a37-c644-4d4e-9976-ba1e58c46108}*SharedItemsImports = 4
@@ -216,6 +220,10 @@ Global
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{6323e000-2df4-45af-9873-88842d24f7b7}*SharedItemsImports = 4
 		PDFExporter-SHARED\PDFExporter-SHARED.projitems*{64a89be0-c11f-4691-adf0-ec3e7cdbcd50}*SharedItemsImports = 5
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{64a89be0-c11f-4691-adf0-ec3e7cdbcd50}*SharedItemsImports = 5
+		Data-SHARED\Data-SHARED.projitems*{6edbc8eb-51b1-43ea-9b20-ac8b2c058d08}*SharedItemsImports = 5
+		MEPUtils-SHARED\MEPUtils-SHARED.projitems*{6edbc8eb-51b1-43ea-9b20-ac8b2c058d08}*SharedItemsImports = 5
+		ModelessForms-SHARED\ModelessForms-SHARED.projitems*{6edbc8eb-51b1-43ea-9b20-ac8b2c058d08}*SharedItemsImports = 5
+		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{6edbc8eb-51b1-43ea-9b20-ac8b2c058d08}*SharedItemsImports = 5
 		revit-pcf-exporter-shared\revit-pcf-exporter-shared.projitems*{7a6fc3f4-9fce-45c3-8def-ecee853ee5c9}*SharedItemsImports = 4
 		revit-shared-utilities-shared\revit-shared-utilities-shared.projitems*{7a6fc3f4-9fce-45c3-8def-ecee853ee5c9}*SharedItemsImports = 4
 		RibbonPanel-SHARED\RibbonPanel-SHARED.projitems*{7ce9c758-1fe9-47d3-9e2b-9723930092de}*SharedItemsImports = 4

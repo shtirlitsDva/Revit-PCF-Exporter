@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Reflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Shared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Utils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\LinqExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)02 Connector position validation\01 SpatialValidation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)02 Connector position validation\connectorSpatialGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)02 Connector position validation\ValidationTypeSelector.cs">

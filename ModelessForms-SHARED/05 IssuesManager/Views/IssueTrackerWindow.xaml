@@ -1,0 +1,241 @@
+<Window x:Class="ModelessForms.IssuesManager.Views.IssueTrackerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Issue Tracker"
+        Width="1000" Height="700"
+        MinWidth="800" MinHeight="500"
+        Background="#1E1E1E"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{StaticResource BackgroundMedium}" Padding="10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="Collection:" Style="{StaticResource DarkLabel}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox Grid.Column="1" x:Name="CollectionComboBox" Style="{StaticResource DarkComboBox}" SelectionChanged="CollectionComboBox_SelectionChanged"/>
+                <Button Grid.Column="2" x:Name="NewCollectionButton" Content="New" Style="{StaticResource DarkButton}" Margin="10,0,5,0" Click="NewCollectionButton_Click"/>
+                <Button Grid.Column="3" x:Name="DeleteCollectionButton" Content="Delete" Style="{StaticResource RedButton}" Click="DeleteCollectionButton_Click"/>
+                <Button Grid.Column="5" x:Name="SettingsButton" Content="Settings" Style="{StaticResource DarkButton}" Click="SettingsButton_Click"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="280" MinWidth="200"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="{StaticResource BackgroundMedium}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Padding="10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                        <TextBlock Text="Issues" Style="{StaticResource HeaderLabel}"/>
+                    </Border>
+
+                    <ListBox Grid.Row="1" x:Name="IssuesListBox" Style="{StaticResource DarkListBox}"
+                             ItemContainerStyle="{StaticResource DarkListBoxItem}"
+                             SelectionChanged="IssuesListBox_SelectionChanged"
+                             BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding GetDisplayTitle}" Style="{StaticResource DarkLabel}" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Style="{StaticResource DimLabel}">
+                                        <Run Text="{Binding Created, StringFormat={}{0:yyyy-MM-dd HH:mm}}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+
+            <GridSplitter Grid.Column="1" Width="4" Background="{StaticResource BorderBrush}" HorizontalAlignment="Center"/>
+
+            <Border Grid.Column="2" Background="{StaticResource BackgroundDark}" Padding="15">
+                <Grid x:Name="DetailPanel" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Description:" Style="{StaticResource HeaderLabel}" Margin="0,0,0,8"/>
+                            <Button Grid.Column="1" x:Name="VoiceButton" Content="Voice" Style="{StaticResource GreenButton}" Margin="0,0,5,8" Click="VoiceButton_Click"/>
+                            <Button Grid.Column="2" x:Name="ClearDescButton" Content="Clear" Style="{StaticResource DarkButton}" Margin="0,0,0,8" Click="ClearDescButton_Click"/>
+                        </Grid>
+                        <TextBox x:Name="DescriptionTextBox" Style="{StaticResource DarkTextBox}"
+                                 AcceptsReturn="True" TextWrapping="Wrap"
+                                 Height="120" VerticalScrollBarVisibility="Auto"
+                                 TextChanged="DescriptionTextBox_TextChanged"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Margin="0,15,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Screenshots:" Style="{StaticResource HeaderLabel}" Margin="0,0,0,8"/>
+                            <Button Grid.Column="1" x:Name="AddScreenshotButton" Content="Add" Style="{StaticResource DarkButton}" Margin="0,0,5,8" Click="AddScreenshotButton_Click"/>
+                            <Button Grid.Column="2" x:Name="RemoveScreenshotButton" Content="Remove" Style="{StaticResource RedButton}" Margin="0,0,0,8" Click="RemoveScreenshotButton_Click"/>
+                        </Grid>
+                        <ListBox x:Name="ScreenshotsListBox" Style="{StaticResource DarkListBox}" Height="120"
+                                 BorderThickness="1" SelectionMode="Single">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Margin="2" Background="{StaticResource BackgroundLight}">
+                                        <Image Source="{Binding}" Width="100" Height="75" Stretch="Uniform"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Margin="0,15,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Related Elements:" Style="{StaticResource HeaderLabel}" Margin="0,0,0,8"/>
+                            <Button Grid.Column="1" x:Name="SelectElementsButton" Content="Select in Revit" Style="{StaticResource DarkButton}" Margin="0,0,0,8" Click="SelectElementsButton_Click"/>
+                        </Grid>
+                        <ListBox x:Name="ElementsListBox" Style="{StaticResource DarkListBox}" Height="100"
+                                 ItemContainerStyle="{StaticResource DarkListBoxItem}" BorderThickness="1">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Style="{StaticResource DimLabel}" FontFamily="Consolas"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="3" x:Name="IssueIdLabel" Style="{StaticResource DimLabel}" Margin="0,10,0,0" FontFamily="Consolas"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="2" Background="{StaticResource BackgroundMedium}" Padding="10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" x:Name="NewIssueButton" Content="New Issue" Style="{StaticResource GreenButton}" Margin="0,0,10,0" Click="NewIssueButton_Click"/>
+                <Button Grid.Column="1" x:Name="DeleteIssueButton" Content="Delete Issue" Style="{StaticResource RedButton}" Margin="0,0,10,0" Click="DeleteIssueButton_Click"/>
+                <Button Grid.Column="2" x:Name="SaveButton" Content="Save" Style="{StaticResource DarkButton}" Click="SaveButton_Click"/>
+                <Button Grid.Column="4" x:Name="PublishPdfButton" Content="Publish to PDF" Style="{StaticResource PurpleButton}" Click="PublishPdfButton_Click"/>
+            </Grid>
+        </Border>
+
+        <Border x:Name="SettingsOverlay" Grid.RowSpan="3" Background="#CC000000" Visibility="Collapsed">
+            <Border Background="{StaticResource BackgroundMedium}" Width="450" Height="350" CornerRadius="4"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Settings" Style="{StaticResource HeaderLabel}" FontSize="16" Margin="0,0,0,15"/>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="Storage Folder:" Style="{StaticResource DarkLabel}" Margin="0,0,0,5"/>
+                        <Grid Margin="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="BaseFolderTextBox" Style="{StaticResource DarkTextBox}" IsReadOnly="True"/>
+                            <Button Grid.Column="1" x:Name="BrowseFolderButton" Content="Browse" Style="{StaticResource DarkButton}" Margin="10,0,0,0" Click="BrowseFolderButton_Click"/>
+                        </Grid>
+
+                        <TextBlock Text="Azure Speech Key:" Style="{StaticResource DarkLabel}" Margin="0,0,0,5"/>
+                        <TextBox x:Name="AzureKeyTextBox" Style="{StaticResource DarkTextBox}" Margin="0,0,0,15"/>
+
+                        <TextBlock Text="Azure Speech Region:" Style="{StaticResource DarkLabel}" Margin="0,0,0,5"/>
+                        <TextBox x:Name="AzureRegionTextBox" Style="{StaticResource DarkTextBox}" Margin="0,0,0,15"/>
+
+                        <TextBlock Text="(e.g., eastus, westeurope, etc.)" Style="{StaticResource DimLabel}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="SaveSettingsButton" Content="Save" Style="{StaticResource GreenButton}" Margin="0,0,10,0" Click="SaveSettingsButton_Click"/>
+                        <Button x:Name="CancelSettingsButton" Content="Cancel" Style="{StaticResource DarkButton}" Click="CancelSettingsButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
+
+        <Border x:Name="InputOverlay" Grid.RowSpan="3" Background="#CC000000" Visibility="Collapsed">
+            <Border Background="{StaticResource BackgroundMedium}" Width="350" Height="150" CornerRadius="4"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" x:Name="InputPromptLabel" Text="Enter collection name:" Style="{StaticResource DarkLabel}" Margin="0,0,0,10"/>
+                    <TextBox Grid.Row="1" x:Name="InputTextBox" Style="{StaticResource DarkTextBox}"/>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                        <Button x:Name="InputOkButton" Content="OK" Style="{StaticResource GreenButton}" Margin="0,0,10,0" Click="InputOkButton_Click"/>
+                        <Button x:Name="InputCancelButton" Content="Cancel" Style="{StaticResource DarkButton}" Click="InputCancelButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
+    </Grid>
+</Window>

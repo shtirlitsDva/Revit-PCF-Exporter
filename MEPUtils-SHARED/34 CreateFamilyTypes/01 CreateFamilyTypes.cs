@@ -1,4 +1,4 @@
-﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.DB.Mechanical;
@@ -37,8 +37,8 @@ namespace MEPUtils.CreateFamilyTypes
             Document doc = commandData.Application.ActiveUIDocument.Document;
             UIDocument uidoc = uiApp.ActiveUIDocument;
 
-            int[] dns = [250, 200, 150, 125, 100, 80, 65, 50, 40, 32, 25, 20];
-            int[] ss = [1, 2, 3];
+            int[] dns = new int[] { 250, 200, 150, 125, 100, 80, 65, 50, 40, 32, 25, 20 };
+            int[] ss = new int[] { 1, 2, 3 };
 
 
             var fec = new FilteredElementCollector(doc);
@@ -50,36 +50,37 @@ namespace MEPUtils.CreateFamilyTypes
                 Debug.WriteLine(item.Name);
             }
 
-            using var t = new Transaction(doc, "Set parameter value");
-
-            t.Start();
-
-            try
+            using (var t = new Transaction(doc, "Set parameter value"))
             {
-                var et = query.FirstOrDefault() as ElementType;
-                if (et == null) return Result.Failed;
-                Debug.WriteLine(et.Name);
-                foreach (var dn in dns)
+                t.Start();
+
+                try
                 {
-                    foreach (var s in ss)
+                    var et = query.FirstOrDefault() as ElementType;
+                    if (et == null) return Result.Failed;
+                    Debug.WriteLine(et.Name);
+                    foreach (var dn in dns)
                     {
-                        var tname = $"{dn} S{s}";
-                        var nt = et.Duplicate(tname);
-                        if (nt == null) throw new Exception();
-                        var p1 = nt.LookupParameter("DN");
-                        p1.Set(dn);
-                        var p2 = nt.LookupParameter("Serie");
-                        p2.Set(s);
+                        foreach (var s in ss)
+                        {
+                            var tname = $"{dn} S{s}";
+                            var nt = et.Duplicate(tname);
+                            if (nt == null) throw new Exception();
+                            var p1 = nt.LookupParameter("DN");
+                            p1.Set(dn);
+                            var p2 = nt.LookupParameter("Serie");
+                            p2.Set(s);
+                        }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                t.RollBack();
-                throw;
-            }
+                catch (Exception)
+                {
+                    t.RollBack();
+                    throw;
+                }
 
-            t.Commit();
+                t.Commit();
+            }
 
             return Result.Succeeded;
         }
