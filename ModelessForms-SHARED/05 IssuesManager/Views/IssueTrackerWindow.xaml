@@ -29,6 +29,7 @@
                     <ColumnDefinition Width="200"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
@@ -36,8 +37,9 @@
                 <TextBlock Grid.Column="0" Text="Collection:" Style="{StaticResource DarkLabel}" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <ComboBox Grid.Column="1" x:Name="CollectionComboBox" Style="{StaticResource DarkComboBox}" SelectionChanged="CollectionComboBox_SelectionChanged"/>
                 <Button Grid.Column="2" x:Name="NewCollectionButton" Content="New" Style="{StaticResource DarkButton}" Margin="10,0,5,0" Click="NewCollectionButton_Click"/>
-                <Button Grid.Column="3" x:Name="DeleteCollectionButton" Content="Delete" Style="{StaticResource RedButton}" Click="DeleteCollectionButton_Click"/>
-                <Button Grid.Column="5" x:Name="SettingsButton" Content="Settings" Style="{StaticResource DarkButton}" Click="SettingsButton_Click"/>
+                <Button Grid.Column="3" x:Name="EditCollectionButton" Content="Edit" Style="{StaticResource DarkButton}" Margin="0,0,5,0" Click="EditCollectionButton_Click"/>
+                <Button Grid.Column="4" x:Name="DeleteCollectionButton" Content="Delete" Style="{StaticResource RedButton}" Click="DeleteCollectionButton_Click"/>
+                <Button Grid.Column="6" x:Name="SettingsButton" Content="Settings" Style="{StaticResource DarkButton}" Click="SettingsButton_Click"/>
             </Grid>
         </Border>
 
@@ -233,6 +235,37 @@
                     <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
                         <Button x:Name="InputOkButton" Content="OK" Style="{StaticResource GreenButton}" Margin="0,0,10,0" Click="InputOkButton_Click"/>
                         <Button x:Name="InputCancelButton" Content="Cancel" Style="{StaticResource DarkButton}" Click="InputCancelButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Border>
+
+        <Border x:Name="CollectionSettingsOverlay" Grid.RowSpan="3" Background="#CC000000" Visibility="Collapsed">
+            <Border Background="{StaticResource BackgroundMedium}" Width="400" Height="250" CornerRadius="4"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Collection Settings" Style="{StaticResource HeaderLabel}" FontSize="16" Margin="0,0,0,15"/>
+
+                    <TextBlock Grid.Row="1" Text="Project Name:" Style="{StaticResource DarkLabel}" Margin="0,0,0,5"/>
+                    <TextBox Grid.Row="2" x:Name="CollectionProjectNameTextBox" Style="{StaticResource DarkTextBox}" Margin="0,0,0,10"/>
+
+                    <TextBlock Grid.Row="3" Text="Author Name:" Style="{StaticResource DarkLabel}" Margin="0,0,0,5"/>
+                    <TextBox Grid.Row="4" x:Name="CollectionAuthorNameTextBox" Style="{StaticResource DarkTextBox}" Margin="0,0,0,10"/>
+
+                    <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                        <Button x:Name="CollectionSettingsOkButton" Content="Save" Style="{StaticResource GreenButton}" Margin="0,0,10,0" Click="CollectionSettingsOkButton_Click"/>
+                        <Button x:Name="CollectionSettingsCancelButton" Content="Cancel" Style="{StaticResource DarkButton}" Click="CollectionSettingsCancelButton_Click"/>
                     </StackPanel>
                 </Grid>
             </Border>

@@ -53,6 +53,10 @@ namespace ModelessForms.IssuesManager.Views
         private Border InputOverlay;
         private TextBlock InputPromptLabel;
         private WpfTextBox InputTextBox;
+        private Border CollectionSettingsOverlay;
+        private WpfTextBox CollectionProjectNameTextBox;
+        private WpfTextBox CollectionAuthorNameTextBox;
+        private bool _isNewCollectionFlow;
 
         public IssueTrackerWindow(ExternalEvent exEvent, ExternalEventHandler handler, Application app)
         {
@@ -108,6 +112,10 @@ namespace ModelessForms.IssuesManager.Views
             mainGrid.Children.Add(InputOverlay);
             Grid.SetRowSpan(InputOverlay, 3);
 
+            CollectionSettingsOverlay = CreateCollectionSettingsOverlay();
+            mainGrid.Children.Add(CollectionSettingsOverlay);
+            Grid.SetRowSpan(CollectionSettingsOverlay, 3);
+
             Content = mainGrid;
         }
 
@@ -124,6 +132,7 @@ namespace ModelessForms.IssuesManager.Views
             var grid = new Grid();
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(200) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -150,14 +159,20 @@ namespace ModelessForms.IssuesManager.Views
             Grid.SetColumn(newCollBtn, 2);
             grid.Children.Add(newCollBtn);
 
+            var editCollBtn = CreateButton("Edit", "#333337");
+            editCollBtn.Click += EditCollectionButton_Click;
+            editCollBtn.Margin = new Thickness(0, 0, 5, 0);
+            Grid.SetColumn(editCollBtn, 3);
+            grid.Children.Add(editCollBtn);
+
             var delCollBtn = CreateButton("Delete", "#6E1E1E");
             delCollBtn.Click += DeleteCollectionButton_Click;
-            Grid.SetColumn(delCollBtn, 3);
+            Grid.SetColumn(delCollBtn, 4);
             grid.Children.Add(delCollBtn);
 
             var settingsBtn = CreateButton("Settings", "#333337");
             settingsBtn.Click += SettingsButton_Click;
-            Grid.SetColumn(settingsBtn, 5);
+            Grid.SetColumn(settingsBtn, 6);
             grid.Children.Add(settingsBtn);
 
             border.Child = grid;
@@ -548,6 +563,88 @@ namespace ModelessForms.IssuesManager.Views
             return overlay;
         }
 
+        private Border CreateCollectionSettingsOverlay()
+        {
+            var overlay = new Border
+            {
+                Background = new SolidColorBrush(Color.FromArgb(0xCC, 0, 0, 0)),
+                Visibility = Visibility.Collapsed
+            };
+
+            var dialog = new Border
+            {
+                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#252526")),
+                Width = 400,
+                Height = 250,
+                CornerRadius = new CornerRadius(4),
+                BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3F3F46")),
+                BorderThickness = new Thickness(1),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+            var grid = new Grid { Margin = new Thickness(20) };
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+            var titleLabel = new TextBlock
+            {
+                Text = "Collection Settings",
+                Foreground = Brushes.White,
+                FontSize = 16,
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(0, 0, 0, 15)
+            };
+            Grid.SetRow(titleLabel, 0);
+            grid.Children.Add(titleLabel);
+
+            var projectLabel = new TextBlock { Text = "Project Name:", Foreground = Brushes.White, Margin = new Thickness(0, 0, 0, 5) };
+            Grid.SetRow(projectLabel, 1);
+            grid.Children.Add(projectLabel);
+
+            CollectionProjectNameTextBox = new WpfTextBox
+            {
+                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#333337")),
+                Foreground = Brushes.White,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+            Grid.SetRow(CollectionProjectNameTextBox, 2);
+            grid.Children.Add(CollectionProjectNameTextBox);
+
+            var authorLabel = new TextBlock { Text = "Author Name:", Foreground = Brushes.White, Margin = new Thickness(0, 0, 0, 5) };
+            Grid.SetRow(authorLabel, 3);
+            grid.Children.Add(authorLabel);
+
+            CollectionAuthorNameTextBox = new WpfTextBox
+            {
+                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#333337")),
+                Foreground = Brushes.White,
+                Margin = new Thickness(0, 0, 0, 10)
+            };
+            Grid.SetRow(CollectionAuthorNameTextBox, 4);
+            grid.Children.Add(CollectionAuthorNameTextBox);
+
+            var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 15, 0, 0) };
+            var saveBtn = CreateButton("Save", "#2D5A2D");
+            saveBtn.Click += CollectionSettingsOkButton_Click;
+            saveBtn.Margin = new Thickness(0, 0, 10, 0);
+            buttons.Children.Add(saveBtn);
+            var cancelBtn = CreateButton("Cancel", "#333337");
+            cancelBtn.Click += CollectionSettingsCancelButton_Click;
+            buttons.Children.Add(cancelBtn);
+            Grid.SetRow(buttons, 6);
+            grid.Children.Add(buttons);
+
+            dialog.Child = grid;
+            overlay.Child = dialog;
+            return overlay;
+        }
+
         private Button CreateButton(string content, string backgroundColor)
         {
             var btn = new Button
@@ -763,7 +860,42 @@ namespace ModelessForms.IssuesManager.Views
                 _storageService.SaveCollection(_settings.BaseFolder, newCollection);
                 LoadCollections();
                 CollectionComboBox.SelectedItem = name;
+
+                // Show collection settings overlay for new collection
+                _isNewCollectionFlow = true;
+                ShowCollectionSettingsOverlay();
             });
+        }
+
+        private void EditCollectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentCollection == null) return;
+            _isNewCollectionFlow = false;
+            ShowCollectionSettingsOverlay();
+        }
+
+        private void ShowCollectionSettingsOverlay()
+        {
+            CollectionProjectNameTextBox.Text = _currentCollection?.ProjectName ?? string.Empty;
+            CollectionAuthorNameTextBox.Text = _currentCollection?.AuthorName ?? string.Empty;
+            CollectionSettingsOverlay.Visibility = Visibility.Visible;
+            CollectionProjectNameTextBox.Focus();
+        }
+
+        private void CollectionSettingsOkButton_Click(object sender, RoutedEventArgs e)
+        {
+            CollectionSettingsOverlay.Visibility = Visibility.Collapsed;
+            if (_currentCollection != null)
+            {
+                _currentCollection.ProjectName = CollectionProjectNameTextBox.Text;
+                _currentCollection.AuthorName = CollectionAuthorNameTextBox.Text;
+                SaveCollection();
+            }
+        }
+
+        private void CollectionSettingsCancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            CollectionSettingsOverlay.Visibility = Visibility.Collapsed;
         }
 
         private void DeleteCollectionButton_Click(object sender, RoutedEventArgs e)
