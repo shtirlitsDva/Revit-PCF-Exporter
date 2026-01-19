@@ -60,6 +60,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)04 GeometryValidator\GeometryValidator.Designer.cs">
       <DependentUpon>GeometryValidator.cs</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Models\Settings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Models\Issue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Models\Collection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Services\StorageService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Services\ScreenshotService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Services\SpeechService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Services\PdfExportService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Handlers\GetSelectionHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\IssueTrackerWindow.xaml.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\ScreenshotOverlay.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Application.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings.Designer.cs">
@@ -97,6 +107,8 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSetTags32.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSnS16.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgSnS32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgIssueTracker16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgIssueTracker32.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)NLog.config">

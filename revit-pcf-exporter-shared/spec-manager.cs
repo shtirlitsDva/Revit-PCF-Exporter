@@ -69,6 +69,7 @@ namespace SpecManager
             foreach (var resourceName in resourceNames)
             {
                 if (string.IsNullOrEmpty(resourceName)) continue;
+                if (!File.Exists(resourceName)) continue;
 
                 // Read the embedded resource stream
                 using (Stream stream = assembly.GetManifestResourceStream(resourceName))

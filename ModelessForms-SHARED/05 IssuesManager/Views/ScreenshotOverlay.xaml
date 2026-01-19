@@ -1,0 +1,50 @@
+<Window x:Class="ModelessForms.IssuesManager.Views.ScreenshotOverlay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Screenshot"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="#01000000"
+        Topmost="True"
+        WindowState="Maximized"
+        Cursor="Cross"
+        KeyDown="Window_KeyDown"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseMove="Window_MouseMove"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp">
+
+    <Grid>
+        <Canvas x:Name="OverlayCanvas" Background="#80000000">
+            <Rectangle x:Name="SelectionRectangle"
+                       Stroke="#007ACC"
+                       StrokeThickness="2"
+                       Fill="#20007ACC"
+                       Visibility="Collapsed"/>
+
+            <Border x:Name="DimensionsLabel"
+                    Background="#CC1E1E1E"
+                    BorderBrush="#007ACC"
+                    BorderThickness="1"
+                    Padding="6,3"
+                    CornerRadius="2"
+                    Visibility="Collapsed">
+                <TextBlock x:Name="DimensionsText"
+                           Foreground="#F1F1F1"
+                           FontFamily="Consolas"
+                           FontSize="12"/>
+            </Border>
+        </Canvas>
+
+        <TextBlock Text="Click and drag to select region. Press ESC to cancel."
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Margin="0,50,0,0"
+                   Foreground="#F1F1F1"
+                   FontSize="16"
+                   x:Name="HintText">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="Black" ShadowDepth="2" BlurRadius="4"/>
+            </TextBlock.Effect>
+        </TextBlock>
+    </Grid>
+</Window>
