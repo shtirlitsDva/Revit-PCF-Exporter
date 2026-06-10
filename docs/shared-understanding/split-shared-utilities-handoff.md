@@ -41,15 +41,16 @@ executing:
 </state-of-the-proposal>
 
 <machine-state-warning>
-On the home machine (H:), the Revit-PCF-Exporter working tree has
-UNCOMMITTED in-flight changes that predate this analysis: modified
-`Revit-PCF-Exporter.sln`, `Revit_Piping_Analysis.addin`, several
-`revit-pcf-exporter-20XX.csproj`, and staged deletions of the whole
-`revit-pcf-exporter-FORMS\` and `revit-pcf-exporter-WPF\` projects.
-These were NOT committed with this handoff — if the next session runs on
-a different machine, that state will be missing. Reconcile before doing
-the split (the split touches the .sln and csprojs, so colliding with
-those in-flight edits is likely).
+RESOLVED: the working tree is clean and fully pushed. The previously
+in-flight changes (sln overhaul, FORMS/WPF project deletions, csproj
+changes, deploy scripts, several docs) were committed by the user in
+`5d8fde6 "removeCom"` on 2026-06-11. Note for the next session: that
+commit is large and reshapes the solution — skim its diffstat before the
+split, since the split also touches the .sln and the
+`revit-shared-utilities-20XX` csprojs. The repo now also contains
+`docs/ubiquitous-language.md` (load it per standard workflow) and
+`docs/pcf-exporter-review-and-wpf-port-plan.md` (separate WPF-port
+effort; the split should not entangle with it).
 </machine-state-warning>
 
 <related-devreload-state>
