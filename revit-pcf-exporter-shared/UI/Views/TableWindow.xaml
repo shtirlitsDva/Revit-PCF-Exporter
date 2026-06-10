@@ -1,0 +1,45 @@
+<Window x:Class="PcfExporter.UI.Views.TableWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Style="{DynamicResource {x:Type Window}}"
+        Title="PCF Exporter"
+        Width="760" Height="520"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Relative pack URI: resolves within whichever host assembly compiled this XAML -->
+                <ResourceDictionary Source="../Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- One tab per table; the DataGrid is read-only and copies rows
+             (incl. header) as tab-separated text that pastes straight into Excel -->
+        <TabControl x:Name="Tabs" Grid.Row="0">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding TableName}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <DataGrid ItemsSource="{Binding}"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <TextBlock x:Name="HintText" Margin="0,0,12,0" VerticalAlignment="Center"
+                       Text="Select rows and Ctrl+C to copy — pastes directly into Excel."/>
+            <Button Content="Copy all to clipboard" Margin="0,0,8,0" MinWidth="150" Click="CopyAllButton_Click"/>
+            <Button Content="Close" MinWidth="90" IsDefault="True" IsCancel="True" Click="CloseButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

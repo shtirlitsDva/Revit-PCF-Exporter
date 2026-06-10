@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UseWindowsForms>true</UseWindowsForms>
+		<UseWPF>true</UseWPF>
+		<PlatformTarget>x64</PlatformTarget>
+		<Platforms>x64</Platforms>
+		<IsPackable>false</IsPackable>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>PcfExporter.Tests</RootNamespace>
+		<AssemblyName>PCF-Exporter.Tests</AssemblyName>
+		<Nullable>disable</Nullable>
+		<!-- RevitAPI.dll is x64-only -->
+		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="ExcelDataReader" Version="3.6.0" />
+		<PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="System.Data.OleDb" Version="9.0.5" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+		<PackageReference Include="xunit.v3" Version="1.1.0" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="3.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\revit-pcf-exporter-2025\revit-pcf-exporter-2025.csproj" />
+	</ItemGroup>
+</Project>

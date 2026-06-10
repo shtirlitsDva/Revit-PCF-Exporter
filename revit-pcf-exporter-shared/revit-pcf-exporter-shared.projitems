@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -9,53 +9,109 @@
     <Import_RootNamespace>revit_pcf_exporter_shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DocumentManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GroupByCluster.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\Interfaces\IPcfElement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PcfElementFactory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PcfPhysicalElement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_CPFI.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_BOLT.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_FLOOR-SYMBOL.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_SUPPORT.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_INSTRUMENT-DIAL.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_TAP.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_VALVE-ANGLE.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2_EP3_CPCONS.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2_CPCONS.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2_CPFI.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_ELBOW.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_TEE-STUB.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_FLANGE-BLIND.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_FLANGE.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_PIPE.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_REDUCER-ECCENTRIC.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_EP1_EP2.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\PhysicalElement\PCF_TEE.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PcfVirtualElement.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_STARTPOINT.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_FIELDWELD.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_ISOSPLITPOINT.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCFElementModel\VirtualElement\PCF_VIRTUAL_NN_GASKET.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Accessories.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_EndsAndConnections.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Filtering.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Fittings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Functions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Main.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Output.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_ParameterData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Parameters.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipeline.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipeline_Filename.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipeline_StartPoint.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Pipes.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Supports.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PCF_Taps.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SharedStagingArea.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)spec-manager.cs" />
+    <!-- App (ribbon, commands, window controller) -->
+    <Compile Include="$(MSBuildThisFileDirectory)App\App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App\DefineTapConnection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App\PcfWindowController.cs" />
+    <!-- Configuration -->
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\PcfConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigurationStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\FileConfigurationStore.cs" />
+    <!-- Context -->
+    <Compile Include="$(MSBuildThisFileDirectory)Context\IRevitContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Context\RevitContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Context\IRevitExecutor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Context\RevitExecutor.cs" />
+    <!-- ElementSource -->
+    <Compile Include="$(MSBuildThisFileDirectory)ElementSource\ElementFilters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ElementSource\IElementSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ElementSource\RevitElementSource.cs" />
+    <!-- Excel -->
+    <!-- Model -->
+    <Compile Include="$(MSBuildThisFileDirectory)Model\BrokenPipesGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ExportSession.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\IPcfElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ParameterRegistry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PcfElementFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PcfElementTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PcfPhysicalElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PcfVirtualElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_BOLT.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_CPFI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_ELBOW.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_EP1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_EP1_EP2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_EP1_EP2_CPCONS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_EP1_EP2_CPFI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_EP1_EP2_EP3_CPCONS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_FLANGE-BLIND.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_FLANGE.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_FLOOR-SYMBOL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_INSTRUMENT-DIAL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_OLET.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_Pipe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_REDUCER-ECCENTRIC.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_SUPPORT.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_TAP.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_TEE-STUB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_TEE.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Physical\PCF_VALVE-ANGLE.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Virtual\PCF_VIRTUAL_FIELDWELD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Virtual\PCF_VIRTUAL_ISOSPLITPOINT.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Virtual\PCF_VIRTUAL_NN_GASKET.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Virtual\PCF_VIRTUAL_STARTPOINT.cs" />
+    <!-- Orchestration -->
+    <Compile Include="$(MSBuildThisFileDirectory)Orchestration\PcfExportService.cs" />
+    <!-- Output -->
+    <Compile Include="$(MSBuildThisFileDirectory)Output\IOutputWriter.cs" />
+    <!-- Services -->
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ParameterBindingService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ParameterReportService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ParameterPopulationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ScheduleService.cs" />
+    <!-- Writer -->
+    <Compile Include="$(MSBuildThisFileDirectory)Writer\Composers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writer\EndpointWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writer\EndsAndConnectionsWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writer\PcfFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writer\PipelineWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writer\SpecTables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writer\TagWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Writer\TapsWriter.cs" />
+    <!-- UI -->
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ClipboardText.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DarkTitleBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\IDialogService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DialogService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\ViewModels\MainViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Views\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Views\TableWindow.xaml.cs">
+      <DependentUpon>TableWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Views\TableWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Views\MessageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgPcfExport16.png" />
@@ -64,12 +120,6 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgSupports32.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgTapCon16.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)ImgTapCon32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)LDT.xlsx" />
-    <None Include="$(MSBuildThisFileDirectory)packages.config">
-      <SubType>Designer</SubType>
-    </None>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\C02.csv" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\C03.csv" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\C08.csv" />
@@ -77,8 +127,9 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)PipeSpecs\S03.csv" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Example workbooks kept for repo users to copy the expected format from -->
+    <None Include="$(MSBuildThisFileDirectory)LDT.xlsx" />
     <Content Include="$(MSBuildThisFileDirectory)license.txt" />
     <Content Include="$(MSBuildThisFileDirectory)PCF_DEVELOPEMENT_01.xlsx" />
-    <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
   </ItemGroup>
 </Project>

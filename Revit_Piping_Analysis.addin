@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>
 	<AddIn Type="Application">    
-		<Assembly>X:\GitHub\shtirlitsDva\Revit-PCF-Exporter\revit-pcf-exporter\bin\Release\PCF-Exporter.dll</Assembly>
+		<Assembly>X:\GitHub\shtirlitsDva\Revit-PCF-Exporter\revit-pcf-exporter-2025\bin\Release\PCF-Exporter.dll</Assembly>
 		<ClientId>73348466-3f81-4752-8283-1b5dd6b04c3b</ClientId>
-		<FullClassName>PCF_Exporter.App</FullClassName>
+		<FullClassName>PcfExporter.App.App</FullClassName>
 		<Name>PCF Tools</Name>
 		<VendorId>MGTek</VendorId>
 		<VendorDescription>MGTek, info@mgtek.dk</VendorDescription>

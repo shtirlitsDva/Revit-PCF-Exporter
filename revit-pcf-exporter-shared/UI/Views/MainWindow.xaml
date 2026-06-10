@@ -1,0 +1,278 @@
+<Window x:Class="PcfExporter.UI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:PcfExporter.UI.Converters"
+        Style="{DynamicResource {x:Type Window}}"
+        Title="PCF Exporter"
+        Width="980" Height="720"
+        MinWidth="760" MinHeight="560"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Relative pack URI: resolves within whichever host assembly compiled this XAML -->
+                <ResourceDictionary Source="../Theme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <conv:EnumToBooleanConverter x:Key="EnumToBool"/>
+            <conv:InverseBooleanConverter x:Key="InverseBool"/>
+            <conv:BooleanToVisibilityCollapsedConverter x:Key="BoolToVisibility"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBool}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT: actions -->
+            <TabControl Grid.Column="0" Margin="0,0,8,0">
+
+                <!-- SETUP TAB -->
+                <TabItem Header="Setup">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="8">
+
+                            <GroupBox Header="PCF parameter MANAGEMENT" Margin="0,0,0,8">
+                                <UniformGrid Columns="2">
+                                    <Button Content="Import PCF parameters" Margin="4" Height="44"
+                                            Command="{Binding ImportParametersCommand}"/>
+                                    <Button Content="Delete PCF parameters" Margin="4" Height="44"
+                                            Command="{Binding DeleteParametersCommand}"/>
+                                </UniformGrid>
+                            </GroupBox>
+
+                            <GroupBox Header="PCF parameter INITIALIZATION" Margin="0,0,0,8">
+                                <Grid Margin="4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Row="0" Grid.Column="0" Margin="4"
+                                            Content="Select ELEMENT parameter setup file"
+                                            Command="{Binding SelectElementsExcelCommand}"/>
+                                    <Button Grid.Row="0" Grid.Column="1" Margin="4"
+                                            Content="Select PIPELINE parameter setup file (LDT)"
+                                            Command="{Binding SelectLdtCommand}"/>
+
+                                    <TextBox Grid.Row="1" Grid.Column="0" Margin="4"
+                                             Text="{Binding ElementsExcelPath, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1" Margin="4"
+                                             Text="{Binding LdtPath, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    <Button Grid.Row="2" Grid.Column="0" Margin="4"
+                                            Content="Export undefined ELEMENTS"
+                                            Command="{Binding ExportUndefinedElementsCommand}"/>
+                                    <Button Grid.Row="2" Grid.Column="1" Margin="4"
+                                            Content="Export undefined PIPELINES"
+                                            Command="{Binding ExportUndefinedPipelinesCommand}"/>
+
+                                    <Button Grid.Row="3" Grid.Column="0" Margin="4"
+                                            Content="Populate PCF parameters ELEMENT"
+                                            Command="{Binding PopulateElementsCommand}"/>
+                                    <Button Grid.Row="3" Grid.Column="1" Margin="4"
+                                            Content="Populate PCF parameters PIPELINE"
+                                            Command="{Binding PopulatePipelinesCommand}"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Header="Write mode" Margin="0,0,0,8">
+                                <StackPanel Orientation="Horizontal" Margin="4">
+                                    <RadioButton Content="Overwrite" GroupName="WriteMode" Margin="4"
+                                                 IsChecked="{Binding Overwrite}"/>
+                                    <RadioButton Content="Append (only fill empty)" GroupName="WriteMode" Margin="12,4,4,4"
+                                                 IsChecked="{Binding Overwrite, Converter={StaticResource InverseBool}}"/>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="Create and export element schedules">
+                                <StackPanel Orientation="Horizontal" Margin="4">
+                                    <Button Content="Create schedules" Margin="4" MinWidth="140"
+                                            Command="{Binding CreateSchedulesCommand}"/>
+                                    <Button Content="Show current parameter values" Margin="4" MinWidth="180"
+                                            Command="{Binding ExportCurrentValuesCommand}"/>
+                                </StackPanel>
+                            </GroupBox>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- EXPORT TAB -->
+                <TabItem Header="Export">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="8">
+
+                            <GroupBox Header="Output folder" Margin="0,0,0,8">
+                                <Grid Margin="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Margin="4"
+                                             Text="{Binding OutputDirectory, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <Button Grid.Column="1" Content="Browse…" Margin="4" MinWidth="90"
+                                            Command="{Binding SelectOutputDirectoryCommand}"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <UniformGrid Columns="2">
+                                <GroupBox Header="Bore units" Margin="0,0,4,8">
+                                    <StackPanel Margin="4">
+                                        <RadioButton Content="Millimeters" GroupName="Bore" Margin="4"
+                                                     IsChecked="{Binding BoreUnits, Converter={StaticResource EnumToBool}, ConverterParameter=Mm}"/>
+                                        <RadioButton Content="Inches" GroupName="Bore" Margin="4"
+                                                     IsChecked="{Binding BoreUnits, Converter={StaticResource EnumToBool}, ConverterParameter=Inch}"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Coordinate units" Margin="4,0,0,8">
+                                    <StackPanel Margin="4">
+                                        <RadioButton Content="Millimeters" GroupName="Coords" Margin="4"
+                                                     IsChecked="{Binding CoordsUnits, Converter={StaticResource EnumToBool}, ConverterParameter=Mm}"/>
+                                        <RadioButton Content="Inches" GroupName="Coords" Margin="4"
+                                                     IsChecked="{Binding CoordsUnits, Converter={StaticResource EnumToBool}, ConverterParameter=Inch}"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Weight units" Margin="0,0,4,8">
+                                    <StackPanel Margin="4">
+                                        <RadioButton Content="Kilograms" GroupName="Weight" Margin="4"
+                                                     IsChecked="{Binding WeightUnits, Converter={StaticResource EnumToBool}, ConverterParameter=Kgs}"/>
+                                        <RadioButton Content="Pounds" GroupName="Weight" Margin="4"
+                                                     IsChecked="{Binding WeightUnits, Converter={StaticResource EnumToBool}, ConverterParameter=Lbs}"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Weight-length units" Margin="4,0,0,8">
+                                    <StackPanel Margin="4">
+                                        <RadioButton Content="Meter" GroupName="WeightLength" Margin="4"
+                                                     IsChecked="{Binding WeightLengthUnits, Converter={StaticResource EnumToBool}, ConverterParameter=Meter}"/>
+                                        <RadioButton Content="Feet" GroupName="WeightLength" Margin="4"
+                                                     IsChecked="{Binding WeightLengthUnits, Converter={StaticResource EnumToBool}, ConverterParameter=Feet}"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Output encoding" Margin="0,0,4,8">
+                                    <StackPanel Margin="4">
+                                        <RadioButton Content="ANSI (system default)" GroupName="Encoding" Margin="4"
+                                                     IsChecked="{Binding OutputEncoding, Converter={StaticResource EnumToBool}, ConverterParameter=Ansi}"/>
+                                        <RadioButton Content="UTF-8 with BOM" GroupName="Encoding" Margin="4"
+                                                     IsChecked="{Binding OutputEncoding, Converter={StaticResource EnumToBool}, ConverterParameter=Utf8Bom}"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Exporting to" Margin="4,0,0,8">
+                                    <StackPanel Margin="4">
+                                        <CheckBox Content="Plant 3D / ISOGEN" Margin="4"
+                                                  IsChecked="{Binding ExportToIsogen}"/>
+                                        <CheckBox Content="CII (CAESAR II)" Margin="4"
+                                                  IsChecked="{Binding ExportToCii}"/>
+                                    </StackPanel>
+                                </GroupBox>
+                            </UniformGrid>
+
+                            <Button Content="Export PCF"
+                                    Style="{StaticResource AccentButton}"
+                                    Height="48" Margin="4,8,4,4"
+                                    Command="{Binding ExportCommand}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- HELP TAB -->
+                <TabItem Header="Help">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="12">
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Workflow" Margin="0,0,0,4"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,12"
+                                       Text="1. Import PCF parameters (creates the shared parameter bindings in the project).&#x0a;2. Select the ELEMENT and PIPELINE (LDT) setup workbooks.&#x0a;3. Use 'Export undefined …' to find element types and pipelines missing from the workbooks; define them in Excel.&#x0a;4. Populate PCF parameters from the workbooks.&#x0a;5. Choose scope and options, then Export PCF."/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Taps" Margin="0,0,0,4"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,12"
+                                       Text="Use the Taps button on the ribbon to define a tap connection: select the tapped element first, the tapping element second."/>
+                            <TextBlock Style="{StaticResource HeaderText}" Text="Documentation" Margin="0,0,0,4"/>
+                            <TextBlock TextWrapping="Wrap"
+                                       Text="https://github.com/shtirlitsDva/Revit-PCF-Exporter"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+            </TabControl>
+
+            <!-- RIGHT: scope -->
+            <GroupBox Grid.Column="1" Header="Scope">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="8">
+
+                        <GroupBox Header="PROJECT-IDENTIFIER" Margin="0,0,0,8">
+                            <TextBox Margin="4"
+                                     Text="{Binding ProjectIdentifier, UpdateSourceTrigger=PropertyChanged}"/>
+                        </GroupBox>
+
+                        <GroupBox Header="Pipelines to export" Margin="0,0,0,8">
+                            <StackPanel Margin="4">
+                                <RadioButton Content="All pipelines, one file" GroupName="PipelineScope" Margin="4"
+                                             IsChecked="{Binding Scope, Converter={StaticResource EnumToBool}, ConverterParameter=AllInOneFile}"/>
+                                <RadioButton Content="All pipelines, separate files" GroupName="PipelineScope" Margin="4"
+                                             IsChecked="{Binding Scope, Converter={StaticResource EnumToBool}, ConverterParameter=AllInSeparateFiles}"/>
+                                <RadioButton Content="Specific pipeline:" GroupName="PipelineScope" Margin="4"
+                                             IsChecked="{Binding Scope, Converter={StaticResource EnumToBool}, ConverterParameter=SpecificPipeline}"/>
+                                <Grid Margin="20,0,4,4"
+                                      Visibility="{Binding IsSpecificPipeline, Converter={StaticResource BoolToVisibility}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox Grid.Column="0"
+                                              ItemsSource="{Binding Pipelines}"
+                                              SelectedItem="{Binding SelectedSystemAbbreviation}"/>
+                                    <Button Grid.Column="1" Content="⟳" Margin="4,0,0,0" MinWidth="28"
+                                            ToolTip="Refresh pipeline list from the model"
+                                            Command="{Binding RefreshPipelinesCommand}"/>
+                                </Grid>
+                                <RadioButton Content="Current selection" GroupName="PipelineScope" Margin="4"
+                                             IsChecked="{Binding Scope, Converter={StaticResource EnumToBool}, ConverterParameter=Selection}"/>
+                                <TextBlock Style="{StaticResource CaptionText}" Margin="4"
+                                           Text="Pipelines are grouped by System Abbreviation."/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Diameter limit" Margin="0,0,0,8">
+                            <StackPanel Margin="4">
+                                <TextBox Width="120" HorizontalAlignment="Left" Margin="4"
+                                         Text="{Binding DiameterLimit, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Style="{StaticResource ErrorText}" Margin="4"
+                                           Text="{Binding DiameterLimitError}"/>
+                                <TextBlock Style="{StaticResource CaptionText}" Margin="4"
+                                           Text="Elements with connector diameters below or equal to the specified nominal size will not be exported."/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Parameter filter">
+                            <StackPanel Margin="4">
+                                <TextBox Margin="4"
+                                         Text="{Binding SpecFilter, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Style="{StaticResource CaptionText}" Margin="4"
+                                           Text="Elements with a matching PCF_ELEM_SPEC value will not be exported. Leave empty to disable."/>
+                            </StackPanel>
+                        </GroupBox>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </GroupBox>
+        </Grid>
+
+        <!-- Status bar. No progress bar on purpose: Revit work runs synchronously on
+             the UI thread inside the ExternalEvent, so any animation would freeze. -->
+        <TextBlock Grid.Row="1" Margin="0,8,0,0" Text="{Binding StatusText}" VerticalAlignment="Center"/>
+    </Grid>
+</Window>
