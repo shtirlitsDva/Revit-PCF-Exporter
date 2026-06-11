@@ -56,5 +56,16 @@ namespace PcfExporter.App
 
             _window.Show();
         }
+
+        /// <summary>
+        /// Terminate-time cleanup (App.OnShutdown): closing the window runs
+        /// its Closed handler, which disposes the ExternalEvent executor and
+        /// clears the static keepers. Must run on the UI thread — DevReload's
+        /// teardown executes in Revit API context, which is that thread.
+        /// </summary>
+        public static void Shutdown()
+        {
+            _window?.Close();
+        }
     }
 }

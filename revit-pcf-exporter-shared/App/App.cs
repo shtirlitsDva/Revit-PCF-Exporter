@@ -33,6 +33,28 @@ namespace PcfExporter.App
         public int Order { get; set; }
     }
 
+    /// <summary>
+    /// Lifecycle hooks — the Revit analog of AutoCAD's Initialize/Terminate.
+    /// DevReload runs OnShutdown before every unload/reload, so everything a
+    /// generation of this addin holds (the modeless window, its ExternalEvent
+    /// executor, any future event subscriptions) must be released here; the
+    /// next generation then starts clean instead of leaving a stale window
+    /// running old code.
+    /// </summary>
+    public class App : IExternalApplication
+    {
+        public Result OnStartup(UIControlledApplication application)
+        {
+            return Result.Succeeded;
+        }
+
+        public Result OnShutdown(UIControlledApplication application)
+        {
+            PcfWindowController.Shutdown();
+            return Result.Succeeded;
+        }
+    }
+
     /// <summary>Opens (or activates) the modeless PCF exporter window.</summary>
     [Transaction(TransactionMode.Manual)]
     [DevReloadButton(Text = "PCF",
