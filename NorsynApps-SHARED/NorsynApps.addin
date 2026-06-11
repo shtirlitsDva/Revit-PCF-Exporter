@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>NorsynApps</Name>
+    <!-- Relative path, resolved from THIS manifest's location. Deploy
+         layout (same convention as DevReload's Deploy-RevitAddins.ps1):
+           %APPDATA%\Autodesk\Revit\Addins\<year>\NorsynApps.addin   (this file)
+           %APPDATA%\Autodesk\Revit\Addins\<year>\NorsynApps\*.dll   (payload)
+         Revit only scans the Addins root for manifests. -->
+    <Assembly>NorsynApps\NorsynApps.dll</Assembly>
+    <AddInId>7d3f2e51-9a44-4c2b-b1de-0a51c4e8a930</AddInId>
+    <FullClassName>NorsynApps.NorsynAppsApp</FullClassName>
+    <VendorId>NORSYN</VendorId>
+    <VendorDescription>Norsyn</VendorDescription>
+  </AddIn>
+</RevitAddIns>

@@ -1,7 +1,5 @@
+#nullable enable
 using System;
-using System.IO;
-using System.Reflection;
-using System.Windows.Media.Imaging;
 
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -9,67 +7,38 @@ using Autodesk.Revit.UI;
 
 namespace PcfExporter.App
 {
-    [Transaction(TransactionMode.Manual)]
-    public class App : IExternalApplication
+    /// <summary>
+    /// Ribbon-button metadata for this addin's commands. Read BY NAME via
+    /// reflection by two renderers: the DevReload host (dev-time hot-reload
+    /// ribbon, "DevReload" tab) and the NorsynApps standalone reflector
+    /// (release ribbon, "Norsyn" tab). Each addin declares its own copy of
+    /// this attribute — there is intentionally no shared contract assembly.
+    /// Icons are embedded-resource name suffixes; both are optional
+    /// (text-only buttons are legal).
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class DevReloadButtonAttribute : Attribute
     {
-        public const string PcfExporterButtonToolTip = "Export piping data to PCF";
-        public const string TapConnectionButtonToolTip = "Define a tap connection";
-
-        private static readonly string ExecutingAssemblyPath = Assembly.GetExecutingAssembly().Location;
-
-        public Result OnStartup(UIControlledApplication application)
-        {
-            AddMenu(application);
-            return Result.Succeeded;
-        }
-
-        public Result OnShutdown(UIControlledApplication application) => Result.Succeeded;
-
-        private static void AddMenu(UIControlledApplication application)
-        {
-            Assembly exe = Assembly.GetExecutingAssembly();
-            RibbonPanel panel = application.CreateRibbonPanel("PCFE");
-
-            var pcfData = new PushButtonData(
-                "PCFExporter", "PCF", ExecutingAssemblyPath, typeof(PcfExporterCommand).FullName)
-            {
-                ToolTip = PcfExporterButtonToolTip,
-                Image = EmbeddedImage(exe, "ImgPcfExport16.png"),
-                LargeImage = EmbeddedImage(exe, "ImgPcfExport32.png")
-            };
-            panel.AddItem(pcfData);
-
-            var tapsData = new PushButtonData(
-                "TAPConnection", "Taps", ExecutingAssemblyPath, typeof(TapsCommand).FullName)
-            {
-                ToolTip = TapConnectionButtonToolTip,
-                Image = EmbeddedImage(exe, "ImgTapCon16.png"),
-                LargeImage = EmbeddedImage(exe, "ImgTapCon32.png")
-            };
-            panel.AddItem(tapsData);
-        }
-
-        private static BitmapImage EmbeddedImage(Assembly assembly, string imageNameSuffix)
-        {
-            //Resource names are prefixed with the (per-host) root namespace; match by suffix.
-            foreach (string name in assembly.GetManifestResourceNames())
-            {
-                if (!name.EndsWith(imageNameSuffix, StringComparison.OrdinalIgnoreCase)) continue;
-                Stream stream = assembly.GetManifestResourceStream(name);
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.StreamSource = stream;
-                image.EndInit();
-                return image;
-            }
-            //A missing icon means the build or projitems broke — fail at startup, loudly.
-            throw new InvalidOperationException(
-                $"Embedded ribbon image '{imageNameSuffix}' was not found in {assembly.GetName().Name}.");
-        }
+        public string? Text { get; set; }
+        public string? Tooltip { get; set; }
+        public string? LongDescription { get; set; }
+        public string? Icon16 { get; set; }
+        public string? Icon32 { get; set; }
+        public string? Panel { get; set; }
+        public string? Group { get; set; }
+        public string? GroupKind { get; set; }
+        public string? Stack { get; set; }
+        public bool SeparatorBefore { get; set; }
+        public bool SlideOut { get; set; }
+        public int Order { get; set; }
     }
 
     /// <summary>Opens (or activates) the modeless PCF exporter window.</summary>
     [Transaction(TransactionMode.Manual)]
+    [DevReloadButton(Text = "PCF",
+        Tooltip = "Export piping data to PCF",
+        Icon16 = "ImgPcfExport16.png", Icon32 = "ImgPcfExport32.png",
+        Panel = "PCFE", Order = 0)]
     public class PcfExporterCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -88,6 +57,10 @@ namespace PcfExporter.App
 
     /// <summary>Interactive command: define a tap connection between two elements.</summary>
     [Transaction(TransactionMode.Manual)]
+    [DevReloadButton(Text = "Taps",
+        Tooltip = "Define a tap connection",
+        Icon16 = "ImgTapCon16.png", Icon32 = "ImgTapCon32.png",
+        Panel = "PCFE", Order = 1)]
     public class TapsCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)

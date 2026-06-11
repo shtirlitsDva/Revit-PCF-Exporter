@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>2e6b2371-225f-4f4a-84a8-bf6ba5a5cd50</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>NorsynApps</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommandBrowser.cs" />
+    <!-- LINKED SOURCE from the sibling DevReload repo — one implementation
+         of attribute scan / layout / rendering shared by the dev-time
+         DevReload ribbon and this release reflector. Requires the DevReload
+         repo checked out next to this one. -->
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\DevReload\src\Revit\RevitDevReload.Shared\Core\CommandScanner.cs">
+      <Link>DevReload\CommandScanner.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\DevReload\src\Revit\RevitDevReload.Shared\Core\RibbonDefinition.cs">
+      <Link>DevReload\RibbonDefinition.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\DevReload\src\Revit\RevitDevReload.Shared\Host\RibbonBuilder.cs">
+      <Link>DevReload\RibbonBuilder.cs</Link>
+    </Compile>
+  </ItemGroup>
+</Project>
