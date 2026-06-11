@@ -73,4 +73,6 @@
 		<PackageReference Include="System.Data.OleDb" Version="9.0.5" />
 	</ItemGroup>	
 	<Import Project="..\revit-shared-utilities-shared\revit-shared-utilities-shared.projitems" Label="Shared" />
+	<Import Project="..\revit-shared-utilities-tools-SHARED\revit-shared-utilities-tools-SHARED.projitems" Label="Shared" />
+	<Import Project="..\revit-shared-utilities-app-SHARED\revit-shared-utilities-app-SHARED.projitems" Label="Shared" />
 </Project>
