@@ -126,6 +126,13 @@ More than two elements selected + CTRL
             data.Image = NewBitmapImage(exe, "MyRibbonPanel.Resources.ImgSetMark16.png");
             data.LargeImage = NewBitmapImage(exe, "MyRibbonPanel.Resources.ImgSetMark32.png");
             PushButton SetMark = rvtRibbonPanel.AddItem(data) as PushButton;
+
+            //Element3DRotation
+            data = new PushButtonData("Element3DRotation", "3D Rotate", ExecutingAssemblyPath, "MyRibbonPanel.Element3DRotationCaller");
+            data.ToolTip = "Rotate selected element(s) around their own X/Y/Z axes,\nor around a picked linear axis. Opens a modeless window.";
+            data.Image = NewBitmapImage(exe, "MyRibbonPanel.Resources.Img3DRotate16.png");
+            data.LargeImage = NewBitmapImage(exe, "MyRibbonPanel.Resources.Img3DRotate32.png");
+            PushButton Element3DRotation = rvtRibbonPanel.AddItem(data) as PushButton;
         }
     }
 
@@ -277,6 +284,15 @@ More than two elements selected + CTRL
         {
             Result result = MEPUtils.SetMark.SetMark.SetMarkExecute(commandData);
             return result;
+        }
+    }
+
+    [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    class Element3DRotationCaller : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            return MEPUtils.Element3DRotation.Element3DRotationApp.Launch(commandData);
         }
     }
 }

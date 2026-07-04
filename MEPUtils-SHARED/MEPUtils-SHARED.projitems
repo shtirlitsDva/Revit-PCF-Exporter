@@ -149,6 +149,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)34 CreateFamilyTypes\01 CreateFamilyTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)33 SetParValueAndIncrement\01 SetParValueAndIncrement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)33 SetParValueAndIncrement\02 SetParsFromME.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)35 Element3DRotation\Element3DRotation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)35 Element3DRotation\RotateOptionsWindow.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MEPUtils.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +208,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)24 SelectByGuid\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)35 Element3DRotation\XYZ.png">
+      <LogicalName>MEPUtils.Element3DRotation.XYZ.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)35 Element3DRotation\PlusMinusRotation.png">
+      <LogicalName>MEPUtils.Element3DRotation.PlusMinusRotation.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)MEPUtils.resx">
       <DependentUpon>MEPUtils.cs</DependentUpon>

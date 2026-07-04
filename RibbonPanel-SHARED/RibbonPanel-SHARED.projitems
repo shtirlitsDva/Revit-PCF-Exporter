@@ -9,6 +9,8 @@
     <Import_RootNamespace>RibbonPanel_SHARED</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Img3DRotate16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Img3DRotate32.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgConnectConnectors16.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgConnectConnectors32.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ImgMEPUtils16.png" />

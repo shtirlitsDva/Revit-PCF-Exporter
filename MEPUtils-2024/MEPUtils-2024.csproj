@@ -63,6 +63,7 @@
       <HintPath>..\packages\NLog.5.2.8\lib\net46\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI">
       <HintPath>X:\Revit API\2024\RevitAPI.dll</HintPath>
       <Private>False</Private>
