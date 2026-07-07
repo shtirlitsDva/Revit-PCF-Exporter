@@ -27,8 +27,9 @@ using log = Shared.SimpleLogger;
 
 namespace MEPUtils.PipingSystemsAndFilters
 {
+    [Shared.DevReloadButton(Text = "Spindle QA", Tooltip = "Check valve spindle orientation against tolerance.", Group = "Analysis & QA", Panel = "MEP", Order = 183, Icon16 = "ImgMUSpindleQa16.png", Icon32 = "ImgMUSpindleQa32.png")]
     [Transaction(TransactionMode.Manual)]
-    class TestSpindleOrientation : IExternalCommand
+    public class TestSpindleOrientation : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

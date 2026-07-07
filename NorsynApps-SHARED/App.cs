@@ -69,6 +69,18 @@ namespace NorsynApps
             }
 
             CreateBrowserButton(application);
+
+#if COMMANDPALETTE
+            // Dockable command palette (first-til-mølle): register the pane, then
+            // publish every scanned addin's [DevReloadButton] commands into it.
+            // Compiled where COMMANDPALETTE is defined (every year that references
+            // CommandPalette.Core — 2022/2024/2025).
+            Norsyn.CommandPalette.CommandPalette.EnsurePane(application);
+            foreach (AddinAssembly addin in _addins)
+                Norsyn.CommandPalette.CommandPalette.Register(addin.Assembly);
+            CreatePaletteButton(application);
+#endif
+
             return Result.Succeeded;
         }
 
@@ -81,7 +93,20 @@ namespace NorsynApps
         private static IEnumerable<string> CandidateAddinFiles()
         {
             string selfPath = Assembly.GetExecutingAssembly().Location;
-            string folder = Path.GetDirectoryName(selfPath)!;
+            string? folder = string.IsNullOrEmpty(selfPath)
+                ? null : Path.GetDirectoryName(selfPath);
+
+            // Location is empty when this assembly was byte-loaded into a collectible
+            // ALC (e.g. loaded via DevReload rather than as a normal .addin). The
+            // reflector's folder scan makes no sense there — skip it gracefully
+            // instead of throwing, so the rest of OnStartup (incl. the palette) runs.
+            if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+            {
+                _failures.Add(
+                    "Addin folder could not be located (no file path for this " +
+                    "assembly — likely loaded via DevReload); reflector scan skipped.");
+                yield break;
+            }
 
             foreach (string dll in Directory.GetFiles(folder, "*.dll"))
             {
@@ -196,6 +221,27 @@ namespace NorsynApps
             };
             panel.AddItem(data);
         }
+
+#if COMMANDPALETTE
+        // The ribbon button that shows/hides the dockable command palette. Also the
+        // point where a live ExternalCommandData is captured for pane command runs.
+        private static void CreatePaletteButton(UIControlledApplication application)
+        {
+            RibbonPanel panel = application.CreateRibbonPanel(TabName, "Palette");
+            Type command = typeof(Norsyn.CommandPalette.Commands.ShowCommandPaletteCommand);
+            var data = new PushButtonData(
+                "NorsynApps.ShowCommandPalette",
+                "Norsyn\nCommands",
+                command.Assembly.Location,
+                command.FullName)
+            {
+                ToolTip = "Show or hide the Norsyn Commands dockable palette — a " +
+                          "docked home for every command that stays put no matter " +
+                          "which ribbon tab is active.",
+            };
+            panel.AddItem(data);
+        }
+#endif
     }
 
     internal sealed class AddinAssembly

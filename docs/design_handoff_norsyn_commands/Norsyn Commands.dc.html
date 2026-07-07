@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#1b1b1d;font-family:'Segoe UI','Segoe UI Web',-apple-system,Roboto,'Helvetica Neue',sans-serif;-webkit-font-smoothing:antialiased;}
+  a{color:#7fb0d6;text-decoration:none;} a:hover{color:#a6cdea;}
+  ::-webkit-scrollbar{width:9px;height:9px;}
+  ::-webkit-scrollbar-thumb{background:#4a4a4f;border-radius:5px;}
+  ::-webkit-scrollbar-thumb:hover{background:#5a5a60;}
+  ::-webkit-scrollbar-track{background:transparent;}
+</style>
+<meta name="design_doc_mode" content="canvas">
+</helmet>
+
+<section style="padding:40px 44px 80px;">
+  <div style="max-width:960px;margin-bottom:26px;color:#e8e8e8;">
+    <div style="font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:#7fb0d6;margin-bottom:8px;">Norsyn Commands &middot; Revit dockable pane</div>
+    <div style="font-size:27px;font-weight:700;margin-bottom:10px;letter-spacing:-.2px;">Three directions for the command palette</div>
+    <div style="font-size:13.5px;line-height:1.65;color:#adadad;max-width:740px;">All three mockups are live &mdash; type in the search box, switch <b style="color:#cdcdcd;">Category / Source / A&ndash;Z</b>, click a header to collapse it, and tap the <span style="color:#E2B93B;">&#9733;</span> stars to pin commands. The floating <b style="color:#cdcdcd;">Favorites</b> palette (drag it by its header) updates instantly. Shown at a ~300px docked width in Revit&rsquo;s dark theme.</div>
+    <div style="margin-top:14px;font-size:12px;color:#8a8a8a;">Jump to: <a href="#1a">1a Dense list</a> &nbsp;&middot;&nbsp; <a href="#1b">1b Icon grid</a> &nbsp;&middot;&nbsp; <a href="#1c">1c Command palette</a></div>
+  </div>
+
+  <div style="display:flex;gap:44px;flex-wrap:wrap;align-items:flex-start;">
+
+    <!-- ============================ 1A DENSE LIST ============================ -->
+    <div id="1a" style="width:940px;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:8px;">
+        <span style="background:#0e639c;color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:4px;">1a</span>
+        <span style="font-size:18px;font-weight:600;color:#ededed;">A &middot; Dense list</span>
+      </div>
+      <div style="font-size:12.5px;color:#9a9a9a;line-height:1.55;margin-bottom:14px;max-width:900px;">Tightest rows &mdash; closest to a native Revit / Visual Studio tool window, best raw scan-density. Scales to 80+ via live search plus collapse. The fold tension is eased by an always-visible <b style="color:#b8b8b8;">Expand all</b> and by auto-expanding every group the moment you start typing.</div>
+
+      <div style="width:900px;border:1px solid #141414;border-radius:5px;overflow:hidden;box-shadow:0 14px 44px rgba(0,0,0,.5);">
+        <!-- titlebar -->
+        <div style="height:28px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#3a3a3a;border-bottom:1px solid #2a2a2a;">
+          <span style="font-size:11.5px;color:#cfcfcf;">Autodesk Revit 2026 &mdash; Plant_Model.rvt</span>
+          <div style="margin-left:auto;display:flex;gap:16px;color:#8a8a8a;font-size:11px;"><span>&mdash;</span><span>&#9633;</span><span>&#10005;</span></div>
+        </div>
+        <!-- ribbon -->
+        <div style="background:#2f2f2f;">
+          <div style="display:flex;padding:0 6px;border-bottom:1px solid #232323;">
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Architecture</span>
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Systems</span>
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Annotate</span>
+            <span style="padding:6px 10px;font-size:11px;color:#fff;background:#383838;border-top:2px solid #4a90c2;">Modify</span>
+            <span style="padding:6px 10px;font-size:11px;color:#6f6f6f;">Norsyn</span>
+          </div>
+          <div style="height:50px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#383838;">
+            <div style="width:34px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="width:34px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="width:58px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="margin-left:14px;font-size:10.5px;color:#c98b8b;display:flex;align-items:center;gap:6px;"><span style="font-size:12px;">&#9650;</span> Selecting an element jumped Revit to <b style="color:#e0a0a0;">Modify</b> &mdash; the Norsyn tab lost focus. The pane didn&rsquo;t.</div>
+          </div>
+        </div>
+        <!-- body -->
+        <div style="display:flex;height:472px;background:#383838;">
+          <div style="flex:1;position:relative;overflow:hidden;">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,#404040,#333);"></div>
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:28px 28px;"></div>
+            <div style="position:absolute;left:150px;top:96px;width:300px;height:190px;border:1.5px solid rgba(255,255,255,.10);"></div>
+            <div style="position:absolute;left:192px;top:140px;width:150px;height:104px;border:1px solid rgba(90,150,200,.20);background:rgba(90,150,200,.05);"></div>
+            <div style="position:absolute;left:70px;top:270px;width:380px;height:2px;background:rgba(120,180,230,.20);transform:rotate(-19deg);transform-origin:left;"></div>
+            <div style="position:absolute;left:110px;top:110px;width:2px;height:230px;background:rgba(120,180,230,.16);"></div>
+            <div style="position:absolute;right:12px;bottom:10px;font-size:10px;color:rgba(255,255,255,.28);">Model view &middot; the pane stays docked on every ribbon tab</div>
+            <sc-if value="{{ a.miniShow }}" hint-placeholder-val="{{ true }}">
+              <div style="{{ a.miniPos }}">
+                <div style="background:#2b2b2e;border:1px solid #45454b;border-radius:6px;box-shadow:0 12px 34px rgba(0,0,0,.55);overflow:hidden;">
+                  <div onMouseDown="{{ a.onMiniDown }}" style="display:flex;align-items:center;gap:7px;padding:6px 9px;background:#333337;cursor:move;border-bottom:1px solid #26262a;user-select:none;">
+                    <span style="color:#E2B93B;font-size:12px;">&#9733;</span>
+                    <span style="font-size:11px;font-weight:600;color:#e8e8e8;flex:1;">Favorites</span>
+                    <button onClick="{{ toggleFavText }}" title="Show / hide labels" style="{{ favTextBtn }}">Aa</button>
+                    <svg width="10" height="14" viewBox="0 0 10 14" fill="#6a6a6a"><circle cx="2.5" cy="2.5" r="1.3"/><circle cx="7.5" cy="2.5" r="1.3"/><circle cx="2.5" cy="7" r="1.3"/><circle cx="7.5" cy="7" r="1.3"/><circle cx="2.5" cy="11.5" r="1.3"/><circle cx="7.5" cy="11.5" r="1.3"/></svg>
+                  </div>
+                  <sc-if value="{{ favShow }}" hint-placeholder-val="{{ true }}">
+                    <div>
+                      <sc-if value="{{ favText }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:flex;flex-direction:column;padding:4px;">
+                          <sc-for list="{{ favItems }}" as="cmd" hint-placeholder-count="6">
+                            <button title="{{ cmd.tip }}" style="display:flex;align-items:center;gap:8px;padding:4px 6px;background:none;border:none;border-radius:4px;cursor:pointer;font-family:inherit;text-align:left;" style-hover="background:#3a3a41;">
+                              <div style="{{ cmd.iconStyle }}">{{ cmd.mono }}</div>
+                              <span style="font-size:11.5px;color:#e2e2e2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ cmd.label }}</span>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ favTextOff }}" hint-placeholder-val="{{ false }}">
+                        <div style="display:flex;flex-wrap:wrap;gap:5px;padding:8px;">
+                          <sc-for list="{{ favItems }}" as="cmd" hint-placeholder-count="6">
+                            <button title="{{ cmd.label }}" style="padding:0;background:none;border:none;cursor:pointer;" style-hover="filter:brightness(1.15);">
+                              <div style="{{ cmd.iconMid }}">{{ cmd.mono }}</div>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ favEmpty }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:16px 14px;text-align:center;color:#8a8a8a;font-size:11px;line-height:1.5;">No favorites yet.<br/>Star commands in the palette to pin them here.</div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <!-- PANE A -->
+          <div style="width:300px;display:flex;flex-direction:column;background:#2d2d30;border-left:1px solid #1e1e1e;">
+            <div style="height:32px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#333337;border-bottom:1px solid #26262a;flex:none;">
+              <span style="font-size:12px;font-weight:600;color:#e8e8e8;letter-spacing:.2px;">Norsyn Commands</span>
+              <button onClick="{{ a.toggleMini }}" style="margin-left:auto;background:#0e639c;border:none;color:#fff;font-size:11px;padding:3px 9px;border-radius:3px;cursor:pointer;font-family:inherit;">&#9733; Favorites</button>
+            </div>
+            <div style="padding:8px;background:#2d2d30;border-bottom:1px solid #26262a;display:flex;flex-direction:column;gap:7px;flex:none;">
+              <div style="display:flex;align-items:center;gap:6px;background:#1e1e1e;border:1px solid #4a4a4f;border-radius:3px;padding:5px 8px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" stroke-width="2.4"><circle cx="10.5" cy="10.5" r="7"/><line x1="21" y1="21" x2="16" y2="16"/></svg>
+                <input value="{{ a.query }}" onChange="{{ a.onSearch }}" placeholder="Search commands&hellip;" style="flex:1;background:none;border:none;outline:none;color:#eaeaea;font-size:12px;font-family:inherit;" />
+              </div>
+              <div style="display:flex;gap:3px;background:#232326;border-radius:4px;padding:2px;">
+                <button onClick="{{ a.viewCat }}" style="{{ a.btnCat }}">Category</button>
+                <button onClick="{{ a.viewSrc }}" style="{{ a.btnSrc }}">Source</button>
+                <button onClick="{{ a.viewAz }}" style="{{ a.btnAz }}">A&ndash;Z</button>
+              </div>
+              <div style="display:flex;align-items:center;font-size:10.5px;color:#8a8a8a;">
+                <span>{{ a.count }} commands</span>
+                <button onClick="{{ a.expandAll }}" style="margin-left:auto;background:none;border:none;color:#7fb0d6;font-size:10.5px;cursor:pointer;font-family:inherit;">Expand all</button>
+                <span style="color:#4a4a4f;padding:0 3px;">&middot;</span>
+                <button onClick="{{ a.collapseAll }}" style="background:none;border:none;color:#7fb0d6;font-size:10.5px;cursor:pointer;font-family:inherit;">Collapse all</button>
+              </div>
+            </div>
+            <div style="flex:1;overflow-y:auto;background:#2d2d30;">
+              <sc-for list="{{ a.groups }}" as="g" hint-placeholder-count="4">
+                <div style="border-bottom:1px solid #26262a;">
+                  <sc-if value="{{ g.label }}" hint-placeholder-val="{{ true }}">
+                    <div onClick="{{ g.toggle }}" style="display:flex;align-items:center;gap:7px;padding:6px 9px;cursor:pointer;background:#313135;user-select:none;" style-hover="background:#3a3a3f;">
+                      <span style="font-size:9px;color:#9a9a9a;width:9px;">{{ g.chev }}</span>
+                      <span style="{{ g.dotStyle }}"></span>
+                      <span style="font-size:11px;font-weight:600;color:#d8d8d8;flex:1;">{{ g.label }}</span>
+                      <span style="font-size:10px;color:#7a7a7a;">{{ g.count }}</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ g.shown }}" hint-placeholder-val="{{ true }}">
+                    <div>
+                      <sc-for list="{{ g.items }}" as="cmd" hint-placeholder-count="3">
+                        <div title="{{ cmd.tip }}" style="display:flex;align-items:center;gap:8px;padding:4px 9px 4px 12px;" style-hover="background:#3a3a3f;">
+                          <div style="{{ cmd.iconStyle }}">{{ cmd.mono }}</div>
+                          <span style="flex:1;font-size:12px;color:#e2e2e2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ cmd.label }}</span>
+                          <button onClick="{{ cmd.toggleFav }}" style="{{ cmd.starStyle }}" style-hover="filter:brightness(1.4);">{{ cmd.star }}</button>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================ 1B ICON GRID ============================ -->
+    <div id="1b" style="width:940px;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:8px;">
+        <span style="background:#0e639c;color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:4px;">1b</span>
+        <span style="font-size:18px;font-weight:600;color:#ededed;">B &middot; Icon-forward grid</span>
+      </div>
+      <div style="font-size:12.5px;color:#9a9a9a;line-height:1.55;margin-bottom:14px;max-width:900px;">Colour-coded tiles you recognise by shape &mdash; fewer words, more visual scanning, comfortable in a narrow 2-column dock. Trades vertical density for recognition speed; at 80+ commands the grid stays browsable but search does the heavy lifting. Headers still collapse, so you can fold whole categories away.</div>
+
+      <div style="width:900px;border:1px solid #141414;border-radius:5px;overflow:hidden;box-shadow:0 14px 44px rgba(0,0,0,.5);">
+        <div style="height:28px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#3a3a3a;border-bottom:1px solid #2a2a2a;">
+          <span style="font-size:11.5px;color:#cfcfcf;">Autodesk Revit 2026 &mdash; Plant_Model.rvt</span>
+          <div style="margin-left:auto;display:flex;gap:16px;color:#8a8a8a;font-size:11px;"><span>&mdash;</span><span>&#9633;</span><span>&#10005;</span></div>
+        </div>
+        <div style="background:#2f2f2f;">
+          <div style="display:flex;padding:0 6px;border-bottom:1px solid #232323;">
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Architecture</span>
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Systems</span>
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Annotate</span>
+            <span style="padding:6px 10px;font-size:11px;color:#fff;background:#383838;border-top:2px solid #4a90c2;">Modify</span>
+            <span style="padding:6px 10px;font-size:11px;color:#6f6f6f;">Norsyn</span>
+          </div>
+          <div style="height:50px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#383838;">
+            <div style="width:34px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="width:34px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="width:58px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="margin-left:14px;font-size:10.5px;color:#8a8a8a;">Docked right &mdash; resize or float it like Properties or Project Browser.</div>
+          </div>
+        </div>
+        <div style="display:flex;height:472px;background:#383838;">
+          <div style="flex:1;position:relative;overflow:hidden;">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,#404040,#333);"></div>
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:28px 28px;"></div>
+            <div style="position:absolute;left:150px;top:96px;width:300px;height:190px;border:1.5px solid rgba(255,255,255,.10);"></div>
+            <div style="position:absolute;left:70px;top:280px;width:380px;height:2px;background:rgba(120,180,230,.20);transform:rotate(-16deg);transform-origin:left;"></div>
+            <div style="position:absolute;left:120px;top:120px;width:2px;height:220px;background:rgba(120,180,230,.16);"></div>
+            <div style="position:absolute;right:12px;bottom:10px;font-size:10px;color:rgba(255,255,255,.28);">Model view &middot; the pane stays docked on every ribbon tab</div>
+            <sc-if value="{{ b.miniShow }}" hint-placeholder-val="{{ true }}">
+              <div style="{{ b.miniPos }}">
+                <div style="background:#2b2b2e;border:1px solid #45454b;border-radius:6px;box-shadow:0 12px 34px rgba(0,0,0,.55);overflow:hidden;">
+                  <div onMouseDown="{{ b.onMiniDown }}" style="display:flex;align-items:center;gap:7px;padding:6px 9px;background:#333337;cursor:move;border-bottom:1px solid #26262a;user-select:none;">
+                    <span style="color:#E2B93B;font-size:12px;">&#9733;</span>
+                    <span style="font-size:11px;font-weight:600;color:#e8e8e8;flex:1;">Favorites</span>
+                    <button onClick="{{ toggleFavText }}" title="Show / hide labels" style="{{ favTextBtn }}">Aa</button>
+                    <svg width="10" height="14" viewBox="0 0 10 14" fill="#6a6a6a"><circle cx="2.5" cy="2.5" r="1.3"/><circle cx="7.5" cy="2.5" r="1.3"/><circle cx="2.5" cy="7" r="1.3"/><circle cx="7.5" cy="7" r="1.3"/><circle cx="2.5" cy="11.5" r="1.3"/><circle cx="7.5" cy="11.5" r="1.3"/></svg>
+                  </div>
+                  <sc-if value="{{ favShow }}" hint-placeholder-val="{{ true }}">
+                    <div>
+                      <sc-if value="{{ favText }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:flex;flex-direction:column;padding:4px;">
+                          <sc-for list="{{ favItems }}" as="cmd" hint-placeholder-count="6">
+                            <button title="{{ cmd.tip }}" style="display:flex;align-items:center;gap:8px;padding:4px 6px;background:none;border:none;border-radius:4px;cursor:pointer;font-family:inherit;text-align:left;" style-hover="background:#3a3a41;">
+                              <div style="{{ cmd.iconStyle }}">{{ cmd.mono }}</div>
+                              <span style="font-size:11.5px;color:#e2e2e2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ cmd.label }}</span>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ favTextOff }}" hint-placeholder-val="{{ false }}">
+                        <div style="display:flex;flex-wrap:wrap;gap:5px;padding:8px;">
+                          <sc-for list="{{ favItems }}" as="cmd" hint-placeholder-count="6">
+                            <button title="{{ cmd.label }}" style="padding:0;background:none;border:none;cursor:pointer;" style-hover="filter:brightness(1.15);">
+                              <div style="{{ cmd.iconMid }}">{{ cmd.mono }}</div>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ favEmpty }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:16px 14px;text-align:center;color:#8a8a8a;font-size:11px;line-height:1.5;">No favorites yet.<br/>Star commands in the palette to pin them here.</div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <!-- PANE B -->
+          <div style="width:300px;display:flex;flex-direction:column;background:#2d2d30;border-left:1px solid #1e1e1e;">
+            <div style="height:32px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#333337;border-bottom:1px solid #26262a;flex:none;">
+              <span style="font-size:12px;font-weight:600;color:#e8e8e8;letter-spacing:.2px;">Norsyn Commands</span>
+              <button onClick="{{ b.toggleMini }}" style="margin-left:auto;background:#0e639c;border:none;color:#fff;font-size:11px;padding:3px 9px;border-radius:3px;cursor:pointer;font-family:inherit;">&#9733; Favorites</button>
+            </div>
+            <div style="padding:8px;background:#2d2d30;border-bottom:1px solid #26262a;display:flex;flex-direction:column;gap:7px;flex:none;">
+              <div style="display:flex;align-items:center;gap:6px;background:#1e1e1e;border:1px solid #4a4a4f;border-radius:3px;padding:5px 8px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a8a8a" stroke-width="2.4"><circle cx="10.5" cy="10.5" r="7"/><line x1="21" y1="21" x2="16" y2="16"/></svg>
+                <input value="{{ b.query }}" onChange="{{ b.onSearch }}" placeholder="Search commands&hellip;" style="flex:1;background:none;border:none;outline:none;color:#eaeaea;font-size:12px;font-family:inherit;" />
+              </div>
+              <div style="display:flex;gap:3px;background:#232326;border-radius:4px;padding:2px;">
+                <button onClick="{{ b.viewCat }}" style="{{ b.btnCat }}">Category</button>
+                <button onClick="{{ b.viewSrc }}" style="{{ b.btnSrc }}">Source</button>
+                <button onClick="{{ b.viewAz }}" style="{{ b.btnAz }}">A&ndash;Z</button>
+              </div>
+              <div style="display:flex;align-items:center;font-size:10.5px;color:#8a8a8a;">
+                <span>{{ b.count }} commands</span>
+                <button onClick="{{ b.expandAll }}" style="margin-left:auto;background:none;border:none;color:#7fb0d6;font-size:10.5px;cursor:pointer;font-family:inherit;">Expand all</button>
+                <span style="color:#4a4a4f;padding:0 3px;">&middot;</span>
+                <button onClick="{{ b.collapseAll }}" style="background:none;border:none;color:#7fb0d6;font-size:10.5px;cursor:pointer;font-family:inherit;">Collapse all</button>
+              </div>
+            </div>
+            <div style="flex:1;overflow-y:auto;background:#2d2d30;padding-bottom:6px;">
+              <sc-for list="{{ b.groups }}" as="g" hint-placeholder-count="4">
+                <div>
+                  <sc-if value="{{ g.label }}" hint-placeholder-val="{{ true }}">
+                    <div onClick="{{ g.toggle }}" style="display:flex;align-items:center;gap:7px;padding:6px 9px;cursor:pointer;background:#313135;user-select:none;" style-hover="background:#3a3a3f;">
+                      <span style="font-size:9px;color:#9a9a9a;width:9px;">{{ g.chev }}</span>
+                      <span style="{{ g.dotStyle }}"></span>
+                      <span style="font-size:11px;font-weight:600;color:#d8d8d8;flex:1;">{{ g.label }}</span>
+                      <span style="font-size:10px;color:#7a7a7a;">{{ g.count }}</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ g.shown }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px;">
+                      <sc-for list="{{ g.items }}" as="cmd" hint-placeholder-count="4">
+                        <div title="{{ cmd.tip }}" style="position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px 8px;background:#333338;border:1px solid #3c3c42;border-radius:5px;" style-hover="background:#3a3a41;border-color:#4a4a52;">
+                          <div style="{{ cmd.tileIcon }}">{{ cmd.mono }}</div>
+                          <span style="font-size:10px;line-height:1.15;text-align:center;color:#d5d5d5;height:25px;overflow:hidden;">{{ cmd.label }}</span>
+                          <button onClick="{{ cmd.toggleFav }}" style="{{ cmd.starTileStyle }}" style-hover="filter:brightness(1.4);">{{ cmd.star }}</button>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================ 1C COMMAND PALETTE ============================ -->
+    <div id="1c" style="width:940px;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:8px;">
+        <span style="background:#0e639c;color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:4px;">1c</span>
+        <span style="font-size:18px;font-weight:600;color:#ededed;">C &middot; Search-first command palette</span>
+      </div>
+      <div style="font-size:12.5px;color:#9a9a9a;line-height:1.55;margin-bottom:14px;max-width:900px;">One big field, results below, <b style="color:#b8b8b8;">nothing ever folded</b> &mdash; optimised for &ldquo;type three letters, hit Enter.&rdquo; It resolves the hide-things tension by never hiding: categories are just quiet dividers. Scales effectively without limit because you rarely scroll, you filter. Shown pre-filtered on <span style="color:#cdcdcd;">&ldquo;ins&rdquo;</span> &mdash; clear it to see all.</div>
+
+      <div style="width:900px;border:1px solid #141414;border-radius:5px;overflow:hidden;box-shadow:0 14px 44px rgba(0,0,0,.5);">
+        <div style="height:28px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#3a3a3a;border-bottom:1px solid #2a2a2a;">
+          <span style="font-size:11.5px;color:#cfcfcf;">Autodesk Revit 2026 &mdash; Plant_Model.rvt</span>
+          <div style="margin-left:auto;display:flex;gap:16px;color:#8a8a8a;font-size:11px;"><span>&mdash;</span><span>&#9633;</span><span>&#10005;</span></div>
+        </div>
+        <div style="background:#2f2f2f;">
+          <div style="display:flex;padding:0 6px;border-bottom:1px solid #232323;">
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Architecture</span>
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Systems</span>
+            <span style="padding:6px 10px;font-size:11px;color:#b0b0b0;">Annotate</span>
+            <span style="padding:6px 10px;font-size:11px;color:#fff;background:#383838;border-top:2px solid #4a90c2;">Modify</span>
+            <span style="padding:6px 10px;font-size:11px;color:#6f6f6f;">Norsyn</span>
+          </div>
+          <div style="height:50px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#383838;">
+            <div style="width:34px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="width:34px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="width:58px;height:34px;border-radius:4px;background:#484848;"></div>
+            <div style="margin-left:14px;font-size:10.5px;color:#8a8a8a;">Keyboard-first &mdash; focus the pane, type, run. No hunting on the ribbon.</div>
+          </div>
+        </div>
+        <div style="display:flex;height:472px;background:#383838;">
+          <div style="flex:1;position:relative;overflow:hidden;">
+            <div style="position:absolute;inset:0;background:linear-gradient(135deg,#404040,#333);"></div>
+            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:28px 28px;"></div>
+            <div style="position:absolute;left:150px;top:96px;width:300px;height:190px;border:1.5px solid rgba(255,255,255,.10);"></div>
+            <div style="position:absolute;left:70px;top:275px;width:380px;height:2px;background:rgba(120,180,230,.20);transform:rotate(-18deg);transform-origin:left;"></div>
+            <div style="position:absolute;left:120px;top:110px;width:2px;height:230px;background:rgba(120,180,230,.16);"></div>
+            <div style="position:absolute;right:12px;bottom:10px;font-size:10px;color:rgba(255,255,255,.28);">Model view &middot; the pane stays docked on every ribbon tab</div>
+            <sc-if value="{{ c.miniShow }}" hint-placeholder-val="{{ true }}">
+              <div style="{{ c.miniPos }}">
+                <div style="background:#2b2b2e;border:1px solid #45454b;border-radius:6px;box-shadow:0 12px 34px rgba(0,0,0,.55);overflow:hidden;">
+                  <div onMouseDown="{{ c.onMiniDown }}" style="display:flex;align-items:center;gap:7px;padding:6px 9px;background:#333337;cursor:move;border-bottom:1px solid #26262a;user-select:none;">
+                    <span style="color:#E2B93B;font-size:12px;">&#9733;</span>
+                    <span style="font-size:11px;font-weight:600;color:#e8e8e8;flex:1;">Favorites</span>
+                    <button onClick="{{ toggleFavText }}" title="Show / hide labels" style="{{ favTextBtn }}">Aa</button>
+                    <svg width="10" height="14" viewBox="0 0 10 14" fill="#6a6a6a"><circle cx="2.5" cy="2.5" r="1.3"/><circle cx="7.5" cy="2.5" r="1.3"/><circle cx="2.5" cy="7" r="1.3"/><circle cx="7.5" cy="7" r="1.3"/><circle cx="2.5" cy="11.5" r="1.3"/><circle cx="7.5" cy="11.5" r="1.3"/></svg>
+                  </div>
+                  <sc-if value="{{ favShow }}" hint-placeholder-val="{{ true }}">
+                    <div>
+                      <sc-if value="{{ favText }}" hint-placeholder-val="{{ true }}">
+                        <div style="display:flex;flex-direction:column;padding:4px;">
+                          <sc-for list="{{ favItems }}" as="cmd" hint-placeholder-count="6">
+                            <button title="{{ cmd.tip }}" style="display:flex;align-items:center;gap:8px;padding:4px 6px;background:none;border:none;border-radius:4px;cursor:pointer;font-family:inherit;text-align:left;" style-hover="background:#3a3a41;">
+                              <div style="{{ cmd.iconStyle }}">{{ cmd.mono }}</div>
+                              <span style="font-size:11.5px;color:#e2e2e2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ cmd.label }}</span>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ favTextOff }}" hint-placeholder-val="{{ false }}">
+                        <div style="display:flex;flex-wrap:wrap;gap:5px;padding:8px;">
+                          <sc-for list="{{ favItems }}" as="cmd" hint-placeholder-count="6">
+                            <button title="{{ cmd.label }}" style="padding:0;background:none;border:none;cursor:pointer;" style-hover="filter:brightness(1.15);">
+                              <div style="{{ cmd.iconMid }}">{{ cmd.mono }}</div>
+                            </button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ favEmpty }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:16px 14px;text-align:center;color:#8a8a8a;font-size:11px;line-height:1.5;">No favorites yet.<br/>Star commands in the palette to pin them here.</div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <!-- PANE C -->
+          <div style="width:300px;display:flex;flex-direction:column;background:#2d2d30;border-left:1px solid #1e1e1e;">
+            <div style="height:32px;display:flex;align-items:center;gap:8px;padding:0 10px;background:#333337;border-bottom:1px solid #26262a;flex:none;">
+              <span style="font-size:12px;font-weight:600;color:#e8e8e8;letter-spacing:.2px;">Norsyn Commands</span>
+              <button onClick="{{ c.toggleMini }}" style="margin-left:auto;background:#0e639c;border:none;color:#fff;font-size:11px;padding:3px 9px;border-radius:3px;cursor:pointer;font-family:inherit;">&#9733; Favorites</button>
+            </div>
+            <div style="padding:12px 12px 10px;background:#2d2d30;border-bottom:1px solid #26262a;flex:none;">
+              <div style="display:flex;align-items:center;gap:9px;background:#1e1e1e;border:1px solid #4a90c2;border-radius:5px;padding:9px 11px;box-shadow:0 0 0 2px rgba(74,144,194,.15);">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9fb8cc" stroke-width="2.4"><circle cx="10.5" cy="10.5" r="7"/><line x1="21" y1="21" x2="16" y2="16"/></svg>
+                <input value="{{ c.query }}" onChange="{{ c.onSearch }}" placeholder="Type to filter commands&hellip;" style="flex:1;background:none;border:none;outline:none;color:#f2f2f2;font-size:14px;font-family:inherit;" />
+                <span style="font-size:10px;color:#8a8a8a;border:1px solid #4a4a4f;border-radius:3px;padding:1px 6px;">&crarr; run</span>
+              </div>
+              <div style="display:flex;gap:3px;margin-top:8px;background:#232326;border-radius:4px;padding:2px;">
+                <button onClick="{{ c.viewCat }}" style="{{ c.btnCat }}">Category</button>
+                <button onClick="{{ c.viewSrc }}" style="{{ c.btnSrc }}">Source</button>
+                <button onClick="{{ c.viewAz }}" style="{{ c.btnAz }}">A&ndash;Z</button>
+              </div>
+              <div style="margin-top:7px;font-size:10.5px;color:#8a8a8a;">{{ c.count }} results &middot; nothing folded</div>
+            </div>
+            <div style="flex:1;overflow-y:auto;background:#2d2d30;">
+              <sc-for list="{{ c.groups }}" as="g" hint-placeholder-count="6">
+                <div>
+                  <sc-if value="{{ g.label }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;align-items:center;gap:6px;padding:10px 12px 3px;">
+                      <span style="{{ g.dotStyle }}"></span>
+                      <span style="font-size:9.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:#8a8a8a;">{{ g.label }}</span>
+                    </div>
+                  </sc-if>
+                  <sc-for list="{{ g.items }}" as="cmd" hint-placeholder-count="3">
+                    <div title="{{ cmd.tip }}" style="display:flex;align-items:center;gap:9px;padding:6px 12px;" style-hover="background:#0e639c;">
+                      <div style="{{ cmd.iconStyle }}">{{ cmd.mono }}</div>
+                      <span style="flex:1;font-size:12.5px;color:#eaeaea;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ cmd.label }}</span>
+                      <span style="font-size:10px;color:#7a7a7a;white-space:nowrap;">{{ cmd.source }}</span>
+                      <button onClick="{{ cmd.toggleFav }}" style="{{ cmd.starStyle }}" style-hover="filter:brightness(1.4);">{{ cmd.star }}</button>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.CATS=[
+      ['Insulation','#2E8B8B'],['Pipe & Geometry','#3A6EA5'],['Instrumentation','#7A4FA3'],
+      ['Piping Systems','#3C8C4A'],['Parameters & Tagging','#C67A2E'],['Rooms, Levels & Docs','#A8503C'],
+      ['Family','#A03A7A'],['Analysis & QA','#52667A'],['Connectors','#B06028'],['Supports','#5A6470']
+    ].map(function(x){return {key:x[0],color:x[1]};});
+    var C=[
+      ['IC','Create all insulation','Insulation','MEPUtils','Add insulation to every pipe in the current selection or view.'],
+      ['ID','Delete all insulation','Insulation','MEPUtils','Remove insulation from the selected pipes.'],
+      ['IS','Insulation settings','Insulation','MEPUtils','Configure default insulation type and thickness rules.'],
+      ['FL','Create flanges','Pipe & Geometry','MEPUtils','Place flanges automatically at pipe connections.'],
+      ['PP','Pipe from connector','Pipe & Geometry','MEPUtils','Draw a new pipe starting from a selected connector.'],
+      ['MV','Move to distance','Pipe & Geometry','MEPUtils','Move selected elements a precise distance along an axis.'],
+      ['DS','Element from DirectShape','Pipe & Geometry','MEPUtils','Convert a DirectShape into a native family element.'],
+      ['IN','Create instrument','Instrumentation','MEPUtils','Place an instrument family on the selected line.'],
+      ['IZ','Create instrument NN','Instrumentation','MEPUtils','Place an instrument and auto-assign its NN number.'],
+      ['PF','Add PS view-filters','Piping Systems','MEPUtils','Generate view filters for each piping system.'],
+      ['PI','Isolate selected PS','Piping Systems','MEPUtils','Isolate the piping system of the selected element.'],
+      ['PH','Hide selected PS','Piping Systems','MEPUtils','Hide the piping system of the selected element.'],
+      ['SG','Select by GUID','Piping Systems','MEPUtils','Select an element by its unique GUID.'],
+      ['LG','Create PS legend','Piping Systems','NTR Exporter','Build a colour legend for the piping systems.'],
+      ['UA','Update abbreviation','Piping Systems','NTR Exporter','Refresh system abbreviations across the model.'],
+      ['RW','Read link workset','Piping Systems','NTR Exporter','Read worksets from a linked model.'],
+      ['NM','(Re-)Number','Parameters & Tagging','MEPUtils','Renumber the selected elements sequentially.'],
+      ['SP','Split parameter value','Parameters & Tagging','MEPUtils','Split a parameter value into several parameters.'],
+      ['FC','Copy flow data','Parameters & Tagging','MEPUtils','Copy flow values between connected elements.'],
+      ['WG','Write all par GUIDs','Parameters & Tagging','MEPUtils','Write shared-parameter GUIDs to a report.'],
+      ['CP','Copy PST params','Parameters & Tagging','MEPUtils','Copy pipe-spec table parameters onto elements.'],
+      ['SI','Set & increment','Parameters & Tagging','MEPUtils','Set a value and increment it across a selection.'],
+      ['SM','Set from ME','Parameters & Tagging','MEPUtils','Set parameters from the associated mechanical equipment.'],
+      ['AL','Assign correct levels','Rooms, Levels & Docs','MEPUtils','Reassign elements to their nearest correct level.'],
+      ['CD','Copy to another doc','Rooms, Levels & Docs','MEPUtils','Copy selected elements into another open document.'],
+      ['WR','Write room numbers','Rooms, Levels & Docs','MEPUtils','Stamp room numbers onto the contained elements.'],
+      ['RL','Rooms from link','Rooms, Levels & Docs','MEPUtils','Create rooms based on a linked architectural model.'],
+      ['RG','Room nums generic','Rooms, Levels & Docs','MEPUtils','Write room numbers to generic model elements.'],
+      ['AP','Family add parameters','Family','MEPUtils','Batch-add shared parameters to a family.'],
+      ['FT','Create family types','Family','MEPUtils','Generate family types from a table.'],
+      ['TL','Total length','Analysis & QA','PCF Exporter','Sum the total length of the selected pipes.'],
+      ['CW','Count welds','Analysis & QA','PCF Exporter','Count the welds in the current selection.'],
+      ['PL','Pressure loss calc','Analysis & QA','MEPUtils','Estimate pressure loss along a pipe run.'],
+      ['SQ','Spindle orientation QA','Analysis & QA','MEPUtils','Check valve spindle orientations for issues.'],
+      ['CC','Connect connectors','Connectors','PCF Exporter','Connect open connectors between elements.'],
+      ['TK','Tilkoblet check','Connectors','PCF Exporter','Verify that elements are properly connected.'],
+      ['PS','Place supports','Supports','MEPUtils','Place pipe supports along the selected run.'],
+      ['SU','Support tools','Supports','MEPUtils','Open the support editing toolset.']
+    ];
+    this.CMDS=C.map(function(r){return {mono:r[0],label:r[1],cat:r[2],source:r[3],tip:r[4]};});
+    var self=this; this.byMono={}; this.CMDS.forEach(function(c){self.byMono[c.mono]=c;});
+    var collA={}; ['Parameters & Tagging','Rooms, Levels & Docs','Family','Analysis & QA','Connectors','Supports'].forEach(function(k){collA[k]=1;});
+    var collB={}; ['Piping Systems','Parameters & Tagging','Rooms, Levels & Docs'].forEach(function(k){collB[k]=1;});
+    this.state={
+      fav:{NM:1,CW:1,FL:1,PI:1,MV:1,FC:1},
+      favOrder:['NM','CW','FL','PI','MV','FC'],
+      favText:true,
+      a:{q:'',view:'category',collapsed:collA,miniShow:true},
+      b:{q:'',view:'category',collapsed:collB,miniShow:true},
+      c:{q:'ins',view:'category',collapsed:{},miniShow:true},
+      posa:{x:46,y:206}, posb:{x:40,y:236}, posc:{x:46,y:250}
+    };
+  }
+  colorFor(cat){ var f=this.CATS.filter(function(x){return x.key===cat;})[0]; return f?f.color:'#5A6470'; }
+  seg(active){ return {flex:'1',textAlign:'center',padding:'4px 0',fontSize:'11px',cursor:'pointer',border:'none',borderRadius:'3px',fontFamily:'inherit',fontWeight:active?600:500,background:active?'#0e639c':'transparent',color:active?'#fff':'#bdbdbd'}; }
+  iconStyle(color,size){ var fs=size<=22?'9.5px':(size<=28?'11px':'14px'); return {width:size+'px',height:size+'px',borderRadius:(size<=22?'5px':'7px'),display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,fontSize:fs,letterSpacing:'.3px',flex:'none',color:'#fff',background:'linear-gradient(180deg, color-mix(in srgb, '+color+' 50%, #ffffff), '+color+')',border:'1px solid color-mix(in srgb, '+color+' 40%, #ffffff)',boxShadow:'inset 0 1px 0 rgba(255,255,255,.28)'}; }
+  decorate(c){ var color=this.colorFor(c.cat); var fav=!!this.state.fav[c.mono]; var self=this;
+    return {mono:c.mono,label:c.label,cat:c.cat,source:c.source,tip:c.tip,color:color,fav:fav,
+      star: fav?'\u2605':'\u2606',
+      iconStyle:this.iconStyle(color,22),
+      iconMid:this.iconStyle(color,28),
+      tileIcon:this.iconStyle(color,40),
+      dotStyle:{width:'7px',height:'7px',borderRadius:'2px',background:color,flex:'none'},
+      starStyle:{background:'none',border:'none',cursor:'pointer',fontSize:'13px',lineHeight:1,padding:'2px',flex:'none',color:fav?'#E2B93B':'#6b6b70'},
+      starTileStyle:{position:'absolute',top:'3px',right:'4px',background:'none',border:'none',cursor:'pointer',fontSize:'12px',lineHeight:1,padding:'0',color:fav?'#E2B93B':'#6b6b70'},
+      toggleFav:function(){self.toggleFav(c.mono);}
+    };
+  }
+  computeGroups(dir){
+    var st=this.state[dir]; var self=this;
+    var q=(st.q||'').trim().toLowerCase();
+    var searching=!!q;
+    var match=function(c){return !q || c.label.toLowerCase().indexOf(q)>=0 || c.tip.toLowerCase().indexOf(q)>=0;};
+    var list=this.CMDS.filter(match);
+    var groups=[];
+    if(st.view==='az'){
+      var items=list.slice().sort(function(a,b){return a.label.localeCompare(b.label);});
+      groups=[{key:'__az',label:null,color:'#5A6470',flat:true,items:items}];
+    } else if(st.view==='source'){
+      var srcs=[]; this.CMDS.forEach(function(c){if(srcs.indexOf(c.source)<0)srcs.push(c.source);}); srcs.sort();
+      srcs.forEach(function(s){var it=list.filter(function(c){return c.source===s;}); if(it.length)groups.push({key:s,label:s,color:'#52667A',items:it});});
+    } else {
+      this.CATS.forEach(function(cat){var it=list.filter(function(c){return c.cat===cat.key;}); if(it.length)groups.push({key:cat.key,label:cat.key,color:cat.color,items:it});});
+    }
+    groups.forEach(function(g){
+      var collapsed = !g.flat && !searching && !!st.collapsed[g.key];
+      g.shown=!collapsed; g.chev=collapsed?'\u25B8':'\u25BE'; g.count=g.items.length;
+      g.dotStyle={width:'8px',height:'8px',borderRadius:'2px',background:g.color,flex:'none'};
+      g.toggle=function(){self.toggleGroup(dir,g.key);};
+      g.items=g.items.map(function(c){return self.decorate(c);});
+    });
+    return groups;
+  }
+  toggleFav(id){ var f=Object.assign({},this.state.fav); var o=this.state.favOrder.slice();
+    if(f[id]){ delete f[id]; o=o.filter(function(x){return x!==id;}); } else { f[id]=1; if(o.indexOf(id)<0)o.push(id); }
+    this.setState({fav:f,favOrder:o}); }
+  toggleGroup(dir,key){ var st=this.state[dir]; var c=Object.assign({},st.collapsed); c[key]=c[key]?0:1; var u={}; u[dir]=Object.assign({},st,{collapsed:c}); this.setState(u); }
+  setView(dir,view){ var st=this.state[dir]; var u={}; u[dir]=Object.assign({},st,{view:view}); this.setState(u); }
+  startDrag(dir,e){ e.preventDefault(); var key='pos'+dir; var sx=e.clientX,sy=e.clientY; var orig=Object.assign({},this.state[key]); var self=this;
+    var move=function(ev){ var u={}; u[key]={x:Math.max(0,orig.x+ev.clientX-sx),y:Math.max(0,orig.y+ev.clientY-sy)}; self.setState(u); };
+    var up=function(){ window.removeEventListener('mousemove',move); window.removeEventListener('mouseup',up); };
+    window.addEventListener('mousemove',move); window.addEventListener('mouseup',up); }
+  dirVals(dir){ var st=this.state[dir]; var self=this; var groups=this.computeGroups(dir);
+    var count=groups.reduce(function(n,g){return n+g.items.length;},0);
+    var upd=function(patch){ var u={}; u[dir]=Object.assign({},st,patch); self.setState(u); };
+    return { groups:groups, query:st.q, searching:!!(st.q||'').trim(), count:count,
+      onSearch:function(e){ upd({q:e.target.value}); },
+      viewCat:function(){self.setView(dir,'category');}, viewSrc:function(){self.setView(dir,'source');}, viewAz:function(){self.setView(dir,'az');},
+      btnCat:this.seg(st.view==='category'), btnSrc:this.seg(st.view==='source'), btnAz:this.seg(st.view==='az'),
+      expandAll:function(){ upd({collapsed:{}}); },
+      collapseAll:function(){ var c={}; if(st.view==='source'){ self.CMDS.forEach(function(x){c[x.source]=1;}); } else { self.CATS.forEach(function(k){c[k.key]=1;}); } upd({collapsed:c}); },
+      miniShow:st.miniShow!==false, toggleMini:function(){ upd({miniShow:!(st.miniShow!==false)}); },
+      miniPos:{position:'absolute',left:this.state['pos'+dir].x+'px',top:this.state['pos'+dir].y+'px',zIndex:6,width:'216px'},
+      onMiniDown:function(e){ self.startDrag(dir,e); }
+    };
+  }
+  renderVals(){
+    var self=this;
+    var favItems=this.state.favOrder.filter(function(id){return self.state.fav[id];}).map(function(id){return self.decorate(self.byMono[id]);});
+    var ft=this.state.favText!==false;
+    return { a:this.dirVals('a'), b:this.dirVals('b'), c:this.dirVals('c'),
+      favItems:favItems, favCount:favItems.length, favShow:favItems.length>0, favEmpty:favItems.length===0,
+      favText:ft, favTextOff:!ft,
+      toggleFavText:function(){ self.setState({favText:!ft}); },
+      favTextBtn:{background:ft?'#0e639c':'transparent',color:ft?'#fff':'#9a9a9a',border:'1px solid '+(ft?'#0e639c':'#45454b'),borderRadius:'3px',fontSize:'10px',fontWeight:600,padding:'1px 6px',cursor:'pointer',fontFamily:'inherit',lineHeight:'1.4'} };
+  }
+}
+</script>
+</body>
+</html>

@@ -26,6 +26,7 @@ using Autodesk.Revit.Attributes;
 
 namespace MEPUtils.PressureLossCalc
 {
+    [Shared.DevReloadButton(Text = "Pressure loss", Tooltip = "Pressure-loss calculation.", Group = "Analysis & QA", Panel = "MEP", Order = 182, Icon16 = "ImgMUPressureLoss16.png", Icon32 = "ImgMUPressureLoss32.png")]
     [TransactionAttribute(TransactionMode.Manual)]
     [RegenerationAttribute(RegenerationOption.Manual)]
     public class PressureLossCalc : IExternalCommand

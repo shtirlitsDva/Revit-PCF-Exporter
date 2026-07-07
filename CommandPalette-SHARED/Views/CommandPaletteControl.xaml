@@ -1,0 +1,307 @@
+<UserControl x:Class="Norsyn.CommandPalette.Views.CommandPaletteControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Norsyn.CommandPalette.ViewModels"
+             xmlns:design="clr-namespace:Norsyn.CommandPalette.Design"
+             xmlns:conv="clr-namespace:Norsyn.CommandPalette.Views"
+             xmlns:sysctl="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
+             mc:Ignorable="d"
+             d:DataContext="{x:Static design:DesignData.Palette}"
+             d:DesignWidth="300" d:DesignHeight="560"
+             FontFamily="Segoe UI"
+             TextOptions.TextFormattingMode="Display"
+             UseLayoutRounding="True">
+
+    <UserControl.Resources>
+        <sysctl:BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <conv:InverseBoolToVisibilityConverter x:Key="InvBoolToVis" />
+
+        <!-- Palette tokens (from the design handoff) -->
+        <SolidColorBrush x:Key="PaneBg"      Color="#2D2D30" />
+        <SolidColorBrush x:Key="BarBg"       Color="#333337" />
+        <SolidColorBrush x:Key="GroupBg"     Color="#313135" />
+        <SolidColorBrush x:Key="HoverBg"     Color="#3A3A3F" />
+        <SolidColorBrush x:Key="SearchBg"    Color="#1E1E1E" />
+        <SolidColorBrush x:Key="SearchBd"    Color="#4A4A4F" />
+        <SolidColorBrush x:Key="Hairline"    Color="#26262A" />
+        <SolidColorBrush x:Key="Accent"      Color="#0E639C" />
+        <SolidColorBrush x:Key="LinkBlue"    Color="#7FB0D6" />
+        <SolidColorBrush x:Key="TextPrimary" Color="#EAEAEA" />
+        <SolidColorBrush x:Key="TextRow"     Color="#E2E2E2" />
+        <SolidColorBrush x:Key="TextSecond"  Color="#D8D8D8" />
+        <SolidColorBrush x:Key="TextMuted"   Color="#8A8A8A" />
+        <SolidColorBrush x:Key="TextFaint"   Color="#7A7A7A" />
+        <SolidColorBrush x:Key="StarGold"    Color="#E2B93B" />
+        <SolidColorBrush x:Key="StarOff"     Color="#6B6B70" />
+        <SolidColorBrush x:Key="SegTrack"    Color="#232326" />
+        <SolidColorBrush x:Key="ChevronBr"   Color="#9A9A9A" />
+
+        <!-- Flat, chrome-less button used for rows, stars, headers, links -->
+        <Style x:Key="FlatButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="{StaticResource TextRow}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="{StaticResource HoverBg}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Segmented view-toggle button -->
+        <Style x:Key="SegButton" TargetType="Button">
+            <Setter Property="Foreground" Value="#BDBDBD" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" CornerRadius="3" Background="Transparent" Padding="0,4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#2E2E33" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="{StaticResource PaneBg}" BorderBrush="#1E1E1E" BorderThickness="1,0,0,0">
+        <DockPanel LastChildFill="True">
+
+            <!-- Title bar -->
+            <Border DockPanel.Dock="Top" Height="32" Background="{StaticResource BarBg}"
+                    BorderBrush="{StaticResource Hairline}" BorderThickness="0,0,0,1">
+                <Grid Margin="10,0">
+                    <TextBlock Text="Norsyn Commands" VerticalAlignment="Center"
+                               FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextPrimary}" />
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Command="{Binding ToggleFavoritesCommand}"
+                            Cursor="Hand" ToolTip="Open the favorites pane">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="bd" Background="{StaticResource Accent}" CornerRadius="3" Padding="9,3">
+                                    <ContentPresenter />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="bd" Property="Background" Value="#1177B5" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <TextBlock Text="★ Favorites" FontSize="11" Foreground="White" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Toolbar -->
+            <Border DockPanel.Dock="Top" Background="{StaticResource BarBg}"
+                    BorderBrush="{StaticResource Hairline}" BorderThickness="0,0,0,1" Padding="8">
+                <StackPanel>
+                    <!-- Search box -->
+                    <Border Background="{StaticResource SearchBg}" BorderBrush="{StaticResource SearchBd}"
+                            BorderThickness="1" CornerRadius="3" Padding="8,5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Path Grid.Column="0" Width="13" Height="13" Margin="0,0,7,0"
+                                  Stretch="Uniform" Stroke="#8A8A8A" StrokeThickness="2.4" Fill="Transparent"
+                                  Data="M 6 1 A 5 5 0 1 0 6 11 A 5 5 0 1 0 6 1 M 10 10 L 14 14" />
+                            <Grid Grid.Column="1">
+                                <TextBox x:Name="SearchBox" Background="Transparent" BorderThickness="0"
+                                         Foreground="{StaticResource TextPrimary}" FontSize="12"
+                                         VerticalContentAlignment="Center" CaretBrush="{StaticResource TextPrimary}"
+                                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="Search commands…" Foreground="{StaticResource TextFaint}" FontSize="12"
+                                           IsHitTestVisible="False" VerticalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text.Length, ElementName=SearchBox}" Value="0">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+                    <!-- View segmented control -->
+                    <Border Background="{StaticResource SegTrack}" CornerRadius="4" Padding="2" Margin="0,7,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="3" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="3" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Style="{StaticResource SegButton}" Content="Category"
+                                    Command="{Binding SetCategoryViewCommand}" />
+                            <Button Grid.Column="2" Style="{StaticResource SegButton}" Content="Source"
+                                    Command="{Binding SetSourceViewCommand}" />
+                            <Button Grid.Column="4" Style="{StaticResource SegButton}" Content="A–Z"
+                                    Command="{Binding SetAzViewCommand}" />
+
+                            <!-- active-state overlays -->
+                            <Border Grid.Column="0" Background="{StaticResource Accent}" CornerRadius="3" Panel.ZIndex="-1"
+                                    Visibility="{Binding IsCategoryView, Converter={StaticResource BoolToVis}}" />
+                            <Border Grid.Column="2" Background="{StaticResource Accent}" CornerRadius="3" Panel.ZIndex="-1"
+                                    Visibility="{Binding IsSourceView, Converter={StaticResource BoolToVis}}" />
+                            <Border Grid.Column="4" Background="{StaticResource Accent}" CornerRadius="3" Panel.ZIndex="-1"
+                                    Visibility="{Binding IsAzView, Converter={StaticResource BoolToVis}}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Utility row: count + expand/collapse (hidden while searching) -->
+                    <Grid Margin="0,7,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="10.5" Foreground="{StaticResource TextMuted}">
+                                <Run Text="{Binding VisibleCount, Mode=OneWay}" /><Run Text=" commands" />
+                            </TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                                    Visibility="{Binding IsSearching, Converter={StaticResource InvBoolToVis}}">
+                            <Button Style="{StaticResource FlatButton}" Command="{Binding ExpandAllCommand}"
+                                    Foreground="{StaticResource LinkBlue}" HorizontalContentAlignment="Right">
+                                <TextBlock Text="Expand all" FontSize="10.5" Foreground="{StaticResource LinkBlue}" />
+                            </Button>
+                            <TextBlock Text=" · " FontSize="10.5" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
+                            <Button Style="{StaticResource FlatButton}" Command="{Binding CollapseAllCommand}"
+                                    HorizontalContentAlignment="Right">
+                                <TextBlock Text="Collapse all" FontSize="10.5" Foreground="{StaticResource LinkBlue}" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Command list -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl ItemsSource="{Binding Groups}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:CategoryGroupViewModel}">
+                            <StackPanel>
+                                <!-- Group header -->
+                                <Button Style="{StaticResource FlatButton}" Command="{Binding ToggleCommand}"
+                                        Visibility="{Binding HasHeader, Converter={StaticResource BoolToVis}}">
+                                    <Border Background="{StaticResource GroupBg}" Padding="9,6"
+                                            BorderBrush="{StaticResource Hairline}" BorderThickness="0,0,0,1">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="12" FontSize="9" Foreground="{StaticResource ChevronBr}"
+                                                       VerticalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="▾" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsExpanded}" Value="False">
+                                                                <Setter Property="Text" Value="▸" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <Border Width="8" Height="8" CornerRadius="2" Margin="0,0,7,0"
+                                                    Background="{Binding Accent}" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Header}" FontSize="11" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource TextSecond}" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Count}" FontSize="10" Margin="7,0,0,0"
+                                                       Foreground="{StaticResource TextFaint}" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Border>
+                                </Button>
+
+                                <!-- Rows -->
+                                <ItemsControl ItemsSource="{Binding Items}"
+                                              Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVis}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type vm:CommandItemViewModel}">
+                                            <Button Style="{StaticResource FlatButton}" Command="{Binding RunCommand}"
+                                                    ToolTip="{Binding Tooltip}">
+                                                <Grid Margin="12,4,9,4">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Icon (PNG or monogram fallback) -->
+                                                    <Grid Grid.Column="0" Width="22" Height="22" Margin="0,0,8,0">
+                                                        <Border CornerRadius="5" Background="{Binding CategoryBrush}"
+                                                                Visibility="{Binding HasIcon, Converter={StaticResource InvBoolToVis}}">
+                                                            <TextBlock Text="{Binding Monogram}" Foreground="White"
+                                                                       FontSize="9.5" FontWeight="Bold"
+                                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                        </Border>
+                                                        <Image Source="{Binding Icon}" Width="22" Height="22"
+                                                               Visibility="{Binding HasIcon, Converter={StaticResource BoolToVis}}" />
+                                                    </Grid>
+
+                                                    <TextBlock Grid.Column="1" Text="{Binding Label}" FontSize="12"
+                                                               Foreground="{StaticResource TextRow}" VerticalAlignment="Center"
+                                                               TextTrimming="CharacterEllipsis" />
+
+                                                    <TextBlock Grid.Column="2" Text="{Binding Source}" FontSize="10"
+                                                               Foreground="{StaticResource TextFaint}" VerticalAlignment="Center"
+                                                               Margin="8,0,6,0" />
+
+                                                    <!-- Favorite star -->
+                                                    <Button Grid.Column="3" Style="{StaticResource FlatButton}"
+                                                            Command="{Binding ToggleFavoriteCommand}"
+                                                            ToolTip="Toggle favorite" VerticalAlignment="Center">
+                                                        <TextBlock FontSize="13" VerticalAlignment="Center">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Text" Value="☆" />
+                                                                    <Setter Property="Foreground" Value="{StaticResource StarOff}" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                                                            <Setter Property="Text" Value="★" />
+                                                                            <Setter Property="Foreground" Value="{StaticResource StarGold}" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </Button>
+                                                </Grid>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+    </Border>
+</UserControl>

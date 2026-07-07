@@ -28,8 +28,9 @@ using System.Diagnostics;
 
 namespace MEPUtils.CreateFamilyTypes
 {
+    [Shared.DevReloadButton(Text = "Create family types", Tooltip = "Batch-create family types and set their parameters.", Group = "Family", Panel = "MEP", Order = 171, Icon16 = "ImgMUCreateFamTypes16.png", Icon32 = "ImgMUCreateFamTypes32.png")]
     [Transaction(TransactionMode.Manual)]
-    class CreateFamilyTypes : IExternalCommand
+    public class CreateFamilyTypes : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

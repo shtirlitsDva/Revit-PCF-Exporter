@@ -27,8 +27,9 @@ using Shared.BuildingCoder;
 
 namespace MEPUtils.TaggingTools
 {
+    [Shared.DevReloadButton(Text = "Set from ME", Tooltip = "Set a parameter from a picked element (\"TAG 2\").", Group = "Parameters & Tagging", Panel = "MEP", Order = 157, Icon16 = "ImgMUSetFromME16.png", Icon32 = "ImgMUSetFromME32.png")]
     [Transaction(TransactionMode.Manual)]
-    class SetParFromME : IExternalCommand
+    public class SetParFromME : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

@@ -5,34 +5,10 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
+using Shared;
+
 namespace MEPUtils.App
 {
-    /// <summary>
-    /// Ribbon-button metadata for this addin's commands. Read BY NAME via
-    /// reflection by two renderers: the DevReload host (dev-time hot-reload
-    /// ribbon, "DevReload" tab) and the NorsynApps standalone reflector
-    /// (release ribbon, "Norsyn" tab). Each addin declares its own copy of
-    /// this attribute — there is intentionally no shared contract assembly.
-    /// Icons are embedded-resource name suffixes; both are optional
-    /// (text-only buttons are legal).
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
-    public sealed class DevReloadButtonAttribute : Attribute
-    {
-        public string? Text { get; set; }
-        public string? Tooltip { get; set; }
-        public string? LongDescription { get; set; }
-        public string? Icon16 { get; set; }
-        public string? Icon32 { get; set; }
-        public string? Panel { get; set; }
-        public string? Group { get; set; }
-        public string? GroupKind { get; set; }
-        public string? Stack { get; set; }
-        public bool SeparatorBefore { get; set; }
-        public bool SlideOut { get; set; }
-        public int Order { get; set; }
-    }
-
     /// <summary>
     /// Connects/disconnects MEP connectors. The underlying helper returns void
     /// and expects the caller to own the transaction (as the legacy RibbonPanel
@@ -160,20 +136,6 @@ More than two elements selected + CTRL
             }
 
             return Result.Succeeded;
-        }
-    }
-
-    /// <summary>Opens the MEPUtils tool chooser. Helper returns a Result.</summary>
-    [Transaction(TransactionMode.Manual)]
-    [DevReloadButton(Text = "MEP",
-        Tooltip = "Open the MEPUtils tool chooser.",
-        Icon16 = "ImgMEPUtils16.png", Icon32 = "ImgMEPUtils32.png",
-        Panel = "MEP", Order = 4)]
-    public class MEPUtilsCommand : IExternalCommand
-    {
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
-        {
-            return MEPUtilsClass.FormCaller(commandData);
         }
     }
 

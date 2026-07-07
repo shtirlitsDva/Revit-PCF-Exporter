@@ -25,6 +25,7 @@ using Autodesk.Revit.Attributes;
 
 namespace MEPUtils.Tilkoblet
 {
+    [Shared.DevReloadButton(Text = "Tilkoblet", Tooltip = "Populate the \"tilkoblet\" (connected) flag on elements.", Panel = "MEP", Order = 8, Icon16 = "ImgMUTilkoblet16.png", Icon32 = "ImgMUTilkoblet32.png")]
     [Transaction(TransactionMode.Manual)]
     public class Tilkoblet : IExternalCommand
     {

@@ -13,6 +13,7 @@ using static Shared.Extensions;
 
 namespace MEPUtils.ManageParameterValues
 {
+    [Shared.DevReloadButton(Text = "Split par value", Tooltip = "Split/edit a parameter value across elements.", Group = "Parameters & Tagging", Panel = "MEP", Order = 152, Icon16 = "ImgMUSplitParValue16.png", Icon32 = "ImgMUSplitParValue32.png")]
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class SplitParameterValue : IExternalCommand
     {

@@ -9,10 +9,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-// These three type names exist in both WPF and the Revit API; pin them to WPF.
+using Shared.Theme;
+// These two type names exist in both WPF and the Revit API; pin them to WPF.
 using Grid = System.Windows.Controls.Grid;
 using TextBox = System.Windows.Controls.TextBox;
-using Color = System.Windows.Media.Color;
 
 namespace MEPUtils.Element3DRotation
 {
@@ -36,12 +36,15 @@ namespace MEPUtils.Element3DRotation
         private readonly TextBox _xAxis = MakeAngleBox();
         private readonly TextBox _yAxis = MakeAngleBox();
         private readonly TextBox _zAxis = MakeAngleBox();
+        private readonly TextBox _xWorld = MakeAngleBox();
+        private readonly TextBox _yWorld = MakeAngleBox();
+        private readonly TextBox _zWorld = MakeAngleBox();
         private readonly TextBox _rotationAngle = MakeAngleBox();
         private readonly TextBlock _warning = new TextBlock
         {
-            Foreground = Brushes.Red,
             TextWrapping = TextWrapping.WrapWithOverflow,
-            HorizontalAlignment = HorizontalAlignment.Left
+            HorizontalAlignment = HorizontalAlignment.Left,
+            Margin = new Thickness(0, 10, 0, 0)
         };
 
         public RotateOptionsWindow(UIApplication uiapp, ExternalEvent externalEvent, RotateRequestHandler handler)
@@ -52,7 +55,7 @@ namespace MEPUtils.Element3DRotation
                 .GetUnits().GetFormatOptions(SpecTypeId.Angle).GetUnitTypeId();
 
             Title = "Set rotation angle:";
-            Width = 420;
+            Width = 640;
             Height = 415;
             ShowInTaskbar = false;
             Topmost = true;
@@ -60,6 +63,9 @@ namespace MEPUtils.Element3DRotation
             Left = 0;
             Top = 180;
             ResizeMode = ResizeMode.NoResize;
+
+            ThemeManager.Apply(this);
+            _warning.Foreground = ThemeManager.GetBrush("Brush.Warn");
 
             Content = BuildLayout();
         }
@@ -70,6 +76,7 @@ namespace MEPUtils.Element3DRotation
 
             var columns = new DockPanel();
             columns.Children.Add(BuildAroundItselfGroup());
+            columns.Children.Add(BuildAroundCommonCenterGroup());
             columns.Children.Add(BuildAroundAxisGroup());
 
             root.Children.Add(columns);
@@ -92,9 +99,9 @@ namespace MEPUtils.Element3DRotation
             for (int i = 0; i < 3; i++)
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(50) });
 
-            AddAxisLabel(grid, "X Axis", 0, Color.FromRgb(0xFF, 0x00, 0x00));
-            AddAxisLabel(grid, "Y Axis", 1, Color.FromRgb(0x00, 0xFF, 0x00));
-            AddAxisLabel(grid, "Z Axis", 2, Color.FromRgb(0x00, 0x00, 0xFF));
+            AddAxisLabel(grid, "X Axis", 0, ThemeManager.GetBrush("Brush.Axis.X"));
+            AddAxisLabel(grid, "Y Axis", 1, ThemeManager.GetBrush("Brush.Axis.Y"));
+            AddAxisLabel(grid, "Z Axis", 2, ThemeManager.GetBrush("Brush.Axis.Z"));
 
             AddAxisBox(grid, _xAxis, 0);
             AddAxisBox(grid, _yAxis, 1);
@@ -109,6 +116,43 @@ namespace MEPUtils.Element3DRotation
             return new GroupBox
             {
                 Header = "Rotate on itself:",
+                Margin = new Thickness(0, 0, 10, 0),
+                Content = stack
+            };
+        }
+
+        private GroupBox BuildAroundCommonCenterGroup()
+        {
+            var stack = new StackPanel { Margin = new Thickness(10) };
+
+            stack.Children.Add(new Image
+            {
+                Source = LoadImage(XyzImageResource),
+                Width = 100,
+                Margin = new Thickness(0, 10, 0, 10)
+            });
+
+            var grid = new Grid();
+            for (int i = 0; i < 3; i++)
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(50) });
+
+            AddAxisLabel(grid, "X Axis", 0, ThemeManager.GetBrush("Brush.Axis.X"));
+            AddAxisLabel(grid, "Y Axis", 1, ThemeManager.GetBrush("Brush.Axis.Y"));
+            AddAxisLabel(grid, "Z Axis", 2, ThemeManager.GetBrush("Brush.Axis.Z"));
+
+            AddAxisBox(grid, _xWorld, 0);
+            AddAxisBox(grid, _yWorld, 1);
+            AddAxisBox(grid, _zWorld, 2);
+
+            stack.Children.Add(grid);
+
+            var go = new Button { Content = "Go", Height = 30, Margin = new Thickness(10, 10, 10, 10) };
+            go.Click += AroundCommonCenterClick;
+            stack.Children.Add(go);
+
+            return new GroupBox
+            {
+                Header = "Rotate around common center:",
                 Margin = new Thickness(0, 0, 10, 0),
                 Content = stack
             };
@@ -169,6 +213,24 @@ namespace MEPUtils.Element3DRotation
             _externalEvent.Raise();
         }
 
+        private void AroundCommonCenterClick(object sender, RoutedEventArgs e)
+        {
+            if (!TryConvert(_xWorld.Text, out double x) ||
+                !TryConvert(_yWorld.Text, out double y) ||
+                !TryConvert(_zWorld.Text, out double z))
+            {
+                _warning.Text = "Incorrect angles, input format required '0.0'";
+                return;
+            }
+
+            _warning.Text = "";
+            _handler.Mode = RotateMode.AroundCommonCenter;
+            _handler.AngleX = x;
+            _handler.AngleY = y;
+            _handler.AngleZ = z;
+            _externalEvent.Raise();
+        }
+
         private void AroundAxisClick(object sender, RoutedEventArgs e)
         {
             if (!TryConvert(_rotationAngle.Text, out double angle))
@@ -193,14 +255,14 @@ namespace MEPUtils.Element3DRotation
             return true;
         }
 
-        private static void AddAxisLabel(Grid grid, string text, int column, Color color)
+        private static void AddAxisLabel(Grid grid, string text, int column, Brush brush)
         {
             var label = new TextBlock
             {
                 Text = text,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontWeight = FontWeights.Bold,
-                Foreground = new SolidColorBrush(color)
+                Foreground = brush
             };
             Grid.SetColumn(label, column);
             grid.Children.Add(label);

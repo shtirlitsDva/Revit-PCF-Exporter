@@ -25,8 +25,9 @@ using Autodesk.Revit.Attributes;
 
 namespace MEPUtils.WriteAllParGUID
 {
+    [Shared.DevReloadButton(Text = "Dump par GUIDs", Tooltip = "Dump all shared-parameter GUIDs (diagnostic).", Group = "Parameters & Tagging", Panel = "MEP", Order = 153, Icon16 = "ImgMUWriteParGuid16.png", Icon32 = "ImgMUWriteParGuid32.png")]
     [Transaction(TransactionMode.Manual)]
-    class WriteAllParGuid : IExternalCommand
+    public class WriteAllParGuid : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

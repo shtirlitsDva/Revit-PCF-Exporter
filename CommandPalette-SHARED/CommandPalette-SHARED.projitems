@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>c0a1e7d2-8f34-4b6a-9e21-5d7c3a9b1f44</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Norsyn.CommandPalette</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CommandPalette.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Commands\ShowCommandPaletteCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Execution\CommandInvoker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Registration\PaneIds.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Registration\MainPaneProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PaletteCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PaletteCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Registry\CommandRegistry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\FavoritesStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\ObservableObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\IconLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PaletteBrushes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CommandItemViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\CategoryGroupViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PaletteViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoriteItemViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\FavoritesViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Design\SampleData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Design\DesignData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Converters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\CommandPaletteControl.xaml.cs">
+      <DependentUpon>CommandPaletteControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\FavoritesControl.xaml.cs">
+      <DependentUpon>FavoritesControl.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <!-- LINKED SOURCE from the sibling DevReload repo — the same by-name
+         [DevReloadButton] scanner the ribbon uses. Requires the DevReload repo
+         checked out next to this one. -->
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\DevReload\src\Revit\RevitDevReload.Shared\Core\CommandScanner.cs">
+      <Link>DevReload\CommandScanner.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\..\DevReload\src\Revit\RevitDevReload.Shared\Core\RibbonDefinition.cs">
+      <Link>DevReload\RibbonDefinition.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Views\CommandPaletteControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Views\FavoritesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

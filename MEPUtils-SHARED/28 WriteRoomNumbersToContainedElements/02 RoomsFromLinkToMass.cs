@@ -29,8 +29,9 @@ using System.Security.Cryptography;
 
 namespace MEPUtils.WriteRoomNumbersToContainedElements
 {
+    [Shared.DevReloadButton(Text = "Rooms from link", Tooltip = "Write room numbers from a linked model.", Group = "Rooms, Levels & Docs", Panel = "MEP", Order = 162, Icon16 = "ImgMURoomsFromLink16.png", Icon32 = "ImgMURoomsFromLink32.png")]
     [Transaction(TransactionMode.Manual)]
-    class RoomsFromLinkToMass : IExternalCommand
+    public class RoomsFromLinkToMass : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

@@ -10,13 +10,15 @@ namespace MEPUtils.Element3DRotation
 {
     /// <summary>
     /// C# port of pyRevitMEP "3D Rotate" (Element3DRotation). Rotates the current
-    /// selection either around each element's own X/Y/Z axes, or around a user
+    /// selection around each element's own X/Y/Z axes, around the selection's
+    /// common geometric centre using the world X/Y/Z axes, or around a user
     /// picked linear axis. The window is modeless, so the actual document changes
     /// run through an <see cref="ExternalEvent"/> in a valid API context.
     /// </summary>
     public enum RotateMode
     {
         AroundItself,
+        AroundCommonCenter,
         AroundAxis
     }
 
@@ -66,6 +68,9 @@ namespace MEPUtils.Element3DRotation
                 {
                     case RotateMode.AroundItself:
                         RotateAroundItself(doc, ids);
+                        break;
+                    case RotateMode.AroundCommonCenter:
+                        RotateAroundCommonCenter(doc, ids);
                         break;
                     case RotateMode.AroundAxis:
                         RotateAroundAxis(uidoc, doc, ids);
@@ -119,6 +124,70 @@ namespace MEPUtils.Element3DRotation
                 TaskDialog.Show("3D Rotate",
                     $"{skipped.Count} element(s) have no instance transform " +
                     "(only family instances can rotate around their own axes) and were skipped.");
+        }
+
+        /// <summary>
+        /// Rotates the whole selection as a rigid group around its common geometric
+        /// centre, using the world X/Y/Z axes. Unlike <see cref="RotateAroundItself"/>
+        /// this works for any element (pipes, ducts, instances alike) because it moves
+        /// the elements about a shared point rather than each element's own basis.
+        /// </summary>
+        private void RotateAroundCommonCenter(Document doc, ICollection<ElementId> ids)
+        {
+            double[] angles = { AngleX, AngleY, AngleZ };
+            if (angles.All(a => a == 0.0)) return;
+
+            XYZ center = ComputeSelectionCenter(doc, ids);
+            if (center == null)
+            {
+                TaskDialog.Show("3D Rotate",
+                    "Could not determine a geometric centre for the selection.");
+                return;
+            }
+
+            // World axes through the fixed common centre. The centre does not move
+            // between the three rotations, so they can be applied sequentially.
+            XYZ[] worldAxes = { XYZ.BasisX, XYZ.BasisY, XYZ.BasisZ };
+
+            using (Transaction t = new Transaction(doc, "Rotate around common center"))
+            {
+                t.Start();
+                for (int i = 0; i < 3; i++)
+                {
+                    if (angles[i] == 0.0) continue;
+                    Line axis = Line.CreateBound(center, center + worldAxes[i]);
+                    ElementTransformUtils.RotateElements(doc, ids, axis, angles[i]);
+                }
+                t.Commit();
+            }
+        }
+
+        /// <summary>
+        /// The centre of the combined model-coordinate bounding box of every element
+        /// in the selection. Returns null if none of them expose a bounding box.
+        /// </summary>
+        private static XYZ ComputeSelectionCenter(Document doc, ICollection<ElementId> ids)
+        {
+            double minX = double.MaxValue, minY = double.MaxValue, minZ = double.MaxValue;
+            double maxX = double.MinValue, maxY = double.MinValue, maxZ = double.MinValue;
+            bool any = false;
+
+            foreach (ElementId id in ids)
+            {
+                BoundingBoxXYZ bb = doc.GetElement(id)?.get_BoundingBox(null);
+                if (bb == null) continue;
+
+                any = true;
+                minX = Math.Min(minX, bb.Min.X);
+                minY = Math.Min(minY, bb.Min.Y);
+                minZ = Math.Min(minZ, bb.Min.Z);
+                maxX = Math.Max(maxX, bb.Max.X);
+                maxY = Math.Max(maxY, bb.Max.Y);
+                maxZ = Math.Max(maxZ, bb.Max.Z);
+            }
+
+            if (!any) return null;
+            return new XYZ((minX + maxX) / 2.0, (minY + maxY) / 2.0, (minZ + maxZ) / 2.0);
         }
 
         private void RotateAroundAxis(UIDocument uidoc, Document doc, ICollection<ElementId> ids)
@@ -176,12 +245,25 @@ namespace MEPUtils.Element3DRotation
             _window.Closed += (s, e) =>
             {
                 _window = null;
+                _externalEvent?.Dispose();
                 _externalEvent = null;
                 _handler = null;
             };
 
             _window.Show();
             return Result.Succeeded;
+        }
+
+        /// <summary>
+        /// Terminate-time cleanup (MEPUtils App.OnShutdown): closing the window
+        /// runs its Closed handler, which disposes the ExternalEvent and clears
+        /// the static keepers so a DevReload reload starts clean instead of
+        /// leaving a stale window running old code. Must run on the UI thread —
+        /// DevReload's teardown executes in Revit API context, which is that thread.
+        /// </summary>
+        public static void Shutdown()
+        {
+            _window?.Close();
         }
     }
 }

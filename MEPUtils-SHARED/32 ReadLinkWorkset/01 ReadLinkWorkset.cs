@@ -27,8 +27,9 @@ using log = Shared.SimpleLogger;
 
 namespace MEPUtils.PipingSystemsAndFilters
 {
+    [Shared.DevReloadButton(Text = "Read link workset", Tooltip = "Read worksets from a linked model.", Group = "Piping Systems", Panel = "MEP", Order = 146, Icon16 = "ImgMUReadLinkWorkset16.png", Icon32 = "ImgMUReadLinkWorkset32.png")]
     [Transaction(TransactionMode.Manual)]
-    class ReadLinkWorkset : IExternalCommand
+    public class ReadLinkWorkset : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

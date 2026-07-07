@@ -22,15 +22,20 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Reflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\connectorSpatialGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\DevReloadButtonAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Shared.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\Utils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)01 Shared code\LinqExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MoreLinq\DistinctBy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MoreLinq\MoreLinq.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)02 Theme\ThemeManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)01 Shared code\BaseFormTableLayoutPanel_BasicList.resx">
       <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)02 Theme\Theme.xaml">
+      <LogicalName>RevitShared.Theme.xaml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

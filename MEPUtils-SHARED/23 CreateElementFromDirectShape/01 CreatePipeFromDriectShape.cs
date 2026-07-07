@@ -25,8 +25,9 @@ using Autodesk.Revit.Attributes;
 
 namespace MEPUtils.CreateElementFromDS
 {
+    [Shared.DevReloadButton(Text = "Element from DirectShape", Tooltip = "Build a pipe from a DirectShape's geometry.", Group = "Pipe & Geometry", Panel = "MEP", Order = 113, Icon16 = "ImgMUElementFromDS16.png", Icon32 = "ImgMUElementFromDS32.png")]
     [Transaction(TransactionMode.Manual)]
-    class CreateElementFromDirectShape : IExternalCommand
+    public class CreateElementFromDirectShape : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

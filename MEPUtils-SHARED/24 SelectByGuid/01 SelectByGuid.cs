@@ -25,8 +25,9 @@ using Autodesk.Revit.Attributes;
 
 namespace MEPUtils.SelectByGuid
 {
+    [Shared.DevReloadButton(Text = "Select by GUID", Tooltip = "Select an element by typed GUID/UniqueId.", Group = "Piping Systems", Panel = "MEP", Order = 140, Icon16 = "ImgMUSelectByGuid16.png", Icon32 = "ImgMUSelectByGuid32.png")]
     [Transaction(TransactionMode.Manual)]
-    class SelectByGuid : IExternalCommand
+    public class SelectByGuid : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

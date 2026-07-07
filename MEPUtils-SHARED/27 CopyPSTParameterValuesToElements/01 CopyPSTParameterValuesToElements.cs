@@ -26,8 +26,9 @@ using System.Diagnostics;
 
 namespace MEPUtils.CopyPSTParameterValuesToElements
 {
+    [Shared.DevReloadButton(Text = "Copy PST values", Tooltip = "Copy Piping-System-Type parameter values onto member elements.", Group = "Parameters & Tagging", Panel = "MEP", Order = 154, Icon16 = "ImgMUCopyPst16.png", Icon32 = "ImgMUCopyPst32.png")]
     [Transaction(TransactionMode.Manual)]
-    class CopyPSTParameterValuesToElements : IExternalCommand
+    public class CopyPSTParameterValuesToElements : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

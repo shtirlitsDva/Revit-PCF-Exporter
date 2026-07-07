@@ -26,8 +26,9 @@ using System.Diagnostics;
 
 namespace MEPUtils.PipingSystemsAndFilters
 {
+    [Shared.DevReloadButton(Text = "Update abbreviation", Tooltip = "Set each PipingSystemType's Abbreviation to its Name.", Group = "Piping Systems", Panel = "MEP", Order = 145, Icon16 = "ImgMUUpdateAbbrev16.png", Icon32 = "ImgMUUpdateAbbrev32.png")]
     [Transaction(TransactionMode.Manual)]
-    class UpdateAbbreviationFromName : IExternalCommand
+    public class UpdateAbbreviationFromName : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

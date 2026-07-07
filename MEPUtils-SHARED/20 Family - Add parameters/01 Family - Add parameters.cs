@@ -25,6 +25,7 @@ using Autodesk.Revit.Attributes;
 
 namespace MEPUtils.FamilyTools.AddParameters
 {
+    [Shared.DevReloadButton(Text = "Add parameters", Tooltip = "Add shared parameters to a family document.", Group = "Family", Panel = "MEP", Order = 170, Icon16 = "ImgMUFamilyAddPars16.png", Icon32 = "ImgMUFamilyAddPars32.png")]
     [Transaction(TransactionMode.Manual)]
     public class Family_AddParameters : IExternalCommand
     {

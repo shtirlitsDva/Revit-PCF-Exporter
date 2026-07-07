@@ -26,8 +26,9 @@ using System.Diagnostics;
 
 namespace MEPUtils.PipingSystemsAndFilters
 {
+    [Shared.DevReloadButton(Text = "Create PS legend", Tooltip = "Create a piping-system legend.", Group = "Piping Systems", Panel = "MEP", Order = 144, Icon16 = "ImgMUCreatePsLegend16.png", Icon32 = "ImgMUCreatePsLegend32.png")]
     [Transaction(TransactionMode.Manual)]
-    class CreatePSLegend : IExternalCommand
+    public class CreatePSLegend : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

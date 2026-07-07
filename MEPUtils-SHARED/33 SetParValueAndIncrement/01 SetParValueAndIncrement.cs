@@ -27,8 +27,9 @@ using Shared.BuildingCoder;
 
 namespace MEPUtils.TaggingTools
 {
+    [Shared.DevReloadButton(Text = "Set + increment", Tooltip = "Set a parameter and auto-increment across picks.", Group = "Parameters & Tagging", Panel = "MEP", Order = 156, Icon16 = "ImgMUSetIncrement16.png", Icon32 = "ImgMUSetIncrement32.png")]
     [Transaction(TransactionMode.Manual)]
-    class SetParValueAndIncrement : IExternalCommand
+    public class SetParValueAndIncrement : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

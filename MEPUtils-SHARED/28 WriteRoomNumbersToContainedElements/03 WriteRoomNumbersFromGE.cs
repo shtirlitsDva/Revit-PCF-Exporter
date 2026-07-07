@@ -28,8 +28,9 @@ using sl = Shared.SimpleLogger;
 
 namespace MEPUtils.WriteRoomNumbersToContainedElements
 {
+    [Shared.DevReloadButton(Text = "Room nums (generic)", Tooltip = "Write room numbers from generic elements.", Group = "Rooms, Levels & Docs", Panel = "MEP", Order = 163, Icon16 = "ImgMURoomNumsGeneric16.png", Icon32 = "ImgMURoomNumsGeneric32.png")]
     [Transaction(TransactionMode.Manual)]
-    class WriteRoomNumbersFromGenericElements : IExternalCommand
+    public class WriteRoomNumbersFromGenericElements : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

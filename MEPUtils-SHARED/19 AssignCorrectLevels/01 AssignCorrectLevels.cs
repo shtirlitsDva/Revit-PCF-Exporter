@@ -13,6 +13,7 @@ using static Shared.Extensions;
 
 namespace MEPUtils.AssignCorrectLevels
 {
+    [Shared.DevReloadButton(Text = "Assign correct levels", Tooltip = "Reassign elements to their geometrically-correct level.", Group = "Rooms, Levels & Docs", Panel = "MEP", Order = 160, Icon16 = "ImgMUAssignLevels16.png", Icon32 = "ImgMUAssignLevels32.png")]
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     public class AssignCorrectLevels : IExternalCommand
     {

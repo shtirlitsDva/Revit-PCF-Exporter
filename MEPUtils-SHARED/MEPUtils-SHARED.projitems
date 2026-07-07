@@ -104,14 +104,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)14 ManageParameterValues\01 ManageParameterValues.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)15 FlowCopy\01 FlowCopy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)16 Tilkoblet\01 Tilkoblet.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)17 TestIExternalCommand\01 TestNlog.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)18 Treeview test\01 Treeview test.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)18 Treeview test\Treeview test.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)18 Treeview test\Treeview test.Designer.cs">
-      <DependentUpon>Treeview test.cs</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)19 AssignCorrectLevels\01 AssignCorrectLevels.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)20 Family - Add parameters\01 Family - Add parameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)21 Write all par GUID\02 Write all par GUID.cs" />
@@ -200,9 +192,6 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)13 NumberStuff\NumberStuffForm.resx">
       <DependentUpon>NumberStuffForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)18 Treeview test\Treeview test.resx">
-      <DependentUpon>Treeview test.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)22 PressureLossCalc\03 PressureLossCalcForm.resx">
       <DependentUpon>03 PressureLossCalcForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -223,7 +212,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App\App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App\RibbonButtons.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)App\CategoryCommands.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgConnectConnectors16.png" />
@@ -240,5 +231,77 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgSetMark32.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\Img3DRotate16.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\Img3DRotate32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInsCreateAll16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInsCreateAll32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInsDeleteAll16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInsDeleteAll32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInsSettings16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInsSettings32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUFlanges16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUFlanges32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPipeFromConn16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPipeFromConn32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUMoveToDist16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUMoveToDist32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUElementFromDS16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUElementFromDS32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInstr16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInstr32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInstrNN16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUInstrNN32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPsAddFilters16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPsAddFilters32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPsIsolate16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPsIsolate32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPsHide16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPsHide32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSelectByGuid16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSelectByGuid32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCreatePsLegend16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCreatePsLegend32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUUpdateAbbrev16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUUpdateAbbrev32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUReadLinkWorkset16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUReadLinkWorkset32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUNumberStuff16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUNumberStuff32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSplitParValue16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSplitParValue32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUFlowCopy16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUFlowCopy32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUWriteParGuid16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUWriteParGuid32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCopyPst16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCopyPst32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSetIncrement16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSetIncrement32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSetFromME16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSetFromME32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUAssignLevels16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUAssignLevels32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCopyToDoc16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCopyToDoc32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUWriteRoomNums16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUWriteRoomNums32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMURoomsFromLink16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMURoomsFromLink32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMURoomNumsGeneric16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMURoomNumsGeneric32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUFamilyAddPars16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUFamilyAddPars32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCreateFamTypes16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCreateFamTypes32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUTotalLength16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUTotalLength32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCountWelds16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUCountWelds32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPressureLoss16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUPressureLoss32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSpindleQa16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSpindleQa32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSupportToolsMenu16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUSupportToolsMenu32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUTilkoblet16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMUTilkoblet32.png" />
   </ItemGroup>
 </Project>

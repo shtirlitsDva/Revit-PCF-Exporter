@@ -29,8 +29,9 @@ using System.Security.Cryptography;
 
 namespace MEPUtils.WriteRoomNumbersToContainedElements
 {
+    [Shared.DevReloadButton(Text = "Write room numbers", Tooltip = "Write room numbers onto contained MEP elements.", Group = "Rooms, Levels & Docs", Panel = "MEP", Order = 161, Icon16 = "ImgMUWriteRoomNums16.png", Icon32 = "ImgMUWriteRoomNums32.png")]
     [Transaction(TransactionMode.Manual)]
-    class WriteRoomNumbersToContainedElements : IExternalCommand
+    public class WriteRoomNumbersToContainedElements : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

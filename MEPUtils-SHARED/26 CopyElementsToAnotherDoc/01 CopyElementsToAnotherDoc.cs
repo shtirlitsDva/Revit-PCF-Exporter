@@ -26,8 +26,9 @@ using System.Diagnostics;
 
 namespace MEPUtils.CopyElementsToAnotherDoc
 {
+    [Shared.DevReloadButton(Text = "Copy to another doc", Tooltip = "Copy selected elements into another open document.", Group = "Rooms, Levels & Docs", Panel = "MEP", Order = 164, Icon16 = "ImgMUCopyToDoc16.png", Icon32 = "ImgMUCopyToDoc32.png")]
     [Transaction(TransactionMode.Manual)]
-    class CopyElementsToAnotherDoc : IExternalCommand
+    public class CopyElementsToAnotherDoc : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
