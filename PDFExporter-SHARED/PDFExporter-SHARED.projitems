@@ -33,4 +33,11 @@
     <Content Include="$(MSBuildThisFileDirectory)prtPages_DRI.xml" />
     <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App\RibbonButtons.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgPDF16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgPDF32.png" />
+  </ItemGroup>
 </Project>

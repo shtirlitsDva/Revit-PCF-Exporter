@@ -42,6 +42,8 @@
 	     output folder and are reflected at Revit startup. -->
 	<ItemGroup>
 		<ProjectReference Include="..\revit-pcf-exporter-2025\revit-pcf-exporter-2025.csproj" />
+		<ProjectReference Include="..\MEPUtils-2025\MEPUtils-2025.csproj" />
+		<ProjectReference Include="..\PDFExporter-2025\PDFExporter-2025.csproj" />
 	</ItemGroup>
 	<Import Project="..\NorsynApps-SHARED\NorsynApps-SHARED.projitems" Label="Shared" />
 </Project>

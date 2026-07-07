@@ -24,7 +24,6 @@ using tr = Shared.Transformation;
 using Autodesk.Revit.Attributes;
 using System.Diagnostics;
 using log = Shared.SimpleLogger;
-using Microsoft.Office.Interop.Excel;
 
 namespace MEPUtils.PipingSystemsAndFilters
 {

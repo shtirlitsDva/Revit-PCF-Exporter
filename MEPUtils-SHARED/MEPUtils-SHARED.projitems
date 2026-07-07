@@ -222,4 +222,23 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Windows Logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App\RibbonButtons.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgConnectConnectors16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgConnectConnectors32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgPipeInsulationVisibility16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgPipeInsulationVisibility32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgPlaceSupport16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgPlaceSupport32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgPED16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgPED32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMEPUtils16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgMEPUtils32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgSetMark16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\ImgSetMark32.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\Img3DRotate16.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App\Resources\Img3DRotate32.png" />
+  </ItemGroup>
 </Project>
