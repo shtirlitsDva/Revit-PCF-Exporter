@@ -58,6 +58,34 @@ namespace Norsyn.CommandPalette.ViewModels
         // Called when the command registry changes (a source loaded/unloaded).
         public void Refresh() => Rebuild();
 
+        // Drag-reorder from the pane: move <dragged> to <target>'s slot. Persists
+        // the new arrangement, which raises Changed → Rebuild so Items re-sync.
+        public void MoveItem(FavoriteItemViewModel dragged, FavoriteItemViewModel target)
+        {
+            if (dragged == null || target == null || ReferenceEquals(dragged, target)) return;
+            int from = Items.IndexOf(dragged);
+            int to = Items.IndexOf(target);
+            if (from < 0 || to < 0 || from == to) return;
+
+            var ids = Items.Select(i => i.Model.Id).ToList();
+            ids.RemoveAt(from);
+            ids.Insert(to, dragged.Model.Id);
+            _favorites.SetOrder(ids);
+        }
+
+        // Drop onto empty space → send <dragged> to the end.
+        public void MoveToEnd(FavoriteItemViewModel dragged)
+        {
+            if (dragged == null) return;
+            int from = Items.IndexOf(dragged);
+            if (from < 0 || from == Items.Count - 1) return;
+
+            var ids = Items.Select(i => i.Model.Id).ToList();
+            ids.RemoveAt(from);
+            ids.Add(dragged.Model.Id);
+            _favorites.SetOrder(ids);
+        }
+
         private void Rebuild()
         {
             var byId = _source().ToDictionary(c => c.Id, c => c);

@@ -91,7 +91,11 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <Grid>
                     <!-- Labels ON: dense list -->
-                    <ItemsControl ItemsSource="{Binding Items}" Margin="4"
+                    <ItemsControl ItemsSource="{Binding Items}" Margin="4" Background="Transparent"
+                                  AllowDrop="True"
+                                  PreviewMouseLeftButtonDown="OnItemsPreviewMouseLeftButtonDown"
+                                  PreviewMouseMove="OnItemsPreviewMouseMove"
+                                  DragOver="OnItemsDragOver" Drop="OnItemsDrop"
                                   Visibility="{Binding LabelsOn, Converter={StaticResource BoolToVis}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type vm:FavoriteItemViewModel}">
@@ -116,7 +120,11 @@
                     </ItemsControl>
 
                     <!-- Labels OFF: icon strip -->
-                    <ItemsControl ItemsSource="{Binding Items}" Margin="8"
+                    <ItemsControl ItemsSource="{Binding Items}" Margin="8" Background="Transparent"
+                                  AllowDrop="True"
+                                  PreviewMouseLeftButtonDown="OnItemsPreviewMouseLeftButtonDown"
+                                  PreviewMouseMove="OnItemsPreviewMouseMove"
+                                  DragOver="OnItemsDragOver" Drop="OnItemsDrop"
                                   Visibility="{Binding LabelsOff, Converter={StaticResource BoolToVis}}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
