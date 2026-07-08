@@ -12,71 +12,68 @@
              d:DesignWidth="216" d:DesignHeight="260"
              FontFamily="Segoe UI" UseLayoutRounding="True">
 
+    <!-- Colours come solely from the central Colors.xaml (see CommandPaletteControl
+         for the rationale). No hard-coded hex here. -->
     <UserControl.Resources>
-        <sysctl:BooleanToVisibilityConverter x:Key="BoolToVis" />
-        <conv:InverseBoolToVisibilityConverter x:Key="InvBoolToVis" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/CommandPalette.Core;component/Themes/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <SolidColorBrush x:Key="MiniBg"    Color="#2B2B2E" />
-        <SolidColorBrush x:Key="MiniBd"    Color="#45454B" />
-        <SolidColorBrush x:Key="BarBg"     Color="#333337" />
-        <SolidColorBrush x:Key="Hairline"  Color="#26262A" />
-        <SolidColorBrush x:Key="ItemHover" Color="#3F3F47" />
-        <SolidColorBrush x:Key="Accent"    Color="#0E639C" />
-        <SolidColorBrush x:Key="TextPri"   Color="#E8E8E8" />
-        <SolidColorBrush x:Key="TextRow"   Color="#E2E2E2" />
-        <SolidColorBrush x:Key="TextMuted" Color="#8A8A8A" />
-        <SolidColorBrush x:Key="StarGold"  Color="#E2B93B" />
+            <sysctl:BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <conv:InverseBoolToVisibilityConverter x:Key="InvBoolToVis" />
 
-        <Style x:Key="MiniFlat" TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="bd" Background="{TemplateBinding Background}"
-                                CornerRadius="3" Padding="{TemplateBinding Padding}">
-                            <ContentPresenter VerticalAlignment="Center"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="{StaticResource ItemHover}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <Style x:Key="MiniFlat" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="bd" Background="{TemplateBinding Background}"
+                                    CornerRadius="3" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter VerticalAlignment="Center"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="bd" Property="Background" Value="{StaticResource Brush.Bg.SurfaceHi}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border Background="{StaticResource MiniBg}" BorderBrush="{StaticResource MiniBd}" BorderThickness="1" CornerRadius="6">
+    <Border Background="{StaticResource Brush.Bg.Panel}" BorderBrush="{StaticResource Brush.Border}" BorderThickness="1" CornerRadius="6">
         <DockPanel LastChildFill="True">
             <!-- Header -->
-            <Border DockPanel.Dock="Top" Background="{StaticResource BarBg}"
-                    BorderBrush="{StaticResource Hairline}" BorderThickness="0,0,0,1" Padding="9,6">
+            <Border DockPanel.Dock="Top" Background="{StaticResource Brush.Bg.Surface}"
+                    BorderBrush="{StaticResource Brush.Hairline}" BorderThickness="0,0,0,1" Padding="9,6">
                 <Grid>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="★" FontSize="12" Foreground="{StaticResource StarGold}" VerticalAlignment="Center" />
+                        <TextBlock Text="★" FontSize="12" Foreground="{StaticResource Brush.Palette.Star}" VerticalAlignment="Center" />
                         <TextBlock Text="Favorites" FontSize="11" FontWeight="SemiBold" Margin="7,0,0,0"
-                                   Foreground="{StaticResource TextPri}" VerticalAlignment="Center" />
+                                   Foreground="{StaticResource Brush.Text.Primary}" VerticalAlignment="Center" />
                     </StackPanel>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Cursor="Hand"
                             Command="{Binding ToggleLabelsCommand}" ToolTip="Toggle labels">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border x:Name="bd" CornerRadius="3" Padding="6,1"
-                                        BorderBrush="{StaticResource MiniBd}" BorderThickness="1"
+                                        BorderBrush="{StaticResource Brush.Border}" BorderThickness="1"
                                         Background="Transparent">
                                     <TextBlock x:Name="t" Text="Aa" FontSize="10" FontWeight="SemiBold"
-                                               Foreground="#9A9A9A" />
+                                               Foreground="{StaticResource Brush.Text.Secondary}" />
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <DataTrigger Binding="{Binding LabelsOn}" Value="True">
-                                        <Setter TargetName="bd" Property="Background" Value="{StaticResource Accent}" />
-                                        <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource Accent}" />
-                                        <Setter TargetName="t" Property="Foreground" Value="White" />
+                                        <Setter TargetName="bd" Property="Background" Value="{StaticResource Brush.Accent}" />
+                                        <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource Brush.Accent}" />
+                                        <Setter TargetName="t" Property="Foreground" Value="{StaticResource Brush.Accent.Fg}" />
                                     </DataTrigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -87,7 +84,7 @@
 
             <!-- Empty state -->
             <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" TextAlignment="Center" Margin="14,18"
-                       FontSize="11" Foreground="{StaticResource TextMuted}"
+                       FontSize="11" Foreground="{StaticResource Brush.Text.Secondary}"
                        Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}}"
                        Text="No favorites yet. Star commands in the palette to pin them here." />
 
@@ -104,13 +101,13 @@
                                         <Grid Width="22" Height="22" Margin="0,0,8,0">
                                             <Border CornerRadius="5" Background="{Binding CategoryBrush}"
                                                     Visibility="{Binding HasIcon, Converter={StaticResource InvBoolToVis}}">
-                                                <TextBlock Text="{Binding Monogram}" Foreground="White" FontSize="9.5"
+                                                <TextBlock Text="{Binding Monogram}" Foreground="{StaticResource Brush.Accent.Fg}" FontSize="9.5"
                                                            FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                             </Border>
                                             <Image Source="{Binding Icon}" Width="22" Height="22"
                                                    Visibility="{Binding HasIcon, Converter={StaticResource BoolToVis}}" />
                                         </Grid>
-                                        <TextBlock Text="{Binding Label}" FontSize="11.5" Foreground="{StaticResource TextRow}"
+                                        <TextBlock Text="{Binding Label}" FontSize="11.5" Foreground="{StaticResource Brush.Text.Primary}"
                                                    VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                                     </StackPanel>
                                 </Button>
@@ -131,7 +128,7 @@
                                     <Grid Width="28" Height="28">
                                         <Border CornerRadius="7" Background="{Binding CategoryBrush}"
                                                 Visibility="{Binding HasIcon, Converter={StaticResource InvBoolToVis}}">
-                                            <TextBlock Text="{Binding Monogram}" Foreground="White" FontSize="11"
+                                            <TextBlock Text="{Binding Monogram}" Foreground="{StaticResource Brush.Accent.Fg}" FontSize="11"
                                                        FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </Border>
                                         <Image Source="{Binding Icon}" Width="28" Height="28"

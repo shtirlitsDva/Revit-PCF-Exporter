@@ -49,6 +49,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <!-- The central colour tokens (authored in revit-shared-utilities-shared),
+         compiled in here as a Page so the palette merges them by pack URI
+         (/CommandPalette.Core;component/Themes/Colors.xaml). Brushes only — no
+         window control styles come along, so the palette keeps its own chrome. -->
+    <Page Include="$(MSBuildThisFileDirectory)..\revit-shared-utilities-shared\02 Theme\Colors.xaml">
+      <Link>Themes\Colors.xaml</Link>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Views\CommandPaletteControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

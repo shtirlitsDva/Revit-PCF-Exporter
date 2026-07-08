@@ -1,72 +1,38 @@
 <!--
     Norsyn central dark theme  (Theme.xaml)
     ========================================
-    Single source of truth for the look of every Norsyn Revit add-in window.
+    The control STYLES for every Norsyn Revit add-in window. All colour values
+    live in the sibling Colors.xaml (the single source of truth); this file only
+    describes how the standard controls look, referencing those colours by key.
 
     HOW IT IS CONSUMED
       This file is embedded (build action EmbeddedResource, stable LogicalName
       "RevitShared.Theme.xaml") into every add-in assembly and loaded at RUNTIME
-      by ThemeManager via XamlReader. It is deliberately NOT a compiled <Page>
-      ResourceDictionary: the shared code compiles into legacy .NET Framework 4.8
-      Revit projects that do not run the XAML/BAML build pipeline, so runtime
-      loading is the only mechanism that works across all target frameworks.
+      by ThemeManager via XamlReader, together with Colors.xaml. It is deliberately
+      NOT a compiled <Page> ResourceDictionary: the shared code compiles into legacy
+      .NET Framework 4.8 Revit projects that do not run the XAML/BAML build pipeline,
+      so runtime loading is the only mechanism that works across all frameworks.
 
-    CONSEQUENCE FOR EDITING
-      Because it is parsed at runtime, every {StaticResource} must be declared
-      ABOVE its first use (forward references do not resolve in a standalone
-      dictionary). Keep the order: brushes first, then styles.
-
-    PALETTE
-      Cool blue-slate mimicking Revit's dark UI. The blue channel is kept highest
-      in every surface tone so nothing drifts into flat neutral grey. The single
-      interactive accent is a Revit blue; axis colours are the semantic X/Y/Z reds
-      /greens/blues, desaturated so they read cleanly on a dark ground.
+    WHY {DynamicResource} FOR COLOURS
+      Because the brushes live in a SEPARATE dictionary (Colors.xaml) that
+      ThemeManager merges alongside this one at apply time, the brush keys are not
+      present while this file is parsed standalone by XamlReader. {DynamicResource}
+      defers the lookup until both dictionaries are merged into the target window,
+      so it resolves; {StaticResource} would throw at parse time. Structural
+      resource references that ARE defined in this file may stay {StaticResource}.
 
     EXTENDING
       Add new implicit styles (ComboBox, CheckBox, ScrollBar, ...) here as windows
-      adopt the theme. Only the control templates actually in use today are defined,
-      by design.
+      adopt the theme. Add new colours to Colors.xaml, never here.
 -->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- ============================ BRUSHES ============================ -->
-
-    <!-- Surfaces: blue-slate, darkest -> lightest. B channel highest = never grey. -->
-    <SolidColorBrush x:Key="Brush.Bg.Window"     Color="#20242B"/>
-    <SolidColorBrush x:Key="Brush.Bg.Panel"      Color="#2A2F37"/>
-    <SolidColorBrush x:Key="Brush.Bg.Surface"    Color="#333944"/>
-    <SolidColorBrush x:Key="Brush.Bg.SurfaceHi"  Color="#3E4551"/>
-    <SolidColorBrush x:Key="Brush.Bg.SurfaceLo"  Color="#191D23"/>
-
-    <!-- Borders -->
-    <SolidColorBrush x:Key="Brush.Border"        Color="#434B57"/>
-    <SolidColorBrush x:Key="Brush.BorderHi"      Color="#586274"/>
-
-    <!-- Text -->
-    <SolidColorBrush x:Key="Brush.Text.Primary"   Color="#E6EAF0"/>
-    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="#A6AFBD"/>
-    <SolidColorBrush x:Key="Brush.Text.Disabled"  Color="#5F6874"/>
-
-    <!-- Accent: Revit blue -->
-    <SolidColorBrush x:Key="Brush.Accent"        Color="#4C8DD1"/>
-    <SolidColorBrush x:Key="Brush.Accent.Hover"  Color="#5FA0E2"/>
-    <SolidColorBrush x:Key="Brush.Accent.Press"  Color="#3A72AD"/>
-    <SolidColorBrush x:Key="Brush.Accent.Fg"     Color="#FFFFFF"/>
-
-    <!-- Semantic axis colours (desaturated for a dark ground) -->
-    <SolidColorBrush x:Key="Brush.Axis.X"        Color="#E6746B"/>
-    <SolidColorBrush x:Key="Brush.Axis.Y"        Color="#7FC08A"/>
-    <SolidColorBrush x:Key="Brush.Axis.Z"        Color="#6FA0E0"/>
-
-    <!-- Feedback -->
-    <SolidColorBrush x:Key="Brush.Warn"          Color="#EF7A66"/>
-
     <!-- ============================ WINDOW ============================ -->
 
     <Style TargetType="{x:Type Window}">
-        <Setter Property="Background" Value="{StaticResource Brush.Bg.Window}"/>
-        <Setter Property="Foreground" Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="Background" Value="{DynamicResource Brush.Bg.Window}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontSize"   Value="12"/>
     </Style>
@@ -74,19 +40,19 @@
     <!-- ============================ TEXTBLOCK ============================ -->
 
     <Style TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="{StaticResource Brush.Text.Primary}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Primary}"/>
         <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
     </Style>
 
     <!-- ============================ TEXTBOX ============================ -->
 
     <Style TargetType="{x:Type TextBox}">
-        <Setter Property="Foreground"        Value="{StaticResource Brush.Text.Primary}"/>
-        <Setter Property="Background"        Value="{StaticResource Brush.Bg.Surface}"/>
-        <Setter Property="BorderBrush"       Value="{StaticResource Brush.Border}"/>
+        <Setter Property="Foreground"        Value="{DynamicResource Brush.Text.Primary}"/>
+        <Setter Property="Background"        Value="{DynamicResource Brush.Bg.Surface}"/>
+        <Setter Property="BorderBrush"       Value="{DynamicResource Brush.Border}"/>
         <Setter Property="BorderThickness"   Value="1"/>
-        <Setter Property="CaretBrush"        Value="{StaticResource Brush.Accent.Hover}"/>
-        <Setter Property="SelectionBrush"    Value="{StaticResource Brush.Accent}"/>
+        <Setter Property="CaretBrush"        Value="{DynamicResource Brush.Accent.Hover}"/>
+        <Setter Property="SelectionBrush"    Value="{DynamicResource Brush.Accent}"/>
         <Setter Property="SelectionOpacity"  Value="0.4"/>
         <Setter Property="Padding"           Value="4,3"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -107,15 +73,15 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource Brush.BorderHi}"/>
+                            <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource Brush.BorderHi}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource Brush.Accent}"/>
-                            <Setter TargetName="bd" Property="Background"  Value="{StaticResource Brush.Bg.SurfaceHi}"/>
+                            <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
+                            <Setter TargetName="bd" Property="Background"  Value="{DynamicResource Brush.Bg.SurfaceHi}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource Brush.Text.Disabled}"/>
-                            <Setter TargetName="bd" Property="Background" Value="{StaticResource Brush.Bg.SurfaceLo}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Disabled}"/>
+                            <Setter TargetName="bd" Property="Background" Value="{DynamicResource Brush.Bg.SurfaceLo}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -127,9 +93,9 @@
     <!-- Default button is a filled primary action (accent). -->
 
     <Style TargetType="{x:Type Button}">
-        <Setter Property="Foreground"      Value="{StaticResource Brush.Accent.Fg}"/>
-        <Setter Property="Background"      Value="{StaticResource Brush.Accent}"/>
-        <Setter Property="BorderBrush"     Value="{StaticResource Brush.Accent.Press}"/>
+        <Setter Property="Foreground"      Value="{DynamicResource Brush.Accent.Fg}"/>
+        <Setter Property="Background"      Value="{DynamicResource Brush.Accent}"/>
+        <Setter Property="BorderBrush"     Value="{DynamicResource Brush.Accent.Press}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="FontWeight"      Value="SemiBold"/>
         <Setter Property="Padding"         Value="12,4"/>
@@ -150,16 +116,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bd" Property="Background"  Value="{StaticResource Brush.Accent.Hover}"/>
-                            <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource Brush.Accent.Hover}"/>
+                            <Setter TargetName="bd" Property="Background"  Value="{DynamicResource Brush.Accent.Hover}"/>
+                            <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource Brush.Accent.Hover}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="bd" Property="Background"  Value="{StaticResource Brush.Accent.Press}"/>
+                            <Setter TargetName="bd" Property="Background"  Value="{DynamicResource Brush.Accent.Press}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="bd" Property="Background"  Value="{StaticResource Brush.Bg.SurfaceHi}"/>
-                            <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource Brush.Border}"/>
-                            <Setter Property="Foreground" Value="{StaticResource Brush.Text.Disabled}"/>
+                            <Setter TargetName="bd" Property="Background"  Value="{DynamicResource Brush.Bg.SurfaceHi}"/>
+                            <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource Brush.Border}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.Text.Disabled}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -170,9 +136,9 @@
     <!-- ============================ GROUPBOX ============================ -->
 
     <Style TargetType="{x:Type GroupBox}">
-        <Setter Property="Foreground"      Value="{StaticResource Brush.Text.Secondary}"/>
-        <Setter Property="Background"      Value="{StaticResource Brush.Bg.Panel}"/>
-        <Setter Property="BorderBrush"     Value="{StaticResource Brush.Border}"/>
+        <Setter Property="Foreground"      Value="{DynamicResource Brush.Text.Secondary}"/>
+        <Setter Property="Background"      Value="{DynamicResource Brush.Bg.Panel}"/>
+        <Setter Property="BorderBrush"     Value="{DynamicResource Brush.Border}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding"         Value="8"/>
         <Setter Property="Template">
@@ -185,11 +151,11 @@
                             SnapsToDevicePixels="True">
                         <DockPanel>
                             <Border DockPanel.Dock="Top"
-                                    Background="{StaticResource Brush.Bg.SurfaceLo}"
+                                    Background="{DynamicResource Brush.Bg.SurfaceLo}"
                                     CornerRadius="4,4,0,0"
                                     Padding="8,5">
                                 <ContentPresenter ContentSource="Header"
-                                                  TextBlock.Foreground="{StaticResource Brush.Accent.Hover}"
+                                                  TextBlock.Foreground="{DynamicResource Brush.Accent.Hover}"
                                                   TextBlock.FontWeight="SemiBold"/>
                             </Border>
                             <ContentPresenter Margin="{TemplateBinding Padding}"/>

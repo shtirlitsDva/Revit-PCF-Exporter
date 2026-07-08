@@ -34,6 +34,9 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)01 Shared code\BaseFormTableLayoutPanel_BasicList.resx">
       <DependentUpon>BaseFormTableLayoutPanel_BasicList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)02 Theme\Colors.xaml">
+      <LogicalName>RevitShared.Colors.xaml</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)02 Theme\Theme.xaml">
       <LogicalName>RevitShared.Theme.xaml</LogicalName>
     </EmbeddedResource>

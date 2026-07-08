@@ -22,8 +22,9 @@ namespace Shared.Theme
     /// </summary>
     public static class ThemeManager
     {
-        /// <summary>Stable logical name pinned in the shared .projitems.</summary>
-        private const string ResourceName = "RevitShared.Theme.xaml";
+        /// <summary>Stable logical names pinned in the shared .projitems.</summary>
+        private const string ThemeResourceName = "RevitShared.Theme.xaml";
+        private const string ColorsResourceName = "RevitShared.Colors.xaml";
 
         private static ResourceDictionary _cached;
 
@@ -56,12 +57,24 @@ namespace Shared.Theme
 
         private static ResourceDictionary Load()
         {
+            // Colours live in their own dictionary (the single source of truth);
+            // Theme.xaml holds only styles and refers to those colours with
+            // {DynamicResource}. Merge the colours INTO the theme dictionary so the
+            // deferred lookups resolve, and so the GetBrush indexer can reach them.
+            ResourceDictionary colors = LoadDictionary(ColorsResourceName);
+            ResourceDictionary theme = LoadDictionary(ThemeResourceName);
+            theme.MergedDictionaries.Insert(0, colors);
+            return theme;
+        }
+
+        private static ResourceDictionary LoadDictionary(string resourceName)
+        {
             Assembly asm = Assembly.GetExecutingAssembly();
-            using (var stream = asm.GetManifestResourceStream(ResourceName))
+            using (var stream = asm.GetManifestResourceStream(resourceName))
             {
                 if (stream == null)
                     throw new InvalidOperationException(
-                        $"Embedded theme '{ResourceName}' not found in {asm.GetName().Name}. " +
+                        $"Embedded theme resource '{resourceName}' not found in {asm.GetName().Name}. " +
                         "Confirm the EmbeddedResource + <LogicalName> entry in the shared .projitems.");
 
                 return (ResourceDictionary)XamlReader.Load(stream);
