@@ -79,10 +79,10 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
-		<PackageReference Include="System.ComponentModel.Composition" Version="9.0.5" />
+		<PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.5" />
-		<PackageReference Include="System.Data.OleDb" Version="9.0.5" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
+		<PackageReference Include="System.Data.OleDb" Version="8.0.1" />
 		<PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
 		<PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
 		<PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
@@ -104,7 +104,6 @@
 		<PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.53.1" />
 		<PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
 		<PackageReference Include="PDFsharp-MigraDoc" Version="6.2.0" />
-		<PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.5" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Shared\Forms\" />
