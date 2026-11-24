@@ -85,6 +85,60 @@ namespace ModelessForms.Tests.IssuesManager
             Assert.True(File.Exists(_legacyFile)); // the old file is left alone
         }
 
+        private const string LegacyJson =
+            @"{""AzureSpeechKey"":""old-key"",""AzureSpeechRegion"":""eastus"",""BaseFolder"":""D:\\Old""," +
+            @"""DefaultCollection"":""Default"",""MicrophoneName"":"""",""SpeechLanguage"":""da-DK""}";
+
+        private void WriteLegacy(string json)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(_legacyFile)!);
+            File.WriteAllText(_legacyFile, json);
+        }
+
+        [Theory]
+        [InlineData("BaseFolder")]
+        [InlineData("AzureSpeechKey")]
+        [InlineData("SpeechLanguage")]
+        public void Legacy_settings_with_null_or_missing_field_are_refused(string field)
+        {
+            // No fallback (review item 7): a damaged old file is reported, not repaired.
+            var withNull = System.Text.Json.Nodes.JsonNode.Parse(LegacyJson)!.AsObject();
+            withNull[field] = null;
+            WriteLegacy(withNull.ToJsonString());
+            var ex = Assert.Throws<IssueStoreException>(() => _store.Load());
+            Assert.Contains(field, ex.Message);
+
+            var missing = System.Text.Json.Nodes.JsonNode.Parse(LegacyJson)!.AsObject();
+            missing.Remove(field);
+            WriteLegacy(missing.ToJsonString());
+            Assert.Throws<IssueStoreException>(() => _store.Load());
+        }
+
+        [Fact]
+        public void Save_removes_the_plain_text_key_from_the_legacy_file()
+        {
+            WriteLegacy(LegacyJson);
+
+            _store.Save(_store.Load());
+
+            var legacy = File.ReadAllText(_legacyFile);
+            Assert.DoesNotContain("old-key", legacy);
+            Assert.Contains("eastus", legacy); // the rest of the old file is not changed
+            Assert.Equal("old-key", _store.Load().AzureSpeechKey);
+        }
+
+        [Fact]
+        public void Save_does_not_rewrite_a_legacy_file_without_a_key()
+        {
+            WriteLegacy(LegacyJson.Replace("old-key", ""));
+            var old = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            File.SetLastWriteTimeUtc(_legacyFile, old);
+
+            _store.Save(_store.Load());
+
+            Assert.Equal(old, File.GetLastWriteTimeUtc(_legacyFile));
+        }
+
         [Fact]
         public void New_settings_file_wins_over_legacy_file()
         {

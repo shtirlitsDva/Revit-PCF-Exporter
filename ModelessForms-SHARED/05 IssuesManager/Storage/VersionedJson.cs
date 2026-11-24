@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization.Metadata;
 
 namespace ModelessForms.IssuesManager.Storage
 {
@@ -28,11 +29,32 @@ namespace ModelessForms.IssuesManager.Storage
     {
         public const string VersionField = "FormatVersion";
 
+        /// <summary>
+        /// Every stored property is REQUIRED on read: a current-format file with a
+        /// missing field is damaged and is refused, never filled with a default value
+        /// (the next save would then write the default over the lost data). Old files
+        /// get their missing fields only from an upgrade step (spec F7).
+        /// </summary>
         public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
         {
             WriteIndented = true,
             PropertyNamingPolicy = null,
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver
+            {
+                Modifiers = { MakeAllPropertiesRequired },
+            },
         };
+
+        private static void MakeAllPropertiesRequired(JsonTypeInfo typeInfo)
+        {
+            if (typeInfo.Kind != JsonTypeInfoKind.Object) return;
+            // A property without a deserialization setter (for example [JsonIgnore]
+            // IssueCollection.Name) is never read from the file, so it cannot be required.
+            foreach (var property in typeInfo.Properties)
+            {
+                if (property.Set != null) property.IsRequired = true;
+            }
+        }
 
         private readonly IReadOnlyList<IFormatUpgrade> _upgrades;
 

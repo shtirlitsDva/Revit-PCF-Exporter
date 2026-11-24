@@ -132,6 +132,28 @@ namespace ModelessForms.Tests.IssuesManager
             Assert.Equal("{ this is not json", File.ReadAllText(CollectionFile("Pumps")));
         }
 
+        [Theory]
+        [InlineData("Issues")]
+        [InlineData("NextIssueNumber")]
+        [InlineData("ProjectName")]
+        [InlineData("Description")]
+        [InlineData("Screenshots")]
+        [InlineData("Modified")]
+        public void Load_of_current_file_with_a_missing_field_throws_and_does_not_touch_the_file(string field)
+        {
+            var c = _store.Create("Pumps");
+            c.AddIssue(new[] { "uid-1" }, DateTime.Now);
+            _store.Save(c);
+            var doc = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(CollectionFile("Pumps")))!.AsObject();
+            var owner = doc.ContainsKey(field) ? doc : doc["Issues"]![0]!.AsObject();
+            Assert.True(owner.Remove(field));
+            var damaged = doc.ToJsonString();
+            File.WriteAllText(CollectionFile("Pumps"), damaged);
+
+            Assert.Throws<IssueStoreException>(() => _store.Load("Pumps"));
+            Assert.Equal(damaged, File.ReadAllText(CollectionFile("Pumps")));
+        }
+
         [Fact]
         public void Load_of_missing_collection_throws()
         {
@@ -155,6 +177,19 @@ namespace ModelessForms.Tests.IssuesManager
             using (new FileStream(CollectionFile("Pumps"), FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 Assert.Throws<IssueStoreException>(() => _store.Save(c));
+            }
+        }
+
+        [Fact]
+        public void Atomic_write_reports_the_original_error_when_the_temp_file_cannot_be_removed()
+        {
+            var target = Path.Combine(_base, "file.json");
+            using (new FileStream(target + ".tmp", FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+            {
+                var ex = Assert.Throws<IOException>(() => AtomicFile.WriteAllText(target, "x"));
+                Assert.IsAssignableFrom<IOException>(ex.InnerException);
+                Assert.Contains("temporary file", ex.Message);
+                Assert.Contains(ex.InnerException!.Message, ex.Message);
             }
         }
 

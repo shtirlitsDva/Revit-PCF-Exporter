@@ -30,11 +30,18 @@ namespace ModelessForms.IssuesManager.Revit
         {
             var uidoc = ActiveDocument(app);
             var doc = uidoc.Document;
-            IReadOnlyList<string> ids = uidoc.Selection.GetElementIds()
-                .Select(id => doc.GetElement(id))
-                .Where(e => e != null)
-                .Select(e => e.UniqueId)
-                .ToList();
+            var selected = uidoc.Selection.GetElementIds();
+            var elements = selected.Select(id => doc.GetElement(id)).ToList();
+
+            // No silent drop (review item 8, user ruling 2026-11-24): a selected element
+            // that cannot be found is an error, so the issue never gets a partial list.
+            int notFound = elements.Count(e => e == null);
+            if (notFound > 0)
+                throw new InvalidOperationException(
+                    $"{notFound} of the {selected.Count} selected element(s) cannot be found in the model. " +
+                    "Select the elements again and try again.");
+
+            IReadOnlyList<string> ids = elements.Select(e => e!.UniqueId).ToList();
             return ids;
         });
 

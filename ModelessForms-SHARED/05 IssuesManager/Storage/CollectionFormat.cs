@@ -68,8 +68,8 @@ namespace ModelessForms.IssuesManager.Storage
             {
                 var issue = node as JsonObject ?? throw new FormatException("An issue is not a JSON object.");
 
-                var id = issue["Id"]?.GetValue<string>();
-                if (string.IsNullOrWhiteSpace(id))
+                var id = LegacyJson.RequiredString(issue, "Id");
+                if (id.Trim().Length == 0)
                     throw new FormatException("An issue has no 'Id'.");
 
                 issue["Created"] = LegacyJson.Date(issue, "Created");
@@ -99,11 +99,24 @@ namespace ModelessForms.IssuesManager.Storage
         /// </summary>
         public static JsonNode Date(JsonObject owner, string field)
         {
-            var text = owner[field]?.GetValue<string>();
-            if (string.IsNullOrWhiteSpace(text))
+            var text = RequiredString(owner, field);
+            if (text.Trim().Length == 0)
                 throw new FormatException($"Missing date '{field}'.");
 
             return JsonValue.Create(ParseDate(text, field));
+        }
+
+        /// <summary>
+        /// Reads a field that must be a JSON string. A missing field, null or another
+        /// JSON type (number, object ...) is a <see cref="FormatException"/>.
+        /// </summary>
+        public static string RequiredString(JsonObject owner, string field)
+        {
+            if (!owner.TryGetPropertyValue(field, out var node) || node == null)
+                throw new FormatException($"The field '{field}' is missing or null.");
+            if (node is JsonValue value && value.TryGetValue(out string? text))
+                return text;
+            throw new FormatException($"The field '{field}' is not text: {node.ToJsonString()}");
         }
 
         public static void NullToEmptyString(JsonObject owner, string field)

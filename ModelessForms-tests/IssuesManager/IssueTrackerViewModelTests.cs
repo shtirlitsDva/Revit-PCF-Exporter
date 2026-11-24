@@ -178,7 +178,9 @@ namespace ModelessForms.Tests.IssuesManager
 
             Assert.False(Directory.Exists(Path.Combine(_folder, "Pumps")));
             Assert.DoesNotContain("Pumps", vm.CollectionNames);
-            Assert.Equal("Other", vm.SelectedCollectionName);
+            // No fallback: no other collection is opened for the user (review item 5).
+            Assert.Null(vm.SelectedCollectionName);
+            Assert.Empty(vm.Issues);
         }
 
         [Fact]
@@ -247,7 +249,7 @@ namespace ModelessForms.Tests.IssuesManager
             issue.Description = "Valve clashes with beam\nsecond line";
 
             Assert.Contains(nameof(IssueViewModel.Title), changed);
-            Assert.Equal("#1  Valve clashes with beam", issue.Title);
+            Assert.Equal("#1 – Valve clashes with beam", issue.Title);
             Assert.Equal(string.Empty, OnDisk().Issues.Single().Description);
 
             vm.FlushPendingSave();

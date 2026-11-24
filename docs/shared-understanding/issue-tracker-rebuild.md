@@ -177,6 +177,21 @@ Fallbacks found in the build (rule 12, need a ruling):
 Colours outside the ruleset palette (need a ruling): `Accent.Translucent` (accent at 25 % opacity, capture selection), `Overlay.Dim` (black at 50 %, capture overlay), and the older `Axis.X/Y/Z` and `Palette.Star` (Rotate window, command palette). `Bg.SurfaceLo` is now the ruleset BackgroundDeep #1E2124, the same as the window background.
 - F5. PDFsharp font set-up: if another add-in already configured PDFsharp fonts in the Revit process (read the setting first, or installed its own FontResolver), that configuration is kept. If it cannot supply Arial / Courier New, the export shows an error.
 - F6. Dark title bar: on a Windows version without the DWM attribute, the system title bar stays (cosmetic).
+
+Final conformance review (2026-11-24, after commit 85d19e7). User rulings and changes:
+- N13 (D8), APPROVED as is: description typing is saved 1 s after the last key press, not at once. All other changes save at once. A close, a collection change or a Revit exit saves the pending text first. Limit: a Revit crash less than 1 s after a key press loses that text.
+- D9 FIXED: the title is now "#7 – first line", as the spec says (it was "#7  first line").
+- F9, APPROVED: `"FormatVersion": null` is read as v0, the same as a missing field (F1).
+- F7 is now stricter: EVERY field of a current-format file is required. A missing field is "damaged", and the file is refused and not changed. Before, a missing field got the C# default value, and the next save wrote that default over the lost data.
+- An old (v0) file with a value of the wrong JSON type (for example a number for "Created") is refused with the "cannot be read" message. Before, the error was lost in the drop-down binding.
+- Removed fallbacks (user ruling: change, do not approve):
+  - After a collection is deleted, NO other collection opens. The user picks the next one. F3 is still for start-up and a folder change only.
+  - The upgrade of the old settings file refuses a field that is missing, null or not text, with a message that names the field. Nothing is changed to "".
+  - "New issue": a selected Revit element that cannot be found is an error message. It is not dropped silently.
+  - Dictation does not start when there is no `Faulted` subscriber or no UI thread. Before, a recording error could be dropped.
+- After the new settings are saved, the plain-text Azure key is blanked in the old Issue Tracker's settings file (`%APPDATA%\IssueTracker\settings.json`). If that fails, the user gets a message that names the file to delete.
+- `AtomicFile`: if the temporary file cannot be removed after a failed write, BOTH errors are reported, and the write error is kept as the inner exception.
+- Revit 2025 runs on .NET 8: no reference may ask for a .NET framework assembly above version 8.0. The ProtectedData package is removed because the framework supplies it, and the old 9.0.5 System.* packages are now 8.0.x (fix d46adb0).
 </implementation-notes>
 
 <answers>

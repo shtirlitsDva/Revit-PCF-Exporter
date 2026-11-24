@@ -346,7 +346,9 @@ namespace ModelessForms.IssuesManager.ViewModels
         // Collections
         // =====================================================================
 
-        partial void OnSelectedCollectionNameChanged(string? oldValue, string? newValue)
+        // Guarded: this runs inside the ComboBox binding, which would swallow an
+        // exception without a message.
+        partial void OnSelectedCollectionNameChanged(string? oldValue, string? newValue) => Guarded(() =>
         {
             if (_restoringSelection) return;
 
@@ -359,7 +361,7 @@ namespace ModelessForms.IssuesManager.ViewModels
             }
 
             OpenCollection(newValue);
-        }
+        });
 
         private void RestoreCollectionSelection(string? name)
         {
@@ -489,6 +491,8 @@ namespace ModelessForms.IssuesManager.ViewModels
                 return;
             }
 
+            // No collection is open afterwards: the user picks the next one (no
+            // automatic "open the first" here; review item 5, user ruling 2026-11-24).
             CloseCollection();
             _restoringSelection = true;
             try
@@ -500,7 +504,6 @@ namespace ModelessForms.IssuesManager.ViewModels
             {
                 _restoringSelection = false;
             }
-            SelectedCollectionName = CollectionNames.FirstOrDefault();
         });
 
         private bool CanChangeCollection() => _collection != null && !IsBusy && !IsRecording;

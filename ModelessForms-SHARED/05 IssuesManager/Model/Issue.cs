@@ -30,7 +30,7 @@ namespace ModelessForms.IssuesManager.Model
 
         private const int TitleLength = 60;
 
-        /// <summary>"#7  first line of the description", for the issue list and the PDF (spec D9).</summary>
+        /// <summary>"#7 – first line of the description", for the issue list and the PDF (spec D9).</summary>
         public string FormatTitle()
         {
             var firstLine = Description
@@ -38,9 +38,9 @@ namespace ModelessForms.IssuesManager.Model
                 .Select(l => l.Trim())
                 .FirstOrDefault(l => l.Length > 0);
 
-            if (firstLine == null) return $"#{Number}  (no description)";
+            if (firstLine == null) return $"#{Number} – (no description)";
             if (firstLine.Length > TitleLength) firstLine = firstLine.Substring(0, TitleLength) + "…";
-            return $"#{Number}  {firstLine}";
+            return $"#{Number} – {firstLine}";
         }
 
         internal static string NewId(DateTime now) =>

@@ -53,7 +53,13 @@ namespace ModelessForms.IssuesManager.Dictation
             if (string.IsNullOrWhiteSpace(options.Language))
                 throw new DictationException("No speech language is set. Choose one in Settings.");
 
-            _ui = SynchronizationContext.Current;
+            // A recording error can only reach the user through Faulted, on the UI
+            // thread. Refuse to start when that path is missing, instead of dropping
+            // errors later (review item 9, user ruling 2026-11-24).
+            if (Faulted == null)
+                throw new InvalidOperationException("AzureDictation: subscribe to Faulted before StartAsync.");
+            _ui = SynchronizationContext.Current
+                  ?? throw new InvalidOperationException("AzureDictation: StartAsync must be called on the UI thread.");
             lock (_textLock) _text.Clear();
             _stopping = false;
 
@@ -131,10 +137,9 @@ namespace ModelessForms.IssuesManager.Dictation
             if (e.Reason != CancellationReason.Error || _stopping) return;
 
             var error = new DictationException($"Dictation stopped because of an error: {e.ErrorDetails} ({e.ErrorCode})");
-            var handler = Faulted;
-            if (handler == null) return;
-            if (_ui != null) _ui.Post(_ => handler(error), null);
-            else handler(error);
+            // StartAsync guarantees a UI context and a subscriber; the view model
+            // unsubscribes only after the recording has stopped.
+            _ui!.Post(_ => Faulted?.Invoke(error), null);
         }
 
         private void OnSessionStopped(object? sender, SessionEventArgs e) => _sessionStopped?.TrySetResult(true);

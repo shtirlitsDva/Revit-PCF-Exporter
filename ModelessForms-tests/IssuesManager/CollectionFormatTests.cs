@@ -150,6 +150,17 @@ namespace ModelessForms.Tests.IssuesManager
             Assert.Equal(c.Issues.Select(i => i.Id), again.Issues.Select(i => i.Id));
         }
 
+        [Theory]
+        [InlineData(@"{""Issues"":[{""Id"":42,""Description"":""x"",""ElementGuids"":[],""Screenshots"":[],""Created"":""2026-01-15T10:00:00+01:00"",""Modified"":""2026-01-15T10:00:00+01:00""}]}")]
+        [InlineData(@"{""Created"":12345,""Issues"":[]}")]
+        public void V0_value_with_wrong_json_type_is_rejected_and_file_is_not_changed(string json)
+        {
+            WriteV0("Pumps", json);
+
+            Assert.Throws<IssueStoreException>(() => _store.Load("Pumps"));
+            Assert.Equal(json, File.ReadAllText(Path.Combine(_base, "Pumps", "collection.json")));
+        }
+
         [Fact]
         public void V0_issue_without_id_is_rejected()
         {

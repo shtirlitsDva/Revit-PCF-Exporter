@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text;
 
@@ -26,11 +27,22 @@ namespace ModelessForms.IssuesManager.Storage
                 else
                     File.Move(temp, path);
             }
-            finally
+            catch (Exception writeError) when (writeError is IOException || writeError is UnauthorizedAccessException)
             {
-                // Only reached with the temp file still present when the write or the
-                // replace failed; remove it so no stale .tmp files accumulate.
-                if (File.Exists(temp)) File.Delete(temp);
+                // The write or the replace failed: remove the temp file so no stale .tmp
+                // files accumulate. If that fails too, report BOTH problems; the write
+                // error stays the inner exception, so it is never hidden.
+                try
+                {
+                    if (File.Exists(temp)) File.Delete(temp);
+                }
+                catch (Exception deleteError) when (deleteError is IOException || deleteError is UnauthorizedAccessException)
+                {
+                    throw new IOException(
+                        $"{writeError.Message} The temporary file could not be removed either: {temp} ({deleteError.Message})",
+                        writeError);
+                }
+                throw;
             }
         }
     }

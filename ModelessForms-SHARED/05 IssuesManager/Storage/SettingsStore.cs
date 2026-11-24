@@ -26,6 +26,9 @@ namespace ModelessForms.IssuesManager.Storage
         private readonly ISecretProtector _protector;
         private readonly VersionedJson _format;
 
+        /// <summary>The plain-text key field in the old Issue Tracker's settings file.</summary>
+        private const string LegacyKeyField = "AzureSpeechKey";
+
         public SettingsStore(string file, string legacyFile, ISecretProtector protector)
         {
             _file = file;
@@ -108,6 +111,33 @@ namespace ModelessForms.IssuesManager.Storage
             {
                 throw new IssueStoreException($"Could not save the settings:\n{_file}\n{ex.Message}", ex);
             }
+
+            RemoveKeyFromLegacyFile();
+        }
+
+        /// <summary>
+        /// The old Issue Tracker stored the Azure key as plain text. When the key is
+        /// safely in the new (encrypted) file, blank it in the old file. The other old
+        /// fields are not changed. Runs after a successful save only.
+        /// </summary>
+        private void RemoveKeyFromLegacyFile()
+        {
+            if (!File.Exists(_legacyFile)) return;
+            try
+            {
+                var doc = JsonNode.Parse(File.ReadAllText(_legacyFile)) as JsonObject;
+                if (doc == null || !doc.TryGetPropertyValue(LegacyKeyField, out var node)) return;
+                if (node is JsonValue value && value.TryGetValue(out string? key) && key.Length == 0) return;
+
+                doc[LegacyKeyField] = string.Empty;
+                AtomicFile.WriteAllText(_legacyFile, doc.ToJsonString(VersionedJson.Options));
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is System.Text.Json.JsonException)
+            {
+                throw new IssueStoreException(
+                    "The settings were saved. But the Azure Speech key could not be removed from the settings " +
+                    $"file of the old Issue Tracker, where it is stored as plain text. Delete this file:\n{_legacyFile}\n{ex.Message}", ex);
+            }
         }
 
         /// <summary>The on-disk shape (current version).</summary>
@@ -135,15 +165,18 @@ namespace ModelessForms.IssuesManager.Storage
 
             public void Apply(JsonObject doc)
             {
+                // The old Settings class always wrote every field as text. A missing
+                // field, null or another type means the file is damaged: refuse it
+                // (no repair; review item 7, user ruling 2026-11-24).
+                foreach (var field in new[] { "BaseFolder", "DefaultCollection", "AzureSpeechKey", "AzureSpeechRegion", "MicrophoneName", "SpeechLanguage" })
+                    LegacyJson.RequiredString(doc, field);
+
                 Rename(doc, "BaseFolder", "StorageFolder");
                 Rename(doc, "DefaultCollection", "LastCollection");
 
-                var key = doc["AzureSpeechKey"]?.GetValue<string>() ?? string.Empty;
-                doc.Remove("AzureSpeechKey");
+                var key = LegacyJson.RequiredString(doc, LegacyKeyField);
+                doc.Remove(LegacyKeyField);
                 doc["AzureSpeechKeyProtected"] = _protector.Protect(key);
-
-                foreach (var field in new[] { "StorageFolder", "LastCollection", "AzureSpeechRegion", "MicrophoneName", "SpeechLanguage" })
-                    LegacyJson.NullToEmptyString(doc, field);
             }
 
             private static void Rename(JsonObject doc, string from, string to)
