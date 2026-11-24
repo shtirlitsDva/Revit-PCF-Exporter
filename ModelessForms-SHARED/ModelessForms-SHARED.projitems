@@ -60,22 +60,56 @@
     <Compile Include="$(MSBuildThisFileDirectory)04 GeometryValidator\GeometryValidator.Designer.cs">
       <DependentUpon>GeometryValidator.cs</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Models\Settings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Models\Issue.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Models\Collection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Services\StorageService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Services\ScreenshotService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Services\SpeechService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Services\PdfExportService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Handlers\GetSelectionHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\IssueTrackerWindow.xaml.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\ScreenshotOverlay.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Application.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
     </Compile>
+  </ItemGroup>
+  <!-- Issue Tracker: Revit 2025 only (spec D10). Needs .NET 8 and the NuGet packages in ModelessForms-2025.csproj. -->
+  <ItemGroup Condition="$(DefineConstants.Contains('REVIT2025'))">
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\IssueTrackerLauncher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Model\Issue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Model\IssueCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Model\IssueTrackerSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Model\SpeechLanguages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Storage\AtomicFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Storage\CollectionFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Storage\IssueStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Storage\IssueStoreException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Storage\SecretProtector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Storage\SettingsStore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Storage\VersionedJson.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\ViewModels\IssueTrackerViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\ViewModels\IssueViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\ViewModels\Ports.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Pdf\PdfReport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Revit\RevitBridge.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Dictation\AzureDictation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\Converters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\ScreenCapture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\WpfDialogs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\IssueTrackerWindow.xaml.cs">
+      <DependentUpon>IssueTrackerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\TextFieldsDialog.xaml.cs">
+      <DependentUpon>TextFieldsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\CaptureOverlay.xaml.cs">
+      <DependentUpon>CaptureOverlay.xaml</DependentUpon>
+    </Compile>
+    <Page Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\IssueTrackerWindow.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\MessageDialog.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\TextFieldsDialog.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\SettingsDialog.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)05 IssuesManager\Views\CaptureOverlay.xaml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)01 SetTags\BasicChooserForm.resx">

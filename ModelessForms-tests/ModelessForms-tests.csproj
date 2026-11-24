@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!--
+		Tests for the Issue Tracker (ModelessForms-SHARED/05 IssuesManager).
+		The Revit-free source files are compiled in directly (linked), so the tests
+		need no RevitAPI and do not depend on the full ModelessForms build.
+	-->
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<IsPackable>false</IsPackable>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>ModelessForms.Tests</RootNamespace>
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<IssuesDir>..\ModelessForms-SHARED\05 IssuesManager\</IssuesDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="$(IssuesDir)Model\**\*.cs" Link="Linked\Model\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="$(IssuesDir)Storage\**\*.cs" Link="Linked\Storage\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="$(IssuesDir)ViewModels\**\*.cs" Link="Linked\ViewModels\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="$(IssuesDir)Pdf\**\*.cs" Link="Linked\Pdf\%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<!-- The shared theme files, copied next to the test binary for ThemeTests. -->
+	<ItemGroup>
+		<None Include="..\revit-shared-utilities-shared\02 Theme\Colors.xaml" Link="Theme\Colors.xaml" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\revit-shared-utilities-shared\02 Theme\Theme.xaml" Link="Theme\Theme.xaml" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<!-- The Issue Tracker views, read as XML by ViewsFollowThemeTests (not compiled here: they need Revit). -->
+	<ItemGroup>
+		<None Include="$(IssuesDir)Views\*.xaml" Link="Views\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="PDFsharp-MigraDoc" Version="6.2.0" />
+		<PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.5" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.12.0" />
+		<PackageReference Include="xunit.v3" Version="4.0.3" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="4.0.1" />
+	</ItemGroup>
+
+</Project>

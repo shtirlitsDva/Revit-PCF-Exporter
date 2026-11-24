@@ -1,0 +1,16 @@
+<!-- One dimmed overlay per monitor. The user drags a rectangle to capture. -->
+<Window x:Class="ModelessForms.IssuesManager.Views.CaptureOverlay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Select a region"
+        Style="{DynamicResource Window.CaptureOverlay}">
+    <Grid>
+        <Canvas x:Name="Surface">
+            <Rectangle x:Name="Selection" Style="{DynamicResource Capture.Selection}" Visibility="Collapsed"/>
+        </Canvas>
+        <Border Style="{DynamicResource Surface.Tag}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,24,0,0"
+                IsHitTestVisible="False">
+            <TextBlock Text="Drag to select a region.  Esc cancels."/>
+        </Border>
+    </Grid>
+</Window>

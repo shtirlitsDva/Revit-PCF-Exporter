@@ -29,15 +29,14 @@ namespace ModelessForms
 
         public void Execute(UIApplication app)
         {
-            UIDocument uidoc = app.ActiveUIDocument;
-            Document doc = uidoc.Document;
-
+            // The command itself reads the active document when it needs one. Reading it
+            // here threw a NullReferenceException when no document was open.
             ThisApp.asyncCommand.Execute(app);
         }
 
         public string GetName()
         {
-            return "Update parameter data";
+            return "ModelessForms command";
         }
     }
 }

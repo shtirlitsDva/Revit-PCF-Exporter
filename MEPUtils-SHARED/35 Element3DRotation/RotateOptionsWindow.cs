@@ -109,7 +109,7 @@ namespace MEPUtils.Element3DRotation
 
             stack.Children.Add(grid);
 
-            var go = new Button { Content = "Go", Height = 30, Margin = new Thickness(10, 10, 10, 10) };
+            var go = new Button { Content = "Go", Height = 30, Margin = new Thickness(10, 10, 10, 10), Style = ThemeManager.GetStyle("Button.Primary") };
             go.Click += AroundItselfClick;
             stack.Children.Add(go);
 
@@ -146,7 +146,7 @@ namespace MEPUtils.Element3DRotation
 
             stack.Children.Add(grid);
 
-            var go = new Button { Content = "Go", Height = 30, Margin = new Thickness(10, 10, 10, 10) };
+            var go = new Button { Content = "Go", Height = 30, Margin = new Thickness(10, 10, 10, 10), Style = ThemeManager.GetStyle("Button.Primary") };
             go.Click += AroundCommonCenterClick;
             stack.Children.Add(go);
 
@@ -183,7 +183,8 @@ namespace MEPUtils.Element3DRotation
             {
                 Content = "Select axis and rotate",
                 Height = 30,
-                Margin = new Thickness(10, 10, 10, 10)
+                Margin = new Thickness(10, 10, 10, 10),
+                Style = ThemeManager.GetStyle("Button.Primary")
             };
             go.Click += AroundAxisClick;
             stack.Children.Add(go);

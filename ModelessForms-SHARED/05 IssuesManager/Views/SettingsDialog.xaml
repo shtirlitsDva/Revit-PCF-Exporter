@@ -1,0 +1,38 @@
+<!-- Issue Tracker settings: storage folder and Azure Speech dictation. -->
+<Window x:Class="ModelessForms.IssuesManager.Views.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Issue Tracker settings"
+        Width="520" SizeToContent="Height"
+        ResizeMode="NoResize" ShowInTaskbar="False">
+    <DockPanel Margin="18,16,18,14">
+        <StackPanel DockPanel.Dock="Bottom" Margin="0,14,0,0">
+            <TextBlock x:Name="ErrorText" Style="{DynamicResource Text.Warn}" Visibility="Collapsed" Margin="0,0,0,10"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Save" MinWidth="90" IsDefault="True" Click="OnSave" Style="{DynamicResource Button.Primary}"/>
+                <Button Content="Cancel" MinWidth="90" Margin="8,0,0,0" IsCancel="True"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Storage" Style="{DynamicResource Text.Heading}" Margin="0,0,0,8"/>
+            <TextBlock Text="Folder that holds all issue collections" Style="{DynamicResource Text.Secondary}" Margin="0,0,0,4"/>
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="Browse…" Margin="8,0,0,0" Click="OnBrowse"/>
+                <TextBox x:Name="FolderBox" IsReadOnly="True"/>
+            </DockPanel>
+
+            <TextBlock Text="Dictation (Azure Speech)" Style="{DynamicResource Text.Heading}" Margin="0,20,0,8"/>
+            <TextBlock Text="Key" Style="{DynamicResource Text.Secondary}" Margin="0,0,0,4"/>
+            <PasswordBox x:Name="KeyBox"/>
+            <TextBlock Text="Region (for example westeurope)" Style="{DynamicResource Text.Secondary}" Margin="0,10,0,4"/>
+            <TextBox x:Name="RegionBox"/>
+            <TextBlock Text="Microphone" Style="{DynamicResource Text.Secondary}" Margin="0,10,0,4"/>
+            <ComboBox x:Name="MicrophoneBox"/>
+            <TextBlock Text="Language" Style="{DynamicResource Text.Secondary}" Margin="0,10,0,4"/>
+            <ComboBox x:Name="LanguageBox" DisplayMemberPath="Name" SelectedValuePath="Code"/>
+            <TextBlock Style="{DynamicResource Text.Muted}" TextWrapping="Wrap" Margin="0,8,0,0"
+                       Text="The key is stored encrypted for your Windows user only."/>
+        </StackPanel>
+    </DockPanel>
+</Window>

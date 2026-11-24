@@ -11,6 +11,10 @@
 	<PropertyGroup>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+		<!-- Revit does not read an add-in's deps.json: native and Windows-specific package
+		     assets (e.g. the Azure Speech core DLL) must be next to ModelessForms.dll. -->
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<SelfContained>false</SelfContained>
 	</PropertyGroup>
 	<PropertyGroup>
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
@@ -92,6 +96,15 @@
 		<PackageReference Include="Microsoft.NETCore.Platforms" Version="8.0.0-preview.7.23375.6" />
 		<PackageReference Include="NLog" Version="5.2.8" />
 		<PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<!-- Issue Tracker (ModelessForms-SHARED/05 IssuesManager). PDFsharp 6.2.0: the same version as
+		     PDFExporter and RibbonPanel, which load into the same Revit process. -->
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.53.1" />
+		<PackageReference Include="NAudio.Wasapi" Version="2.2.1" />
+		<PackageReference Include="PDFsharp-MigraDoc" Version="6.2.0" />
+		<PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.5" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Shared\Forms\" />

@@ -15,8 +15,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.UI.Selection;
-using ModelessForms.IssuesManager.Views;
-using ModelessForms.IssuesManager.Handlers;
 
 namespace ModelessForms
 {
@@ -56,8 +54,6 @@ namespace ModelessForms
         private SearchAndSelect.SnS m_SearchAndSelect;
         // GeometryValidator instance
         private GeometryValidator.GeometryValidatorForm m_GeometryValidatorForm;
-        // IssueTracker instance
-        private IssueTrackerWindow m_IssueTrackerWindow;
         //Modeless payload
         public IAsyncCommand asyncCommand;
 
@@ -72,7 +68,9 @@ namespace ModelessForms
             if (m_MepUtilsForm != null && m_MepUtilsForm.Visible) m_MepUtilsForm.Close();
             if (m_SearchAndSelect != null && m_SearchAndSelect.Visible) m_SearchAndSelect.Close();
             if (m_GeometryValidatorForm != null && m_GeometryValidatorForm.Visible) m_GeometryValidatorForm.Close();
-            if (m_IssueTrackerWindow != null && m_IssueTrackerWindow.IsVisible) m_IssueTrackerWindow.Close();
+#if REVIT2025
+            IssuesManager.IssueTrackerLauncher.CloseForShutdown();
+#endif
             return Result.Succeeded;
         }
 
@@ -88,7 +86,6 @@ namespace ModelessForms
             m_MepUtilsForm = null;
             m_SearchAndSelect = null;
             m_GeometryValidatorForm = null;
-            m_IssueTrackerWindow = null;
             thisApp = this;  // static access to this application instance
 
             return Result.Succeeded;
@@ -126,12 +123,14 @@ namespace ModelessForms
             data.LargeImage = NewBitmapImage(exe, "ModelessForms.Resources.ImgGeometryValidator32.png");
             PushButton VCButton = rvtRibbonPanel.AddItem(data) as PushButton;
 
-            //ModelessForms.IssueTracker
+#if REVIT2025
+            //ModelessForms.IssueTracker (Revit 2025 only)
             data = new PushButtonData("Issue Tracker", "Issues", ExecutingAssemblyPath, "ModelessForms.IssuesLauncher");
             data.ToolTip = "Document model issues with screenshots and voice";
             data.Image = NewBitmapImage(exe, "ModelessForms.Resources.ImgIssueTracker16.png");
             data.LargeImage = NewBitmapImage(exe, "ModelessForms.Resources.ImgIssueTracker32.png");
-            PushButton IssuesButton = rvtRibbonPanel.AddItem(data) as PushButton;
+            rvtRibbonPanel.AddItem(data);
+#endif
         }
 
         /// <summary>
@@ -217,29 +216,6 @@ namespace ModelessForms
                 // The dialog becomes the owner responsible fore disposing them, eventually.
                 m_GeometryValidatorForm = new GeometryValidator.GeometryValidatorForm(exEvent, handler, thisApp);
                 m_GeometryValidatorForm.Show();
-            }
-        }
-
-        internal void ShowIssueTrackerForm(UIApplication application)
-        {
-            // If we do not have a dialog yet, create and show it
-            if (m_IssueTrackerWindow == null)
-            {
-                // A new handler to handle request posting by the dialog
-                ExternalEventHandler handler = new ExternalEventHandler(thisApp);
-
-                // External Event for the dialog to use (to post requests)
-                ExternalEvent exEvent = ExternalEvent.Create(handler);
-
-                // We give the objects to the new dialog;
-                // The dialog becomes the owner responsible fore disposing them, eventually.
-                m_IssueTrackerWindow = new IssueTrackerWindow(exEvent, handler, thisApp);
-                m_IssueTrackerWindow.Closed += (s, e) => m_IssueTrackerWindow = null;
-                m_IssueTrackerWindow.Show();
-            }
-            else
-            {
-                m_IssueTrackerWindow.Activate();
             }
         }
     }
@@ -328,6 +304,7 @@ namespace ModelessForms
         }
     }
 
+#if REVIT2025
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
     public class IssuesLauncher : IExternalCommand
@@ -336,7 +313,7 @@ namespace ModelessForms
         {
             try
             {
-                ModelessForms.Application.thisApp.ShowIssueTrackerForm(commandData.Application);
+                IssuesManager.IssueTrackerLauncher.Show(commandData.Application);
                 return Result.Succeeded;
             }
             catch (Exception ex)
@@ -346,4 +323,5 @@ namespace ModelessForms
             }
         }
     }
+#endif
 }
